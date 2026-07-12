@@ -24,6 +24,17 @@ export interface VirtualFile {
   typesBlock: { raw: string; sourceOffset: number } | null
 }
 
+/**
+ * Resolves an `@include`/`@component` template name (Edge convention: slash
+ * or dot separated, no extension) to its source. Returns null when the
+ * template can't be found — the reference is then left unchecked.
+ */
+export type ResolveTemplate = (name: string) => { source: string; filename: string } | null
+
+export interface GenerateOptions {
+  resolveTemplate?: ResolveTemplate
+}
+
 /** A tsc diagnostic mapped back to template coordinates (0-based offsets). */
 export interface TemplateDiagnostic {
   message: string

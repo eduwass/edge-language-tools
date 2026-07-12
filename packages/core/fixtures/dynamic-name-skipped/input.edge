@@ -1,0 +1,9 @@
+{{--
+@types {
+  partialName: string
+  user: { name: string }
+}
+--}}
+@include(partialName)
+@component(partialName, { anything: user.name })
+@end

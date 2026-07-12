@@ -10,8 +10,17 @@ const fixtures = readdirSync(fixturesDir).filter((d) =>
 
 interface ExpectedDiagnostic {
   messageIncludes: string
-  /** exact source substring the diagnostic must span (first occurrence) */
-  atText: string
+  /** exact source substring the diagnostic must span (first occurrence). Omit for an expected-unmapped (start: null) diagnostic. */
+  atText?: string
+}
+
+/** Resolves sibling `*.edge` files in the fixture dir by Edge convention name ('partials/foo' or 'partials.foo'). */
+function resolveFixtureTemplate(dir: string) {
+  return (name: string) => {
+    const path = join(dir, `${name.replace(/\./g, '/')}.edge`)
+    if (!existsSync(path)) return null
+    return { source: readFileSync(path, 'utf8'), filename: path }
+  }
 }
 
 for (const name of fixtures) {
@@ -20,15 +29,16 @@ for (const name of fixtures) {
   const expected: ExpectedDiagnostic[] = JSON.parse(
     readFileSync(join(dir, 'diagnostics.json'), 'utf8'),
   )
+  const resolveTemplate = resolveFixtureTemplate(dir)
 
   describe(name, () => {
     test('virtual TS snapshot', () => {
-      const vf = generateVirtualTs(source, `${name}.edge`)
+      const vf = generateVirtualTs(source, `${name}.edge`, { resolveTemplate })
       expect(vf.code).toMatchSnapshot()
     })
 
     test('segments round-trip: generated text equals source text', () => {
-      const vf = generateVirtualTs(source, `${name}.edge`)
+      const vf = generateVirtualTs(source, `${name}.edge`, { resolveTemplate })
       for (const seg of vf.segments) {
         const src = source.slice(seg.sourceOffset, seg.sourceOffset + seg.length)
         const gen = vf.code.slice(seg.generatedOffset, seg.generatedOffset + seg.length)
@@ -37,11 +47,15 @@ for (const name of fixtures) {
     })
 
     test('diagnostics match expectations', () => {
-      const diags = checkTemplate(source, `${name}.edge`)
+      const diags = checkTemplate(source, `${name}.edge`, { resolveTemplate })
       expect(diags.length).toBe(expected.length)
       for (const exp of expected) {
         const match = diags.find((d) => d.message.includes(exp.messageIncludes))
         expect(match).toBeDefined()
+        if (exp.atText === undefined) {
+          expect(match!.start).toBeNull()
+          continue
+        }
         const wantStart = source.indexOf(exp.atText)
         expect(match!.start).toBe(wantStart)
         expect(match!.length).toBe(exp.atText.length)

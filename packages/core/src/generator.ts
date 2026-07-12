@@ -1,17 +1,25 @@
+import ts from 'typescript'
 import type { CommentToken, MustacheToken, TagToken, Token } from 'edge-lexer/types'
 import { GLOBALS_TS } from './globals.ts'
 import { LineIndex } from './offsets.ts'
 import { tokenize } from './tokenize.ts'
 import { findTypesBlock } from './types-block.ts'
-import type { Segment, VirtualFile } from './index.ts'
+import type { GenerateOptions, Segment, VirtualFile } from './index.ts'
+
+/** Glue for cross-file checks: `declare function __component<T>(props: T): void` etc. */
+const CROSS_FILE_TS = `
+declare function __component<T>(props: T): void
+declare function __include<T>(state: T): void
+`
 
 interface Ctx {
   code: string
   segments: Segment[]
   lines: LineIndex
+  resolveTemplate?: GenerateOptions['resolveTemplate']
 }
 
-export function generateVirtualTs(source: string, filename: string): VirtualFile {
+export function generateVirtualTs(source: string, filename: string, opts?: GenerateOptions): VirtualFile {
   const lines = new LineIndex(source)
   const tokens = tokenize(source, filename)
   const typesBlock = findTypesBlock(
@@ -19,7 +27,12 @@ export function generateVirtualTs(source: string, filename: string): VirtualFile
     lines,
   )
 
-  const ctx: Ctx = { code: GLOBALS_TS + '\n', segments: [], lines }
+  const ctx: Ctx = {
+    code: GLOBALS_TS + CROSS_FILE_TS + '\n',
+    segments: [],
+    lines,
+    resolveTemplate: opts?.resolveTemplate,
+  }
 
   if (typesBlock) {
     emit(ctx, 'type __Types = ')
@@ -95,9 +108,94 @@ function emitTag(ctx: Ctx, tokens: Token[], index: number): number {
   if (name === 'if' || name === 'unless') {
     return emitIfChain(ctx, tokens, index)
   }
+  if (name === 'component') {
+    emitComponent(ctx, token)
+    return index
+  }
+  if (name === 'include') {
+    emitInclude(ctx, token)
+    return index
+  }
 
   void jsArg
   return index
+}
+
+/** Parses a tag's `jsArg` (raw call-args text, e.g. `'path', { a: 1 }`) into TS argument nodes. */
+function parseTagArgs(jsArg: string): { args: readonly ts.Expression[]; sourceFile: ts.SourceFile; prefixLength: number } | null {
+  const prefix = '__f('
+  const wrapper = `${prefix}${jsArg})`
+  const sourceFile = ts.createSourceFile('__args.ts', wrapper, ts.ScriptTarget.Latest, true)
+  const stmt = sourceFile.statements[0]
+  if (!stmt || !ts.isExpressionStatement(stmt) || !ts.isCallExpression(stmt.expression)) return null
+  return { args: stmt.expression.arguments, sourceFile, prefixLength: prefix.length }
+}
+
+/** Resolves a static string-literal template name to its parsed `@types` block, if any. */
+function resolveTypesBlock(ctx: Ctx, name: string): { raw: string } | null {
+  const resolved = ctx.resolveTemplate?.(name)
+  if (!resolved) return null
+  const resolvedLines = new LineIndex(resolved.source)
+  const resolvedTokens = tokenize(resolved.source, resolved.filename)
+  const typesBlock = findTypesBlock(
+    resolvedTokens.filter((t): t is CommentToken => t.type === 'comment'),
+    resolvedLines,
+  )
+  return typesBlock ? { raw: typesBlock.raw } : null
+}
+
+/**
+ * `@component('path', { props })` — resolves the component's `@types` block and
+ * type-checks the caller's props object against it, verbatim, so diagnostics land
+ * at the caller's offsets. No resolver, unresolved name, dynamic name, or a
+ * component with no `@types` block all degrade to unchecked (skip silently).
+ */
+function emitComponent(ctx: Ctx, token: TagToken): void {
+  const jsArg = token.properties.jsArg
+  const parsed = parseTagArgs(jsArg)
+  if (!parsed || parsed.args.length === 0) return
+  const nameArg = parsed.args[0]!
+  if (!ts.isStringLiteralLike(nameArg)) return
+
+  const componentTypes = resolveTypesBlock(ctx, nameArg.text)
+  if (!componentTypes) return
+
+  const base = tagOffset(ctx, token)
+  emit(ctx, '__component<')
+  emit(ctx, componentTypes.raw)
+  emit(ctx, '>(')
+
+  const propsArg = parsed.args[1]
+  if (propsArg) {
+    const start = propsArg.getStart(parsed.sourceFile) - parsed.prefixLength
+    const end = propsArg.getEnd() - parsed.prefixLength
+    emitVerbatim(ctx, jsArg.slice(start, end), base + start)
+  } else {
+    emit(ctx, '{}')
+  }
+  emit(ctx, ');\n')
+}
+
+/**
+ * `@include('path')` — the included template's own `@types` block (if any) must
+ * be satisfiable from the caller's state. Checked as `__include<Included>(state)`;
+ * since there's no caller expression to anchor to, a mismatch surfaces as an
+ * unmapped diagnostic (start: null) rather than one pinned to the jsArg offset —
+ * see generator.ts ponytail note. No resolver/unresolved/dynamic name/no @types
+ * on the included template all degrade to unchecked.
+ */
+function emitInclude(ctx: Ctx, token: TagToken): void {
+  const jsArg = token.properties.jsArg
+  const parsed = parseTagArgs(jsArg)
+  if (!parsed || parsed.args.length === 0) return
+  const nameArg = parsed.args[0]!
+  if (!ts.isStringLiteralLike(nameArg)) return
+
+  const includedTypes = resolveTypesBlock(ctx, nameArg.text)
+  if (!includedTypes) return
+
+  // ponytail: unmapped (diagnostic.start === null) — see doc comment above.
+  emit(ctx, `__include<${includedTypes.raw}>(state);\n`)
 }
 
 function emitEach(ctx: Ctx, token: TagToken): void {

@@ -1,13 +1,13 @@
 import ts from 'typescript'
 import { generateVirtualTs } from './generator.ts'
-import type { Segment, TemplateDiagnostic } from './index.ts'
+import type { ResolveTemplate, Segment, TemplateDiagnostic } from './index.ts'
 
 export function checkTemplate(
   source: string,
   filename: string,
-  opts?: { ambientTypes?: string },
+  opts?: { ambientTypes?: string; resolveTemplate?: ResolveTemplate },
 ): TemplateDiagnostic[] {
-  const vf = generateVirtualTs(source, filename)
+  const vf = generateVirtualTs(source, filename, { resolveTemplate: opts?.resolveTemplate })
   if (!vf.typesBlock) return []
 
   const virtualPath = `${filename}.virtual.ts`

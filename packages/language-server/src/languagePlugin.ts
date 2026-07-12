@@ -47,6 +47,11 @@ export class EdgeVirtualCode implements VirtualCode {
       },
     ]
 
+    // ponytail: no resolveTemplate wired here — createVirtualCode only gets a single
+    // file's URI/snapshot, not workspace-relative fs access. Cross-file @include/@component
+    // checks work in packages/check and packages/core's tests but not yet in the LSP;
+    // needs Volar's workspace/fs plumbing (e.g. a project-level file reader passed into
+    // the LanguagePlugin) to resolve sibling templates by name.
     const virtualFile = generateVirtualTs(source, filename)
     this.embeddedCodes = [
       {

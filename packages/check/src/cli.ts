@@ -1,8 +1,18 @@
 #!/usr/bin/env bun
-import { readFileSync } from 'node:fs'
-import { relative } from 'node:path'
+import { existsSync, readFileSync } from 'node:fs'
+import { join, relative } from 'node:path'
 import { checkTemplate, findEdgeFiles, generateVirtualTs } from '@edge-language-tools/core'
+import type { ResolveTemplate } from '@edge-language-tools/core'
 import { excerpt, offsetToLineCol, withColor } from './format.ts'
+
+/** Resolves `@include`/`@component` names ('partials/foo' or 'partials.foo') relative to the scanned root. */
+function resolveTemplate(root: string): ResolveTemplate {
+  return (name) => {
+    const path = join(root, `${name.replace(/\./g, '/')}.edge`)
+    if (!existsSync(path)) return null
+    return { source: readFileSync(path, 'utf8'), filename: relative(process.cwd(), path) }
+  }
+}
 
 interface JsonDiagnostic {
   file: string
@@ -20,6 +30,7 @@ function main(): number {
   const dir = args.find((a) => !a.startsWith('--') && a !== format) ?? '.'
 
   const files = findEdgeFiles(dir)
+  const resolve = resolveTemplate(dir)
   const c = withColor(process.stdout.isTTY === true)
 
   let errorCount = 0
@@ -29,13 +40,13 @@ function main(): number {
   for (const file of files) {
     const source = readFileSync(file, 'utf8')
     const rel = relative(process.cwd(), file)
-    const vf = generateVirtualTs(source, rel)
+    const vf = generateVirtualTs(source, rel, { resolveTemplate: resolve })
     if (!vf.typesBlock) {
       uncheckedCount++
       continue
     }
 
-    const diagnostics = checkTemplate(source, rel)
+    const diagnostics = checkTemplate(source, rel, { resolveTemplate: resolve })
     for (const d of diagnostics) {
       errorCount++
       if (d.start === null || d.length === null) {
