@@ -1,0 +1,11 @@
+{{--
+@types {
+  items: string[]
+  fallback: string
+}
+--}}
+@each(item in items)
+  <li>{{ item }}</li>
+@else
+  <p>{{ fallbak }}</p>
+@end

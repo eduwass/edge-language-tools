@@ -19,9 +19,18 @@ interface Ctx {
   resolveTemplate?: GenerateOptions['resolveTemplate']
 }
 
+/** Tokenizes, retrying without the unknown-tag-as-block guess if that guess causes an unclosed-tag failure. */
+function safeTokenize(source: string, filename: string): Token[] {
+  try {
+    return tokenize(source, filename)
+  } catch {
+    return tokenize(source, filename, { claimUnknownTags: false })
+  }
+}
+
 export function generateVirtualTs(source: string, filename: string, opts?: GenerateOptions): VirtualFile {
   const lines = new LineIndex(source)
-  const tokens = tokenize(source, filename)
+  const tokens = safeTokenize(source, filename)
   const typesBlock = findTypesBlock(
     tokens.filter((t): t is CommentToken => t.type === 'comment'),
     lines,
@@ -41,7 +50,13 @@ export function generateVirtualTs(source: string, filename: string, opts?: Gener
     if (typesBlock.propertyNames.length > 0) {
       emit(ctx, `const { ${typesBlock.propertyNames.join(', ')} } = state\n`)
     }
+    // Wrapped in an async IIFE (rather than left at module top level) so
+    // `{{ await expr }}` is syntactically legal; narrowing across @if is
+    // unaffected since TS control-flow analysis works the same inside a
+    // function body as at module scope.
+    emit(ctx, ';(async () => {\n')
     emitTokens(ctx, tokens)
+    emit(ctx, '})();\n')
   } else {
     emit(ctx, 'declare const state: any\n')
   }
@@ -83,6 +98,7 @@ function emitTokens(ctx: Ctx, tokens: Token[]): void {
       emit(ctx, ');\n')
       continue
     }
+    // `@{{ ... }}` / `@{{{ ... }}}` — escaped mustaches render literally, never evaluated.
     if (token.type === 'e__mustache' || token.type === 'es__mustache') continue
 
     if (token.type === 'tag' || token.type === 'e__tag') {
@@ -95,7 +111,7 @@ function emitTokens(ctx: Ctx, tokens: Token[]): void {
 /** Emits one tag (and, for if/unless, any trailing elseif/else siblings). Returns the last consumed index. */
 function emitTag(ctx: Ctx, tokens: Token[], index: number): number {
   const token = tokens[index] as TagToken
-  const { name, jsArg } = token.properties
+  const { name } = token.properties
 
   if (name === 'each') {
     emitEach(ctx, token)
@@ -116,8 +132,32 @@ function emitTag(ctx: Ctx, tokens: Token[], index: number): number {
     emitInclude(ctx, token)
     return index
   }
+  if (name === 'assign' || name === 'eval' || name === 'stack') {
+    emitBareExpr(ctx, token)
+    return index
+  }
+  if (name === 'newError') {
+    emitNewError(ctx, token)
+    return index
+  }
+  if (name === 'includeIf') {
+    emitIncludeIf(ctx, token)
+    return index
+  }
+  if (name === 'pushTo' || name === 'pushOnceTo') {
+    emitBareExpr(ctx, token)
+    if (token.children.length > 0) emitTokens(ctx, token.children)
+    return index
+  }
 
-  void jsArg
+  // Anything else we don't have dedicated handling for — a built-in tag with
+  // no checkable jsArg (@debugger, @inject) or an unrecognized/plugin tag
+  // (@modal.foo, ...) claimed as a block by the tokenizer. Its body (if any)
+  // still sees the enclosing scope so typos inside are caught; the jsArg
+  // itself is left unchecked (dropped, never leaked).
+  if (token.children.length > 0) {
+    emitTokens(ctx, token.children)
+  }
   return index
 }
 
@@ -136,7 +176,7 @@ function resolveTypesBlock(ctx: Ctx, name: string): { raw: string } | null {
   const resolved = ctx.resolveTemplate?.(name)
   if (!resolved) return null
   const resolvedLines = new LineIndex(resolved.source)
-  const resolvedTokens = tokenize(resolved.source, resolved.filename)
+  const resolvedTokens = safeTokenize(resolved.source, resolved.filename)
   const typesBlock = findTypesBlock(
     resolvedTokens.filter((t): t is CommentToken => t.type === 'comment'),
     resolvedLines,
@@ -149,31 +189,81 @@ function resolveTypesBlock(ctx: Ctx, name: string): { raw: string } | null {
  * type-checks the caller's props object against it, verbatim, so diagnostics land
  * at the caller's offsets. No resolver, unresolved name, dynamic name, or a
  * component with no `@types` block all degrade to unchecked (skip silently).
+ * The component/slot BODIES are checked separately by `emitComponentBody`
+ * regardless of whether the props themselves could be checked.
  */
 function emitComponent(ctx: Ctx, token: TagToken): void {
   const jsArg = token.properties.jsArg
   const parsed = parseTagArgs(jsArg)
-  if (!parsed || parsed.args.length === 0) return
-  const nameArg = parsed.args[0]!
-  if (!ts.isStringLiteralLike(nameArg)) return
+  if (parsed && parsed.args.length > 0) {
+    const nameArg = parsed.args[0]!
+    if (ts.isStringLiteralLike(nameArg)) {
+      const componentTypes = resolveTypesBlock(ctx, nameArg.text)
+      if (componentTypes) {
+        const base = tagOffset(ctx, token)
+        emit(ctx, '__component<')
+        emit(ctx, componentTypes.raw)
+        emit(ctx, '>(')
 
-  const componentTypes = resolveTypesBlock(ctx, nameArg.text)
-  if (!componentTypes) return
-
-  const base = tagOffset(ctx, token)
-  emit(ctx, '__component<')
-  emit(ctx, componentTypes.raw)
-  emit(ctx, '>(')
-
-  const propsArg = parsed.args[1]
-  if (propsArg) {
-    const start = propsArg.getStart(parsed.sourceFile) - parsed.prefixLength
-    const end = propsArg.getEnd() - parsed.prefixLength
-    emitVerbatim(ctx, jsArg.slice(start, end), base + start)
-  } else {
-    emit(ctx, '{}')
+        const propsArg = parsed.args[1]
+        if (propsArg) {
+          const start = propsArg.getStart(parsed.sourceFile) - parsed.prefixLength
+          const end = propsArg.getEnd() - parsed.prefixLength
+          emitVerbatim(ctx, jsArg.slice(start, end), base + start)
+        } else {
+          emit(ctx, '{}')
+        }
+        emit(ctx, ');\n')
+      }
+    }
   }
-  emit(ctx, ');\n')
+  emitComponentBody(ctx, token)
+}
+
+/**
+ * Component/slot bodies are closures over the caller's scope in Edge — they're
+ * NOT compiled against the component's own state. Content outside `@slot(...)`
+ * is the main slot; each `@slot('name', slotProps)` gets its own nested block
+ * (with `slotProps` declared as `any`, since its shape isn't statically knowable
+ * from the caller side) so a typo inside either surfaces a diagnostic at the
+ * caller's offset, without leaking slot-only bindings into the main slot.
+ */
+function emitComponentBody(ctx: Ctx, token: TagToken): void {
+  const mainChildren: Token[] = []
+  const slots: TagToken[] = []
+  for (const child of token.children) {
+    if (child.type === 'tag' && child.properties.name === 'slot') {
+      slots.push(child)
+    } else {
+      mainChildren.push(child)
+    }
+  }
+
+  if (mainChildren.length > 0) {
+    emit(ctx, '{\n')
+    emitTokens(ctx, mainChildren)
+    emit(ctx, '}\n')
+  }
+  for (const slot of slots) {
+    emitSlot(ctx, slot)
+  }
+}
+
+function emitSlot(ctx: Ctx, token: TagToken): void {
+  const jsArg = token.properties.jsArg
+  const parsed = parseTagArgs(jsArg)
+
+  emit(ctx, '{\n')
+  const propsArg = parsed && parsed.args.length > 1 ? parsed.args[1] : undefined
+  if (parsed && propsArg && ts.isIdentifier(propsArg)) {
+    const base = tagOffset(ctx, token)
+    const start = propsArg.getStart(parsed.sourceFile) - parsed.prefixLength
+    emit(ctx, 'let ')
+    emitVerbatim(ctx, propsArg.text, base + start)
+    emit(ctx, ': any\n')
+  }
+  emitTokens(ctx, token.children)
+  emit(ctx, '}\n')
 }
 
 /**
@@ -198,12 +288,62 @@ function emitInclude(ctx: Ctx, token: TagToken): void {
   emit(ctx, `__include<${includedTypes.raw}>(state);\n`)
 }
 
+/** `@assign`, `@eval`, `@stack` — the whole jsArg is a checkable expression, copied verbatim. */
+function emitBareExpr(ctx: Ctx, token: TagToken): void {
+  const jsArg = token.properties.jsArg
+  if (!jsArg) return
+  emit(ctx, ';(')
+  emitVerbatim(ctx, jsArg, tagOffset(ctx, token))
+  emit(ctx, ');\n')
+}
+
+/** `@newError(message, filename?, line?, col?)` — only the message (1st arg) is a checkable expression. */
+function emitNewError(ctx: Ctx, token: TagToken): void {
+  const jsArg = token.properties.jsArg
+  const parsed = parseTagArgs(jsArg)
+  if (!parsed || parsed.args.length === 0) return
+  const first = parsed.args[0]!
+  const base = tagOffset(ctx, token)
+  const start = first.getStart(parsed.sourceFile) - parsed.prefixLength
+  const end = first.getEnd() - parsed.prefixLength
+  emit(ctx, ';(')
+  emitVerbatim(ctx, jsArg.slice(start, end), base + start)
+  emit(ctx, ');\n')
+}
+
+/** `@includeIf(condition, 'path')` — checks the condition expression, and resolves the include like `@include`. */
+function emitIncludeIf(ctx: Ctx, token: TagToken): void {
+  const jsArg = token.properties.jsArg
+  const parsed = parseTagArgs(jsArg)
+  if (!parsed || parsed.args.length < 2) return
+  const [condArg, includeArg] = parsed.args as [ts.Expression, ts.Expression]
+  const base = tagOffset(ctx, token)
+
+  const condStart = condArg.getStart(parsed.sourceFile) - parsed.prefixLength
+  const condEnd = condArg.getEnd() - parsed.prefixLength
+  emit(ctx, ';(')
+  emitVerbatim(ctx, jsArg.slice(condStart, condEnd), base + condStart)
+  emit(ctx, ');\n')
+
+  if (!ts.isStringLiteralLike(includeArg)) return
+  const includedTypes = resolveTypesBlock(ctx, includeArg.text)
+  if (!includedTypes) return
+  // ponytail: unmapped, same reasoning as @include.
+  emit(ctx, `__include<${includedTypes.raw}>(state);\n`)
+}
+
 function emitEach(ctx: Ctx, token: TagToken): void {
   const jsArg = token.properties.jsArg
   const match = /^(.*?) in (.*)$/s.exec(jsArg)
   if (!match) return
   const [, binding, list] = match as unknown as [string, string, string]
   const listOffset = tagOffset(ctx, token) + jsArg.indexOf(list, binding.length)
+
+  // `@else` inside `@each` renders when the list is empty — it's a sibling
+  // block, not part of the loop body, so it doesn't see the loop variable(s).
+  const elseIndex = token.children.findIndex((c) => c.type === 'tag' && c.properties.name === 'else')
+  const bodyChildren = elseIndex > -1 ? token.children.slice(0, elseIndex) : token.children
+  const elseChildren = elseIndex > -1 ? token.children.slice(elseIndex + 1) : []
 
   const withIndex = /^\s*\(\s*([\w$]+)\s*,\s*([\w$]+)\s*\)\s*$/.exec(binding)
   if (withIndex) {
@@ -214,8 +354,14 @@ function emitEach(ctx: Ctx, token: TagToken): void {
   }
   emitVerbatim(ctx, list, listOffset)
   emit(ctx, withIndex ? ').entries()) {\n' : ')) {\n')
-  emitTokens(ctx, token.children)
+  emitTokens(ctx, bodyChildren)
   emit(ctx, '}\n')
+
+  if (elseChildren.length > 0) {
+    emit(ctx, '{\n')
+    emitTokens(ctx, elseChildren)
+    emit(ctx, '}\n')
+  }
 }
 
 function emitLet(ctx: Ctx, token: TagToken): void {

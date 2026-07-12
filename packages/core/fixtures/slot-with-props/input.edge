@@ -1,0 +1,10 @@
+{{--
+@types {
+  user: { name: string }
+}
+--}}
+@component('list')
+  @slot('item', row)
+    <li>{{ row.label }} - {{ user.naem }}</li>
+  @end
+@end
