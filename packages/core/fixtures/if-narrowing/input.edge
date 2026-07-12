@@ -1,0 +1,12 @@
+{{--
+@types {
+  score: number
+}
+--}}
+@if(score > 90)
+  <p>A</p>
+@elseif(score > 70)
+  <p>B</p>
+@else
+  <p>{{ score.toFixed }}</p>
+@end

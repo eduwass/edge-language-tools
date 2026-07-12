@@ -33,19 +33,11 @@ export interface TemplateDiagnostic {
   length: number | null
 }
 
-export function generateVirtualTs(source: string, filename: string): VirtualFile {
-  throw new Error('not implemented')
-}
+export { generateVirtualTs } from './generator.ts'
 
 /**
  * Type-check one template in isolation: generate the virtual TS, run tsc
  * over it (plus any ambient types the caller provides), map diagnostics
  * back through the segments. Templates with no @types block yield [].
  */
-export function checkTemplate(
-  source: string,
-  filename: string,
-  opts?: { ambientTypes?: string },
-): TemplateDiagnostic[] {
-  throw new Error('not implemented')
-}
+export { checkTemplate } from './checker.ts'

@@ -1,0 +1,8 @@
+{{--
+@types {
+  items: { id: number }[]
+}
+--}}
+@each((item, i) in items)
+  <li>{{ i }}: {{ item.idd }}</li>
+@end
