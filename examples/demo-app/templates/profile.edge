@@ -1,0 +1,13 @@
+{{--
+@types {
+  user: { displayName: string, bio: string }
+  activePage: string
+}
+--}}
+@include('partials/nav')
+
+@component('components/user-card', { displayName: user.displayName, bio: user.bio })
+  @slot('actions')
+    <button>Follow</button>
+  @end
+@end

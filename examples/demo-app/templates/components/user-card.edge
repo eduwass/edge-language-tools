@@ -1,0 +1,13 @@
+{{--
+@types {
+  displayName: string
+  bio: string
+}
+--}}
+<div class="user-card">
+  <h3>{{ displayName }}</h3>
+  <p>{{ truncate(bio, 80) }}</p>
+  <div class="user-card-actions">
+    {{{ await $slots.actions() }}}
+  </div>
+</div>

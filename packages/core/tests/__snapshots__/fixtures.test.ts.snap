@@ -4,6 +4,8 @@ exports[`each-with-index virtual TS snapshot 1`] = `
 "
 declare const $filename: string
 declare const $context: any
+declare const $slots: Record<string, (...args: any[]) => Promise<string>>
+declare const $caller: { filename: string; line: number; col: number }
 declare const nl2br: (value: string) => string
 declare const inspect: (...args: unknown[]) => string
 declare const truncate: (
@@ -63,6 +65,8 @@ exports[`component-missing-prop virtual TS snapshot 1`] = `
 "
 declare const $filename: string
 declare const $context: any
+declare const $slots: Record<string, (...args: any[]) => Promise<string>>
+declare const $caller: { filename: string; line: number; col: number }
 declare const nl2br: (value: string) => string
 declare const inspect: (...args: unknown[]) => string
 declare const truncate: (
@@ -122,6 +126,8 @@ exports[`basic-mustache virtual TS snapshot 1`] = `
 "
 declare const $filename: string
 declare const $context: any
+declare const $slots: Record<string, (...args: any[]) => Promise<string>>
+declare const $caller: { filename: string; line: number; col: number }
 declare const nl2br: (value: string) => string
 declare const inspect: (...args: unknown[]) => string
 declare const truncate: (
@@ -179,6 +185,8 @@ exports[`unknown-tag-body virtual TS snapshot 1`] = `
 "
 declare const $filename: string
 declare const $context: any
+declare const $slots: Record<string, (...args: any[]) => Promise<string>>
+declare const $caller: { filename: string; line: number; col: number }
 declare const nl2br: (value: string) => string
 declare const inspect: (...args: unknown[]) => string
 declare const truncate: (
@@ -235,6 +243,8 @@ exports[`include-state-missing virtual TS snapshot 1`] = `
 "
 declare const $filename: string
 declare const $context: any
+declare const $slots: Record<string, (...args: any[]) => Promise<string>>
+declare const $caller: { filename: string; line: number; col: number }
 declare const nl2br: (value: string) => string
 declare const inspect: (...args: unknown[]) => string
 declare const truncate: (
@@ -293,6 +303,8 @@ exports[`stack-pushto-body virtual TS snapshot 1`] = `
 "
 declare const $filename: string
 declare const $context: any
+declare const $slots: Record<string, (...args: any[]) => Promise<string>>
+declare const $caller: { filename: string; line: number; col: number }
 declare const nl2br: (value: string) => string
 declare const inspect: (...args: unknown[]) => string
 declare const truncate: (
@@ -350,6 +362,8 @@ exports[`component-props-ok virtual TS snapshot 1`] = `
 "
 declare const $filename: string
 declare const $context: any
+declare const $slots: Record<string, (...args: any[]) => Promise<string>>
+declare const $caller: { filename: string; line: number; col: number }
 declare const nl2br: (value: string) => string
 declare const inspect: (...args: unknown[]) => string
 declare const truncate: (
@@ -409,6 +423,8 @@ exports[`include-state-ok virtual TS snapshot 1`] = `
 "
 declare const $filename: string
 declare const $context: any
+declare const $slots: Record<string, (...args: any[]) => Promise<string>>
+declare const $caller: { filename: string; line: number; col: number }
 declare const nl2br: (value: string) => string
 declare const inspect: (...args: unknown[]) => string
 declare const truncate: (
@@ -468,6 +484,8 @@ exports[`typo-prop virtual TS snapshot 1`] = `
 "
 declare const $filename: string
 declare const $context: any
+declare const $slots: Record<string, (...args: any[]) => Promise<string>>
+declare const $caller: { filename: string; line: number; col: number }
 declare const nl2br: (value: string) => string
 declare const inspect: (...args: unknown[]) => string
 declare const truncate: (
@@ -524,6 +542,8 @@ exports[`await-expression virtual TS snapshot 1`] = `
 "
 declare const $filename: string
 declare const $context: any
+declare const $slots: Record<string, (...args: any[]) => Promise<string>>
+declare const $caller: { filename: string; line: number; col: number }
 declare const nl2br: (value: string) => string
 declare const inspect: (...args: unknown[]) => string
 declare const truncate: (
@@ -580,6 +600,8 @@ exports[`each-else-fallback virtual TS snapshot 1`] = `
 "
 declare const $filename: string
 declare const $context: any
+declare const $slots: Record<string, (...args: any[]) => Promise<string>>
+declare const $caller: { filename: string; line: number; col: number }
 declare const nl2br: (value: string) => string
 declare const inspect: (...args: unknown[]) => string
 declare const truncate: (
@@ -642,6 +664,8 @@ exports[`each-index-typo virtual TS snapshot 1`] = `
 "
 declare const $filename: string
 declare const $context: any
+declare const $slots: Record<string, (...args: any[]) => Promise<string>>
+declare const $caller: { filename: string; line: number; col: number }
 declare const nl2br: (value: string) => string
 declare const inspect: (...args: unknown[]) => string
 declare const truncate: (
@@ -701,6 +725,8 @@ exports[`includeif virtual TS snapshot 1`] = `
 "
 declare const $filename: string
 declare const $context: any
+declare const $slots: Record<string, (...args: any[]) => Promise<string>>
+declare const $caller: { filename: string; line: number; col: number }
 declare const nl2br: (value: string) => string
 declare const inspect: (...args: unknown[]) => string
 declare const truncate: (
@@ -757,6 +783,8 @@ exports[`no-types-block virtual TS snapshot 1`] = `
 "
 declare const $filename: string
 declare const $context: any
+declare const $slots: Record<string, (...args: any[]) => Promise<string>>
+declare const $caller: { filename: string; line: number; col: number }
 declare const nl2br: (value: string) => string
 declare const inspect: (...args: unknown[]) => string
 declare const truncate: (
@@ -806,6 +834,8 @@ exports[`dynamic-name-skipped virtual TS snapshot 1`] = `
 "
 declare const $filename: string
 declare const $context: any
+declare const $slots: Record<string, (...args: any[]) => Promise<string>>
+declare const $caller: { filename: string; line: number; col: number }
 declare const nl2br: (value: string) => string
 declare const inspect: (...args: unknown[]) => string
 declare const truncate: (
@@ -862,6 +892,8 @@ exports[`globals virtual TS snapshot 1`] = `
 "
 declare const $filename: string
 declare const $context: any
+declare const $slots: Record<string, (...args: any[]) => Promise<string>>
+declare const $caller: { filename: string; line: number; col: number }
 declare const nl2br: (value: string) => string
 declare const inspect: (...args: unknown[]) => string
 declare const truncate: (
@@ -919,6 +951,8 @@ exports[`globals-extended virtual TS snapshot 1`] = `
 "
 declare const $filename: string
 declare const $context: any
+declare const $slots: Record<string, (...args: any[]) => Promise<string>>
+declare const $caller: { filename: string; line: number; col: number }
 declare const nl2br: (value: string) => string
 declare const inspect: (...args: unknown[]) => string
 declare const truncate: (
@@ -984,6 +1018,8 @@ exports[`each-loop virtual TS snapshot 1`] = `
 "
 declare const $filename: string
 declare const $context: any
+declare const $slots: Record<string, (...args: any[]) => Promise<string>>
+declare const $caller: { filename: string; line: number; col: number }
 declare const nl2br: (value: string) => string
 declare const inspect: (...args: unknown[]) => string
 declare const truncate: (
@@ -1043,6 +1079,8 @@ exports[`component-props-typo virtual TS snapshot 1`] = `
 "
 declare const $filename: string
 declare const $context: any
+declare const $slots: Record<string, (...args: any[]) => Promise<string>>
+declare const $caller: { filename: string; line: number; col: number }
 declare const nl2br: (value: string) => string
 declare const inspect: (...args: unknown[]) => string
 declare const truncate: (
@@ -1102,6 +1140,8 @@ exports[`safe-mustache virtual TS snapshot 1`] = `
 "
 declare const $filename: string
 declare const $context: any
+declare const $slots: Record<string, (...args: any[]) => Promise<string>>
+declare const $caller: { filename: string; line: number; col: number }
 declare const nl2br: (value: string) => string
 declare const inspect: (...args: unknown[]) => string
 declare const truncate: (
@@ -1158,6 +1198,8 @@ exports[`component-body-typecheck virtual TS snapshot 1`] = `
 "
 declare const $filename: string
 declare const $context: any
+declare const $slots: Record<string, (...args: any[]) => Promise<string>>
+declare const $caller: { filename: string; line: number; col: number }
 declare const nl2br: (value: string) => string
 declare const inspect: (...args: unknown[]) => string
 declare const truncate: (
@@ -1216,6 +1258,8 @@ exports[`slot-with-props virtual TS snapshot 1`] = `
 "
 declare const $filename: string
 declare const $context: any
+declare const $slots: Record<string, (...args: any[]) => Promise<string>>
+declare const $caller: { filename: string; line: number; col: number }
 declare const nl2br: (value: string) => string
 declare const inspect: (...args: unknown[]) => string
 declare const truncate: (
@@ -1278,6 +1322,8 @@ exports[`let-local virtual TS snapshot 1`] = `
 "
 declare const $filename: string
 declare const $context: any
+declare const $slots: Record<string, (...args: any[]) => Promise<string>>
+declare const $caller: { filename: string; line: number; col: number }
 declare const nl2br: (value: string) => string
 declare const inspect: (...args: unknown[]) => string
 declare const truncate: (
@@ -1335,6 +1381,8 @@ exports[`escaped-mustache virtual TS snapshot 1`] = `
 "
 declare const $filename: string
 declare const $context: any
+declare const $slots: Record<string, (...args: any[]) => Promise<string>>
+declare const $caller: { filename: string; line: number; col: number }
 declare const nl2br: (value: string) => string
 declare const inspect: (...args: unknown[]) => string
 declare const truncate: (
@@ -1390,6 +1438,8 @@ exports[`assign-reassign virtual TS snapshot 1`] = `
 "
 declare const $filename: string
 declare const $context: any
+declare const $slots: Record<string, (...args: any[]) => Promise<string>>
+declare const $caller: { filename: string; line: number; col: number }
 declare const nl2br: (value: string) => string
 declare const inspect: (...args: unknown[]) => string
 declare const truncate: (
@@ -1446,6 +1496,8 @@ exports[`eval-expression virtual TS snapshot 1`] = `
 "
 declare const $filename: string
 declare const $context: any
+declare const $slots: Record<string, (...args: any[]) => Promise<string>>
+declare const $caller: { filename: string; line: number; col: number }
 declare const nl2br: (value: string) => string
 declare const inspect: (...args: unknown[]) => string
 declare const truncate: (
@@ -1502,6 +1554,8 @@ exports[`if-narrowing virtual TS snapshot 1`] = `
 "
 declare const $filename: string
 declare const $context: any
+declare const $slots: Record<string, (...args: any[]) => Promise<string>>
+declare const $caller: { filename: string; line: number; col: number }
 declare const nl2br: (value: string) => string
 declare const inspect: (...args: unknown[]) => string
 declare const truncate: (
@@ -1564,6 +1618,8 @@ exports[`unknown-var virtual TS snapshot 1`] = `
 "
 declare const $filename: string
 declare const $context: any
+declare const $slots: Record<string, (...args: any[]) => Promise<string>>
+declare const $caller: { filename: string; line: number; col: number }
 declare const nl2br: (value: string) => string
 declare const inspect: (...args: unknown[]) => string
 declare const truncate: (

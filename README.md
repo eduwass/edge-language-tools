@@ -48,6 +48,13 @@ call sites.
   hadn't been made, so the tag's content is dropped from checking rather than
   mis-scoped or crashing the generator.
 
+## Demo
+
+`examples/demo-app` is a small bare edge.js app wired to `edge-check`,
+`edge-codegen`, and `tsc` end to end — see `examples/demo-app/DEMO.md` for a
+walkthrough with real command output, including what happens when a template
+or a call site breaks.
+
 ## Packages
 
 - `@edge-language-tools/core` — Edge → virtual TS generation + checking

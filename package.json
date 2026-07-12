@@ -2,7 +2,7 @@
   "name": "edge-language-tools",
   "private": true,
   "type": "module",
-  "workspaces": ["packages/*"],
+  "workspaces": ["packages/*", "examples/*"],
   "scripts": {
     "check:lint": "oxlint packages",
     "check:types": "tsc -b",

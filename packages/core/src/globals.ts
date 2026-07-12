@@ -2,6 +2,8 @@
 export const GLOBALS_TS = `
 declare const $filename: string
 declare const $context: any
+declare const $slots: Record<string, (...args: any[]) => Promise<string>>
+declare const $caller: { filename: string; line: number; col: number }
 declare const nl2br: (value: string) => string
 declare const inspect: (...args: unknown[]) => string
 declare const truncate: (

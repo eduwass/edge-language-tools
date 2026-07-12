@@ -10,6 +10,16 @@
         "typescript": "^5.8.0",
       },
     },
+    "examples/demo-app": {
+      "name": "@edge-language-tools/demo-app",
+      "dependencies": {
+        "edge.js": "^6.5.1",
+      },
+      "devDependencies": {
+        "@edge-language-tools/check": "workspace:*",
+        "@edge-language-tools/codegen": "workspace:*",
+      },
+    },
     "packages/check": {
       "name": "@edge-language-tools/check",
       "version": "0.0.0",
@@ -81,6 +91,8 @@
     "@edge-language-tools/codegen": ["@edge-language-tools/codegen@workspace:packages/codegen"],
 
     "@edge-language-tools/core": ["@edge-language-tools/core@workspace:packages/core"],
+
+    "@edge-language-tools/demo-app": ["@edge-language-tools/demo-app@workspace:examples/demo-app"],
 
     "@edge-language-tools/language-server": ["@edge-language-tools/language-server@workspace:packages/language-server"],
 
