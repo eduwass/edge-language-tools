@@ -6,7 +6,7 @@
 --}}
 @include('partials/nav')
 
-@component('components/user-card', { displayName: user.displayName, bio: user.bio })
+@component('components/user-card', { displayName: user.displayNaem, bio: user.bio })
   @slot('actions')
     <button>Follow</button>
   @end

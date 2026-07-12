@@ -36,6 +36,22 @@ impl EdgeExtension {
             });
         }
 
+        // worktree.which only searches the shell PATH, not node_modules/.bin —
+        // probe the conventional bin location directly (read_text_file doubles
+        // as an existence check that works over remote worktrees too).
+        let bin_rel = "node_modules/.bin/edge-language-server";
+        if worktree.read_text_file(bin_rel).is_ok() {
+            let bin_abs = Path::new(&worktree.root_path())
+                .join(bin_rel)
+                .to_string_lossy()
+                .to_string();
+            return Ok(zed::Command {
+                command: bin_abs,
+                args: vec![],
+                env: worktree.shell_env(),
+            });
+        }
+
         if let Some(path) = worktree.which("edge-language-server") {
             return Ok(zed::Command {
                 command: path,
