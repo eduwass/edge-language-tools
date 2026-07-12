@@ -1,7 +1,8 @@
 // Bun Snapshot v1, https://bun.sh/docs/test/snapshots
 
 exports[`each-with-index virtual TS snapshot 1`] = `
-"
+"export {}
+
 declare const $filename: string
 declare const $context: any
 declare const $slots: Record<string, (...args: any[]) => Promise<string>>
@@ -62,7 +63,8 @@ for (const [i, item] of (items).entries()) {
 `;
 
 exports[`component-missing-prop virtual TS snapshot 1`] = `
-"
+"export {}
+
 declare const $filename: string
 declare const $context: any
 declare const $slots: Record<string, (...args: any[]) => Promise<string>>
@@ -123,7 +125,8 @@ __component<{
 `;
 
 exports[`basic-mustache virtual TS snapshot 1`] = `
-"
+"export {}
+
 declare const $filename: string
 declare const $context: any
 declare const $slots: Record<string, (...args: any[]) => Promise<string>>
@@ -182,7 +185,8 @@ const { user } = state
 `;
 
 exports[`unknown-tag-body virtual TS snapshot 1`] = `
-"
+"export {}
+
 declare const $filename: string
 declare const $context: any
 declare const $slots: Record<string, (...args: any[]) => Promise<string>>
@@ -240,7 +244,8 @@ const { user } = state
 `;
 
 exports[`include-state-missing virtual TS snapshot 1`] = `
-"
+"export {}
+
 declare const $filename: string
 declare const $context: any
 declare const $slots: Record<string, (...args: any[]) => Promise<string>>
@@ -300,7 +305,8 @@ __include<{
 `;
 
 exports[`stack-pushto-body virtual TS snapshot 1`] = `
-"
+"export {}
+
 declare const $filename: string
 declare const $context: any
 declare const $slots: Record<string, (...args: any[]) => Promise<string>>
@@ -359,7 +365,8 @@ const { user } = state
 `;
 
 exports[`component-props-ok virtual TS snapshot 1`] = `
-"
+"export {}
+
 declare const $filename: string
 declare const $context: any
 declare const $slots: Record<string, (...args: any[]) => Promise<string>>
@@ -420,7 +427,8 @@ __component<{
 `;
 
 exports[`include-state-ok virtual TS snapshot 1`] = `
-"
+"export {}
+
 declare const $filename: string
 declare const $context: any
 declare const $slots: Record<string, (...args: any[]) => Promise<string>>
@@ -481,7 +489,8 @@ __include<{
 `;
 
 exports[`typo-prop virtual TS snapshot 1`] = `
-"
+"export {}
+
 declare const $filename: string
 declare const $context: any
 declare const $slots: Record<string, (...args: any[]) => Promise<string>>
@@ -538,8 +547,68 @@ const { user } = state
 "
 `;
 
-exports[`await-expression virtual TS snapshot 1`] = `
+exports[`name-prop virtual TS snapshot 1`] = `
+"export {}
+
+declare const $filename: string
+declare const $context: any
+declare const $slots: Record<string, (...args: any[]) => Promise<string>>
+declare const $caller: { filename: string; line: number; col: number }
+declare const nl2br: (value: string) => string
+declare const inspect: (...args: unknown[]) => string
+declare const truncate: (
+  value: string,
+  chars?: number,
+  options?: { completeWords?: boolean; strict?: boolean; suffix?: string },
+) => string
+declare const excerpt: (
+  value: string,
+  chars?: number,
+  options?: { completeWords?: boolean; strict?: boolean; suffix?: string },
+) => string
+declare const html: {
+  escape: (value: string) => string
+  safe: (value: string) => { toString(): string }
+  classNames: (...values: unknown[]) => string
+  attrs: (values: Record<string, unknown>) => string
+}
+declare const js: {
+  stringify: (value: unknown) => string
+}
+declare const camelCase: (value: string) => string
+declare const snakeCase: (value: string) => string
+declare const dashCase: (value: string) => string
+declare const pascalCase: (value: string) => string
+declare const capitalCase: (value: string) => string
+declare const sentenceCase: (value: string) => string
+declare const dotCase: (value: string) => string
+declare const noCase: (value: string) => string
+declare const titleCase: (value: string) => string
+declare const pluralize: (value: string, count?: number) => string
+declare const sentence: (values: string[]) => string
+declare const prettyMs: (value: number) => string
+declare const toMs: (value: string) => number
+declare const prettyBytes: (value: number) => string
+declare const toBytes: (value: string) => number
+declare const ordinal: (value: number) => string
+
+declare function __component<T>(props: T): void
+declare function __include<T>(state: T): void
+
+type __Types = {
+  user: { name: string }
+}
+declare const state: __Types
+const { user } = state
+;(async () => {
+;( user.name );
+})();
 "
+`;
+
+exports[`await-expression virtual TS snapshot 1`] = `
+"export {}
+
 declare const $filename: string
 declare const $context: any
 declare const $slots: Record<string, (...args: any[]) => Promise<string>>
@@ -597,7 +666,8 @@ const { user } = state
 `;
 
 exports[`each-else-fallback virtual TS snapshot 1`] = `
-"
+"export {}
+
 declare const $filename: string
 declare const $context: any
 declare const $slots: Record<string, (...args: any[]) => Promise<string>>
@@ -661,7 +731,8 @@ for (const item of (items)) {
 `;
 
 exports[`each-index-typo virtual TS snapshot 1`] = `
-"
+"export {}
+
 declare const $filename: string
 declare const $context: any
 declare const $slots: Record<string, (...args: any[]) => Promise<string>>
@@ -722,7 +793,8 @@ for (const [i, item] of (items).entries()) {
 `;
 
 exports[`includeif virtual TS snapshot 1`] = `
-"
+"export {}
+
 declare const $filename: string
 declare const $context: any
 declare const $slots: Record<string, (...args: any[]) => Promise<string>>
@@ -780,7 +852,8 @@ const { user } = state
 `;
 
 exports[`no-types-block virtual TS snapshot 1`] = `
-"
+"export {}
+
 declare const $filename: string
 declare const $context: any
 declare const $slots: Record<string, (...args: any[]) => Promise<string>>
@@ -831,7 +904,8 @@ declare const state: any
 `;
 
 exports[`dynamic-name-skipped virtual TS snapshot 1`] = `
-"
+"export {}
+
 declare const $filename: string
 declare const $context: any
 declare const $slots: Record<string, (...args: any[]) => Promise<string>>
@@ -889,7 +963,8 @@ const { partialName, user } = state
 `;
 
 exports[`globals virtual TS snapshot 1`] = `
-"
+"export {}
+
 declare const $filename: string
 declare const $context: any
 declare const $slots: Record<string, (...args: any[]) => Promise<string>>
@@ -948,7 +1023,8 @@ const { text } = state
 `;
 
 exports[`globals-extended virtual TS snapshot 1`] = `
-"
+"export {}
+
 declare const $filename: string
 declare const $context: any
 declare const $slots: Record<string, (...args: any[]) => Promise<string>>
@@ -1015,7 +1091,8 @@ const { attrs, classes, text } = state
 `;
 
 exports[`each-loop virtual TS snapshot 1`] = `
-"
+"export {}
+
 declare const $filename: string
 declare const $context: any
 declare const $slots: Record<string, (...args: any[]) => Promise<string>>
@@ -1076,7 +1153,8 @@ for (const item of (items)) {
 `;
 
 exports[`component-props-typo virtual TS snapshot 1`] = `
-"
+"export {}
+
 declare const $filename: string
 declare const $context: any
 declare const $slots: Record<string, (...args: any[]) => Promise<string>>
@@ -1137,7 +1215,8 @@ __component<{
 `;
 
 exports[`safe-mustache virtual TS snapshot 1`] = `
-"
+"export {}
+
 declare const $filename: string
 declare const $context: any
 declare const $slots: Record<string, (...args: any[]) => Promise<string>>
@@ -1195,7 +1274,8 @@ const { content } = state
 `;
 
 exports[`component-body-typecheck virtual TS snapshot 1`] = `
-"
+"export {}
+
 declare const $filename: string
 declare const $context: any
 declare const $slots: Record<string, (...args: any[]) => Promise<string>>
@@ -1255,7 +1335,8 @@ const { user } = state
 `;
 
 exports[`slot-with-props virtual TS snapshot 1`] = `
-"
+"export {}
+
 declare const $filename: string
 declare const $context: any
 declare const $slots: Record<string, (...args: any[]) => Promise<string>>
@@ -1319,7 +1400,8 @@ let row: any
 `;
 
 exports[`let-local virtual TS snapshot 1`] = `
-"
+"export {}
+
 declare const $filename: string
 declare const $context: any
 declare const $slots: Record<string, (...args: any[]) => Promise<string>>
@@ -1378,7 +1460,8 @@ let total = ( items.length * 2);
 `;
 
 exports[`escaped-mustache virtual TS snapshot 1`] = `
-"
+"export {}
+
 declare const $filename: string
 declare const $context: any
 declare const $slots: Record<string, (...args: any[]) => Promise<string>>
@@ -1435,7 +1518,8 @@ const { user } = state
 `;
 
 exports[`assign-reassign virtual TS snapshot 1`] = `
-"
+"export {}
+
 declare const $filename: string
 declare const $context: any
 declare const $slots: Record<string, (...args: any[]) => Promise<string>>
@@ -1493,7 +1577,8 @@ const { page } = state
 `;
 
 exports[`eval-expression virtual TS snapshot 1`] = `
-"
+"export {}
+
 declare const $filename: string
 declare const $context: any
 declare const $slots: Record<string, (...args: any[]) => Promise<string>>
@@ -1551,7 +1636,8 @@ const { user } = state
 `;
 
 exports[`if-narrowing virtual TS snapshot 1`] = `
-"
+"export {}
+
 declare const $filename: string
 declare const $context: any
 declare const $slots: Record<string, (...args: any[]) => Promise<string>>
@@ -1615,7 +1701,8 @@ else {
 `;
 
 exports[`unknown-var virtual TS snapshot 1`] = `
-"
+"export {}
+
 declare const $filename: string
 declare const $context: any
 declare const $slots: Record<string, (...args: any[]) => Promise<string>>

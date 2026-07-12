@@ -37,7 +37,11 @@ export function generateVirtualTs(source: string, filename: string, opts?: Gener
   )
 
   const ctx: Ctx = {
-    code: GLOBALS_TS + CROSS_FILE_TS + '\n',
+    // export {} makes the virtual file a module: without it, tsserver treats
+    // every template's virtual TS as a script sharing ONE global scope, so
+    // `const user` from two templates collide (and DOM's `declare var name`
+    // shadows props named `name`).
+    code: 'export {}\n' + GLOBALS_TS + CROSS_FILE_TS + '\n',
     segments: [],
     lines,
     resolveTemplate: opts?.resolveTemplate,
