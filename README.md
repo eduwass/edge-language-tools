@@ -35,7 +35,8 @@ call sites.
 ## Packages
 
 - `@edge-language-tools/core` — Edge → virtual TS generation + checking
-- (planned) `edge-check` CLI, LSP server, VS Code extension, Zed extension
+- `@edge-language-tools/check` — `edge-check` CLI: recursively checks `.edge` files, human or `--format json` output
+- (planned) LSP server, VS Code extension, Zed extension
 
 ## Development
 

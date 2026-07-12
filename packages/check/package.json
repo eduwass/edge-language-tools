@@ -1,0 +1,10 @@
+{
+  "name": "@edge-language-tools/check",
+  "version": "0.0.0",
+  "type": "module",
+  "bin": { "edge-check": "./src/cli.ts" },
+  "exports": { ".": "./src/cli.ts" },
+  "dependencies": {
+    "@edge-language-tools/core": "workspace:*"
+  }
+}

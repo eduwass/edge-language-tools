@@ -10,6 +10,16 @@
         "typescript": "^5.8.0",
       },
     },
+    "packages/check": {
+      "name": "@edge-language-tools/check",
+      "version": "0.0.0",
+      "bin": {
+        "edge-check": "./src/cli.ts",
+      },
+      "dependencies": {
+        "@edge-language-tools/core": "workspace:*",
+      },
+    },
     "packages/core": {
       "name": "@edge-language-tools/core",
       "version": "0.0.0",
@@ -21,6 +31,8 @@
     },
   },
   "packages": {
+    "@edge-language-tools/check": ["@edge-language-tools/check@workspace:packages/check"],
+
     "@edge-language-tools/core": ["@edge-language-tools/core@workspace:packages/core"],
 
     "@oxlint/binding-android-arm-eabi": ["@oxlint/binding-android-arm-eabi@1.73.0", "", { "os": "android", "cpu": "arm" }, "sha512-HZQRN/UMBu+Ut+/9MiAChkbP4qZqrNOWBcNI45vOT40GVhbGR0JgHB87L48D4iAqFQIdVmeQYtV9RF89AjTKkg=="],
