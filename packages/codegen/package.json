@@ -1,0 +1,13 @@
+{
+  "name": "@edge-language-tools/codegen",
+  "version": "0.0.0",
+  "type": "module",
+  "bin": { "edge-codegen": "./src/cli.ts" },
+  "exports": { ".": "./src/generate.ts" },
+  "dependencies": {
+    "@edge-language-tools/core": "workspace:*"
+  },
+  "devDependencies": {
+    "edge.js": "^6.5.1"
+  }
+}

@@ -1,3 +1,4 @@
 node_modules/
 dist/
 *.tsbuildinfo
+packages/codegen/tests/fixture-app/edge-templates.d.ts

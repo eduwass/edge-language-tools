@@ -1,9 +1,8 @@
 #!/usr/bin/env bun
 import { readFileSync } from 'node:fs'
 import { relative } from 'node:path'
-import { checkTemplate, generateVirtualTs } from '@edge-language-tools/core'
+import { checkTemplate, findEdgeFiles, generateVirtualTs } from '@edge-language-tools/core'
 import { excerpt, offsetToLineCol, withColor } from './format.ts'
-import { findEdgeFiles } from './walk.ts'
 
 interface JsonDiagnostic {
   file: string

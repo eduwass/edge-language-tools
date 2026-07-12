@@ -34,6 +34,7 @@ export interface TemplateDiagnostic {
 }
 
 export { generateVirtualTs } from './generator.ts'
+export { findEdgeFiles } from './walk.ts'
 
 /**
  * Type-check one template in isolation: generate the virtual TS, run tsc
