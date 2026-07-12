@@ -32,6 +32,22 @@ variables and globals pre-typed) with exact offset mappings back to the
 serves it to editors; a generated `templates.d.ts` types `edge.render()`
 call sites.
 
+## Coverage notes
+
+- `@layout` / `@section` (Edge v5 template inheritance) were removed in
+  edge.js v6 — there's nothing to support and no fixture for them; templates
+  using v5's compat mode stay unchecked like any other unrecognized construct.
+- `@pushToTop` / `@pushOnceToTop` don't exist in edge.js 6.5.1 (only
+  `@stack`, `@pushTo`, `@pushOnceTo`) — not registered, nothing to check.
+- Plugin-registered tags (e.g. AdonisJS's supercharged `@modal.foo()` style)
+  are claimed at runtime by the compiler, so their block/seekable shape is
+  statically unknowable here. They're guessed as block tags so their bodies
+  stay in the caller's scope for typo-checking; if that guess causes an
+  unclosed-tag parse failure (a self-closed plugin tag with no matching
+  `@end`), generation falls back to treating the whole file as if the guess
+  hadn't been made, so the tag's content is dropped from checking rather than
+  mis-scoped or crashing the generator.
+
 ## Packages
 
 - `@edge-language-tools/core` — Edge → virtual TS generation + checking

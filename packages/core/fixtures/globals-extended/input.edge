@@ -1,0 +1,15 @@
+{{--
+@types {
+  attrs: Record<string, string>
+  classes: string[]
+  text: string
+}
+--}}
+<div {{{ html.attrs(attrs) }}} class="{{ html.classNames(classes) }}">
+  {{ camelCase(text) }}
+  {{ snakeCase(text) }}
+  {{ pascalCase(text) }}
+  {{ pluralize(text, 2) }}
+  {{ prettyBytes(2048) }}
+  {{ truncate(123, 'x') }}
+</div>
