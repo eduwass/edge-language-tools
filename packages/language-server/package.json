@@ -1,0 +1,21 @@
+{
+  "name": "@edge-language-tools/language-server",
+  "version": "0.0.0",
+  "type": "module",
+  "main": "./src/index.ts",
+  "bin": {
+    "edge-language-server": "./bin/edge-language-server.js"
+  },
+  "dependencies": {
+    "@edge-language-tools/core": "workspace:*",
+    "@volar/language-core": "~2.4.0",
+    "@volar/language-server": "~2.4.0",
+    "@volar/typescript": "~2.4.0",
+    "volar-service-typescript": "volar-2.4",
+    "vscode-uri": "^3.0.8"
+  },
+  "devDependencies": {
+    "@volar/test-utils": "~2.4.0",
+    "vscode-languageserver-protocol": "^3.17.5"
+  }
+}

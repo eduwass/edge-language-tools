@@ -1,0 +1,38 @@
+{
+  "private": true,
+  "name": "edge-language-tools",
+  "version": "0.0.1",
+  "displayName": "Edge Language Tools",
+  "description": "Type-checked expressions, hover, and navigation for EdgeJS templates.",
+  "publisher": "edge-language-tools",
+  "engines": {
+    "vscode": "^1.82.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "activationEvents": [
+    "onLanguage:edge"
+  ],
+  "main": "./dist/client.js",
+  "contributes": {
+    "languages": [
+      {
+        "id": "edge",
+        "extensions": [".edge"]
+      }
+    ]
+  },
+  "scripts": {
+    "build": "node scripts/build.js"
+  },
+  "dependencies": {
+    "@edge-language-tools/language-server": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.82.0",
+    "@volar/language-server": "~2.4.0",
+    "@volar/vscode": "~2.4.0",
+    "esbuild": "^0.24.0"
+  }
+}
