@@ -1,0 +1,16 @@
+{
+  "name": "edge-language-tools",
+  "private": true,
+  "type": "module",
+  "workspaces": ["packages/*"],
+  "scripts": {
+    "check:lint": "oxlint packages",
+    "check:types": "tsc -b",
+    "check:test": "bun test",
+    "precommit": "bun run check:lint && bun run check:types && bun run check:test"
+  },
+  "devDependencies": {
+    "oxlint": "^1.0.0",
+    "typescript": "^5.8.0"
+  }
+}

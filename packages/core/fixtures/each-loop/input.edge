@@ -1,0 +1,8 @@
+{{--
+@types {
+  items: { price: number }[]
+}
+--}}
+@each(item in items)
+  <li>{{ item.price }} — {{ item.title }}</li>
+@end

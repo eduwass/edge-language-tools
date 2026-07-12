@@ -1,0 +1,10 @@
+{
+  "name": "@edge-language-tools/core",
+  "version": "0.0.0",
+  "type": "module",
+  "exports": { ".": "./src/index.ts" },
+  "dependencies": {
+    "edge-lexer": "^6.0.5",
+    "edge-parser": "^9.1.1"
+  }
+}
