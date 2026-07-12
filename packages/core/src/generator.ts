@@ -51,14 +51,17 @@ export function generateVirtualTs(source: string, filename: string, opts?: Gener
     emit(ctx, 'type __Types = ')
     emitVerbatim(ctx, typesBlock.raw, typesBlock.sourceOffset)
     emit(ctx, '\ndeclare const state: __Types\n')
-    if (typesBlock.propertyNames.length > 0) {
-      emit(ctx, `const { ${typesBlock.propertyNames.join(', ')} } = state\n`)
-    }
     // Wrapped in an async IIFE (rather than left at module top level) so
     // `{{ await expr }}` is syntactically legal; narrowing across @if is
     // unaffected since TS control-flow analysis works the same inside a
-    // function body as at module scope.
+    // function body as at module scope. The prop destructure lives inside
+    // it too (not at module scope) so a prop named e.g. `truncate` shadows
+    // the ambient Edge global of the same name instead of colliding with
+    // its `declare const` in a TS2451 redeclare error.
     emit(ctx, ';(async () => {\n')
+    if (typesBlock.propertyNames.length > 0) {
+      emit(ctx, `const { ${typesBlock.propertyNames.join(', ')} } = state\n`)
+    }
     emitTokens(ctx, tokens)
     emit(ctx, '})();\n')
   } else {
