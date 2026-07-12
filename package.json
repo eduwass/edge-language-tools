@@ -10,6 +10,7 @@
     "precommit": "bun run check:lint && bun run check:types && bun run check:test"
   },
   "devDependencies": {
+    "@edge-language-tools/language-server": "workspace:*",
     "bun-types": "^1.3.0",
     "oxlint": "^1.0.0",
     "typescript": "^5.8.0"

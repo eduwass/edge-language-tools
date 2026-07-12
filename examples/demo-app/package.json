@@ -13,6 +13,7 @@
   },
   "devDependencies": {
     "@edge-language-tools/check": "workspace:*",
-    "@edge-language-tools/codegen": "workspace:*"
+    "@edge-language-tools/codegen": "workspace:*",
+    "@edge-language-tools/language-server": "workspace:*"
   }
 }
