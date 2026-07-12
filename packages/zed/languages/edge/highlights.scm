@@ -1,2 +1,4 @@
-(html) @markup.raw
-(expresion) @keyword
+(comment) @comment
+"@" @punctuation.special
+(function (identifier) @keyword)
+[ "{{" "}}" "{{{" "}}}" ] @punctuation.special
