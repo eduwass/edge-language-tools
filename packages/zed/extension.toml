@@ -1,0 +1,15 @@
+id = "edge"
+name = "Edge"
+description = "Edge template language support (EdgeJS)."
+version = "0.0.1"
+schema_version = 1
+authors = []
+repository = "https://github.com/eduwass/edge-language-tools"
+
+[language_servers.edge-language-server]
+name = "Edge Language Server"
+language = "Edge"
+
+[grammars.edge]
+repository = "https://github.com/Brayan-724/tree-sitter-edge"
+commit = "39a8c0b79fc30e93f43505e7554b156a062354b6"
