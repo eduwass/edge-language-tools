@@ -154,6 +154,14 @@ function emitTag(ctx: Ctx, tokens: Token[], index: number): number {
     return index
   }
 
+  // Supercharged component tag (AdonisJS `components/` dir convention, e.g.
+  // `@modal(...)` for components/modal/index.edge, `@checkoutForm.input(...)`
+  // for components/checkout_form/input.edge). Unresolved or no `@types` block
+  // falls through to the generic unknown-tag handling below.
+  if (emitSuperchargedComponent(ctx, token)) {
+    return index
+  }
+
   // Anything else we don't have dedicated handling for — a built-in tag with
   // no checkable jsArg (@debugger, @inject) or an unrecognized/plugin tag
   // (@modal.foo, ...) claimed as a block by the tokenizer. Its body (if any)
@@ -205,23 +213,66 @@ function emitComponent(ctx: Ctx, token: TagToken): void {
       const componentTypes = resolveTypesBlock(ctx, nameArg.text)
       if (componentTypes) {
         const base = tagOffset(ctx, token)
-        emit(ctx, '__component<')
-        emit(ctx, componentTypes.raw)
-        emit(ctx, '>(')
-
         const propsArg = parsed.args[1]
         if (propsArg) {
           const start = propsArg.getStart(parsed.sourceFile) - parsed.prefixLength
           const end = propsArg.getEnd() - parsed.prefixLength
-          emitVerbatim(ctx, jsArg.slice(start, end), base + start)
+          emitComponentCall(ctx, componentTypes, jsArg.slice(start, end), base + start)
         } else {
-          emit(ctx, '{}')
+          emitComponentCall(ctx, componentTypes, null, base)
         }
-        emit(ctx, ');\n')
       }
     }
   }
   emitComponentBody(ctx, token)
+}
+
+/** Emits `__component<Types>(propsExpr)`, or `__component<Types>({})` when `propsText` is null. */
+function emitComponentCall(ctx: Ctx, componentTypes: { raw: string }, propsText: string | null, propsOffset: number): void {
+  emit(ctx, '__component<')
+  emit(ctx, componentTypes.raw)
+  emit(ctx, '>(')
+  if (propsText !== null) {
+    emitVerbatim(ctx, propsText, propsOffset)
+  } else {
+    emit(ctx, '{}')
+  }
+  emit(ctx, ');\n')
+}
+
+/**
+ * AdonisJS "supercharged" components: any unrecognized tag name is checked
+ * against the `components/` directory convention (see edge.js
+ * `src/loader.ts#getDiskComponents` and `src/plugins/supercharged.ts`).
+ * `form/input.edge` -> `@form.input`, `tool_tip.edge` -> `@toolTip`,
+ * `modal/index.edge` -> `@modal` (index elided). The reverse mapping is
+ * lossy (camelCase -> snake_case isn't invertible in general), so this
+ * probes candidate template names and takes the first that resolves.
+ * Disk-prefixed tags (`@!uikit.input`) aren't supported — they stay unchecked.
+ * The whole jsArg is the props object directly (supercharged rewrites the tag
+ * to `@component('<path>', <jsArg>)`, dropping the path argument from the
+ * source), so it's checked the same way as `@component`'s second argument.
+ */
+function emitSuperchargedComponent(ctx: Ctx, token: TagToken): boolean {
+  const { name, jsArg } = token.properties
+  for (const candidate of superchargedCandidates(name)) {
+    const componentTypes = resolveTypesBlock(ctx, candidate)
+    if (!componentTypes) continue
+    const base = tagOffset(ctx, token)
+    emitComponentCall(ctx, componentTypes, jsArg.trim() === '' ? null : jsArg, base)
+    emitComponentBody(ctx, token)
+    return true
+  }
+  return false
+}
+
+/** `checkoutForm.input` -> `['components/checkout_form/input', 'components/checkout_form/input/index']`. */
+function superchargedCandidates(tagName: string): string[] {
+  const path = tagName
+    .split('.')
+    .map((segment) => segment.replace(/[A-Z]/g, (c) => `_${c.toLowerCase()}`))
+    .join('/')
+  return [`components/${path}`, `components/${path}/index`]
 }
 
 /**
