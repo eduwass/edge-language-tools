@@ -1,0 +1,10 @@
+{{--
+@types {
+  items: number[]
+}
+--}}
+@let(item = 'x')
+@each(item in items)
+  <li>{{ item.toString() }}</li>
+@end
+<p>{{ item.toFixed(2) }}</p>

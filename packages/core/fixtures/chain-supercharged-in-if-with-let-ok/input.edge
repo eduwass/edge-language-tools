@@ -1,0 +1,11 @@
+{{--
+@types {
+  text: string
+  cond: boolean
+}
+--}}
+@let(label = text)
+@if(cond)
+  @form.input({ label: label, value: label })
+@end
+@end

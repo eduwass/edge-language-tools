@@ -1,0 +1,9 @@
+{{--
+@types {
+  items: { title: string }[]
+}
+--}}
+@each(item in items)
+  @component('components/card', { title: item.titel })
+  @end
+@end

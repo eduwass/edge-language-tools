@@ -1,0 +1,5 @@
+[
+  { "messageIncludes": "Cannot redeclare block-scoped variable 'user'" },
+  { "messageIncludes": "Cannot redeclare block-scoped variable 'user'" },
+  { "messageIncludes": "name", "atText": "name" }
+]

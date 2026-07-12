@@ -1,0 +1,7 @@
+{{--
+@types {
+  fetchTitle: () => Promise<number>
+}
+--}}
+@component('components/card', { title: await fetchTitle() })
+@end

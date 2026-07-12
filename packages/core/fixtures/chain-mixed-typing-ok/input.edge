@@ -1,0 +1,8 @@
+{{--
+@types {
+  user: { name: string }
+}
+--}}
+@include('partials/untyped')
+@component('components/card', { title: user.name })
+@end

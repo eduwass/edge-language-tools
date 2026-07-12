@@ -1,0 +1,14 @@
+{{--
+@types {
+  items: { label: string, qty: number }[]
+}
+--}}
+@component('components/card')
+  @slot('body')
+    @each(item in items)
+      <li>{{
+        item.label + ' x' + item.qty.toString()
+      }}</li>
+    @end
+  @end
+@end
