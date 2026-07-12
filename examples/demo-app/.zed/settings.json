@@ -1,0 +1,10 @@
+{
+  "lsp": {
+    "edge-language-server": {
+      "binary": {
+        "path": "/home/eduwass/Sites/edge-language-tools/node_modules/.bin/edge-language-server",
+        "arguments": ["--stdio"]
+      }
+    }
+  }
+}

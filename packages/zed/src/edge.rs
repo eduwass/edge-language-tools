@@ -36,22 +36,6 @@ impl EdgeExtension {
             });
         }
 
-        // worktree.which only searches the shell PATH, not node_modules/.bin —
-        // probe the conventional bin location directly (read_text_file doubles
-        // as an existence check that works over remote worktrees too).
-        let bin_rel = "node_modules/.bin/edge-language-server";
-        if worktree.read_text_file(bin_rel).is_ok() {
-            let bin_abs = Path::new(&worktree.root_path())
-                .join(bin_rel)
-                .to_string_lossy()
-                .to_string();
-            return Ok(zed::Command {
-                command: bin_abs,
-                args: vec![],
-                env: worktree.shell_env(),
-            });
-        }
-
         if let Some(path) = worktree.which("edge-language-server") {
             return Ok(zed::Command {
                 command: path,
@@ -60,13 +44,19 @@ impl EdgeExtension {
             });
         }
 
-        Err(concat!(
-            "edge-language-server not found. Install it in this project ",
-            "(e.g. `bun add -D @edge-language-tools/language-server`, or link the ",
-            "monorepo package so it lands in node_modules/.bin), or set an explicit ",
-            "path via `lsp.edge-language-server.binary.path` in your Zed settings.json."
-        )
-        .to_string())
+        // No existence probe: worktree.which only searches the shell PATH, and
+        // Zed excludes node_modules from the worktree index so read_text_file
+        // can't see into it. Hand Zed the conventional bin path and let the
+        // spawn error speak if it's absent.
+        let bin_abs = Path::new(&worktree.root_path())
+            .join("node_modules/.bin/edge-language-server")
+            .to_string_lossy()
+            .to_string();
+        Ok(zed::Command {
+            command: bin_abs,
+            args: vec![],
+            env: worktree.shell_env(),
+        })
     }
 
     fn typescript_tsdk_path(&self, worktree: &zed::Worktree) -> String {
