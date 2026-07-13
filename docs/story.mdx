@@ -1,6 +1,7 @@
-# Teaching an old template dog new type tricks
-
-## How EdgeJS got red squiggles, typed render calls, and a language server
+---
+title: The story
+description: Where this came from — prior art, design decisions, and the bugs worth writing down.
+---
 
 I love EdgeJS. Coming from years of Twig and Blade, it is the template language that feels most like home in JavaScript land: the same comfortable `@if`/`@each`/`@include` vocabulary, mustaches for output, components with slots. And because it is JS-native, the expressions inside the mustaches are *real JavaScript*, not a bespoke mini-language.
 
@@ -71,13 +72,18 @@ The block is the template's *function signature*. Everything below it is inferre
 
 The whole system is one pipeline with that block as the single source of truth:
 
-```mermaid
-flowchart TD
-  T[".edge templates + @types blocks<br/>(the one thing you write)"] --> CORE["@edge-language-tools/core<br/>virtual TS + exact offset mappings"]
-  CORE --> LSP["Volar language server<br/>squiggles in Zed / VS Code / Cursor"]
-  CORE --> CHECK["edge-check CLI<br/>caret diagnostics, --format json, CI exit codes"]
-  CORE --> GEN["edge-codegen<br/>generated templates.d.ts"]
-  GEN --> TE["TypedEdge<br/>edge.render('profile', props) checked at compile time"]
+```text
+.edge templates + @types blocks        (the one thing you write)
+        |
+        v
+@edge-language-tools/core              virtual TS + exact offset mappings
+        |
+        +--> Volar language server     squiggles in Zed / VS Code / Cursor
+        +--> edge-check CLI            caret diagnostics, JSON output, CI exit codes
+        +--> edge-codegen              generated templates.d.ts
+                    |
+                    v
+             TypedEdge                 edge.render('profile', props) checked at compile time
 ```
 
 ### The virtual file trick
@@ -118,12 +124,17 @@ TypeScript checks this file; every diagnostic inside a mapped segment is transla
 
 `@component('components/user-card', { displayName: user.displayName })` resolves the target template, reads *its* `@types`, and checks the caller's props object against it — the diagnostic lands on the caller's typo, where you would look. Edge's "supercharged" shorthand tags ride the same rail: the filename-to-tagName conversion (`@checkoutForm.input` ↔ `components/checkout_form/input.edge`) is deterministic, so the checker just runs it backwards:
 
-```mermaid
-flowchart TD
-  A["@form.input({ label: 'Email', requird: true })"] --> B["reverse mapping<br/>form.input → components/form/input.edge"]
-  B --> C["read target's @types block"]
-  C --> D["__component&lt;Props&gt;({ ...verbatim props... })"]
-  D --> E["TS2353: 'requird' does not exist — squiggle on the caller's typo"]
+```text
+@form.input({ label: 'Email', requird: true })
+        |  reverse mapping: form.input -> components/form/input.edge
+        v
+read the target's @types block
+        |
+        v
+__component<Props>({ ...verbatim props... })
+        |
+        v
+TS2353: 'requird' does not exist -- squiggle on the caller's typo
 ```
 
 Dynamic names (`@include(someVar)`) are statically unresolvable and degrade gracefully to unchecked — honesty over heroics.
