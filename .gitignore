@@ -1,6 +1,7 @@
-node_modules/
-dist/
-*.tsbuildinfo
-packages/codegen/tests/fixture-app/edge-templates.d.ts
-*.vsix
 .blume/
+.blume-verify/
+dist/
+node_modules/
+packages/codegen/tests/fixture-app/edge-templates.d.ts
+*.tsbuildinfo
+*.vsix
