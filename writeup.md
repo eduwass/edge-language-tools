@@ -6,13 +6,13 @@ I love EdgeJS. Coming from years of Twig and Blade, it is the template language 
 
 But it had one itch I could not stop scratching: nothing warns you when `{{ user.nmae }}` references a property that does not exist. You find out at runtime, in production, from a stack trace.
 
-This is the story of how that itch became `edge-language-tools`, and everything we learned from Rails, Twig, Ember, and Svelte along the way.
+This is the story of how that itch became `edge-language-tools`, and everything I learned from Rails, Twig, Ember, and Svelte along the way.
 
 ---
 
 ## Part 1: The gap nobody filled
 
-Before building anything we went spelunking. The findings, condensed:
+Before building anything I went spelunking. The findings, condensed:
 
 **The AdonisJS core team had explicitly declined.** Their January 2024 post ["Use TSX for your template engine"](https://adonisjs.com/blog/use-tsx-for-your-template-engine) names the exact problem — *"If we want to have type safety, we would need to create a complete LSP from scratch, which is out of the scope of this project"* — and routes around it: if you want types, use JSX. A community proposal for typed props and render-call codegen ([edge-js/edge#160](https://github.com/edge-js/edge/issues/160)) was closed "not planned" without engagement.
 
@@ -24,7 +24,7 @@ So the gap was real and the demand documented. The "complete LSP from scratch" e
 
 ## Part 2: What every other ecosystem already learned
 
-The best part of arriving late is that everyone else has already made the mistakes. We surveyed how six ecosystems solved (or failed to solve) typed templates:
+The best part of arriving late is that everyone else has already made the mistakes. I surveyed how six ecosystems solved (or failed to solve) typed templates:
 
 | Ecosystem | Mechanism | Verdict |
 |---|---|---|
@@ -110,7 +110,7 @@ declare const state: __Types
 
 TypeScript checks this file; every diagnostic inside a mapped segment is translated back to exact template coordinates. The three rules that make it robust:
 
-- **Copy expressions verbatim, never rewrite them.** A segment's generated text must byte-equal its source text (we enforce this with a round-trip property test). This is what makes diagnostics, hover, and completions land precisely.
+- **Copy expressions verbatim, never rewrite them.** A segment's generated text must byte-equal its source text (enforced with a round-trip property test). This is what makes diagnostics, hover, and completions land precisely.
 - **Emit template constructs as real control flow.** `@if` becomes `if` (free narrowing), `@each` becomes `for..of` (free inference), `@each`/`@else` becomes a sibling block, component slot bodies become nested blocks in the caller's scope.
 - **Glue code must be error-proof and unmapped.** Diagnostics arising in generated scaffolding are dropped — so the scaffolding better be correct.
 
@@ -130,7 +130,7 @@ Dynamic names (`@include(someVar)`) are statically unresolvable and degrade grac
 
 ### Closing the loop: typed render calls
 
-A generated (never hand-written — see Glint v1) `templates.d.ts` maps every template path to its declared props. Here we hit a genuinely surprising finding: the obvious approach — augmenting Edge's class via `declare module 'edge.js'` — is **silently unsafe**. TypeScript interface merging can only *add* overloads, never replace Edge's existing loose `render(templatePath: string, state?: Record<string, any>)`; wrong props simply fall through to the loose signature and pass. We verified that failure mode explicitly, then shipped a wrapper type instead:
+A generated (never hand-written — see Glint v1) `templates.d.ts` maps every template path to its declared props. Here I hit a genuinely surprising finding: the obvious approach — augmenting Edge's class via `declare module 'edge.js'` — is **silently unsafe**. TypeScript interface merging can only *add* overloads, never replace Edge's existing loose `render(templatePath: string, state?: Record<string, any>)`; wrong props simply fall through to the loose signature and pass. I verified that failure mode explicitly, then shipped a wrapper type instead:
 
 ```ts
 export type TypedEdge = Omit<Edge, 'render' | 'renderSync'> & {
@@ -147,7 +147,7 @@ const edge = Edge.create() as unknown as TypedEdge
 
 ## Part 4: Building it with a fixture corpus as the spec
 
-The implementation methodology deserves a note, because it is why this took a day instead of a month. Before any generator code existed, we wrote the **executable spec**: fixture templates plus expected diagnostics, with the failing test suite as the definition of done.
+The implementation methodology deserves a note, because it is why this took a day instead of a month. Before any generator code existed, I wrote the **executable spec**: fixture templates plus expected diagnostics, with the failing test suite as the definition of done.
 
 ```
 fixtures/typo-prop/input.edge          # {{ user.nmae }} with @types declaring name
@@ -168,7 +168,7 @@ The corpus grew in three waves: single features (mustaches, each, let, if), then
 
 **The Zed sandbox saga.** Wiring the language server into Zed (running on a Mac, editing over SSH remote) burned more wall-clock than any feature. `worktree.which()` only searches the shell PATH — not `node_modules/.bin`. `read_text_file()` cannot probe into `node_modules` because Zed excludes it from the worktree index. Three wrong fixes shipped before the evidence-backed one: a project-level `.zed/settings.json` with an explicit `lsp.binary.path`, plus declaring the server as a `workspace:*` devDependency so bun links its bin (bun only links bins of *declared* dependencies — the root cause of the whole chase). The durable lesson was procedural, not technical: **verify the fix end-to-end yourself — speak raw LSP to the server and see the diagnostic — before telling anyone to try again.**
 
-**Findings we documented instead of fixing** (the honest ledger, each captured in a fixture): `@let` cannot shadow a declared prop (needs per-let block nesting); `@include` chains check one hop deep; `@include` mismatch diagnostics have no natural source anchor; named-disk components (`@!uikit.input`) are unchecked.
+**Findings documented instead of fixed** (the honest ledger, each captured in a fixture): `@let` cannot shadow a declared prop (needs per-let block nesting); `@include` chains check one hop deep; `@include` mismatch diagnostics have no natural source anchor; named-disk components (`@!uikit.input`) are unchecked.
 
 ## Part 6: Imported types — the last piece
 
@@ -222,7 +222,7 @@ The original itch, revisited: it needed no changes to Edge itself, no fork, no r
 
 The pattern generalizes shamelessly. Any template language whose expressions are close enough to a real language can get this treatment: declare the boundary once, compile constructs to honest control flow, copy expressions verbatim with offset maps, and let the host language's type checker do what it already does better than anything you would build.
 
-That is the part I keep coming back to. We did not build a type checker. We built a *translator*, and borrowed the best type checker in the industry.
+That is the part I keep coming back to. I did not build a type checker. I built a *translator*, and borrowed the best type checker in the industry.
 
 ---
 
