@@ -31,8 +31,8 @@ templates/components/widget.edge:1:1 - error edge-check: template requires a @ty
 
 The same rule appears in the editor as a line-1 diagnostic.
 
-:::note
-Discovery walks to the nearest `package.json`, so monorepo packages get independent policies. No config anywhere means the feature is entirely off.
-:::
+<Panel title="Monorepo-friendly">
+  Discovery walks to the nearest `package.json`, so monorepo packages get independent policies. No config anywhere means the feature is entirely off.
+</Panel>
 
 Components are the natural first target: they are called from many places, so a declared interface pays the most rent.

@@ -1,0 +1,55 @@
+---
+title: Introduction
+description: Type safety and editor tooling for EdgeJS templates.
+---
+
+**edge-language-tools** brings type safety and editor tooling to [EdgeJS](https://edgejs.dev) — red squiggles in your editor, a CI checker, and typed `edge.render()` calls. Works with bare `edge.js`; no AdonisJS required.
+
+Declare a template's interface once, in a comment today's Edge already ignores:
+
+```edge
+{{--
+@types {
+  user: import('#models/user').User
+  items: string[]
+}
+--}}
+
+<h1>{{ user.name }}</h1>
+@each(item in items)
+  <li>{{ item }}</li>
+@end
+```
+
+Everything below the block is inferred by TypeScript: `@let` locals, `@each` item types, narrowing in `@if`. A typo like `user.nmae` gets a diagnostic on the exact characters — in the editor and in CI.
+
+<Panel title="Gradual by design">
+  Templates without a `@types` block stay unchecked. Adoption is template-by-template and can never break rendering — the block is tooling-only metadata, invisible to the Edge runtime.
+</Panel>
+
+## What you get
+
+<CardGroup cols={2}>
+  <Card title="Editor squiggles" href="/editors" icon="text-cursor-input">
+    Diagnostics, hover types, prop completions, and template-path completions in VS Code, Cursor, and Zed — local or SSH remote.
+  </Card>
+  <Card title="edge-check CLI" href="/getting-started" icon="terminal">
+    Caret-underlined diagnostics, machine-readable JSON output, and exit codes for CI.
+  </Card>
+  <Card title="Typed render calls" href="/getting-started" icon="shield-check">
+    A generated `templates.d.ts` makes `edge.render('profile', props)` a compile-time-checked call.
+  </Card>
+  <Card title="Cross-file checking" href="/types-blocks" icon="network">
+    `@component` props, `@include` state compatibility, and supercharged shorthand tags.
+  </Card>
+  <Card title="The @types block" href="/types-blocks" icon="braces">
+    Inline object types or any TS type expression — including imports from your app's models.
+  </Card>
+  <Card title="Strict mode" href="/strict-mode" icon="lock">
+    Opt-in `requireTypes` globs so chosen folders must declare their types.
+  </Card>
+</CardGroup>
+
+## How it works, in one sentence
+
+Each template compiles to a virtual TypeScript module — expressions copied verbatim with exact offset mappings, constructs emitted as real control flow — so TypeScript does the checking and [Volar.js](https://volarjs.dev) serves it to editors. Read [How it works](/how-it-works) for the details.
