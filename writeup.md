@@ -102,16 +102,20 @@ type __Types = {
   items: string[]
 }
 declare const state: __Types
+
 ;(async () => {
-const { user, items } = state
-;( user.name );                       // mapped 1:1 to the mustache
-let total = items.length * 2          // @let → real let
-;( total );
-for (const item of (items)) {         // @each → real for..of
-;( item );
-}
-})();
+  const { user, items } = state
+
+  ;( user.name )                  // mapped 1:1 back to the mustache
+  let total = items.length * 2    // @let becomes a real let
+  ;( total )
+  for (const item of items) {     // @each becomes a real for..of
+    ;( item )
+  }
+})()
 ```
+
+(Indentation added for reading — the real output is flush-left, since only the mapped expression bytes matter. The `;( ... )` wrappers turn any expression into a valid statement without touching the expression text itself.)
 
 TypeScript checks this file; every diagnostic inside a mapped segment is translated back to exact template coordinates. The three rules that make it robust:
 
