@@ -79,52 +79,53 @@ The `check` CLI, `codegen` CLI, and language server all call the same `generateV
 
 ## Packages
 
-<Tabs>
-  <Tab title="core">
-    Turns one `.edge` source string into a `VirtualFile` (generated TS code, verbatim segments, parsed `@types` block) and, given that, a list of `TemplateDiagnostic`s mapped back to template offsets. Everything else in the repo is built on these two operations.
+### core
 
-    **Public API** (`packages/core/src/index.ts`): `generateVirtualTs(source, filename, opts?)`, `checkTemplate(source, filename, opts?)`, `findEdgeFiles(dir)`, `loadCheckConfig` / `isTypesRequired` (strict-mode config).
+Turns one `.edge` source string into a `VirtualFile` (generated TS code, verbatim segments, parsed `@types` block) and, given that, a list of `TemplateDiagnostic`s mapped back to template offsets. Everything else in the repo is built on these two operations.
 
-    **Depends on:** `edge-lexer` (tokenizing, position-precise — same lexer Edge's own runtime uses, so the checker never disagrees with it about syntax), `edge-parser` (declared but only `edge-lexer` is imported directly in `src/`), `typescript` (both for parsing tag-argument expressions via `ts.createSourceFile` and for the `checker.ts` in-memory `Program`).
+**Public API** (`packages/core/src/index.ts`): `generateVirtualTs(source, filename, opts?)`, `checkTemplate(source, filename, opts?)`, `findEdgeFiles(dir)`, `loadCheckConfig` / `isTypesRequired` (strict-mode config).
 
-    **Size:** ~490 lines in `generator.ts`, the rest (`checker.ts`, `types-block.ts`, `used-idents.ts`, `tokenize.ts`, `config.ts`, `globals.ts`, `offsets.ts`, `walk.ts`) 15–100 lines each.
+**Depends on:** `edge-lexer` (tokenizing, position-precise — same lexer Edge's own runtime uses, so the checker never disagrees with it about syntax), `edge-parser` (declared but only `edge-lexer` is imported directly in `src/`), `typescript` (both for parsing tag-argument expressions via `ts.createSourceFile` and for the `checker.ts` in-memory `Program`).
 
-    **Design decision:** every user expression is copied into the generated TS **byte-for-byte** as a "segment" (`generator.ts:101` `emitVerbatim`), never rewritten or re-serialized from a parsed AST. This is what makes offset mapping exact instead of approximate — a round-trip property test (`fixtures.test.ts`) asserts `source.slice(seg.sourceOffset, ...) === code.slice(seg.generatedOffset, ...)` for every segment in every fixture. Anything the generator can't map to a real source range — glue code, cross-file `@include` mismatches — is deliberately left **unmapped** (`start: null`) rather than guessed at.
-  </Tab>
-  <Tab title="check">
-    `edge-check`: recursively walks a directory for `.edge` files, runs each through `checkTemplate`, and prints diagnostics as colored text or `--format json`. Also enforces `edge.check.requireTypes` (strict mode) — flags templates that lack a `@types` block where the nearest `package.json` demands one.
+**Size:** ~490 lines in `generator.ts`, the rest (`checker.ts`, `types-block.ts`, `used-idents.ts`, `tokenize.ts`, `config.ts`, `globals.ts`, `offsets.ts`, `walk.ts`) 15–100 lines each.
 
-    **Public API:** one bin, `edge-check [dir] [--format text|json]`.
+**Design decision:** every user expression is copied into the generated TS **byte-for-byte** as a "segment" (`generator.ts:101` `emitVerbatim`), never rewritten or re-serialized from a parsed AST. This is what makes offset mapping exact instead of approximate — a round-trip property test (`fixtures.test.ts`) asserts `source.slice(seg.sourceOffset, ...) === code.slice(seg.generatedOffset, ...)` for every segment in every fixture. Anything the generator can't map to a real source range — glue code, cross-file `@include` mismatches — is deliberately left **unmapped** (`start: null`) rather than guessed at.
 
-    **Depends on:** `@edge-language-tools/core` only.
+### check
 
-    **Size:** `cli.ts` ~145 lines, `format.ts` (excerpt rendering, ANSI color) alongside it.
+`edge-check`: recursively walks a directory for `.edge` files, runs each through `checkTemplate`, and prints diagnostics as colored text or `--format json`. Also enforces `edge.check.requireTypes` (strict mode) — flags templates that lack a `@types` block where the nearest `package.json` demands one.
 
-    **Design decision:** each template is checked in **complete isolation** — `checker.ts` builds a fresh `ts.Program` with a single root file per call. There's no shared incremental project across files; correctness and simplicity (one clean in-memory compiler host per template) were chosen over the performance of a shared build, since `edge-check` is a batch/CI tool, not an interactive one.
-  </Tab>
-  <Tab title="codegen">
-    `edge-codegen`: walks a directory for `.edge` files with a `@types` block and emits a single `templates.d.ts` mapping each template path to its declared prop type, plus a `TypedEdge` wrapper type.
+**Public API:** one bin, `edge-check [dir] [--format text|json]`.
 
-    **Public API:** bin `edge-codegen [dir] [--out path] [--watch]`; also exports `generateTemplatesDts(dir)` directly.
+**Depends on:** `@edge-language-tools/core` only.
 
-    **Depends on:** `@edge-language-tools/core` (`findEdgeFiles`, `generateVirtualTs` — only for the parsed `typesBlock.raw`, not the full checking path). `edge.js` is a dev dependency only, used by generated code's type reference, not imported at runtime.
+**Size:** `cli.ts` ~145 lines, `format.ts` (excerpt rendering, ANSI color) alongside it.
 
-    **Size:** `generate.ts` ~60 lines, `cli.ts` ~35 lines.
+**Design decision:** each template is checked in **complete isolation** — `checker.ts` builds a fresh `ts.Program` with a single root file per call. There's no shared incremental project across files; correctness and simplicity (one clean in-memory compiler host per template) were chosen over the performance of a shared build, since `edge-check` is a batch/CI tool, not an interactive one.
 
-    **Design decision:** the output is a standalone `TypedEdge` wrapper type (`Omit<Edge, 'render' | 'renderSync'> & { ... }`), not a `declare module 'edge.js'` augmentation. TypeScript interface merging can only **add** overloads to an existing declaration, never narrow or replace one — so augmenting `Edge` directly would leave `edge.js`'s own loose `render(path: string, state?: Record<string, any>)` overload reachable, and a call with the wrong props for a *known* template would silently match that loose signature instead of erroring. `Omit` removes the loose members outright before adding back a typed overload (known templates) and a fallback (unknown templates, `any` props).
-  </Tab>
-  <Tab title="language-server">
-    A Volar.js language server: registers an `edge` language plugin that turns each open `.edge` document into an embedded TypeScript virtual file (via core's `generateVirtualTs`), then delegates hover/completion/diagnostics/navigation to Volar's TypeScript service against that embedded file. Adds two Edge-specific plugins: `requireTypesDiagnostics` (strict-mode enforcement, live in the editor) and `templatePathCompletion` (autocomplete for `@include`/`@component` string arguments).
+### codegen
 
-    **Public API:** bin `edge-language-server` (stdio LSP); `edgeLanguagePlugin` export for embedding elsewhere.
+`edge-codegen`: walks a directory for `.edge` files with a `@types` block and emits a single `templates.d.ts` mapping each template path to its declared prop type, plus a `TypedEdge` wrapper type.
 
-    **Depends on:** `@edge-language-tools/core`, `@volar/language-core`, `@volar/language-server`, `@volar/language-service`, `@volar/typescript`, `volar-service-typescript`, `vscode-uri`.
+**Public API:** bin `edge-codegen [dir] [--out path] [--watch]`; also exports `generateTemplatesDts(dir)` directly.
 
-    **Size:** `index.ts` (~30 lines, wires the connection), `languagePlugin.ts` (~100 lines, the `LanguagePlugin`/`VirtualCode` implementation), `requireTypesDiagnostics.ts` and `templatePathCompletion.ts` (~45–105 lines each).
+**Depends on:** `@edge-language-tools/core` (`findEdgeFiles`, `generateVirtualTs` — only for the parsed `typesBlock.raw`, not the full checking path). `edge.js` is a dev dependency only, used by generated code's type reference, not imported at runtime.
 
-    **Design decision:** all templates in a workspace share **one** tsserver project (Volar's `createTypeScriptProject`), not one program per file the way `check`'s CLI does. That's necessary for editor responsiveness and cross-file navigation, but it's also why the virtual TS wraps every template in `export {}` (`generator.ts:41-44`) — without it, every template's virtual file would be a script sharing one global scope, so two templates each declaring `const user` would collide.
-  </Tab>
-</Tabs>
+**Size:** `generate.ts` ~60 lines, `cli.ts` ~35 lines.
+
+**Design decision:** the output is a standalone `TypedEdge` wrapper type (`Omit<Edge, 'render' | 'renderSync'> & { ... }`), not a `declare module 'edge.js'` augmentation. TypeScript interface merging can only **add** overloads to an existing declaration, never narrow or replace one — so augmenting `Edge` directly would leave `edge.js`'s own loose `render(path: string, state?: Record<string, any>)` overload reachable, and a call with the wrong props for a *known* template would silently match that loose signature instead of erroring. `Omit` removes the loose members outright before adding back a typed overload (known templates) and a fallback (unknown templates, `any` props).
+
+### language-server
+
+A Volar.js language server: registers an `edge` language plugin that turns each open `.edge` document into an embedded TypeScript virtual file (via core's `generateVirtualTs`), then delegates hover/completion/diagnostics/navigation to Volar's TypeScript service against that embedded file. Adds two Edge-specific plugins: `requireTypesDiagnostics` (strict-mode enforcement, live in the editor) and `templatePathCompletion` (autocomplete for `@include`/`@component` string arguments).
+
+**Public API:** bin `edge-language-server` (stdio LSP); `edgeLanguagePlugin` export for embedding elsewhere.
+
+**Depends on:** `@edge-language-tools/core`, `@volar/language-core`, `@volar/language-server`, `@volar/language-service`, `@volar/typescript`, `volar-service-typescript`, `vscode-uri`.
+
+**Size:** `index.ts` (~30 lines, wires the connection), `languagePlugin.ts` (~100 lines, the `LanguagePlugin`/`VirtualCode` implementation), `requireTypesDiagnostics.ts` and `templatePathCompletion.ts` (~45–105 lines each).
+
+**Design decision:** all templates in a workspace share **one** tsserver project (Volar's `createTypeScriptProject`), not one program per file the way `check`'s CLI does. That's necessary for editor responsiveness and cross-file navigation, but it's also why the virtual TS wraps every template in `export {}` (`generator.ts:41-44`) — without it, every template's virtual file would be a script sharing one global scope, so two templates each declaring `const user` would collide.
 
 <CardGroup cols={2}>
   <Card title="vscode extension" icon="app-window">
