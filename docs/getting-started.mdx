@@ -7,6 +7,18 @@ description: Install the tooling and get your first squiggle.
   Node.js 22.18+ (everything runs on plain node — no Bun required), `edge.js` 6.x templates, and TypeScript in the project. Examples use `bun`/`bunx`; `npm`/`npx` and `pnpm` work identically.
 </Panel>
 
+<Panel title="Not on npm yet">
+  This is a fresh proof of concept — packages aren't published yet. For now, run it from a clone:
+
+  ```sh
+  git clone https://github.com/eduwass/edge-language-tools
+  cd edge-language-tools && bun install
+  bun packages/check/src/cli.ts /path/to/your/templates
+  ```
+
+  Or point your own project at the clone with `"@edge-language-tools/check": "file:../edge-language-tools/packages/check"`. npm publishing is coming; the install commands below show the intended shape.
+</Panel>
+
 ## Check templates from the terminal
 
 <Steps>
