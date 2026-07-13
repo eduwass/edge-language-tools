@@ -27,7 +27,11 @@ download/install like the Vue/Astro Zed extensions do. Instead, in order:
    which Zed's `Worktree::which` includes `node_modules/.bin` in. This is the
    common case: run `bun install` (or `npm i`) in a project that depends on
    `@edge-language-tools/language-server`, and it just works.
-3. Otherwise: a clear error naming both fixes above, not a bare "not found".
+3. Otherwise: falls back unconditionally to the conventional
+   `<worktree>/node_modules/.bin/edge-language-server` path with no existence
+   probe (Zed excludes `node_modules` from the worktree index, so it can't be
+   checked ahead of time) — if that's also absent, Zed's own spawn failure is
+   what surfaces, not a purpose-built error message.
 
 ## Building
 
