@@ -127,14 +127,13 @@ A Volar.js language server: registers an `edge` language plugin that turns each 
 
 **Design decision:** all templates in a workspace share **one** tsserver project (Volar's `createTypeScriptProject`), not one program per file the way `check`'s CLI does. That's necessary for editor responsiveness and cross-file navigation, but it's also why the virtual TS wraps every template in `export {}` (`generator.ts:41-44`) — without it, every template's virtual file would be a script sharing one global scope, so two templates each declaring `const user` would collide.
 
-<CardGroup cols={2}>
-  <Card title="vscode extension" icon="app-window">
-    Thin LSP client (`packages/vscode/src/extension.ts`, ~35 lines). Spawns the language server as a child process over IPC, wires `@volar/vscode`'s auto-insertion and Labs info, nothing template-specific lives here.
-  </Card>
-  <Card title="zed extension" icon="app-window">
-    Rust `zed_extension_api` shim (`packages/zed/src/edge.rs`). Resolves the `edge-language-server` binary from worktree `PATH` / `node_modules/.bin` — deliberately **no npm auto-install**, since the server ships from this unpublished monorepo rather than a registry package. Points the LSP at the worktree's own `node_modules/typescript/lib` as the tsdk.
-  </Card>
-</CardGroup>
+### vscode extension
+
+Thin LSP client (`packages/vscode/src/extension.ts`, ~35 lines). Spawns the language server as a child process over IPC, wires `@volar/vscode`'s auto-insertion and Labs info, nothing template-specific lives here.
+
+### zed extension
+
+Rust `zed_extension_api` shim (`packages/zed/src/edge.rs`). Resolves the `edge-language-server` binary from worktree `PATH` / `node_modules/.bin` — deliberately **no npm auto-install**, since the server ships from this unpublished monorepo rather than a registry package. Points the LSP at the worktree's own `node_modules/typescript/lib` as the tsdk.
 
 ## Dependency table
 
