@@ -30,26 +30,26 @@ Everything below the block is inferred by TypeScript: `@let` locals, `@each` ite
 ## What you get
 
 <CardGroup cols={2}>
-  <Card title="Editor squiggles" href="/editors" icon="text-cursor-input">
+  <Card title="Editor squiggles" href="/guide/editors" icon="text-cursor-input">
     Diagnostics, hover types, prop completions, and template-path completions in VS Code, Cursor, and Zed — local or SSH remote.
   </Card>
-  <Card title="edge-check CLI" href="/getting-started" icon="terminal">
+  <Card title="edge-check CLI" href="/guide/getting-started" icon="terminal">
     Caret-underlined diagnostics, machine-readable JSON output, and exit codes for CI.
   </Card>
-  <Card title="Typed render calls" href="/getting-started" icon="shield-check">
+  <Card title="Typed render calls" href="/guide/getting-started" icon="shield-check">
     A generated `templates.d.ts` makes `edge.render('profile', props)` a compile-time-checked call.
   </Card>
-  <Card title="Cross-file checking" href="/types-blocks" icon="network">
+  <Card title="Cross-file checking" href="/guide/types-blocks" icon="network">
     `@component` props, `@include` state compatibility, and supercharged shorthand tags.
   </Card>
-  <Card title="The @types block" href="/types-blocks" icon="braces">
+  <Card title="The @types block" href="/guide/types-blocks" icon="braces">
     Inline object types or any TS type expression — including imports from your app's models.
   </Card>
-  <Card title="Strict mode" href="/strict-mode" icon="lock">
+  <Card title="Strict mode" href="/guide/strict-mode" icon="lock">
     Opt-in `requireTypes` globs so chosen folders must declare their types.
   </Card>
 </CardGroup>
 
 ## How it works, in one sentence
 
-Each template compiles to a virtual TypeScript module — expressions copied verbatim with exact offset mappings, constructs emitted as real control flow — so TypeScript does the checking and [Volar.js](https://volarjs.dev) serves it to editors. Read [How it works](/how-it-works) for the details.
+Each template compiles to a virtual TypeScript module — expressions copied verbatim with exact offset mappings, constructs emitted as real control flow — so TypeScript does the checking and [Volar.js](https://volarjs.dev) serves it to editors. Read [How it works](/internals/how-it-works) for the details.

@@ -1,5 +1,6 @@
 import { defineMeta } from 'blume'
 
 export default defineMeta({
-  pages: ['index', 'guide', 'internals', 'story'],
+  title: 'Under the hood',
+  pages: ['how-it-works'],
 })
