@@ -23,16 +23,21 @@ description: Install the tooling and get your first squiggle.
   node packages/check/src/cli.ts /path/to/your/templates   # plain node works too
   ```
 
-  — or link the packages into your own project:
+  — or link the packages into your own project. In the clone:
 
   ```sh
-  # in the clone                        # in your project
-  cd packages/check && bun link        bun link @edge-language-tools/check
-  cd packages/codegen && bun link      bun link @edge-language-tools/codegen
-
-  # npm equivalents
-  cd packages/check && npm link        npm link @edge-language-tools/check
+  cd packages/check && bun link
+  cd ../codegen && bun link
   ```
+
+  Then in your project:
+
+  ```sh
+  bun link @edge-language-tools/check
+  bun link @edge-language-tools/codegen
+  ```
+
+  (`npm link` works the same way in both places.)
 
   npm publishing is coming; the install commands below show the intended shape.
 </Panel>
