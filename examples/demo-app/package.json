@@ -8,6 +8,11 @@
     "typecheck": "tsc -p tsconfig.json",
     "dev": "bun run src/server.ts"
   },
+  "edge": {
+    "check": {
+      "requireTypes": ["templates/components/**"]
+    }
+  },
   "dependencies": {
     "edge.js": "^6.5.1"
   },

@@ -198,9 +198,28 @@ export interface Props {
 
 One wrinkle: with an imported type, prop names are not statically knowable, so the generator cannot destructure declared names. Instead it destructures the identifiers the template *actually uses* — mirroring Edge's own runtime resolution rule (not a local, not a global → state property) — mapping each name to its first usage. `{{ missing }}` against an imported type errors exactly on `missing`; a bad import path errors on the path string. And because the type expression is real TS resolved through the consuming app's tsconfig, `@types import('#models/user').User` gives templates live Lucid model types — arguably *better* than AdonisJS v7's Inertia typing, which can only see the serialized shape, while Edge templates receive the living instance.
 
-## Part 8: Where it landed
+## Part 8: The adoption ratchet
 
-One day, ~20 commits, 175 tests, five packages:
+Gradual adoption is the right starting posture, but every gradual system eventually wants a ratchet — a way to say "from here on, coverage only goes up." That became an opt-in strict mode, configured where the ecosystem expects first-party config to live:
+
+```jsonc
+// package.json
+{
+  "edge": {
+    "check": {
+      "requireTypes": ["templates/components/**"],
+      "exclude": ["templates/legacy/**"],
+      "severity": "warn"
+    }
+  }
+}
+```
+
+Templates matching `requireTypes` (minus `exclude`) must carry a `@types` block — enforced identically by `edge-check` (CI exit codes; `warn` reports without failing) and the language server (a diagnostic on line 1). Discovery walks to the nearest `package.json`, so monorepo packages get independent policies for free. No config, no change: the default stays fully gradual. Components are the natural first target — they are the templates called from everywhere, where a declared interface pays the most rent.
+
+## Part 9: Where it landed
+
+One day, ~25 commits, 185 tests, five packages:
 
 - **`@edge-language-tools/core`** — Edge → virtual TS generation + in-memory checking (~40 fixture scenarios as the living spec)
 - **`edge-check`** — CLI with caret-underlined diagnostics, `--format json`, CI exit codes

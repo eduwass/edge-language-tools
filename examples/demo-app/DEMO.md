@@ -132,13 +132,41 @@ all clean (4 checked, 1 unchecked, 5 total)
 Adoption is template-by-template; an unchecked template can never break a
 build.
 
+## Act 6 — strict mode: make types required where it matters
+
+Gradual is the default, but this app opts components into required types via
+`package.json`:
+
+```json
+"edge": {
+  "check": {
+    "requireTypes": ["templates/components/**"]
+  }
+}
+```
+
+Pages and partials can still adopt at their own pace, but a component with no
+`@types` block is now an error. Add an untyped component and run the check:
+
+```sh
+$ printf '<div>untyped widget</div>\n' > templates/components/untyped-widget.edge
+$ bun run check
+templates/components/untyped-widget.edge:1:1 - error edge-check: template requires a @types block (edge.check.requireTypes)
+
+1 error across 4 checked templates (2 unchecked, 6 total)
+error: script "check" exited with code 1
+```
+
+The same rule surfaces in the editor as a diagnostic on line 1. Use
+`"severity": "warn"` while migrating (reported, but exit code stays 0), and
+`"exclude"` globs for permanent carve-outs like `templates/legacy/**`.
+
 ## Gotchas hit while building this demo
 
-- A prop literally named `name` collides with the ambient DOM `lib`'s global
-  `declare var name: string` (`window.name`) under TypeScript's default
-  `lib` resolution, producing `Cannot redeclare block-scoped variable 'name'`.
-  Named the prop `displayName` instead. Worth documenting as a known trap for
-  templates with `user: { name }`-shaped props.
+- A prop literally named `name` used to collide with the ambient DOM `lib`'s
+  global `declare var name: string` (`window.name`). Fixed since: virtual
+  files are emitted as modules (`export {}`), so props shadow ambient globals
+  cleanly — `user: { name }`-shaped props are fine now.
 - `@include`'s inline second argument (`@include('foo', { bar: 1 })`) is not
   type-checked against the object literal — the checker always validates the
   *caller's own* `state` against the included template's `@types`, mirroring
