@@ -5,3 +5,4 @@ node_modules/
 packages/codegen/tests/fixture-app/edge-templates.d.ts
 *.tsbuildinfo
 *.vsix
+.zed/
