@@ -1,0 +1,38 @@
+---
+title: Strict mode
+description: Make @types required where it matters.
+---
+
+Gradual adoption is the default: no `@types` block means no checking, no noise. Strict mode is the opt-in ratchet — declare that certain folders must be typed.
+
+Config lives in `package.json` under `edge.check`:
+
+```json
+{
+  "edge": {
+    "check": {
+      "requireTypes": ["templates/components/**"],
+      "exclude": ["templates/legacy/**"],
+      "severity": "warn"
+    }
+  }
+}
+```
+
+- **`requireTypes`** — globs (relative to this `package.json`) whose templates must carry a `@types` block
+- **`exclude`** — carve-outs; wins over `requireTypes`
+- **`severity`** — `"error"` (default; fails `edge-check`) or `"warn"` (reported, exit code stays 0 — useful mid-migration)
+
+A matching template without a block produces:
+
+```
+templates/components/widget.edge:1:1 - error edge-check: template requires a @types block (edge.check.requireTypes)
+```
+
+The same rule appears in the editor as a line-1 diagnostic.
+
+:::note
+Discovery walks to the nearest `package.json`, so monorepo packages get independent policies. No config anywhere means the feature is entirely off.
+:::
+
+Components are the natural first target: they are called from many places, so a declared interface pays the most rent.

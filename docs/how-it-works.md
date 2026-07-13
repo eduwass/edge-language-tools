@@ -1,0 +1,46 @@
+---
+title: How it works
+description: Virtual TypeScript files with exact offset mappings.
+---
+
+The core generates, per template, a TypeScript module that means the same thing as the template. Every user expression is copied **verbatim** with its byte offsets recorded; template constructs become real control flow so TypeScript does all inference.
+
+```ts
+export {}
+// ambient declarations for Edge globals...
+
+type __Types = {
+  user: import('#models/user').User
+  items: string[]
+}
+declare const state: __Types
+
+;(async () => {
+  const { user, items } = state
+
+  ;( user.name )                  // mapped 1:1 back to the mustache
+  let total = items.length * 2    // @let becomes a real let
+  for (const item of items) {     // @each becomes a real for..of
+    ;( item )
+  }
+})()
+```
+
+TypeScript checks this file; diagnostics inside mapped segments are translated back to exact template coordinates. The editor side is [Volar.js](https://volarjs.dev) — the same machinery behind Vue, Astro, MDX, and Glint — so hover, completions, and diagnostics come from the mappings for free.
+
+Three rules keep it robust:
+
+1. **Expressions are never rewritten.** A mapped segment's generated text is byte-equal to its source (enforced by a round-trip property test).
+2. **Constructs become honest control flow.** `@if` → `if` (narrowing), `@each` → `for..of` (inference), `@each`/`@else` → sibling block, component slot bodies → nested blocks in the caller's scope.
+3. **Glue code is unmapped and must be error-free.** Diagnostics arising in generated scaffolding are dropped.
+
+Parsing reuses Edge's own `edge-lexer`/`edge-parser` (position-precise), so the checker never disagrees with the runtime about syntax.
+
+For the full story — prior art across Rails, Twig, Blade, Ember, and Svelte, the design decisions, and the bugs — read the [project writeup](https://github.com/eduwass/edge-language-tools/blob/main/writeup.md).
+
+## Known limits
+
+- `@let` cannot shadow a declared prop (tracked)
+- `@include` chains check one hop deep
+- `@include` mismatch diagnostics aren't anchored to a source position
+- Named-disk components (`@!uikit.input`) are unchecked

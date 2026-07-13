@@ -1,0 +1,53 @@
+---
+title: The @types block
+description: Declaring a template's interface.
+---
+
+A `@types` block is the template's function signature. Two forms:
+
+## Inline object type
+
+```edge
+{{--
+@types {
+  user: { name: string, email: string }
+  posts: { title: string, body: string }[]
+}
+--}}
+```
+
+## Any type expression
+
+The body accepts any TypeScript type expression, so shared shapes live in real `.ts` files:
+
+```edge
+{{-- @types import('./shared/layout.types.ts').Props --}}
+```
+
+```ts
+// shared/layout.types.ts
+export interface Props {
+  user: { name: string; avatarUrl: string }
+  nav: { label: string; href: string }[]
+}
+```
+
+Imports resolve through your project's `tsconfig.json`, so path aliases work — including framework models:
+
+```edge
+{{-- @types { user: import('#models/user').User } --}}
+```
+
+## What's inferred (never declared)
+
+- `@let(total = items.length * 2)` — `total: number`
+- `@each(item in items)` — `item` from the array's element type
+- Narrowing inside `@if(user.subscription)` blocks
+- Edge globals (`truncate`, `html.escape`, case helpers, ...) are pre-typed
+
+## Cross-file checking
+
+- `@component('components/card', { title })` — the props object is checked against the component's own `@types`; typos error at the caller
+- Supercharged shorthands (`@formInput(...)`, `@modal(...)`) resolve through Edge's filename-to-tag rules and get the same checking
+- `@include('partials/nav')` — the caller's state must satisfy the partial's declared types
+- Dynamic names (`@include(someVar)`) degrade gracefully to unchecked
