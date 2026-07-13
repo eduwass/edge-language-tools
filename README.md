@@ -101,3 +101,6 @@ bun install
 bun test            # fixture corpus: template in → virtual TS + diagnostics out
 bun run precommit   # lint + typecheck + tests
 ```
+
+The test runner is `bun:test`, so developing this repo itself uses Bun.
+Consuming the packages does not — see Runtime compatibility above.

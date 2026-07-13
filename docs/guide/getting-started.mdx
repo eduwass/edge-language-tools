@@ -8,7 +8,7 @@ description: Install the tooling and get your first squiggle.
 </Panel>
 
 <Panel title="Not on npm yet">
-  This is a fresh proof of concept — packages aren't published yet, so everything installs from a clone. The steps below are the working flow today; once the packages are on npm, step 1 becomes a normal `bun add -d @edge-language-tools/check`.
+  This is a fresh proof of concept — packages aren't published yet, so everything installs from a clone. The steps below are the working flow today; once the packages are on npm, step 1 becomes a normal `npm install -D @edge-language-tools/check` (or the bun/pnpm/yarn equivalent).
 </Panel>
 
 ## Check templates from the terminal
@@ -81,7 +81,7 @@ description: Install the tooling and get your first squiggle.
     ```
     </CodeGroup>
 
-    No project of your own yet? Skip linking — you can run the checker directly from the clone with `bun packages/check/src/cli.ts /path/to/templates`, or the same with `node`.
+    No project of your own yet? Skip linking — you can run the checker directly from the clone with `node packages/check/src/cli.ts /path/to/templates` (or the same with `bun`).
   </Step>
   <Step title="Declare a template's types">
     ```edge
@@ -124,9 +124,20 @@ description: Install the tooling and get your first squiggle.
 
 Generate a registry of every template's declared props:
 
-```sh
+<CodeGroup>
+```sh npm
+npx edge-codegen templates/ --out edge-templates.d.ts
+```
+```sh pnpm
+pnpm exec edge-codegen templates/ --out edge-templates.d.ts
+```
+```sh yarn
+yarn edge-codegen templates/ --out edge-templates.d.ts
+```
+```sh bun
 bunx edge-codegen templates/ --out edge-templates.d.ts
 ```
+</CodeGroup>
 
 Then cast once at setup:
 

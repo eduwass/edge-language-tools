@@ -9,11 +9,18 @@ One Volar-based language server powers every editor. Your project needs `@edge-l
   <Tab title="VS Code / Cursor">
     Build and install the extension from `packages/vscode`:
 
-    ```sh
+    <CodeGroup>
+    ```sh npm
+    cd packages/vscode
+    npm run build
+    npx @vscode/vsce package --no-dependencies -o edge-language-tools.vsix
+    ```
+    ```sh bun
     cd packages/vscode
     bun run build
     bunx @vscode/vsce package --no-dependencies -o edge-language-tools.vsix
     ```
+    </CodeGroup>
 
     Then Extensions panel → Install from VSIX. Cursor loads VS Code extensions unchanged. The official AdonisJS Edge extension can stay installed — it provides highlighting; this provides the semantics.
   </Tab>
