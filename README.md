@@ -2,6 +2,7 @@
 
 Type safety and editor tooling for [EdgeJS](https://edgejs.dev) templates.
 Works with bare `edge.js` — no AdonisJS required (an Adonis preset comes later).
+Docs: https://eduwass.github.io/edge-language-tools/
 
 Declare a template's interface once, in a comment:
 

@@ -5,32 +5,37 @@ description: Declaring a template's interface.
 
 A `@types` block is the template's function signature. Two forms:
 
-## Inline object type
+<Tabs>
+  <Tab title="Inline object type">
+    ```edge
+    {{--
+    @types {
+      user: { name: string, email: string }
+      posts: { title: string, body: string }[]
+    }
+    --}}
+    ```
 
-```edge
-{{--
-@types {
-  user: { name: string, email: string }
-  posts: { title: string, body: string }[]
-}
---}}
-```
+    Best for one-off templates: the shape is right there where you read it.
+  </Tab>
+  <Tab title="Imported type expression">
+    The body accepts any TypeScript type expression, so shared shapes live in real `.ts` files:
 
-## Any type expression
+    <CodeGroup>
+    ```edge dashboard.edge
+    {{-- @types import('./shared/layout.types.ts').Props --}}
+    ```
+    ```ts shared/layout.types.ts
+    export interface Props {
+      user: { name: string; avatarUrl: string }
+      nav: { label: string; href: string }[]
+    }
+    ```
+    </CodeGroup>
 
-The body accepts any TypeScript type expression, so shared shapes live in real `.ts` files:
-
-```edge
-{{-- @types import('./shared/layout.types.ts').Props --}}
-```
-
-```ts
-// shared/layout.types.ts
-export interface Props {
-  user: { name: string; avatarUrl: string }
-  nav: { label: string; href: string }[]
-}
-```
+    Best once several templates share a shape — one interface, many templates.
+  </Tab>
+</Tabs>
 
 Imports resolve through your project's `tsconfig.json`, so path aliases work — including framework models:
 

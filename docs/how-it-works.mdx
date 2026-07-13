@@ -5,7 +5,22 @@ description: Virtual TypeScript files with exact offset mappings.
 
 The core generates, per template, a TypeScript module that means the same thing as the template. Every user expression is copied **verbatim** with its byte offsets recorded; template constructs become real control flow so TypeScript does all inference.
 
-```ts
+<CodeGroup>
+```edge profile.edge
+{{--
+@types {
+  user: import('#models/user').User
+  items: string[]
+}
+--}}
+
+<h1>{{ user.name }}</h1>
+@let(total = items.length * 2)
+@each(item in items)
+  <li>{{ item }}</li>
+@end
+```
+```ts virtual.ts
 export {}
 // ambient declarations for Edge globals...
 
@@ -25,6 +40,7 @@ declare const state: __Types
   }
 })()
 ```
+</CodeGroup>
 
 TypeScript checks this file; diagnostics inside mapped segments are translated back to exact template coordinates. The editor side is [Volar.js](https://volarjs.dev) — the same machinery behind Vue, Astro, MDX, and Glint — so hover, completions, and diagnostics come from the mappings for free.
 

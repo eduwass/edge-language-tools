@@ -15,28 +15,73 @@ description: Install the tooling and get your first squiggle.
 
 <Steps>
   <Step title="Clone and install">
-    ```sh
+    <CodeGroup>
+    ```sh npm
+    git clone https://github.com/eduwass/edge-language-tools
+    cd edge-language-tools
+    npm install
+    ```
+    ```sh pnpm
+    git clone https://github.com/eduwass/edge-language-tools
+    cd edge-language-tools
+    pnpm install
+    ```
+    ```sh yarn
+    git clone https://github.com/eduwass/edge-language-tools
+    cd edge-language-tools
+    yarn install
+    ```
+    ```sh bun
     git clone https://github.com/eduwass/edge-language-tools
     cd edge-language-tools
     bun install
     ```
+    </CodeGroup>
   </Step>
   <Step title="Link the CLIs into your project">
     Register the packages from the clone:
 
-    ```sh
+    <CodeGroup>
+    ```sh npm
+    cd packages/check && npm link
+    cd ../codegen && npm link
+    ```
+    ```sh pnpm
+    cd packages/check && pnpm link --global
+    cd ../codegen && pnpm link --global
+    ```
+    ```sh yarn
+    cd packages/check && yarn link
+    cd ../codegen && yarn link
+    ```
+    ```sh bun
     cd packages/check && bun link
     cd ../codegen && bun link
     ```
+    </CodeGroup>
 
     Then, in your own project:
 
-    ```sh
+    <CodeGroup>
+    ```sh npm
+    npm link @edge-language-tools/check
+    npm link @edge-language-tools/codegen
+    ```
+    ```sh pnpm
+    pnpm link --global @edge-language-tools/check
+    pnpm link --global @edge-language-tools/codegen
+    ```
+    ```sh yarn
+    yarn link @edge-language-tools/check
+    yarn link @edge-language-tools/codegen
+    ```
+    ```sh bun
     bun link @edge-language-tools/check
     bun link @edge-language-tools/codegen
     ```
+    </CodeGroup>
 
-    `npm link` works the same way in both places. (No project of your own yet? Skip linking — you can run the checker directly from the clone: `bun packages/check/src/cli.ts /path/to/templates`, or the same with `node`.)
+    No project of your own yet? Skip linking — you can run the checker directly from the clone with `bun packages/check/src/cli.ts /path/to/templates`, or the same with `node`.
   </Step>
   <Step title="Declare a template's types">
     ```edge
@@ -49,11 +94,22 @@ description: Install the tooling and get your first squiggle.
     ```
   </Step>
   <Step title="Run the check">
-    ```sh
+    <CodeGroup>
+    ```sh npm
+    npx edge-check templates/
+    ```
+    ```sh pnpm
+    pnpm exec edge-check templates/
+    ```
+    ```sh yarn
+    yarn edge-check templates/
+    ```
+    ```sh bun
     bunx edge-check templates/
     ```
+    </CodeGroup>
 
-    ```
+    ```text
     templates/profile.edge:9:56 - error TS2551: Property 'displayNaem' does not
     exist on type '{ displayName: string; bio: string; }'. Did you mean 'displayName'?
 
