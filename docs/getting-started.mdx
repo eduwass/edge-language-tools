@@ -8,15 +8,33 @@ description: Install the tooling and get your first squiggle.
 </Panel>
 
 <Panel title="Not on npm yet">
-  This is a fresh proof of concept — packages aren't published yet. For now, run it from a clone:
+  This is a fresh proof of concept — packages aren't published yet. For now, install from a clone:
 
   ```sh
   git clone https://github.com/eduwass/edge-language-tools
-  cd edge-language-tools && bun install
-  bun packages/check/src/cli.ts /path/to/your/templates
+  cd edge-language-tools
+  bun install        # or: npm install
   ```
 
-  Or point your own project at the clone with `"@edge-language-tools/check": "file:../edge-language-tools/packages/check"`. npm publishing is coming; the install commands below show the intended shape.
+  Then either run the CLI straight from the clone —
+
+  ```sh
+  bun packages/check/src/cli.ts /path/to/your/templates
+  node packages/check/src/cli.ts /path/to/your/templates   # plain node works too
+  ```
+
+  — or link the packages into your own project:
+
+  ```sh
+  # in the clone                        # in your project
+  cd packages/check && bun link        bun link @edge-language-tools/check
+  cd packages/codegen && bun link      bun link @edge-language-tools/codegen
+
+  # npm equivalents
+  cd packages/check && npm link        npm link @edge-language-tools/check
+  ```
+
+  npm publishing is coming; the install commands below show the intended shape.
 </Panel>
 
 ## Check templates from the terminal
