@@ -1,7 +1,13 @@
 #!/usr/bin/env bun
 import { existsSync, readFileSync } from 'node:fs'
-import { join, relative } from 'node:path'
-import { checkTemplate, findEdgeFiles, generateVirtualTs } from '@edge-language-tools/core'
+import { dirname, join, relative, resolve as resolvePath } from 'node:path'
+import {
+  checkTemplate,
+  findEdgeFiles,
+  generateVirtualTs,
+  isTypesRequired,
+  loadCheckConfig,
+} from '@edge-language-tools/core'
 import type { ResolveTemplate } from '@edge-language-tools/core'
 import { excerpt, offsetToLineCol, withColor } from './format.ts'
 
@@ -20,9 +26,12 @@ interface JsonDiagnostic {
   col: number
   start: number
   length: number
-  code: number
+  code: number | string
   message: string
+  severity?: 'error' | 'warn'
 }
+
+const REQUIRE_TYPES_MESSAGE = 'template requires a @types block (edge.check.requireTypes)'
 
 function main(): number {
   const args = process.argv.slice(2)
@@ -34,6 +43,7 @@ function main(): number {
   const c = withColor(process.stdout.isTTY === true)
 
   let errorCount = 0
+  let warningCount = 0
   let uncheckedCount = 0
   const jsonDiagnostics: JsonDiagnostic[] = []
 
@@ -43,6 +53,29 @@ function main(): number {
     const vf = generateVirtualTs(source, rel, { resolveTemplate: resolve })
     if (!vf.typesBlock) {
       uncheckedCount++
+
+      const config = loadCheckConfig(dirname(resolvePath(file)))
+      if (config && isTypesRequired(config, resolvePath(file))) {
+        if (config.severity === 'error') errorCount++
+        else warningCount++
+
+        if (format === 'json') {
+          jsonDiagnostics.push({
+            file: rel,
+            line: 1,
+            col: 1,
+            start: 0,
+            length: 0,
+            code: 'requireTypes',
+            message: REQUIRE_TYPES_MESSAGE,
+            severity: config.severity,
+          })
+        } else {
+          const label = config.severity === 'error' ? c.red('error') : c.dim('warning')
+          console.log(`${c.bold(`${rel}:1:1`)} - ${label} edge-check: ${REQUIRE_TYPES_MESSAGE}`)
+          console.log()
+        }
+      }
       continue
     }
 
@@ -89,16 +122,17 @@ function main(): number {
     console.log(JSON.stringify(jsonDiagnostics))
   } else {
     const checkedCount = files.length - uncheckedCount
+    const warningSuffix = warningCount > 0 ? `, ${warningCount} warning${warningCount === 1 ? '' : 's'}` : ''
     if (errorCount === 0) {
       console.log(
         c.bold(
-          `all clean (${checkedCount} checked, ${uncheckedCount} unchecked, ${files.length} total)`,
+          `all clean (${checkedCount} checked, ${uncheckedCount} unchecked, ${files.length} total)${warningSuffix}`,
         ),
       )
     } else {
       console.log(
         c.bold(
-          `${errorCount} error${errorCount === 1 ? '' : 's'} across ${checkedCount} checked template${checkedCount === 1 ? '' : 's'} (${uncheckedCount} unchecked, ${files.length} total)`,
+          `${errorCount} error${errorCount === 1 ? '' : 's'} across ${checkedCount} checked template${checkedCount === 1 ? '' : 's'} (${uncheckedCount} unchecked, ${files.length} total)${warningSuffix}`,
         ),
       )
     }

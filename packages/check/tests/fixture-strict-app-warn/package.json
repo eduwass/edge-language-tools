@@ -1,0 +1,9 @@
+{
+  "name": "fixture-strict-app-warn",
+  "edge": {
+    "check": {
+      "requireTypes": ["templates/components/**"],
+      "severity": "warn"
+    }
+  }
+}

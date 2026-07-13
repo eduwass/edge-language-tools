@@ -1,0 +1,9 @@
+{
+  "name": "fixture-strict-app",
+  "edge": {
+    "check": {
+      "requireTypes": ["templates/components/**"],
+      "severity": "error"
+    }
+  }
+}

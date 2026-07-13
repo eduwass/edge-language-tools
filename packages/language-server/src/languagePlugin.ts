@@ -68,7 +68,7 @@ export class EdgeVirtualCode implements VirtualCode {
         sourceOffsets: [0],
         generatedOffsets: [0],
         lengths: [source.length],
-        data: { completion: true, format: false, navigation: false, semantic: false, structure: true, verification: false },
+        data: { completion: true, format: false, navigation: false, semantic: false, structure: true, verification: true },
       },
     ]
 

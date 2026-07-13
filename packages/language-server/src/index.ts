@@ -1,6 +1,7 @@
 import { createConnection, createServer, createTypeScriptProject, loadTsdkByPath } from '@volar/language-server/node.js'
 import { create as createTypeScriptServices } from 'volar-service-typescript'
 import { edgeLanguagePlugin } from './languagePlugin.ts'
+import { createRequireTypesDiagnosticsPlugin } from './requireTypesDiagnostics.ts'
 import { createTemplatePathCompletionPlugin } from './templatePathCompletion.ts'
 
 const connection = createConnection()
@@ -15,7 +16,11 @@ connection.onInitialize((params) => {
     createTypeScriptProject(tsdk.typescript, tsdk.diagnosticMessages, () => ({
       languagePlugins: [edgeLanguagePlugin],
     })),
-    [...createTypeScriptServices(tsdk.typescript), createTemplatePathCompletionPlugin()],
+    [
+      ...createTypeScriptServices(tsdk.typescript),
+      createTemplatePathCompletionPlugin(),
+      createRequireTypesDiagnosticsPlugin(),
+    ],
   )
 })
 

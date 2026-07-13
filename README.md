@@ -48,6 +48,28 @@ call sites.
   hadn't been made, so the tag's content is dropped from checking rather than
   mis-scoped or crashing the generator.
 
+## Strict mode
+
+By default, templates without a `@types` block stay unchecked. To require one
+for a subset of templates, declare `edge.check` in the nearest `package.json`:
+
+```jsonc
+{
+  "edge": {
+    "check": {
+      "requireTypes": ["templates/components/**"],
+      "exclude": ["templates/legacy/**"],
+      "severity": "warn" // "error" (default) | "warn"
+    }
+  }
+}
+```
+
+Globs (`**`, `*`, literal paths) resolve relative to the `package.json` that
+declares them; `exclude` wins over `requireTypes`. A template missing a
+`@types` block under `requireTypes` gets flagged by `edge-check` and the
+editor; `severity: "error"` fails the CLI (exit 1), `"warn"` doesn't.
+
 ## Demo
 
 `examples/demo-app` is a small bare edge.js app wired to `edge-check`,

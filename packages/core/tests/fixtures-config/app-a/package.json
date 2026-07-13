@@ -1,0 +1,10 @@
+{
+  "name": "fixture-app-a",
+  "edge": {
+    "check": {
+      "requireTypes": ["templates/components/**"],
+      "exclude": ["templates/legacy/**"],
+      "severity": "warn"
+    }
+  }
+}
