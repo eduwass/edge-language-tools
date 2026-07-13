@@ -4,51 +4,39 @@ description: Install the tooling and get your first squiggle.
 ---
 
 <Panel title="Requirements">
-  Node.js 22.18+ (everything runs on plain node — no Bun required), `edge.js` 6.x templates, and TypeScript in the project. Examples use `bun`/`bunx`; `npm`/`npx` and `pnpm` work identically.
+  Node.js 22.18+ (everything runs on plain node — no Bun required), `edge.js` 6.x templates, and TypeScript in the project. Examples use `bun`; `npm` and `pnpm` work identically.
 </Panel>
 
 <Panel title="Not on npm yet">
-  This is a fresh proof of concept — packages aren't published yet. For now, install from a clone:
-
-  ```sh
-  git clone https://github.com/eduwass/edge-language-tools
-  cd edge-language-tools
-  bun install        # or: npm install
-  ```
-
-  Then either run the CLI straight from the clone —
-
-  ```sh
-  bun packages/check/src/cli.ts /path/to/your/templates
-  node packages/check/src/cli.ts /path/to/your/templates   # plain node works too
-  ```
-
-  — or link the packages into your own project. In the clone:
-
-  ```sh
-  cd packages/check && bun link
-  cd ../codegen && bun link
-  ```
-
-  Then in your project:
-
-  ```sh
-  bun link @edge-language-tools/check
-  bun link @edge-language-tools/codegen
-  ```
-
-  (`npm link` works the same way in both places.)
-
-  npm publishing is coming; the install commands below show the intended shape.
+  This is a fresh proof of concept — packages aren't published yet, so everything installs from a clone. The steps below are the working flow today; once the packages are on npm, step 1 becomes a normal `bun add -d @edge-language-tools/check`.
 </Panel>
 
 ## Check templates from the terminal
 
 <Steps>
-  <Step title="Install the checker">
+  <Step title="Clone and install">
     ```sh
-    bun add -d @edge-language-tools/check
+    git clone https://github.com/eduwass/edge-language-tools
+    cd edge-language-tools
+    bun install
     ```
+  </Step>
+  <Step title="Link the CLIs into your project">
+    Register the packages from the clone:
+
+    ```sh
+    cd packages/check && bun link
+    cd ../codegen && bun link
+    ```
+
+    Then, in your own project:
+
+    ```sh
+    bun link @edge-language-tools/check
+    bun link @edge-language-tools/codegen
+    ```
+
+    `npm link` works the same way in both places. (No project of your own yet? Skip linking — you can run the checker directly from the clone: `bun packages/check/src/cli.ts /path/to/templates`, or the same with `node`.)
   </Step>
   <Step title="Declare a template's types">
     ```edge
