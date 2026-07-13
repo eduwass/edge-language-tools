@@ -1,0 +1,171 @@
+---
+title: Architecture
+description: The package map — how a .edge template becomes a type-checked virtual TypeScript module, and who consumes it.
+---
+
+Six packages, one core. `@edge-language-tools/core` turns a `.edge` template into a virtual TypeScript module with exact offset mappings; everything else is a consumer that feeds that module to `tsc` and reports the result in a different shape — a CLI, a generated `.d.ts`, or a language server driving editor extensions.
+
+## Bird's-eye view
+
+<svg viewBox="0 0 760 430" xmlns="http://www.w3.org/2000/svg" width="100%" height="auto" role="img" aria-label="Data flow from .edge source through core to its four consumers">
+  <defs>
+    <marker id="arch-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="currentColor" />
+    </marker>
+  </defs>
+
+  <rect x="10" y="10" width="130" height="46" rx="4" fill="none" stroke="currentColor" stroke-width="1.4" />
+  <text x="75" y="30" text-anchor="middle" fill="currentColor" font-size="12">.edge source</text>
+  <text x="75" y="44" text-anchor="middle" fill="currentColor" font-size="10.5" opacity="0.7">template file</text>
+
+  <line x1="140" y1="33" x2="185" y2="33" stroke="currentColor" stroke-width="1.2" opacity="0.6" marker-end="url(#arch-arrow)" />
+
+  <rect x="190" y="10" width="150" height="46" rx="4" fill="none" stroke="currentColor" stroke-width="1.4" />
+  <text x="265" y="30" text-anchor="middle" fill="currentColor" font-size="12">tokenize()</text>
+  <text x="265" y="44" text-anchor="middle" fill="currentColor" font-size="10.5" opacity="0.7">edge-lexer tokens</text>
+
+  <line x1="340" y1="33" x2="385" y2="33" stroke="currentColor" stroke-width="1.2" opacity="0.6" marker-end="url(#arch-arrow)" />
+
+  <rect x="390" y="10" width="170" height="46" rx="4" fill="none" stroke="currentColor" stroke-width="1.4" />
+  <text x="475" y="30" text-anchor="middle" fill="currentColor" font-size="12">@types extraction</text>
+  <text x="475" y="44" text-anchor="middle" fill="currentColor" font-size="10.5" opacity="0.7">types-block.ts</text>
+
+  <line x1="475" y1="56" x2="475" y2="90" stroke="currentColor" stroke-width="1.2" opacity="0.6" marker-end="url(#arch-arrow)" />
+
+  <rect x="240" y="95" width="370" height="80" rx="4" fill="none" stroke="currentColor" stroke-width="1.4" />
+  <text x="425" y="118" text-anchor="middle" fill="currentColor" font-size="12">generator.ts — virtual TS generation</text>
+  <text x="425" y="135" text-anchor="middle" fill="currentColor" font-size="10.5" opacity="0.7">verbatim expression segments, @each/@if → real control flow,</text>
+  <text x="425" y="149" text-anchor="middle" fill="currentColor" font-size="10.5" opacity="0.7">@component/@include cross-file resolution</text>
+  <text x="425" y="163" text-anchor="middle" fill="currentColor" font-size="10.5" opacity="0.7">→ VirtualFile (code, segments, typesBlock)</text>
+
+  <line x1="425" y1="175" x2="425" y2="210" stroke="currentColor" stroke-width="1.2" opacity="0.6" marker-end="url(#arch-arrow)" />
+
+  <rect x="270" y="215" width="310" height="46" rx="4" fill="none" stroke="currentColor" stroke-width="1.4" />
+  <text x="425" y="235" text-anchor="middle" fill="currentColor" font-size="12">in-memory tsc program</text>
+  <text x="425" y="249" text-anchor="middle" fill="currentColor" font-size="10.5" opacity="0.7">checker.ts — one isolated Program per template</text>
+
+  <line x1="425" y1="261" x2="425" y2="285" stroke="currentColor" stroke-width="1.2" opacity="0.6" marker-end="url(#arch-arrow)" />
+  <text x="425" y="278" text-anchor="middle" fill="currentColor" font-size="10.5" opacity="0.55">diagnostics mapped back through segments</text>
+
+  <rect x="10" y="300" width="160" height="56" rx="4" fill="none" stroke="currentColor" stroke-width="1.2" opacity="0.55" />
+  <text x="90" y="322" text-anchor="middle" fill="currentColor" font-size="12">check CLI</text>
+  <text x="90" y="337" text-anchor="middle" fill="currentColor" font-size="10.5" opacity="0.7">edge-check, text/json</text>
+
+  <rect x="205" y="300" width="160" height="56" rx="4" fill="none" stroke="currentColor" stroke-width="1.2" opacity="0.55" />
+  <text x="285" y="322" text-anchor="middle" fill="currentColor" font-size="12">codegen CLI</text>
+  <text x="285" y="337" text-anchor="middle" fill="currentColor" font-size="10.5" opacity="0.7">edge-codegen, templates.d.ts</text>
+
+  <rect x="400" y="300" width="170" height="56" rx="4" fill="none" stroke="currentColor" stroke-width="1.2" opacity="0.55" />
+  <text x="485" y="322" text-anchor="middle" fill="currentColor" font-size="12">language server</text>
+  <text x="485" y="337" text-anchor="middle" fill="currentColor" font-size="10.5" opacity="0.7">Volar LanguagePlugin</text>
+
+  <line x1="90" y1="300" x2="425" y2="261" stroke="currentColor" stroke-width="1.2" opacity="0.6" marker-end="url(#arch-arrow)" />
+  <line x1="285" y1="300" x2="425" y2="261" stroke="currentColor" stroke-width="1.2" opacity="0.6" marker-end="url(#arch-arrow)" />
+  <line x1="485" y1="300" x2="425" y2="261" stroke="currentColor" stroke-width="1.2" opacity="0.6" marker-end="url(#arch-arrow)" />
+
+  <line x1="485" y1="356" x2="485" y2="380" stroke="currentColor" stroke-width="1.2" opacity="0.6" marker-end="url(#arch-arrow)" />
+
+  <rect x="400" y="385" width="80" height="40" rx="4" fill="none" stroke="currentColor" stroke-width="1.2" opacity="0.55" />
+  <text x="440" y="409" text-anchor="middle" fill="currentColor" font-size="11">vscode</text>
+
+  <rect x="490" y="385" width="80" height="40" rx="4" fill="none" stroke="currentColor" stroke-width="1.2" opacity="0.55" />
+  <text x="530" y="409" text-anchor="middle" fill="currentColor" font-size="11">zed</text>
+
+  <line x1="465" y1="380" x2="440" y2="385" stroke="currentColor" stroke-width="1.2" opacity="0.6" marker-end="url(#arch-arrow)" />
+  <line x1="500" y1="380" x2="525" y2="385" stroke="currentColor" stroke-width="1.2" opacity="0.6" marker-end="url(#arch-arrow)" />
+</svg>
+
+The `check` CLI, `codegen` CLI, and language server all call the same `generateVirtualTs` / `checkTemplate` exports from core — none of them re-implement template parsing or diagnostic mapping. The language server additionally feeds a Volar `LanguagePlugin`, which the VS Code and Zed extensions consume as an ordinary LSP client.
+
+## Packages
+
+<Tabs>
+  <Tab title="core">
+    Turns one `.edge` source string into a `VirtualFile` (generated TS code, verbatim segments, parsed `@types` block) and, given that, a list of `TemplateDiagnostic`s mapped back to template offsets. Everything else in the repo is built on these two operations.
+
+    **Public API** (`packages/core/src/index.ts`): `generateVirtualTs(source, filename, opts?)`, `checkTemplate(source, filename, opts?)`, `findEdgeFiles(dir)`, `loadCheckConfig` / `isTypesRequired` (strict-mode config).
+
+    **Depends on:** `edge-lexer` (tokenizing, position-precise — same lexer Edge's own runtime uses, so the checker never disagrees with it about syntax), `edge-parser` (declared but only `edge-lexer` is imported directly in `src/`), `typescript` (both for parsing tag-argument expressions via `ts.createSourceFile` and for the `checker.ts` in-memory `Program`).
+
+    **Size:** ~490 lines in `generator.ts`, the rest (`checker.ts`, `types-block.ts`, `used-idents.ts`, `tokenize.ts`, `config.ts`, `globals.ts`, `offsets.ts`, `walk.ts`) 15–100 lines each.
+
+    **Design decision:** every user expression is copied into the generated TS **byte-for-byte** as a "segment" (`generator.ts:101` `emitVerbatim`), never rewritten or re-serialized from a parsed AST. This is what makes offset mapping exact instead of approximate — a round-trip property test (`fixtures.test.ts`) asserts `source.slice(seg.sourceOffset, ...) === code.slice(seg.generatedOffset, ...)` for every segment in every fixture. Anything the generator can't map to a real source range — glue code, cross-file `@include` mismatches — is deliberately left **unmapped** (`start: null`) rather than guessed at.
+  </Tab>
+  <Tab title="check">
+    `edge-check`: recursively walks a directory for `.edge` files, runs each through `checkTemplate`, and prints diagnostics as colored text or `--format json`. Also enforces `edge.check.requireTypes` (strict mode) — flags templates that lack a `@types` block where the nearest `package.json` demands one.
+
+    **Public API:** one bin, `edge-check [dir] [--format text|json]`.
+
+    **Depends on:** `@edge-language-tools/core` only.
+
+    **Size:** `cli.ts` ~145 lines, `format.ts` (excerpt rendering, ANSI color) alongside it.
+
+    **Design decision:** each template is checked in **complete isolation** — `checker.ts` builds a fresh `ts.Program` with a single root file per call. There's no shared incremental project across files; correctness and simplicity (one clean in-memory compiler host per template) were chosen over the performance of a shared build, since `edge-check` is a batch/CI tool, not an interactive one.
+  </Tab>
+  <Tab title="codegen">
+    `edge-codegen`: walks a directory for `.edge` files with a `@types` block and emits a single `templates.d.ts` mapping each template path to its declared prop type, plus a `TypedEdge` wrapper type.
+
+    **Public API:** bin `edge-codegen [dir] [--out path] [--watch]`; also exports `generateTemplatesDts(dir)` directly.
+
+    **Depends on:** `@edge-language-tools/core` (`findEdgeFiles`, `generateVirtualTs` — only for the parsed `typesBlock.raw`, not the full checking path). `edge.js` is a dev dependency only, used by generated code's type reference, not imported at runtime.
+
+    **Size:** `generate.ts` ~60 lines, `cli.ts` ~35 lines.
+
+    **Design decision:** the output is a standalone `TypedEdge` wrapper type (`Omit<Edge, 'render' | 'renderSync'> & { ... }`), not a `declare module 'edge.js'` augmentation. TypeScript interface merging can only **add** overloads to an existing declaration, never narrow or replace one — so augmenting `Edge` directly would leave `edge.js`'s own loose `render(path: string, state?: Record<string, any>)` overload reachable, and a call with the wrong props for a *known* template would silently match that loose signature instead of erroring. `Omit` removes the loose members outright before adding back a typed overload (known templates) and a fallback (unknown templates, `any` props).
+  </Tab>
+  <Tab title="language-server">
+    A Volar.js language server: registers an `edge` language plugin that turns each open `.edge` document into an embedded TypeScript virtual file (via core's `generateVirtualTs`), then delegates hover/completion/diagnostics/navigation to Volar's TypeScript service against that embedded file. Adds two Edge-specific plugins: `requireTypesDiagnostics` (strict-mode enforcement, live in the editor) and `templatePathCompletion` (autocomplete for `@include`/`@component` string arguments).
+
+    **Public API:** bin `edge-language-server` (stdio LSP); `edgeLanguagePlugin` export for embedding elsewhere.
+
+    **Depends on:** `@edge-language-tools/core`, `@volar/language-core`, `@volar/language-server`, `@volar/language-service`, `@volar/typescript`, `volar-service-typescript`, `vscode-uri`.
+
+    **Size:** `index.ts` (~30 lines, wires the connection), `languagePlugin.ts` (~100 lines, the `LanguagePlugin`/`VirtualCode` implementation), `requireTypesDiagnostics.ts` and `templatePathCompletion.ts` (~45–105 lines each).
+
+    **Design decision:** all templates in a workspace share **one** tsserver project (Volar's `createTypeScriptProject`), not one program per file the way `check`'s CLI does. That's necessary for editor responsiveness and cross-file navigation, but it's also why the virtual TS wraps every template in `export {}` (`generator.ts:41-44`) — without it, every template's virtual file would be a script sharing one global scope, so two templates each declaring `const user` would collide.
+  </Tab>
+</Tabs>
+
+<CardGroup cols={2}>
+  <Card title="vscode extension" icon="app-window">
+    Thin LSP client (`packages/vscode/src/extension.ts`, ~35 lines). Spawns the language server as a child process over IPC, wires `@volar/vscode`'s auto-insertion and Labs info, nothing template-specific lives here.
+  </Card>
+  <Card title="zed extension" icon="app-window">
+    Rust `zed_extension_api` shim (`packages/zed/src/edge.rs`). Resolves the `edge-language-server` binary from worktree `PATH` / `node_modules/.bin` — deliberately **no npm auto-install**, since the server ships from this unpublished monorepo rather than a registry package. Points the LSP at the worktree's own `node_modules/typescript/lib` as the tsdk.
+  </Card>
+</CardGroup>
+
+## Dependency table
+
+| Package | Depends on |
+|---|---|
+| `core` | `edge-lexer`, `edge-parser`, `typescript` |
+| `check` | `core` |
+| `codegen` | `core` (dev: `edge.js`, for generated-type reference only) |
+| `language-server` | `core`, `@volar/language-core`, `@volar/language-server`, `@volar/language-service`, `@volar/typescript`, `volar-service-typescript`, `vscode-uri` |
+| `vscode` | `language-server` (spawned as a child process), `@volar/vscode` |
+| `zed` | `language-server` (resolved as an external binary; no package dependency) |
+
+## Where to start reading
+
+<Steps>
+  <Step title="generator.ts">
+    `packages/core/src/generator.ts` is the heart of the whole repo — every other package eventually calls into `generateVirtualTs`. Start at `emitTokens`/`emitTag` and follow one construct (`@each` is the simplest) end to end: how it walks the lexer's tokens, calls `emitVerbatim` for the parts that must round-trip, and emits real TS control flow for the parts that don't.
+  </Step>
+  <Step title="the fixture corpus as executable spec">
+    `packages/core/fixtures/` (56 directories, each `input.edge` + `diagnostics.json`) is the closest thing to a spec this repo has — one directory per template construct or edge case (supercharged components, `@each` with index, cross-file `@include` mismatches, shadowing, chained/nested combinations). Reading a handful end to end teaches the generator's contract faster than reading `generator.ts` alone.
+  </Step>
+  <Step title="tests layout">
+    `packages/core/tests/fixtures.test.ts` drives the fixture corpus (virtual-TS snapshot + round-trip + diagnostics-match, per fixture). `multi-template.test.ts` and `config.test.ts` cover cross-file and strict-mode config respectively. Each other package has its own `tests/` alongside its `src/` — `language-server/tests/*.test.ts` for protocol-level checks, `check/tests/cli.test.ts` and `codegen/tests/codegen.test.ts` for CLI subprocess behavior.
+  </Step>
+</Steps>
+
+## Testing architecture
+
+- **Fixture corpus** (`packages/core/fixtures/*/input.edge` + `diagnostics.json`, snapshot-tested via `fixtures.test.ts.snap`) is the primary regression net: one template construct or bug per fixture, asserting both the generated virtual TS (snapshot) and the expected diagnostics (message + source offset, or explicit unmapped).
+- **Round-trip property test** — for every segment in every fixture, asserts the generated text is byte-equal to the corresponding source slice, enforcing the "expressions are never rewritten" rule directly rather than trusting it by inspection.
+- **Multi-template regression test** (`packages/core/tests/multi-template.test.ts`) exercises cross-file resolution (`@component`, `@include`) across more than one template, where single-fixture tests can't reach.
+- **LSP protocol-level tests** (`packages/language-server/tests/*.test.ts`) spin up the real language server via `@volar/test-utils`'s `startLanguageServer` and assert on actual LSP responses (diagnostic ranges, completion items) rather than internal function calls.
+- **CLI subprocess tests** (`packages/check/tests/cli.test.ts`, `packages/codegen/tests/codegen.test.ts`) spawn the CLI binaries as real child processes (`Bun.spawnSync`) against fixture directories and assert on stdout/exit code, catching argv-parsing and process-boundary bugs that unit tests of the underlying functions would miss.
+
+For the byte-level mechanics of virtual TS generation (one worked example, segment mapping, the `export {}` scoping rule), see [How it works](/internals/how-it-works).
