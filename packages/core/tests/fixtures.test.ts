@@ -33,12 +33,12 @@ for (const name of fixtures) {
 
   describe(name, () => {
     test('virtual TS snapshot', () => {
-      const vf = generateVirtualTs(source, `${name}.edge`, { resolveTemplate })
+      const vf = generateVirtualTs(source, join(dir, "input.edge"), { resolveTemplate })
       expect(vf.code).toMatchSnapshot()
     })
 
     test('segments round-trip: generated text equals source text', () => {
-      const vf = generateVirtualTs(source, `${name}.edge`, { resolveTemplate })
+      const vf = generateVirtualTs(source, join(dir, "input.edge"), { resolveTemplate })
       for (const seg of vf.segments) {
         const src = source.slice(seg.sourceOffset, seg.sourceOffset + seg.length)
         const gen = vf.code.slice(seg.generatedOffset, seg.generatedOffset + seg.length)
@@ -47,7 +47,7 @@ for (const name of fixtures) {
     })
 
     test('diagnostics match expectations', () => {
-      const diags = checkTemplate(source, `${name}.edge`, { resolveTemplate })
+      const diags = checkTemplate(source, join(dir, "input.edge"), { resolveTemplate })
       expect(diags.length).toBe(expected.length)
       for (const exp of expected) {
         const match = diags.find((d) => d.message.includes(exp.messageIncludes))

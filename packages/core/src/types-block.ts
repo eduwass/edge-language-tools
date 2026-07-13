@@ -6,23 +6,37 @@ export interface TypesBlock {
   raw: string
   sourceOffset: number
   propertyNames: string[]
+  /** true for a `{ ... }` object-literal body; false for any other type expression (e.g. `import('./x.ts').Props`). */
+  literal: boolean
 }
 
-/** Finds the `{{-- @types { ... } --}} ` comment, if present, and locates its brace body verbatim. */
+/**
+ * Finds the `@types` comment, if present. The body is either an object literal
+ * (`{{-- @types { user: User } --}}`) or any other TS type expression
+ * (`{{-- @types import('./props.ts').Props --}}`) — for the latter, prop names
+ * aren't statically knowable, so `propertyNames` is empty and the generator
+ * destructures the identifiers the template actually uses instead.
+ */
 export function findTypesBlock(tokens: CommentToken[], lines: LineIndex): TypesBlock | null {
   for (const token of tokens) {
     const trimmed = token.value.trimStart()
     if (!trimmed.startsWith('@types')) continue
 
-    const braceStart = token.value.indexOf('{', token.value.indexOf('@types'))
-    if (braceStart === -1) continue
-    const braceEnd = matchBrace(token.value, braceStart)
-    if (braceEnd === -1) continue
-
     const commentStart = lines.toOffset(token.loc.start.line, token.loc.start.col)
-    const raw = token.value.slice(braceStart, braceEnd + 1)
-    const sourceOffset = commentStart + braceStart
-    return { raw, sourceOffset, propertyNames: propertyNames(raw) }
+    const bodyStart = token.value.indexOf('@types') + '@types'.length
+    const exprStart = bodyStart + (token.value.slice(bodyStart).match(/^\s*/)?.[0].length ?? 0)
+    if (exprStart >= token.value.length) continue
+
+    if (token.value[exprStart] === '{') {
+      const braceEnd = matchBrace(token.value, exprStart)
+      if (braceEnd === -1) continue
+      const raw = token.value.slice(exprStart, braceEnd + 1)
+      return { raw, sourceOffset: commentStart + exprStart, propertyNames: propertyNames(raw), literal: true }
+    }
+
+    const raw = token.value.slice(exprStart).trimEnd()
+    if (raw.length === 0) continue
+    return { raw, sourceOffset: commentStart + exprStart, propertyNames: [], literal: false }
   }
   return null
 }

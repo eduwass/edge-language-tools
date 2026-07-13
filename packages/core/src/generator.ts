@@ -4,6 +4,7 @@ import { GLOBALS_TS } from './globals.ts'
 import { LineIndex } from './offsets.ts'
 import { tokenize } from './tokenize.ts'
 import { findTypesBlock } from './types-block.ts'
+import { collectStateIdents } from './used-idents.ts'
 import type { GenerateOptions, Segment, VirtualFile } from './index.ts'
 
 /** Glue for cross-file checks: `declare function __component<T>(props: T): void` etc. */
@@ -59,8 +60,25 @@ export function generateVirtualTs(source: string, filename: string, opts?: Gener
     // the ambient Edge global of the same name instead of colliding with
     // its `declare const` in a TS2451 redeclare error.
     emit(ctx, ';(async () => {\n')
-    if (typesBlock.propertyNames.length > 0) {
-      emit(ctx, `const { ${typesBlock.propertyNames.join(', ')} } = state\n`)
+    if (typesBlock.literal) {
+      if (typesBlock.propertyNames.length > 0) {
+        emit(ctx, `const { ${typesBlock.propertyNames.join(', ')} } = state\n`)
+      }
+    } else {
+      // Imported type expression: prop names aren't statically knowable, so
+      // destructure the identifiers the template actually uses, each mapped
+      // to its first usage — a nonexistent prop then errors where it's used.
+      const used = collectStateIdents(tokens, lines)
+      if (used.size > 0) {
+        emit(ctx, 'const { ')
+        let first = true
+        for (const [name, usageOffset] of used) {
+          if (!first) emit(ctx, ', ')
+          emitVerbatim(ctx, name, usageOffset)
+          first = false
+        }
+        emit(ctx, ' } = state\n')
+      }
     }
     emitTokens(ctx, tokens)
     emit(ctx, '})();\n')

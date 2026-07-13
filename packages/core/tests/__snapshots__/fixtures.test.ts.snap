@@ -1810,6 +1810,123 @@ __component<{
 "
 `;
 
+exports[`types-import-ok virtual TS snapshot 1`] = `
+"export {}
+
+declare const $filename: string
+declare const $context: any
+declare const $slots: Record<string, (...args: any[]) => Promise<string>>
+declare const $caller: { filename: string; line: number; col: number }
+declare const nl2br: (value: string) => string
+declare const inspect: (...args: unknown[]) => string
+declare const truncate: (
+  value: string,
+  chars?: number,
+  options?: { completeWords?: boolean; strict?: boolean; suffix?: string },
+) => string
+declare const excerpt: (
+  value: string,
+  chars?: number,
+  options?: { completeWords?: boolean; strict?: boolean; suffix?: string },
+) => string
+declare const html: {
+  escape: (value: string) => string
+  safe: (value: string) => { toString(): string }
+  classNames: (...values: unknown[]) => string
+  attrs: (values: Record<string, unknown>) => string
+}
+declare const js: {
+  stringify: (value: unknown) => string
+}
+declare const camelCase: (value: string) => string
+declare const snakeCase: (value: string) => string
+declare const dashCase: (value: string) => string
+declare const pascalCase: (value: string) => string
+declare const capitalCase: (value: string) => string
+declare const sentenceCase: (value: string) => string
+declare const dotCase: (value: string) => string
+declare const noCase: (value: string) => string
+declare const titleCase: (value: string) => string
+declare const pluralize: (value: string, count?: number) => string
+declare const sentence: (values: string[]) => string
+declare const prettyMs: (value: number) => string
+declare const toMs: (value: string) => number
+declare const prettyBytes: (value: number) => string
+declare const toBytes: (value: string) => number
+declare const ordinal: (value: number) => string
+
+declare function __component<T>(props: T): void
+declare function __include<T>(state: T): void
+
+type __Types = import('./props.ts').Props
+declare const state: __Types
+;(async () => {
+const { user, items } = state
+;( user.name );
+for (const item of (items)) {
+;( item );
+}
+})();
+"
+`;
+
+exports[`types-import-unknown-var virtual TS snapshot 1`] = `
+"export {}
+
+declare const $filename: string
+declare const $context: any
+declare const $slots: Record<string, (...args: any[]) => Promise<string>>
+declare const $caller: { filename: string; line: number; col: number }
+declare const nl2br: (value: string) => string
+declare const inspect: (...args: unknown[]) => string
+declare const truncate: (
+  value: string,
+  chars?: number,
+  options?: { completeWords?: boolean; strict?: boolean; suffix?: string },
+) => string
+declare const excerpt: (
+  value: string,
+  chars?: number,
+  options?: { completeWords?: boolean; strict?: boolean; suffix?: string },
+) => string
+declare const html: {
+  escape: (value: string) => string
+  safe: (value: string) => { toString(): string }
+  classNames: (...values: unknown[]) => string
+  attrs: (values: Record<string, unknown>) => string
+}
+declare const js: {
+  stringify: (value: unknown) => string
+}
+declare const camelCase: (value: string) => string
+declare const snakeCase: (value: string) => string
+declare const dashCase: (value: string) => string
+declare const pascalCase: (value: string) => string
+declare const capitalCase: (value: string) => string
+declare const sentenceCase: (value: string) => string
+declare const dotCase: (value: string) => string
+declare const noCase: (value: string) => string
+declare const titleCase: (value: string) => string
+declare const pluralize: (value: string, count?: number) => string
+declare const sentence: (values: string[]) => string
+declare const prettyMs: (value: number) => string
+declare const toMs: (value: string) => number
+declare const prettyBytes: (value: number) => string
+declare const toBytes: (value: string) => number
+declare const ordinal: (value: number) => string
+
+declare function __component<T>(props: T): void
+declare function __include<T>(state: T): void
+
+type __Types = import('./props.ts').Props
+declare const state: __Types
+;(async () => {
+const { missing } = state
+;( missing );
+})();
+"
+`;
+
 exports[`escaped-in-slot virtual TS snapshot 1`] = `
 "export {}
 
@@ -2436,6 +2553,61 @@ __component<{
 "
 `;
 
+exports[`types-import-bad-path virtual TS snapshot 1`] = `
+"export {}
+
+declare const $filename: string
+declare const $context: any
+declare const $slots: Record<string, (...args: any[]) => Promise<string>>
+declare const $caller: { filename: string; line: number; col: number }
+declare const nl2br: (value: string) => string
+declare const inspect: (...args: unknown[]) => string
+declare const truncate: (
+  value: string,
+  chars?: number,
+  options?: { completeWords?: boolean; strict?: boolean; suffix?: string },
+) => string
+declare const excerpt: (
+  value: string,
+  chars?: number,
+  options?: { completeWords?: boolean; strict?: boolean; suffix?: string },
+) => string
+declare const html: {
+  escape: (value: string) => string
+  safe: (value: string) => { toString(): string }
+  classNames: (...values: unknown[]) => string
+  attrs: (values: Record<string, unknown>) => string
+}
+declare const js: {
+  stringify: (value: unknown) => string
+}
+declare const camelCase: (value: string) => string
+declare const snakeCase: (value: string) => string
+declare const dashCase: (value: string) => string
+declare const pascalCase: (value: string) => string
+declare const capitalCase: (value: string) => string
+declare const sentenceCase: (value: string) => string
+declare const dotCase: (value: string) => string
+declare const noCase: (value: string) => string
+declare const titleCase: (value: string) => string
+declare const pluralize: (value: string, count?: number) => string
+declare const sentence: (values: string[]) => string
+declare const prettyMs: (value: number) => string
+declare const toMs: (value: string) => number
+declare const prettyBytes: (value: number) => string
+declare const toBytes: (value: string) => number
+declare const ordinal: (value: number) => string
+
+declare function __component<T>(props: T): void
+declare function __include<T>(state: T): void
+
+type __Types = import('./nope.ts').Props
+declare const state: __Types
+;(async () => {
+})();
+"
+`;
+
 exports[`chain-await-in-component-props-ok virtual TS snapshot 1`] = `
 "export {}
 
@@ -2551,6 +2723,63 @@ type __Types = {
 declare const state: __Types
 ;(async () => {
 const { user } = state
+})();
+"
+`;
+
+exports[`types-import-typo virtual TS snapshot 1`] = `
+"export {}
+
+declare const $filename: string
+declare const $context: any
+declare const $slots: Record<string, (...args: any[]) => Promise<string>>
+declare const $caller: { filename: string; line: number; col: number }
+declare const nl2br: (value: string) => string
+declare const inspect: (...args: unknown[]) => string
+declare const truncate: (
+  value: string,
+  chars?: number,
+  options?: { completeWords?: boolean; strict?: boolean; suffix?: string },
+) => string
+declare const excerpt: (
+  value: string,
+  chars?: number,
+  options?: { completeWords?: boolean; strict?: boolean; suffix?: string },
+) => string
+declare const html: {
+  escape: (value: string) => string
+  safe: (value: string) => { toString(): string }
+  classNames: (...values: unknown[]) => string
+  attrs: (values: Record<string, unknown>) => string
+}
+declare const js: {
+  stringify: (value: unknown) => string
+}
+declare const camelCase: (value: string) => string
+declare const snakeCase: (value: string) => string
+declare const dashCase: (value: string) => string
+declare const pascalCase: (value: string) => string
+declare const capitalCase: (value: string) => string
+declare const sentenceCase: (value: string) => string
+declare const dotCase: (value: string) => string
+declare const noCase: (value: string) => string
+declare const titleCase: (value: string) => string
+declare const pluralize: (value: string, count?: number) => string
+declare const sentence: (values: string[]) => string
+declare const prettyMs: (value: number) => string
+declare const toMs: (value: string) => number
+declare const prettyBytes: (value: number) => string
+declare const toBytes: (value: string) => number
+declare const ordinal: (value: number) => string
+
+declare function __component<T>(props: T): void
+declare function __include<T>(state: T): void
+
+type __Types = import('./props.ts').Props
+declare const state: __Types
+;(async () => {
+const { user } = state
+;( user.nmae );
 })();
 "
 `;
