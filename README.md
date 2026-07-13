@@ -81,7 +81,17 @@ or a call site breaks.
 
 - `@edge-language-tools/core` — Edge → virtual TS generation + checking
 - `@edge-language-tools/check` — `edge-check` CLI: recursively checks `.edge` files, human or `--format json` output
-- (planned) LSP server, VS Code extension, Zed extension
+- `@edge-language-tools/codegen` — `edge-codegen`: generated `templates.d.ts` + `TypedEdge` for checked `edge.render()` calls
+- `@edge-language-tools/language-server` — Volar-based LSP (diagnostics, completions, hover)
+- `packages/vscode` — VS Code / Cursor extension
+- `packages/zed` — Zed extension (works with SSH remote projects)
+
+## Runtime compatibility
+
+Nothing here requires Bun at runtime. The language server and both CLIs run on
+plain Node.js 22.18+ (native TypeScript support); with npm that's
+`npm install` + `npx edge-check templates/`. Bun is used as the development
+harness for this repo (tests, scripts) — consumers and editors never touch it.
 
 ## Development
 

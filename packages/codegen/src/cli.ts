@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 import { watch } from 'node:fs'
 import { writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
