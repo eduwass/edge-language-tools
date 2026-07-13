@@ -82,7 +82,7 @@ The whole system is one pipeline with that block as the single source of truth:
 
 ```mermaid
 flowchart TD
-  T["`.edge` templates + `@types` blocks<br/>(the one thing you write)"]:::accent --> CORE["@edge-language-tools/core<br/>virtual TS + exact offset mappings"]
+  T[".edge templates + @types blocks<br/>(the one thing you write)"] --> CORE["@edge-language-tools/core<br/>virtual TS + exact offset mappings"]
   CORE --> LSP["Volar language server<br/>squiggles in Zed / VS Code / Cursor"]
   CORE --> CHECK["edge-check CLI<br/>caret diagnostics, --format json, CI exit codes"]
   CORE --> GEN["edge-codegen<br/>generated templates.d.ts"]
