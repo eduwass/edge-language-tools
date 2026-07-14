@@ -8,6 +8,10 @@ export default defineConfig({
     repo: 'edge-language-tools',
     branch: 'main',
   },
+  // The repo's examples/ dir holds demo APPS, not blume <Component> example
+  // previews - point the convention at a nonexistent dir so blume does not
+  // try to SSR examples/basecoat-edge/islands/* as standalone pages.
+  examples: { source: 'docs-examples' },
   redirects: [
     { from: '/story', to: '/edge-language-tools/other/story', status: 301 },
     { from: '/roadmap', to: '/edge-language-tools/other/roadmap', status: 301 },
