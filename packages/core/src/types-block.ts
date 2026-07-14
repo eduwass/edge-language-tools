@@ -49,13 +49,92 @@ export function findTypesBlock(tokens: CommentToken[], lines: LineIndex): TypesB
 function matchBrace(text: string, openIndex: number): number {
   let depth = 0
   for (let i = openIndex; i < text.length; i++) {
-    if (text[i] === '{') depth++
-    else if (text[i] === '}') {
+    const ch = text[i]
+
+    if (ch === "'" || ch === '"') {
+      i = skipQuotedString(text, i, ch)
+      continue
+    }
+    if (ch === '`') {
+      i = skipTemplateLiteral(text, i)
+      continue
+    }
+    if (ch === '/' && text[i + 1] === '/') {
+      while (i < text.length && text[i] !== '\n') i++
+      continue
+    }
+    if (ch === '/' && text[i + 1] === '*') {
+      i += 2
+      while (i < text.length - 1 && !(text[i] === '*' && text[i + 1] === '/')) i++
+      i++
+      continue
+    }
+
+    if (ch === '{') depth++
+    else if (ch === '}') {
       depth--
       if (depth === 0) return i
     }
   }
   return -1
+}
+
+function skipQuotedString(text: string, start: number, quote: string): number {
+  for (let i = start + 1; i < text.length; i++) {
+    if (text[i] === '\\') {
+      i++
+      continue
+    }
+    if (text[i] === quote) return i
+  }
+  return text.length - 1
+}
+
+function skipTemplateLiteral(text: string, start: number): number {
+  for (let i = start + 1; i < text.length; i++) {
+    if (text[i] === '\\') {
+      i++
+      continue
+    }
+    if (text[i] === '`') return i
+    if (text[i] === '$' && text[i + 1] === '{') {
+      i = skipTemplateExpression(text, i + 2)
+    }
+  }
+  return text.length - 1
+}
+
+function skipTemplateExpression(text: string, start: number): number {
+  let depth = 0
+  for (let i = start; i < text.length; i++) {
+    const ch = text[i]
+
+    if (ch === "'" || ch === '"') {
+      i = skipQuotedString(text, i, ch)
+      continue
+    }
+    if (ch === '`') {
+      i = skipTemplateLiteral(text, i)
+      continue
+    }
+    if (ch === '/' && text[i + 1] === '/') {
+      while (i < text.length && text[i] !== '\n') i++
+      continue
+    }
+    if (ch === '/' && text[i + 1] === '*') {
+      i += 2
+      while (i < text.length - 1 && !(text[i] === '*' && text[i + 1] === '/')) i++
+      i++
+      continue
+    }
+
+    if (ch === '{') depth++
+    else if (ch === '}') {
+      if (depth === 0) return i
+      depth--
+    }
+  }
+  return text.length - 1
 }
 
 export function propertyNames(objectLiteral: string): string[] {

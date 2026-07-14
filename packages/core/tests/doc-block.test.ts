@@ -98,3 +98,18 @@ test('@client is false without the directive', () => {
 `
   expect(templateDocs(source, 'button.edge').client).toBe(false)
 })
+
+test('@types object literal with template-literal index signatures is not truncated', () => {
+  const source = `{{--
+@types {
+  variant?: string
+  [attr: \`data-\${string}\`]: string | number | boolean
+  [attr: \`aria-\${string}\`]: string | boolean
+}
+--}}
+<div></div>
+`
+  const virtual = generateVirtualTs(source, 'button.edge')
+  expect(virtual.typesBlock?.raw).toContain('`data-${string}`')
+  expect(virtual.typesBlock?.raw).toContain('`aria-${string}`')
+})

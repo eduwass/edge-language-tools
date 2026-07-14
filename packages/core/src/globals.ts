@@ -4,6 +4,16 @@ declare const $filename: string
 declare const $context: any
 declare const $slots: Record<string, (...args: any[]) => Promise<string>>
 declare const $caller: { filename: string; line: number; col: number }
+interface EdgeProps {
+  get(key: string): unknown
+  has(key: string): boolean
+  only(keys: string[]): EdgeProps
+  except(keys: string[]): EdgeProps
+  merge(extra: Record<string, unknown>): EdgeProps
+  mergeIf(condition: unknown, extra: Record<string, unknown>): EdgeProps
+  toAttrs(exceptKeys?: string[]): string
+}
+declare const $props: EdgeProps
 declare const nl2br: (value: string) => string
 declare const inspect: (...args: unknown[]) => string
 declare const truncate: (

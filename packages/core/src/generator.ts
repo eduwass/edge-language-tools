@@ -7,6 +7,13 @@ import { findTypesBlock } from './types-block.ts'
 import { collectStateIdents } from './used-idents.ts'
 import type { GenerateOptions, Segment, VirtualFile } from './index.ts'
 
+const RESERVED_WORDS = new Set([
+  'break', 'case', 'catch', 'class', 'const', 'continue', 'debugger', 'default', 'delete',
+  'do', 'else', 'enum', 'export', 'extends', 'false', 'finally', 'for', 'function', 'if',
+  'import', 'in', 'instanceof', 'new', 'null', 'return', 'super', 'switch', 'this', 'throw',
+  'true', 'try', 'typeof', 'var', 'void', 'while', 'with',
+])
+
 /** Glue for cross-file checks: `declare function __component<T>(props: T): void` etc. */
 const CROSS_FILE_TS = `
 declare function __component<T>(props: T): void
@@ -61,8 +68,12 @@ export function generateVirtualTs(source: string, filename: string, opts?: Gener
     // its `declare const` in a TS2451 redeclare error.
     emit(ctx, ';(async () => {\n')
     if (typesBlock.literal) {
-      if (typesBlock.propertyNames.length > 0) {
-        emit(ctx, `const { ${typesBlock.propertyNames.join(', ')} } = state\n`)
+      // Reserved words (a prop named `class`) can't be destructured or referenced
+      // as bare identifiers in template expressions - skip them; templates reach
+      // such props via $props, and callers are still checked against the type.
+      const destructurable = typesBlock.propertyNames.filter((name) => !RESERVED_WORDS.has(name))
+      if (destructurable.length > 0) {
+        emit(ctx, `const { ${destructurable.join(', ')} } = state\n`)
       }
     } else {
       // Imported type expression: prop names aren't statically knowable, so
