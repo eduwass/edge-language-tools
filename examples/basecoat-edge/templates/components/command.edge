@@ -11,6 +11,8 @@
     url?: string
     icon?: string
     keywords?: string
+    // Keyboard hint rendered as a data-shortcut span (display only).
+    shortcut?: string
     disabled?: boolean
     items?: Array<{
       type?: 'item' | 'group' | 'separator'
@@ -18,6 +20,8 @@
       url?: string
       icon?: string
       keywords?: string
+      // Keyboard hint rendered as a data-shortcut span (display only).
+      shortcut?: string
       disabled?: boolean
     }>
     attrs?: Record<string, string>
@@ -71,6 +75,7 @@
                       id="{{ id }}-items-{{ itemIndex + 1 }}-{{ subIndex + 1 }}"
                       href="{{ sub.url }}"
                       role="menuitem"
+                      data-filter="{{ sub.label }}"
                       @if(sub.keywords)
                       data-keywords="{{ sub.keywords }}"
                       @end
@@ -82,11 +87,15 @@
                         @svg(sub.icon)
                       @end
                       <span>{{ sub.label }}</span>
+                      @if(sub.shortcut)
+                      <span data-shortcut>{{ sub.shortcut }}</span>
+                      @end
                     </a>
                   @else
                     <div
                       id="{{ id }}-items-{{ itemIndex + 1 }}-{{ subIndex + 1 }}"
                       role="menuitem"
+                      data-filter="{{ sub.label }}"
                       @if(sub.keywords)
                       data-keywords="{{ sub.keywords }}"
                       @end
@@ -98,6 +107,9 @@
                         @svg(sub.icon)
                       @end
                       <span>{{ sub.label }}</span>
+                      @if(sub.shortcut)
+                      <span data-shortcut>{{ sub.shortcut }}</span>
+                      @end
                     </div>
                   @end
                 @end
@@ -110,6 +122,7 @@
               id="{{ id }}-items-{{ itemIndex + 1 }}"
               href="{{ item.url }}"
               role="menuitem"
+              data-filter="{{ item.label }}"
               @if(item.keywords)
               data-keywords="{{ item.keywords }}"
               @end
@@ -121,11 +134,15 @@
                 @svg(item.icon)
               @end
               <span>{{ item.label }}</span>
+                  @if(item.shortcut)
+                  <span data-shortcut>{{ item.shortcut }}</span>
+                  @end
             </a>
           @else
             <div
               id="{{ id }}-items-{{ itemIndex + 1 }}"
               role="menuitem"
+              data-filter="{{ item.label }}"
               @if(item.keywords)
               data-keywords="{{ item.keywords }}"
               @end
@@ -137,6 +154,9 @@
                 @svg(item.icon)
               @end
               <span>{{ item.label }}</span>
+                  @if(item.shortcut)
+                  <span data-shortcut>{{ item.shortcut }}</span>
+                  @end
             </div>
           @end
         @end
@@ -165,6 +185,7 @@
                     id="{{ id }}-items-{{ itemIndex + 1 }}-{{ subIndex + 1 }}"
                     href="{{ sub.url }}"
                     role="menuitem"
+                    data-filter="{{ sub.label }}"
                     @if(sub.keywords)
                     data-keywords="{{ sub.keywords }}"
                     @end
@@ -176,11 +197,15 @@
                       @svg(sub.icon)
                     @end
                     <span>{{ sub.label }}</span>
+                      @if(sub.shortcut)
+                      <span data-shortcut>{{ sub.shortcut }}</span>
+                      @end
                   </a>
                 @else
                   <div
                     id="{{ id }}-items-{{ itemIndex + 1 }}-{{ subIndex + 1 }}"
                     role="menuitem"
+                    data-filter="{{ sub.label }}"
                     @if(sub.keywords)
                     data-keywords="{{ sub.keywords }}"
                     @end
@@ -192,6 +217,9 @@
                       @svg(sub.icon)
                     @end
                     <span>{{ sub.label }}</span>
+                      @if(sub.shortcut)
+                      <span data-shortcut>{{ sub.shortcut }}</span>
+                      @end
                   </div>
                 @end
               @end
@@ -204,6 +232,7 @@
             id="{{ id }}-items-{{ itemIndex + 1 }}"
             href="{{ item.url }}"
             role="menuitem"
+            data-filter="{{ item.label }}"
             @if(item.keywords)
             data-keywords="{{ item.keywords }}"
             @end
@@ -215,11 +244,15 @@
               @svg(item.icon)
             @end
             <span>{{ item.label }}</span>
+                  @if(item.shortcut)
+                  <span data-shortcut>{{ item.shortcut }}</span>
+                  @end
           </a>
         @else
           <div
             id="{{ id }}-items-{{ itemIndex + 1 }}"
             role="menuitem"
+            data-filter="{{ item.label }}"
             @if(item.keywords)
             data-keywords="{{ item.keywords }}"
             @end
@@ -231,6 +264,9 @@
               @svg(item.icon)
             @end
             <span>{{ item.label }}</span>
+                  @if(item.shortcut)
+                  <span data-shortcut>{{ item.shortcut }}</span>
+                  @end
           </div>
         @end
       @end

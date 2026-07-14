@@ -166,17 +166,32 @@ export const previews: Record<string, PreviewExample[]> = {
   ],
   command: [
     {
+      minHeight: 420,
       source: `@command({
   id: 'preview-command',
   items: [
-    { label: 'Calendar', type: 'item', icon: 'lucide:calendar' },
-    { label: 'Search', type: 'item', icon: 'lucide:search' },
+    {
+      type: 'group',
+      label: 'Suggestions',
+      items: [
+        { label: 'Calendar', icon: 'lucide:calendar', keywords: 'date event schedule' },
+        { label: 'Search Emoji', icon: 'lucide:smile', keywords: 'emoji smile reaction' },
+        { label: 'Calculator', icon: 'lucide:calculator', disabled: true },
+      ],
+    },
     { type: 'separator' },
-    { label: 'Settings', type: 'item', icon: 'lucide:settings' },
+    {
+      type: 'group',
+      label: 'Settings',
+      items: [
+        { label: 'Profile', icon: 'lucide:user', shortcut: '\u2318P' },
+        { label: 'Billing', icon: 'lucide:credit-card', shortcut: '\u2318B' },
+        { label: 'Settings', icon: 'lucide:settings', shortcut: '\u2318S' },
+      ],
+    },
   ],
 })
 @end`,
-      minHeight: 240,
     },
   ],
   dialog: [
