@@ -58,3 +58,7 @@ Imports resolve through your project's `tsconfig.json`, so path aliases work —
 - Supercharged shorthands (`@formInput(...)`, `@modal(...)`) resolve through Edge's filename-to-tag rules and get the same checking
 - `@include('partials/nav')` — the caller's state must satisfy the partial's declared types
 - Dynamic names (`@include(someVar)`) degrade gracefully to unchecked
+
+<Panel title="The block is real TypeScript — tooling included">
+  Everything inside `@types` gets full TS tooling in the editor: autocomplete for type names and `import()` specifiers, and errors anchored inside the block (a bad import path is flagged on the path itself).
+</Panel>
