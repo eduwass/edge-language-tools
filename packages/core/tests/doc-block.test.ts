@@ -40,5 +40,35 @@ test('expression-form @types stops at a following directive line', () => {
 })
 
 test('all fields null without a doc comment', () => {
-  expect(templateDocs('<p>plain</p>\n', 'plain.edge')).toEqual({ name: null, desc: null, types: null })
+  expect(templateDocs('<p>plain</p>\n', 'plain.edge')).toEqual({ name: null, desc: null, types: null, url: null, examples: [] })
+})
+
+test('parses @url and repeated @example directives', () => {
+  const source = `{{--
+@name Button
+@desc A button.
+@url https://basecoatui.com/components/button/
+@types { variant?: 'primary' | 'outline' }
+@example Variants height=200
+  @button({ variant: 'outline' })
+    Outline
+  @end
+@example
+  @button()
+    Default
+  @end
+--}}
+<button>x</button>
+`
+  const docs = templateDocs(source, 'button.edge')
+  expect(docs.url).toBe('https://basecoatui.com/components/button/')
+  expect(docs.types).toBe("{ variant?: 'primary' | 'outline' }")
+  expect(docs.examples.length).toBe(2)
+  expect(docs.examples[0]).toEqual({
+    title: 'Variants',
+    height: 200,
+    raw: "@button({ variant: 'outline' })\n  Outline\n@end",
+  })
+  expect(docs.examples[1]?.title).toBeNull()
+  expect(docs.examples[1]?.raw).toContain('Default')
 })

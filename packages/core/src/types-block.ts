@@ -37,7 +37,7 @@ export function findTypesBlock(tokens: CommentToken[], lines: LineIndex): TypesB
     }
 
     // Expression form: runs to the next directive line, or the comment's end.
-    const next = /\n[ \t]*@(?:name|desc)\b/.exec(token.value.slice(exprStart))
+    const next = /\n[ \t]*@(?:name|desc|example)\b/.exec(token.value.slice(exprStart))
     const exprEnd = next ? exprStart + next.index : token.value.length
     const raw = token.value.slice(exprStart, exprEnd).trimEnd()
     if (raw.length === 0) continue
