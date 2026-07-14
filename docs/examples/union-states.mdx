@@ -1,0 +1,41 @@
+---
+title: Union-typed states
+description: Discriminated unions + @if narrowing make impossible states unrenderable.
+---
+
+Edge's `@if` is emitted as a real TypeScript `if`, so control-flow narrowing works inside templates exactly like it does in application code. Combine that with a discriminated union and the template physically can't read a field that doesn't exist in the current state.
+
+## Declare the states, not the fields
+
+<CodeGroup>
+```edge order_status.edge
+{{--
+@types {
+  order:
+    | { state: 'pending' }
+    | { state: 'shipped', trackingUrl: string, eta: string }
+    | { state: 'failed', reason: string }
+}
+--}}
+@if(order.state === 'shipped')
+  <a href="{{ order.trackingUrl }}">Track your package</a>
+  <p>Arriving {{ order.eta }}</p>
+@elseif(order.state === 'failed')
+  <p class="error">{{ order.reason }}</p>
+@else
+  <p>Preparing your order...</p>
+@end
+```
+</CodeGroup>
+
+Inside the `@if(order.state === 'shipped')` branch, `order` *is* the shipped variant — `trackingUrl` and `eta` autocomplete and type-check. Move `{{ order.trackingUrl }}` outside that branch and it squiggles: `Property 'trackingUrl' does not exist on type '{ state: "pending" }'`.
+
+## What this kills
+
+The classic template bug: rendering `order.trackingUrl` for an order that never shipped, producing `undefined` in the page (or a crash in a formatter). With a discriminated union that's not a code-review catch — it's a red squiggle while typing and a CI failure if it slips through.
+
+It also documents the component honestly: the `@types` block *is* the state machine. A new teammate reads three variants and knows every state the page can be in.
+
+<Panel title="Also works through @each and @let">
+  Narrowing composes with the rest of the inference: `@each(item in order.items)` types `item` from the narrowed variant, and `@let(label = order.state === 'failed' ? order.reason : '')` infers through the conditional — it's all just TypeScript control flow.
+</Panel>

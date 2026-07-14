@@ -1,0 +1,64 @@
+---
+title: Typed i18n keys
+description: Typo a translation key, get a squiggle instead of a blank string in production.
+---
+
+Missing translation keys are the quietest bug class in template land: the page renders, the string is just empty (or the raw key leaks to the user). Type the translator function against a union of real keys and the whole class disappears.
+
+<FileTree>
+- locales/
+  - en.json
+  - es.json
+- i18n.types.ts
+- templates/
+  - checkout.edge
+</FileTree>
+
+<Steps>
+<Step title="Derive the key union from the messages themselves">
+
+<CodeGroup>
+```ts i18n.types.ts
+import type en from './locales/en.json'
+
+// Every key of the English catalog, kept in sync automatically.
+export type MessageKey = keyof typeof en
+
+export type Translator = (key: MessageKey, params?: Record<string, string | number>) => string
+```
+```json locales/en.json
+{
+  "nav.home": "Home",
+  "nav.profile": "Profile",
+  "checkout.confirm": "Confirm purchase",
+  "checkout.total": "Total: {amount}"
+}
+```
+</CodeGroup>
+
+No codegen at all — `keyof typeof` over the imported JSON *is* the manifest. Add a key to `en.json`, it's instantly in the union (`resolveJsonModule` in tsconfig).
+
+</Step>
+<Step title="Templates declare the translator as a prop">
+
+<CodeGroup>
+```edge checkout.edge
+{{--
+@types {
+  t: import('../i18n.types.ts').Translator
+  total: number
+}
+--}}
+<button>{{ t('checkout.confirm') }}</button>
+<p>{{ t('checkout.totale', { amount: total }) }}</p>
+```
+</CodeGroup>
+
+`'checkout.totale'` squiggles — *not assignable to type 'MessageKey'* — and inside the quotes the editor lists every real key, namespaced and searchable. Delete a key from `en.json` and every template still using it errors in CI.
+
+</Step>
+</Steps>
+
+## The compounding effect
+
+Combine with the other examples and the template layer becomes fully navigable: routes, model fields, state variants, and message keys all autocomplete from one source of truth each — and `edge-check` in CI guards all of them at once. The common thread is always the same move: **find the stringly-typed seam, replace it with a literal union, let the existing checker do the rest.**

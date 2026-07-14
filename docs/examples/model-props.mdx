@@ -1,0 +1,61 @@
+---
+title: Model-backed props
+description: Rename a database column and watch every affected template light up.
+---
+
+The `@types` body accepts any TypeScript type expression, so templates can declare their props straight from your application's models — the same types your controllers and ORM already use. No duplicated shapes, no drift.
+
+## Point templates at the real model
+
+<CodeGroup>
+```edge profile.edge
+{{--
+@types {
+  user: import('#models/user').User
+  posts: import('#models/post').Post[]
+}
+--}}
+<h1>{{ user.fullName }}</h1>
+@each(post in posts)
+  <article>
+    <h2>{{ post.title }}</h2>
+    <time>{{ post.publishedAt.toFormat('yyyy-MM-dd') }}</time>
+  </article>
+@end
+```
+```ts app/models/user.ts
+export class User {
+  declare id: number
+  declare fullName: string
+  declare email: string
+}
+```
+</CodeGroup>
+
+Imports resolve through your `tsconfig.json`, so `#models/*` path aliases work — this is the AdonisJS layout, but any exported type from any `.ts` file does the same job.
+
+## The payoff: refactors reach into templates
+
+Rename `fullName` on the model:
+
+<Diff lang="ts" old={`export class User {
+  declare id: number
+  declare fullName: string
+  declare email: string
+}`} new={`export class User {
+  declare id: number
+  declare displayName: string
+  declare email: string
+}`} />
+
+Without types, that's a `grep` and a prayer — templates fail silently at runtime, in production, on the page you didn't test. With the model imported:
+
+- `{{ user.fullName }}` squiggles in every open template, with *Did you mean 'displayName'?*
+- `edge-check templates/` fails CI listing every affected file:line:col
+- `tsc` catches the controllers at the same time — one rename, every consumer flagged, **including the views**
+
+Templates stop being the place where refactors go to die.
+
+<Panel title="Only the fields you use are checked">
+  When the `@types` body is an imported type expression, the generator destructures exactly the identifiers the template uses, each mapped to its first usage — so a nonexistent field errors on the line that reads it, not on the import.
+</Panel>
