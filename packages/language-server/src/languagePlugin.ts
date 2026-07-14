@@ -68,15 +68,25 @@ export class EdgeVirtualCode implements VirtualCode {
         sourceOffsets: [0],
         generatedOffsets: [0],
         lengths: [source.length],
-        data: { completion: true, format: false, navigation: false, semantic: false, structure: true, verification: true },
+        // semantic gates hover, navigation gates go-to-definition — the tag
+        // hover/definition plugin needs both dispatched to the root 'edge' doc.
+        data: { completion: true, format: false, navigation: true, semantic: true, structure: true, verification: true },
       },
     ]
 
     // ponytail: resolver reads target templates from disk per regeneration and edits
     // to a component's @types don't invalidate open callers until they change too.
-    const virtualFile = generateVirtualTs(source, filePath, {
-      resolveTemplate: makeResolver(filePath),
-    })
+    // Mid-typing states are routinely unparseable (`@if(` with no `@end` yet) —
+    // a generation failure must degrade to an empty virtual module, never
+    // escape createVirtualCode (an escaped throw kills the language server).
+    let virtualFile: { code: string; segments: Segment[] }
+    try {
+      virtualFile = generateVirtualTs(source, filePath, {
+        resolveTemplate: makeResolver(filePath),
+      })
+    } catch {
+      virtualFile = { code: 'export {}\n', segments: [] }
+    }
     this.embeddedCodes = [
       {
         id: 'ts',

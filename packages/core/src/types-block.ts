@@ -27,11 +27,13 @@ export interface TypesBlock {
  */
 export function findTypesBlock(tokens: CommentToken[], lines: LineIndex): TypesBlock | null {
   for (const token of tokens) {
-    const trimmed = token.value.trimStart()
-    if (!trimmed.startsWith('@types')) continue
+    // `@types` must start a line of the comment, but other doc directives
+    // (`@name`, `@desc`) may precede it in the same comment.
+    const directive = /(^|\n)[ \t]*@types\b/.exec(token.value)
+    if (!directive) continue
 
     const commentStart = lines.toOffset(token.loc.start.line, token.loc.start.col)
-    const bodyStart = token.value.indexOf('@types') + '@types'.length
+    const bodyStart = directive.index + directive[0].length
     const exprStart = bodyStart + (token.value.slice(bodyStart).match(/^\s*/)?.[0].length ?? 0)
     if (exprStart >= token.value.length) continue
 
@@ -42,7 +44,10 @@ export function findTypesBlock(tokens: CommentToken[], lines: LineIndex): TypesB
       return { raw, sourceOffset: commentStart + exprStart, propertyNames: propertyNames(raw), literal: true }
     }
 
-    const raw = token.value.slice(exprStart).trimEnd()
+    // Expression form: runs to the next directive line, or the comment's end.
+    const next = /\n[ \t]*@(?:name|desc)\b/.exec(token.value.slice(exprStart))
+    const exprEnd = next ? exprStart + next.index : token.value.length
+    const raw = token.value.slice(exprStart, exprEnd).trimEnd()
     if (raw.length === 0) continue
     return { raw, sourceOffset: commentStart + exprStart, propertyNames: [], literal: false }
   }
