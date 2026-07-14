@@ -9,26 +9,17 @@ description: Styled radio input with optional label.
 
 <Playground component="radio" schema={{"controls":{"name":{"kind":"text"},"value":{"kind":"text"},"checked":{"kind":"toggle"},"disabled":{"kind":"toggle"},"required":{"kind":"toggle"},"id":{"kind":"text"},"label":{"kind":"text"}},"defaultProps":{"name":"plan","value":"free","label":"Free","checked":true},"defaultSlot":"","previewSlug":"radio"}} minHeight={160} />
 
-## Usage
-
-```edge
-@radio({ name: 'plan', value: 'free', label: 'Free', checked: true })
-@end
-@radio({ name: 'plan', value: 'pro', label: 'Pro' })
-@end
-```
-
 ## Props
 
 <TypeTable
   type={{
-    name: { type: "string" },
-    value: { type: "string" },
-    checked: { type: "boolean" },
-    disabled: { type: "boolean" },
-    required: { type: "boolean" },
-    id: { type: "string" },
-    label: { type: "string" }
+    name: { type: "string", description: "Radio group name shared across inputs in the same group." },
+    value: { type: "string", description: "Submitted value for this radio option." },
+    checked: { type: "boolean", description: "When true, renders checked on the radio input." },
+    disabled: { type: "boolean", description: "When true, disables the radio input." },
+    required: { type: "boolean", description: "When true, marks the radio as required." },
+    id: { type: "string", description: "DOM id on the radio input." },
+    label: { type: "string", description: "Visible label in a span when no main slot is provided." }
   }}
 />
 

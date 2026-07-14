@@ -9,21 +9,12 @@ description: Accessible form field wrapper with label and description slots.
 
 <Playground component="field" schema={{"controls":{"label":{"kind":"text"},"description":{"kind":"text"}},"defaultProps":{"label":"Email","description":"We will never share your email."},"defaultSlot":"  @input({ type: 'email', name: 'email', placeholder: 'you@example.com' })\n  @end","previewSlug":"field"}} minHeight={160} />
 
-## Usage
-
-```edge
-@field({ label: 'Email', description: 'We will never share your email.' })
-  @input({ type: 'email', name: 'email', placeholder: 'you@example.com' })
-  @end
-@end
-```
-
 ## Props
 
 <TypeTable
   type={{
-    label: { type: "string" },
-    description: { type: "string" }
+    label: { type: "string", description: "Field label text in a label element when no label slot is provided." },
+    description: { type: "string", description: "Helper text in a paragraph below the control when no description slot." }
   }}
 />
 

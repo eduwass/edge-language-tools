@@ -9,19 +9,11 @@ description: Small status label; variants map to basecoat data attributes.
 
 <Playground component="badge" schema={{"controls":{"variant":{"kind":"select","options":["default","secondary","outline","destructive"]}},"defaultProps":{"variant":"secondary"},"defaultSlot":"  New","previewSlug":"badge"}} minHeight={160} />
 
-## Usage
-
-```edge
-@badge({ variant: 'secondary' })
-  New
-@end
-```
-
 ## Props
 
 <TypeTable
   type={{
-    variant: { type: "'default' | 'secondary' | 'outline' | 'destructive'" }
+    variant: { type: "'default' | 'secondary' | 'outline' | 'destructive'", description: "Badge style; non-default values set data-variant on the .badge span.", default: "'default'" }
   }}
 />
 

@@ -2,13 +2,21 @@
 @name Input
 @desc Text-like input with basecoat styling.
 @types {
+  // Native input type on the input element. @default 'text'
   type?: string
+  // Form field name.
   name?: string
+  // Controlled or default value attribute.
   value?: string
+  // Placeholder text.
   placeholder?: string
+  // Disables the input when truthy.
   disabled?: boolean
+  // Marks the input required when truthy.
   required?: boolean
+  // DOM id for label association.
   id?: string
+  // Additional HTML attributes forwarded to the input element.
   [attr: string]: unknown
 }
 --}}

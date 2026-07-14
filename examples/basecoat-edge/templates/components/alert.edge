@@ -2,9 +2,13 @@
 @name Alert
 @desc Alert banner with optional destructive variant; use icon, title, section, and footer slots.
 @types {
+  // Alert tone; destructive sets data-variant on the root .alert div. @default 'default'
   variant?: 'default' | 'destructive'
+  // Renders an h2 in the alert when no title slot is provided.
   title?: string
+  // Renders body copy inside a section when no section slot is provided.
   description?: string
+  // Additional HTML attributes forwarded to the root alert div.
   [attr: string]: unknown
 }
 --}}

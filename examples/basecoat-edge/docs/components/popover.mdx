@@ -9,27 +9,14 @@ description: Generic popover with trigger button; requires basecoat popover JS (
 
 <Playground component="popover" schema={{"controls":{"id":{"kind":"text"}},"defaultProps":{"id":"preview-popover"},"defaultSlot":"  @slot('trigger')\n    Open popover\n  @end\n  @slot('main')\n    <p style=\"padding: 0.5rem;\">Popover content goes here.</p>\n  @end","previewSlug":"popover","minHeight":180}} minHeight={180} />
 
-## Usage
-
-```edge
-@popover({ id: 'preview-popover' })
-  @slot('trigger')
-    Open popover
-  @end
-  @slot('main')
-    <p style="padding: 0.5rem;">Popover content goes here.</p>
-  @end
-@end
-```
-
 ## Props
 
 <TypeTable
   type={{
-    id: { type: "string", required: true },
-    trigger_attrs: { type: "Record<string, string>" },
-    popover_attrs: { type: "Record<string, string>" },
-    main_attrs: { type: "Record<string, string>" }
+    id: { type: "string", required: true, description: "Root id; ties trigger aria-controls to the data-popover panel." },
+    trigger_attrs: { type: "Record<string, string>", description: "Class and attributes on the trigger button." },
+    popover_attrs: { type: "Record<string, string>", description: "Extra class and attributes for the popover content panel." },
+    main_attrs: { type: "Record<string, string>", description: "Extra class and attributes on root .popover container." }
   }}
 />
 

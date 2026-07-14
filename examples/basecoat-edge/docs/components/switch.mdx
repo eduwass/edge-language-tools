@@ -9,23 +9,16 @@ description: Toggle switch input.
 
 <Playground component="switch" schema={{"controls":{"name":{"kind":"text"},"checked":{"kind":"toggle"},"disabled":{"kind":"toggle"},"required":{"kind":"toggle"},"id":{"kind":"text"},"label":{"kind":"text"}},"defaultProps":{"name":"notifications","label":"Enable notifications"},"defaultSlot":"","previewSlug":"switch"}} minHeight={160} />
 
-## Usage
-
-```edge
-@switch({ name: 'notifications', label: 'Enable notifications' })
-@end
-```
-
 ## Props
 
 <TypeTable
   type={{
-    name: { type: "string" },
-    checked: { type: "boolean" },
-    disabled: { type: "boolean" },
-    required: { type: "boolean" },
-    id: { type: "string" },
-    label: { type: "string" }
+    name: { type: "string", description: "Form field name on the switch input." },
+    checked: { type: "boolean", description: "When true, renders checked on the role=switch checkbox input." },
+    disabled: { type: "boolean", description: "When true, disables the switch." },
+    required: { type: "boolean", description: "When true, marks the switch as required." },
+    id: { type: "string", description: "DOM id on the switch input." },
+    label: { type: "string", description: "Visible label in a span when no main slot is provided." }
   }}
 />
 

@@ -2,7 +2,9 @@
 @name Tooltip
 @desc Tooltip trigger with content; requires basecoat tooltip JS.
 @types {
+  // Root id; ties trigger aria-describedby to the role=tooltip content panel.
   id: string
+  // Additional HTML attributes forwarded to the root .tooltip div.
   [attr: string]: unknown
 }
 --}}

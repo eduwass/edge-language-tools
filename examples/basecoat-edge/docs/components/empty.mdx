@@ -9,19 +9,12 @@ description: Empty state placeholder with icon, title, and description slots.
 
 <Playground component="empty" schema={{"controls":{"title":{"kind":"text"},"description":{"kind":"text"}},"defaultProps":{"title":"No results","description":"Try adjusting your search or filters."},"defaultSlot":"","previewSlug":"empty","minHeight":180}} minHeight={180} />
 
-## Usage
-
-```edge
-@empty({ title: 'No results', description: 'Try adjusting your search or filters.' })
-@end
-```
-
 ## Props
 
 <TypeTable
   type={{
-    title: { type: "string" },
-    description: { type: "string" }
+    title: { type: "string", description: "Empty-state heading rendered as h3 inside .empty-title when no title slot." },
+    description: { type: "string", description: "Supporting copy rendered as a paragraph inside .empty-description when no description slot." }
   }}
 />
 

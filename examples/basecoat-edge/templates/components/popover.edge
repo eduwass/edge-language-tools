@@ -2,10 +2,15 @@
 @name Popover
 @desc Generic popover with trigger button; requires basecoat popover JS (all.min.js).
 @types {
+  // Root id; ties trigger aria-controls to the data-popover panel.
   id: string
+  // Class and attributes on the trigger button.
   trigger_attrs?: Record<string, string>
+  // Extra class and attributes for the popover content panel.
   popover_attrs?: Record<string, string>
+  // Extra class and attributes on root .popover container.
   main_attrs?: Record<string, string>
+  // Additional HTML attributes forwarded to the popover root.
   [attr: string]: unknown
 }
 --}}

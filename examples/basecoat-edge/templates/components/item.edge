@@ -2,8 +2,11 @@
 @name Item
 @desc List item row with media, title, and description slots.
 @types {
+  // Primary line in .item-title when no title slot is provided.
   title?: string
+  // Secondary line in .item-description when no description slot.
   description?: string
+  // Additional HTML attributes forwarded to the root .item row.
   [attr: string]: unknown
 }
 --}}

@@ -9,30 +9,11 @@ description: Card container with header, section, and footer slots matching base
 
 <Playground component="card" schema={{"controls":{},"defaultProps":{},"defaultSlot":"  @slot('header')\n    <h2>Card title</h2>\n    <p>Card description</p>\n  @end\n  @slot('section')\n    <p>Card content goes here.</p>\n  @end\n  @slot('footer')\n    @button({ variant: 'outline' })\n      Action\n    @end\n  @end","previewSlug":"card","minHeight":220}} minHeight={220} />
 
-## Usage
-
-```edge
-@card()
-  @slot('header')
-    <h2>Card title</h2>
-    <p>Card description</p>
-  @end
-  @slot('section')
-    <p>Card content goes here.</p>
-  @end
-  @slot('footer')
-    @button({ variant: 'outline' })
-      Action
-    @end
-  @end
-@end
-```
-
 ## Props
 
 <TypeTable
   type={{
-    size: { type: "'sm'" }
+    size: { type: "'sm'", description: "Compact card density; when set, applies data-size on the .card container." }
   }}
 />
 

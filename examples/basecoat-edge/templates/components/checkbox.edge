@@ -2,13 +2,21 @@
 @name Checkbox
 @desc Styled checkbox input with optional label slot.
 @types {
+  // Form field name on the checkbox input.
   name?: string
+  // Submitted value when the checkbox is checked.
   value?: string
+  // When true, renders the checked attribute on the input.
   checked?: boolean
+  // When true, disables the checkbox input.
   disabled?: boolean
+  // When true, marks the checkbox as required for form validation.
   required?: boolean
+  // DOM id on the checkbox input for label association.
   id?: string
+  // Visible label text in a span when no main slot is provided.
   label?: string
+  // Additional HTML attributes on the label wrapper.
   [attr: string]: unknown
 }
 --}}

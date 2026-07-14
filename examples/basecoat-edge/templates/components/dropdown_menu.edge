@@ -2,7 +2,9 @@
 @name Dropdown Menu
 @desc Dropdown menu with trigger and items; requires basecoat dropdown-menu JS (all.min.js).
 @types {
+  // Root id; prefixes trigger, popover, menu, and item element ids.
   id: string
+  // Declarative menu items rendered inside role=menu; falls back to main slot.
   items?: Array<{
     type?: 'item' | 'group' | 'separator'
     label?: string
@@ -18,8 +20,11 @@
     attrs?: Record<string, string>
     id?: string
   }>
+  // Class and attributes on the menu trigger button. @default { class: 'btn' }
   trigger_attrs?: Record<string, string>
+  // Extra class and attributes on root .dropdown-menu container.
   main_attrs?: Record<string, string>
+  // Additional HTML attributes forwarded to the dropdown root.
   [attr: string]: unknown
 }
 --}}

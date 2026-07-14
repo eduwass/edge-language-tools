@@ -9,31 +9,21 @@ description: Input-first combobox with listbox; requires basecoat combobox JS (a
 
 <Playground component="combobox" schema={{"controls":{"id":{"kind":"text"},"name":{"kind":"text"},"multiple":{"kind":"toggle"},"placeholder":{"kind":"text"},"close_on_select":{"kind":"toggle"},"clear":{"kind":"toggle"},"auto_highlight":{"kind":"toggle"},"format":{"kind":"select","options":["value","object"]}},"defaultProps":{"id":"preview-combobox","placeholder":"Select framework..."},"defaultSlot":"  <div role=\"option\" data-value=\"react\">React</div>\n  <div role=\"option\" data-value=\"vue\">Vue</div>\n  <div role=\"option\" data-value=\"svelte\">Svelte</div>","previewSlug":"combobox","minHeight":180}} minHeight={180} />
 
-## Usage
-
-```edge
-@combobox({ id: 'preview-combobox', placeholder: 'Select framework...' })
-  <div role="option" data-value="react">React</div>
-  <div role="option" data-value="vue">Vue</div>
-  <div role="option" data-value="svelte">Svelte</div>
-@end
-```
-
 ## Props
 
 <TypeTable
   type={{
-    id: { type: "string", required: true },
-    selected: { type: "string | string[] | { value: string; label?: string } | Array<{ value: string; label?: string }>" },
-    name: { type: "string" },
-    multiple: { type: "boolean" },
-    placeholder: { type: "string" },
-    close_on_select: { type: "boolean" },
-    clear: { type: "boolean" },
-    auto_highlight: { type: "boolean" },
-    format: { type: "'value' | 'object'" },
-    main_attrs: { type: "Record<string, string>" },
-    input_attrs: { type: "Record<string, string>" }
+    id: { type: "string", required: true, description: "Root element id; also prefixes listbox and popover ids and aria-controls targets." },
+    selected: { type: "string | string[] | { value: string; label?: string } | Array<{ value: string; label?: string }>", description: "Initial selection consumed by combobox JS, not directly rendered in markup." },
+    name: { type: "string", description: "Name on the hidden input that stores the submitted value." },
+    multiple: { type: "boolean", description: "Switches to multiselect text input and aria-multiselectable listbox." },
+    placeholder: { type: "string", description: "Placeholder on the visible combobox text input.", default: "''" },
+    close_on_select: { type: "boolean", description: "When true with multiple, sets data-close-on-select on the root." },
+    clear: { type: "boolean", description: "Uses input-group layout with clear and chevron trigger buttons instead of a plain input." },
+    auto_highlight: { type: "boolean", description: "When true, sets data-auto-highlight for first-match keyboard highlight." },
+    format: { type: "'value' | 'object'", description: "Selection serialization; object sets data-format on the root.", default: "'value'" },
+    main_attrs: { type: "Record<string, string>", description: "Extra attributes and classes on root .combobox (class merged from main_attrs.class)." },
+    input_attrs: { type: "Record<string, string>", description: "Extra attributes and classes on the visible text input or input-group wrapper." }
   }}
 />
 

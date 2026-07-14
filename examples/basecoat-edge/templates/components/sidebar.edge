@@ -2,10 +2,15 @@
 @name Sidebar
 @desc Application sidebar navigation; requires basecoat sidebar JS (all.min.js).
 @types {
+  // Optional id on the aside sidebar element.
   id?: string
+  // aria-label on the inner nav element. @default 'Sidebar navigation'
   label?: string
+  // When false, sets aria-hidden and inert on the aside. @default true
   open?: boolean
+  // Docking edge via data-side on the aside. @default 'left'
   side?: 'left' | 'right'
+  // Declarative nav tree with items, groups, separators, and submenus; falls back to main slot.
   menu?: Array<{
     type?: 'item' | 'group' | 'separator' | 'submenu'
     label?: string
@@ -25,7 +30,9 @@
     attrs?: Record<string, string>
     id?: string
   }>
+  // Extra class and attributes on the aside (class merged with sidebar).
   main_attrs?: Record<string, string>
+  // Additional HTML attributes forwarded to the sidebar aside.
   [attr: string]: unknown
 }
 --}}

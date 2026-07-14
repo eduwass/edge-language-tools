@@ -9,20 +9,13 @@ description: Alert banner with optional destructive variant; use icon, title, se
 
 <Playground component="alert" schema={{"controls":{"variant":{"kind":"select","options":["default","destructive"]},"title":{"kind":"text"},"description":{"kind":"text"}},"defaultProps":{"variant":"default","title":"Heads up","description":"You can add components to your app."},"defaultSlot":"","previewSlug":"alert"}} minHeight={160} />
 
-## Usage
-
-```edge
-@alert({ variant: 'default', title: 'Heads up', description: 'You can add components to your app.' })
-@end
-```
-
 ## Props
 
 <TypeTable
   type={{
-    variant: { type: "'default' | 'destructive'" },
-    title: { type: "string" },
-    description: { type: "string" }
+    variant: { type: "'default' | 'destructive'", description: "Alert tone; destructive sets data-variant on the root .alert div.", default: "'default'" },
+    title: { type: "string", description: "Renders an h2 in the alert when no title slot is provided." },
+    description: { type: "string", description: "Renders body copy inside a section when no section slot is provided." }
   }}
 />
 

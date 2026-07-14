@@ -9,24 +9,17 @@ description: Styled checkbox input with optional label slot.
 
 <Playground component="checkbox" schema={{"controls":{"name":{"kind":"text"},"value":{"kind":"text"},"checked":{"kind":"toggle"},"disabled":{"kind":"toggle"},"required":{"kind":"toggle"},"id":{"kind":"text"},"label":{"kind":"text"}},"defaultProps":{"name":"terms","label":"Accept terms"},"defaultSlot":"","previewSlug":"checkbox"}} minHeight={160} />
 
-## Usage
-
-```edge
-@checkbox({ name: 'terms', label: 'Accept terms' })
-@end
-```
-
 ## Props
 
 <TypeTable
   type={{
-    name: { type: "string" },
-    value: { type: "string" },
-    checked: { type: "boolean" },
-    disabled: { type: "boolean" },
-    required: { type: "boolean" },
-    id: { type: "string" },
-    label: { type: "string" }
+    name: { type: "string", description: "Form field name on the checkbox input." },
+    value: { type: "string", description: "Submitted value when the checkbox is checked." },
+    checked: { type: "boolean", description: "When true, renders the checked attribute on the input." },
+    disabled: { type: "boolean", description: "When true, disables the checkbox input." },
+    required: { type: "boolean", description: "When true, marks the checkbox as required for form validation." },
+    id: { type: "string", description: "DOM id on the checkbox input for label association." },
+    label: { type: "string", description: "Visible label text in a span when no main slot is provided." }
   }}
 />
 

@@ -9,35 +9,20 @@ description: Custom select with listbox popover; requires basecoat select JS (al
 
 <Playground component="select" schema={{"controls":{"id":{"kind":"text"},"name":{"kind":"text"},"multiple":{"kind":"toggle"},"placeholder":{"kind":"text"},"close_on_select":{"kind":"toggle"},"format":{"kind":"select","options":["value","object"]}},"defaultProps":{"id":"preview-select","placeholder":"Select a fruit","items":[{"label":"Apple","value":"apple","type":"item"},{"label":"Banana","value":"banana","type":"item"},{"label":"Orange","value":"orange","type":"item"}]},"defaultSlot":"","previewSlug":"select","minHeight":180}} minHeight={180} />
 
-## Usage
-
-```edge
-@select({
-  id: 'preview-select',
-  placeholder: 'Select a fruit',
-  items: [
-    { label: 'Apple', value: 'apple', type: 'item' },
-    { label: 'Banana', value: 'banana', type: 'item' },
-    { label: 'Orange', value: 'orange', type: 'item' },
-  ],
-})
-@end
-```
-
 ## Props
 
 <TypeTable
   type={{
-    id: { type: "string", required: true },
-    selected: { type: "string | string[]" },
-    name: { type: "string" },
-    items: { type: "Array<{\n    type?: 'item' | 'group' | 'separator'\n    label?: string\n    value?: string\n    items?: Array<{ label: string; value?: string; attrs?: Record<string, string> }>\n    attrs?: Record<string, string>\n    id?: string\n  }>" },
-    multiple: { type: "boolean" },
-    placeholder: { type: "string" },
-    close_on_select: { type: "boolean" },
-    format: { type: "'value' | 'object'" },
-    main_attrs: { type: "Record<string, string>" },
-    trigger_attrs: { type: "Record<string, string>" }
+    id: { type: "string", required: true, description: "Root id; prefixes trigger, listbox, popover, and option ids." },
+    selected: { type: "string | string[]", description: "Initial selection consumed by select JS, not directly rendered in markup." },
+    name: { type: "string", description: "Name on the hidden input storing the submitted value.", default: "id + '-value'" },
+    items: { type: "Array<{\n    type?: 'item' | 'group' | 'separator'\n    label?: string\n    value?: string\n    items?: Array<{ label: string; value?: string; attrs?: Record<string, string> }>\n    attrs?: Record<string, string>\n    id?: string\n  }>", description: "Declarative listbox options and groups; falls back to main slot." },
+    multiple: { type: "boolean", description: "Enables multiselect with aria-multiselectable on the listbox." },
+    placeholder: { type: "string", description: "Shown in the trigger button and as data-placeholder on root.", default: "''" },
+    close_on_select: { type: "boolean", description: "When true with multiple, sets data-close-on-select on the root." },
+    format: { type: "'value' | 'object'", description: "Hidden value shape; object sets data-format on the root.", default: "'value'" },
+    main_attrs: { type: "Record<string, string>", description: "Extra class and attributes on root .select container." },
+    trigger_attrs: { type: "Record<string, string>", description: "Extra class and attributes on the listbox trigger button." }
   }}
 />
 

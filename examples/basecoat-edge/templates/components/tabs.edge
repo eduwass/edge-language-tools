@@ -2,18 +2,26 @@
 @name Tabs
 @desc Tabbed interface; requires basecoat tabs JS (all.min.js).
 @types {
+  // Root id prefix for tab buttons and tabpanels.
   id: string
+  // Tab labels and optional panel HTML rendered as role=tab buttons and role=tabpanel sections.
   tabsets: Array<{
     tab: string
     panel?: string
     tab_attrs?: Record<string, string>
     panel_attrs?: Record<string, string>
   }>
+  // One-based index of the initially selected and visible tab. @default 1
   default_tab_index?: number
+  // aria-orientation on the tablist nav. @default 'horizontal'
   orientation?: 'horizontal' | 'vertical'
+  // Tablist style; line sets data-variant on the nav. @default 'default'
   variant?: 'default' | 'line'
+  // Extra class and attributes on root .tabs container.
   main_attrs?: Record<string, string>
+  // Extra class and attributes for the tablist nav element.
   tablist_attrs?: Record<string, string>
+  // Additional HTML attributes forwarded to the tabs root.
   [attr: string]: unknown
 }
 --}}

@@ -2,8 +2,11 @@
 @name Field
 @desc Accessible form field wrapper with label and description slots.
 @types {
+  // Field label text in a label element when no label slot is provided.
   label?: string
+  // Helper text in a paragraph below the control when no description slot.
   description?: string
+  // Additional HTML attributes forwarded to the root .field wrapper.
   [attr: string]: unknown
 }
 --}}

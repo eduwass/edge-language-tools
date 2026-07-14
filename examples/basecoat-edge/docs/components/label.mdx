@@ -9,19 +9,11 @@ description: Form label element.
 
 <Playground component="label" schema={{"controls":{"htmlFor":{"kind":"text"}},"defaultProps":{"htmlFor":"preview-email"},"defaultSlot":"  Email address","previewSlug":"label"}} minHeight={160} />
 
-## Usage
-
-```edge
-@label({ htmlFor: 'preview-email' })
-  Email address
-@end
-```
-
 ## Props
 
 <TypeTable
   type={{
-    htmlFor: { type: "string" }
+    htmlFor: { type: "string", description: "Associates the label with a control via the for attribute." }
   }}
 />
 

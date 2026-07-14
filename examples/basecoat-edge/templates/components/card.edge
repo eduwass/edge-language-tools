@@ -2,7 +2,9 @@
 @name Card
 @desc Card container with header, section, and footer slots matching basecoat structure.
 @types {
+  // Compact card density; when set, applies data-size on the .card container.
   size?: 'sm'
+  // Additional HTML attributes forwarded to the root .card div.
   [attr: string]: unknown
 }
 --}}

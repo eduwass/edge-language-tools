@@ -2,8 +2,11 @@
 @name Form
 @desc Form container with field spacing.
 @types {
+  // Form submission URL on the form element.
   action?: string
+  // HTTP method on the form element when provided.
   method?: 'get' | 'post'
+  // Additional HTML attributes forwarded to the form element.
   [attr: string]: unknown
 }
 --}}

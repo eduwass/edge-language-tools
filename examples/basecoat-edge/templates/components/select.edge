@@ -2,9 +2,13 @@
 @name Select
 @desc Custom select with listbox popover; requires basecoat select JS (all.min.js).
 @types {
+  // Root id; prefixes trigger, listbox, popover, and option ids.
   id: string
+  // Initial selection consumed by select JS, not directly rendered in markup.
   selected?: string | string[]
+  // Name on the hidden input storing the submitted value. @default id + '-value'
   name?: string
+  // Declarative listbox options and groups; falls back to main slot.
   items?: Array<{
     type?: 'item' | 'group' | 'separator'
     label?: string
@@ -13,12 +17,19 @@
     attrs?: Record<string, string>
     id?: string
   }>
+  // Enables multiselect with aria-multiselectable on the listbox.
   multiple?: boolean
+  // Shown in the trigger button and as data-placeholder on root. @default ''
   placeholder?: string
+  // When true with multiple, sets data-close-on-select on the root.
   close_on_select?: boolean
+  // Hidden value shape; object sets data-format on the root. @default 'value'
   format?: 'value' | 'object'
+  // Extra class and attributes on root .select container.
   main_attrs?: Record<string, string>
+  // Extra class and attributes on the listbox trigger button.
   trigger_attrs?: Record<string, string>
+  // Additional HTML attributes forwarded to the select root.
   [attr: string]: unknown
 }
 --}}

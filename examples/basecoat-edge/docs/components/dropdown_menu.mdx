@@ -9,32 +9,14 @@ description: Dropdown menu with trigger and items; requires basecoat dropdown-me
 
 <Playground component="dropdown_menu" schema={{"controls":{"id":{"kind":"text"}},"defaultProps":{"id":"preview-dropdown","items":[{"label":"Profile","type":"item"},{"label":"Settings","type":"item"},{"type":"separator"},{"label":"Logout","type":"item"}]},"defaultSlot":"  @slot('trigger')\n    Open menu\n  @end","previewSlug":"dropdown_menu","minHeight":180}} minHeight={180} />
 
-## Usage
-
-```edge
-@dropdownMenu({
-  id: 'preview-dropdown',
-  items: [
-    { label: 'Profile', type: 'item' },
-    { label: 'Settings', type: 'item' },
-    { type: 'separator' },
-    { label: 'Logout', type: 'item' },
-  ],
-})
-  @slot('trigger')
-    Open menu
-  @end
-@end
-```
-
 ## Props
 
 <TypeTable
   type={{
-    id: { type: "string", required: true },
-    items: { type: "Array<{\n    type?: 'item' | 'group' | 'separator'\n    label?: string\n    url?: string\n    icon?: string\n    items?: Array<{\n      type?: 'item' | 'group' | 'separator'\n      label?: string\n      url?: string\n      icon?: string\n      attrs?: Record<string, string>\n    }>\n    attrs?: Record<string, string>\n    id?: string\n  }>" },
-    trigger_attrs: { type: "Record<string, string>" },
-    main_attrs: { type: "Record<string, string>" }
+    id: { type: "string", required: true, description: "Root id; prefixes trigger, popover, menu, and item element ids." },
+    items: { type: "Array<{\n    type?: 'item' | 'group' | 'separator'\n    label?: string\n    url?: string\n    icon?: string\n    items?: Array<{\n      type?: 'item' | 'group' | 'separator'\n      label?: string\n      url?: string\n      icon?: string\n      attrs?: Record<string, string>\n    }>\n    attrs?: Record<string, string>\n    id?: string\n  }>", description: "Declarative menu items rendered inside role=menu; falls back to main slot." },
+    trigger_attrs: { type: "Record<string, string>", description: "Class and attributes on the menu trigger button.", default: "{ class: 'btn' }" },
+    main_attrs: { type: "Record<string, string>", description: "Extra class and attributes on root .dropdown-menu container." }
   }}
 />
 

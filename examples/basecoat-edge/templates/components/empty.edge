@@ -2,8 +2,11 @@
 @name Empty
 @desc Empty state placeholder with icon, title, and description slots.
 @types {
+  // Empty-state heading rendered as h3 inside .empty-title when no title slot.
   title?: string
+  // Supporting copy rendered as a paragraph inside .empty-description when no description slot.
   description?: string
+  // Additional HTML attributes forwarded to the root .empty div.
   [attr: string]: unknown
 }
 --}}

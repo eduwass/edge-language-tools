@@ -33,6 +33,8 @@ interface ParsedProperty {
   name: string
   type: string
   required: boolean
+  description?: string
+  default?: string
 }
 
 interface ParsedTypes {
@@ -118,6 +120,45 @@ function getTemplateDocs(source: string, file: string): TemplateDocs {
   }
 }
 
+function commentText(fullText: string, range: ts.CommentRange): string {
+  const raw = fullText.slice(range.pos, range.end)
+  if (raw.startsWith('//')) return raw.slice(2).trim()
+  if (raw.startsWith('/*')) return raw.slice(2, -2).trim()
+  return raw.trim()
+}
+
+function parsePropDoc(
+  member: ts.PropertySignature,
+  source: ts.SourceFile,
+): { description?: string; default?: string } {
+  const fullText = source.getFullText()
+  const parts: string[] = []
+
+  for (const range of ts.getLeadingCommentRanges(fullText, member.getFullStart()) ?? []) {
+    parts.push(commentText(fullText, range))
+  }
+  for (const tag of ts.getJSDocTags(member)) {
+    if (ts.isJSDocParameterTag(tag) || ts.isJSDocPropertyTag(tag)) continue
+    if (tag.tagName.text === 'default' && tag.comment) {
+      parts.push(`@default ${typeof tag.comment === 'string' ? tag.comment : tag.comment.map((c) => c.text).join('')}`)
+    }
+  }
+
+  const combined = parts.join(' ').trim()
+  if (!combined) return {}
+
+  const defaultMatch = combined.match(/@default\s+(.+?)(?:\s*$|(?=\s+@))/s)
+  const defaultValue = defaultMatch?.[1]?.trim()
+  const description = (defaultMatch ? combined.slice(0, defaultMatch.index) : combined)
+    .replace(/\s+@default\s*$/s, '')
+    .trim()
+
+  return {
+    ...(description ? { description } : {}),
+    ...(defaultValue ? { default: defaultValue } : {}),
+  }
+}
+
 function parseTypesBlock(objectLiteral: string): ParsedTypes | null {
   const trimmed = objectLiteral.trim()
   if (!trimmed.startsWith('{')) return null
@@ -136,10 +177,12 @@ function parseTypesBlock(objectLiteral: string): ParsedTypes | null {
           continue
         }
         if (ts.isPropertySignature(member) && member.name && ts.isIdentifier(member.name)) {
+          const doc = parsePropDoc(member, source)
           properties.push({
             name: member.name.text,
             type: member.type ? member.type.getText(source) : 'unknown',
             required: member.questionToken === undefined,
+            ...doc,
           })
         }
       }
@@ -160,6 +203,8 @@ function emitPropsSection(typesBlock: string): string {
     .map((prop) => {
       const fields = [`type: ${JSON.stringify(prop.type)}`]
       if (prop.required) fields.push('required: true')
+      if (prop.description) fields.push(`description: ${JSON.stringify(prop.description)}`)
+      if (prop.default) fields.push(`default: ${JSON.stringify(prop.default)}`)
       return `    ${prop.name}: { ${fields.join(', ')} }`
     })
     .join(',\n')
@@ -209,15 +254,6 @@ function emitPlaygroundSection(stem: string, schema: PlaygroundSchema): string {
 `
 }
 
-function emitUsageSection(example: { title?: string; source: string }): string {
-  let section = '## Usage\n\n'
-  if (example.title) {
-    section += `### ${example.title}\n\n`
-  }
-  section += `\`\`\`edge\n${example.source.trim()}\n\`\`\`\n`
-  return section
-}
-
 const files = readdirSync(componentsDir).filter((f) => f.endsWith('.edge')).sort()
 
 for (const file of files) {
@@ -253,7 +289,6 @@ description: ${descFirst.replace(/"/g, '\\"')}
 ${descBody}
 
 ${emitPlaygroundSection(stem, schema)}
-${emitUsageSection(primaryExample)}
 ${emitPropsSection(typesBlock)}
 `
 

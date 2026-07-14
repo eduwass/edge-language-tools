@@ -2,7 +2,9 @@
 @name Toast
 @desc Toast notifications container and messages; requires basecoat toast JS (all.min.js).
 @types {
+  // Container id when rendering multiple toasts inside .toaster. @default 'toaster'
   id?: string
+  // Batch mode: renders a .toaster container with multiple .toast children.
   toasts?: Array<{
     category?: 'success' | 'error' | 'info' | 'warning'
     title?: string
@@ -12,13 +14,21 @@
     cancel?: { label: string; onclick?: string; href?: string }
     attrs?: Record<string, string>
   }>
+  // Single-toast mode: sets data-category and picks the status icon and role.
   category?: 'success' | 'error' | 'info' | 'warning'
+  // Single-toast mode: h2 heading inside the toast.
   title?: string
+  // Single-toast mode: body paragraph inside the toast.
   description?: string
+  // Auto-dismiss timing via data-duration on single or per-item toasts.
   duration?: number
+  // Single-toast mode: primary action button or link in the toast footer.
   action?: { label: string; onclick?: string; href?: string }
+  // Single-toast mode: secondary dismiss or action control in the footer.
   cancel?: { label: string; onclick?: string; href?: string }
+  // Single-toast mode: extra class and attributes on the .toast root.
   attrs?: Record<string, string>
+  // Additional HTML attributes forwarded to the toast or toaster root.
   [attr: string]: unknown
 }
 --}}

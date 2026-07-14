@@ -9,25 +9,14 @@ description: Styled native select element.
 
 <Playground component="native_select" schema={{"controls":{"name":{"kind":"text"},"id":{"kind":"text"},"disabled":{"kind":"toggle"},"required":{"kind":"toggle"}},"defaultProps":{"name":"fruit"},"defaultSlot":"  <option value=\"\">Select a fruit</option>\n  <option value=\"apple\">Apple</option>\n  <option value=\"banana\">Banana</option>\n  <option value=\"orange\">Orange</option>","previewSlug":"native_select"}} minHeight={160} />
 
-## Usage
-
-```edge
-@nativeSelect({ name: 'fruit' })
-  <option value="">Select a fruit</option>
-  <option value="apple">Apple</option>
-  <option value="banana">Banana</option>
-  <option value="orange">Orange</option>
-@end
-```
-
 ## Props
 
 <TypeTable
   type={{
-    name: { type: "string" },
-    id: { type: "string" },
-    disabled: { type: "boolean" },
-    required: { type: "boolean" }
+    name: { type: "string", description: "Form field name on the native select element." },
+    id: { type: "string", description: "DOM id on the native select." },
+    disabled: { type: "boolean", description: "Disables the select when truthy." },
+    required: { type: "boolean", description: "Marks the select required when truthy." }
   }}
 />
 

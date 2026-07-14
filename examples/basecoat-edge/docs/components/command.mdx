@@ -9,35 +9,20 @@ description: Command palette with search; requires basecoat command JS (all.min.
 
 <Playground component="command" schema={{"controls":{"id":{"kind":"text"},"placeholder":{"kind":"text"},"empty_text":{"kind":"text"},"dialog":{"kind":"toggle"},"open":{"kind":"toggle"}},"defaultProps":{"id":"preview-command","items":[{"label":"Calendar","type":"item"},{"label":"Search","type":"item"},{"type":"separator"},{"label":"Settings","type":"item"}]},"defaultSlot":"","previewSlug":"command","minHeight":240}} minHeight={240} />
 
-## Usage
-
-```edge
-@command({
-  id: 'preview-command',
-  items: [
-    { label: 'Calendar', type: 'item' },
-    { label: 'Search', type: 'item' },
-    { type: 'separator' },
-    { label: 'Settings', type: 'item' },
-  ],
-})
-@end
-```
-
 ## Props
 
 <TypeTable
   type={{
-    id: { type: "string", required: true },
-    items: { type: "Array<{\n    type?: 'item' | 'group' | 'separator'\n    label?: string\n    url?: string\n    icon?: string\n    keywords?: string\n    disabled?: boolean\n    items?: Array<{\n      type?: 'item' | 'group' | 'separator'\n      label?: string\n      url?: string\n      icon?: string\n      keywords?: string\n      disabled?: boolean\n    }>\n    attrs?: Record<string, string>\n    id?: string\n  }>" },
-    placeholder: { type: "string" },
-    empty_text: { type: "string" },
-    dialog: { type: "boolean" },
-    open: { type: "boolean" },
-    main_attrs: { type: "Record<string, string>" },
-    input_attrs: { type: "Record<string, string>" },
-    menu_attrs: { type: "Record<string, string>" },
-    dialog_attrs: { type: "Record<string, string>" }
+    id: { type: "string", required: true, description: "Root id prefix for dialog or container, search input, menu, and generated item ids." },
+    items: { type: "Array<{\n    type?: 'item' | 'group' | 'separator'\n    label?: string\n    url?: string\n    icon?: string\n    keywords?: string\n    disabled?: boolean\n    items?: Array<{\n      type?: 'item' | 'group' | 'separator'\n      label?: string\n      url?: string\n      icon?: string\n      keywords?: string\n      disabled?: boolean\n    }>\n    attrs?: Record<string, string>\n    id?: string\n  }>", description: "Declarative menu tree rendered as role=menu links; falls back to main slot when empty." },
+    placeholder: { type: "string", description: "Search input placeholder in the command header.", default: "'Type a command or search...'" },
+    empty_text: { type: "string", description: "Empty-state message via data-empty on the menu panel.", default: "'No results found.'" },
+    dialog: { type: "boolean", description: "When true, renders as a dialog element instead of an inline .command div." },
+    open: { type: "boolean", description: "When true in dialog mode, renders the open attribute on the dialog." },
+    main_attrs: { type: "Record<string, string>", description: "Extra class and attributes on inline .command root in non-dialog mode." },
+    input_attrs: { type: "Record<string, string>", description: "Extra class and attributes on the search input." },
+    menu_attrs: { type: "Record<string, string>", description: "Extra class and attributes on the role=menu results panel." },
+    dialog_attrs: { type: "Record<string, string>", description: "Extra class and attributes on the dialog wrapper in dialog mode." }
   }}
 />
 

@@ -2,13 +2,21 @@
 @name Textarea
 @desc Multi-line text input.
 @types {
+  // Form field name on the textarea element.
   name?: string
+  // Text content inside the textarea element. @default ''
   value?: string
+  // Placeholder text.
   placeholder?: string
+  // Visible row count on the textarea.
   rows?: number
+  // Disables the textarea when truthy.
   disabled?: boolean
+  // Marks the textarea required when truthy.
   required?: boolean
+  // DOM id for label association.
   id?: string
+  // Additional HTML attributes forwarded to the textarea element.
   [attr: string]: unknown
 }
 --}}

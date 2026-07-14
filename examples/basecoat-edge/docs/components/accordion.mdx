@@ -9,32 +9,11 @@ description: Vertically stacked disclosure items; requires basecoat accordion JS
 
 <Playground component="accordion" schema={{"controls":{"multiple":{"kind":"toggle"}},"defaultProps":{},"defaultSlot":"  <details open>\n    <summary>\n      Is it accessible?\n      @svg('lucide:chevron-down')\n    </summary>\n    <section>Yes. It uses native disclosure semantics.</section>\n  </details>\n  <details>\n    <summary>\n      Is it styled?\n      @svg('lucide:chevron-down')\n    </summary>\n    <section>Yes. It comes with basecoat styles.</section>\n  </details>","previewSlug":"accordion"}} minHeight={160} />
 
-## Usage
-
-```edge
-@accordion()
-  <details open>
-    <summary>
-      Is it accessible?
-      @svg('lucide:chevron-down')
-    </summary>
-    <section>Yes. It uses native disclosure semantics.</section>
-  </details>
-  <details>
-    <summary>
-      Is it styled?
-      @svg('lucide:chevron-down')
-    </summary>
-    <section>Yes. It comes with basecoat styles.</section>
-  </details>
-@end
-```
-
 ## Props
 
 <TypeTable
   type={{
-    multiple: { type: "boolean" }
+    multiple: { type: "boolean", description: "When true, sets data-multiple on the accordion so multiple panels can stay open." }
   }}
 />
 

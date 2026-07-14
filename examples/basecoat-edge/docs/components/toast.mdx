@@ -9,30 +9,19 @@ description: Toast notifications container and messages; requires basecoat toast
 
 <Playground component="toast" schema={{"controls":{"id":{"kind":"text"},"category":{"kind":"select","options":["success","error","info","warning"]},"title":{"kind":"text"},"description":{"kind":"text"}},"defaultProps":{"toasts":[{"category":"success","title":"Saved","description":"Your changes have been saved."}]},"defaultSlot":"","previewSlug":"toast","minHeight":180}} minHeight={180} />
 
-## Usage
-
-```edge
-@toast({
-  toasts: [
-    { category: 'success', title: 'Saved', description: 'Your changes have been saved.' },
-  ],
-})
-@end
-```
-
 ## Props
 
 <TypeTable
   type={{
-    id: { type: "string" },
-    toasts: { type: "Array<{\n    category?: 'success' | 'error' | 'info' | 'warning'\n    title?: string\n    description?: string\n    duration?: number\n    action?: { label: string; onclick?: string; href?: string }\n    cancel?: { label: string; onclick?: string; href?: string }\n    attrs?: Record<string, string>\n  }>" },
-    category: { type: "'success' | 'error' | 'info' | 'warning'" },
-    title: { type: "string" },
-    description: { type: "string" },
-    duration: { type: "number" },
-    action: { type: "{ label: string; onclick?: string; href?: string }" },
-    cancel: { type: "{ label: string; onclick?: string; href?: string }" },
-    attrs: { type: "Record<string, string>" }
+    id: { type: "string", description: "Container id when rendering multiple toasts inside .toaster.", default: "'toaster'" },
+    toasts: { type: "Array<{\n    category?: 'success' | 'error' | 'info' | 'warning'\n    title?: string\n    description?: string\n    duration?: number\n    action?: { label: string; onclick?: string; href?: string }\n    cancel?: { label: string; onclick?: string; href?: string }\n    attrs?: Record<string, string>\n  }>", description: "Batch mode: renders a .toaster container with multiple .toast children." },
+    category: { type: "'success' | 'error' | 'info' | 'warning'", description: "Single-toast mode: sets data-category and picks the status icon and role." },
+    title: { type: "string", description: "Single-toast mode: h2 heading inside the toast." },
+    description: { type: "string", description: "Single-toast mode: body paragraph inside the toast." },
+    duration: { type: "number", description: "Auto-dismiss timing via data-duration on single or per-item toasts." },
+    action: { type: "{ label: string; onclick?: string; href?: string }", description: "Single-toast mode: primary action button or link in the toast footer." },
+    cancel: { type: "{ label: string; onclick?: string; href?: string }", description: "Single-toast mode: secondary dismiss or action control in the footer." },
+    attrs: { type: "Record<string, string>", description: "Single-toast mode: extra class and attributes on the .toast root." }
   }}
 />
 

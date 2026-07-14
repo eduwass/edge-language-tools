@@ -217,7 +217,7 @@ export default function Playground({ component, schema, minHeight = 160 }: Playg
       )}
 
       <div style={sourceHeaderStyle}>
-        <span style={labelTextStyle}>Edge snippet</span>
+        <span style={labelTextStyle}>Usage</span>
         <button type="button" onClick={() => void copySource()} style={buttonStyle} disabled={!source}>
           Copy
         </button>

@@ -2,7 +2,9 @@
 @name Button Group
 @desc Group related buttons with shared borders.
 @types {
+  // Layout direction; vertical sets data-orientation on the group container. @default 'horizontal'
   orientation?: 'horizontal' | 'vertical'
+  // Additional HTML attributes forwarded to the root role=group div.
   [attr: string]: unknown
 }
 --}}

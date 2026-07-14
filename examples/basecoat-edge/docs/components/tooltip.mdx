@@ -9,22 +9,11 @@ description: Tooltip trigger with content; requires basecoat tooltip JS.
 
 <Playground component="tooltip" schema={{"controls":{"id":{"kind":"text"}},"defaultProps":{"id":"preview-tooltip"},"defaultSlot":"  @slot('trigger')\n    Hover me\n  @end\n  Helpful tooltip text","previewSlug":"tooltip","minHeight":180}} minHeight={180} />
 
-## Usage
-
-```edge
-@tooltip({ id: 'preview-tooltip' })
-  @slot('trigger')
-    Hover me
-  @end
-  Helpful tooltip text
-@end
-```
-
 ## Props
 
 <TypeTable
   type={{
-    id: { type: "string", required: true }
+    id: { type: "string", required: true, description: "Root id; ties trigger aria-describedby to the role=tooltip content panel." }
   }}
 />
 

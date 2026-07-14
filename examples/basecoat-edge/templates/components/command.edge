@@ -2,7 +2,9 @@
 @name Command
 @desc Command palette with search; requires basecoat command JS (all.min.js).
 @types {
+  // Root id prefix for dialog or container, search input, menu, and generated item ids.
   id: string
+  // Declarative menu tree rendered as role=menu links; falls back to main slot when empty.
   items?: Array<{
     type?: 'item' | 'group' | 'separator'
     label?: string
@@ -21,14 +23,23 @@
     attrs?: Record<string, string>
     id?: string
   }>
+  // Search input placeholder in the command header. @default 'Type a command or search...'
   placeholder?: string
+  // Empty-state message via data-empty on the menu panel. @default 'No results found.'
   empty_text?: string
+  // When true, renders as a dialog element instead of an inline .command div.
   dialog?: boolean
+  // When true in dialog mode, renders the open attribute on the dialog.
   open?: boolean
+  // Extra class and attributes on inline .command root in non-dialog mode.
   main_attrs?: Record<string, string>
+  // Extra class and attributes on the search input.
   input_attrs?: Record<string, string>
+  // Extra class and attributes on the role=menu results panel.
   menu_attrs?: Record<string, string>
+  // Extra class and attributes on the dialog wrapper in dialog mode.
   dialog_attrs?: Record<string, string>
+  // Additional HTML attributes forwarded to the command root element.
   [attr: string]: unknown
 }
 --}}

@@ -2,7 +2,9 @@
 @name Collapsible
 @desc Native details/summary disclosure; content via main slot.
 @types {
+  // When true, renders the open attribute on the native details element.
   open?: boolean
+  // Additional HTML attributes forwarded to the root details element.
   [attr: string]: unknown
 }
 --}}

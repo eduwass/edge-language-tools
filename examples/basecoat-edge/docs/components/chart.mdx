@@ -9,24 +9,11 @@ description: Chart container; requires basecoat chart JS (all.min.js).
 
 <Playground component="chart" schema={{"controls":{"type":{"kind":"select","options":["bar","line","area","pie","donut"]}},"defaultProps":{"type":"bar"},"defaultSlot":"  <div style=\"display: flex; align-items: flex-end; gap: 0.5rem; height: 10rem; padding: 1rem;\">\n    <div style=\"flex: 1; height: 40%; background: var(--primary, #333); border-radius: 4px;\"></div>\n    <div style=\"flex: 1; height: 70%; background: var(--primary, #333); border-radius: 4px;\"></div>\n    <div style=\"flex: 1; height: 55%; background: var(--primary, #333); border-radius: 4px;\"></div>\n    <div style=\"flex: 1; height: 85%; background: var(--primary, #333); border-radius: 4px;\"></div>\n  </div>","previewSlug":"chart","minHeight":200}} minHeight={200} />
 
-## Usage
-
-```edge
-@chart({ type: 'bar' })
-  <div style="display: flex; align-items: flex-end; gap: 0.5rem; height: 10rem; padding: 1rem;">
-    <div style="flex: 1; height: 40%; background: var(--primary, #333); border-radius: 4px;"></div>
-    <div style="flex: 1; height: 70%; background: var(--primary, #333); border-radius: 4px;"></div>
-    <div style="flex: 1; height: 55%; background: var(--primary, #333); border-radius: 4px;"></div>
-    <div style="flex: 1; height: 85%; background: var(--primary, #333); border-radius: 4px;"></div>
-  </div>
-@end
-```
-
 ## Props
 
 <TypeTable
   type={{
-    type: { type: "'bar' | 'line' | 'area' | 'pie' | 'donut'" }
+    type: { type: "'bar' | 'line' | 'area' | 'pie' | 'donut'", description: "Chart kind consumed by basecoat chart JS via data-type on .chart." }
   }}
 />
 

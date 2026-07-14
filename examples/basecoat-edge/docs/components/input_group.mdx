@@ -9,20 +9,6 @@ description: Input with inline addons (icons, text, buttons).
 
 <Playground component="input_group" schema={{"controls":{},"defaultProps":{},"defaultSlot":"  @input({ placeholder: 'Search...' })\n  @end\n  <span role=\"group\" data-align=\"inline-end\">\n    @button({ variant: 'outline', size: 'sm' })\n      Search\n    @end\n  </span>","previewSlug":"input_group"}} minHeight={160} />
 
-## Usage
-
-```edge
-@inputGroup()
-  @input({ placeholder: 'Search...' })
-  @end
-  <span role="group" data-align="inline-end">
-    @button({ variant: 'outline', size: 'sm' })
-      Search
-    @end
-  </span>
-@end
-```
-
 ## Props
 
 Plus any additional HTML attributes, forwarded to the root element.

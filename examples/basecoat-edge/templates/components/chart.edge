@@ -2,7 +2,9 @@
 @name Chart
 @desc Chart container; requires basecoat chart JS (all.min.js).
 @types {
+  // Chart kind consumed by basecoat chart JS via data-type on .chart.
   type?: 'bar' | 'line' | 'area' | 'pie' | 'donut'
+  // Additional HTML attributes forwarded to the root .chart div.
   [attr: string]: unknown
 }
 --}}

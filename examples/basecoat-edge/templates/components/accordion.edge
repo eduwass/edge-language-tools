@@ -2,7 +2,9 @@
 @name Accordion
 @desc Vertically stacked disclosure items; requires basecoat accordion JS (all.min.js).
 @types {
+  // When true, sets data-multiple on the accordion so multiple panels can stay open.
   multiple?: boolean
+  // Additional HTML attributes forwarded to the root section element.
   [attr: string]: unknown
 }
 --}}

@@ -2,10 +2,15 @@
 @name Button
 @desc shadcn-style button; variants and sizes map to basecoat data attributes.
 @types {
+  // Button style; non-primary values set data-variant on the .btn element. @default 'primary'
   variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'link' | 'destructive'
+  // When set, applies data-size on the button for compact, large, or icon sizing.
   size?: 'xs' | 'sm' | 'lg' | 'icon' | 'icon-xs' | 'icon-sm' | 'icon-lg'
+  // Native button type attribute. @default 'button'
   type?: 'button' | 'submit' | 'reset'
+  // Positions slot content relative to an icon via data-icon.
   icon?: 'inline-start' | 'inline-end'
+  // Additional HTML attributes forwarded to the root button element.
   [attr: string]: unknown
 }
 --}}

@@ -2,18 +2,31 @@
 @name Dialog
 @desc Modal dialog with optional trigger; requires basecoat dialog JS (all.min.js).
 @types {
+  // Id on the dialog and for aria-labelledby and aria-describedby title and description targets.
   id: string
+  // When set, renders a button that calls showModal on the dialog.
   trigger?: string
+  // Header h2 with id suffix -title and aria-labelledby hook.
   title?: string
+  // Header paragraph with id suffix -description and aria-describedby hook.
   description?: string
+  // When true, renders the open attribute on the dialog element.
   open?: boolean
+  // When not false, renders the ghost icon close button in the dialog chrome. @default true
   close_button?: boolean
+  // When not false, clicking the dialog backdrop calls close. @default true
   close_on_overlay_click?: boolean
+  // Class and attributes on the optional trigger button.
   trigger_attrs?: Record<string, string>
+  // Class and attributes on the dialog element.
   dialog_attrs?: Record<string, string>
+  // Extra class and attributes for the dialog header region.
   header_attrs?: Record<string, string>
+  // Extra class and attributes for the dialog body region.
   body_attrs?: Record<string, string>
+  // Extra class and attributes for the dialog footer region.
   footer_attrs?: Record<string, string>
+  // Additional HTML attributes forwarded to the dialog root.
   [attr: string]: unknown
 }
 --}}

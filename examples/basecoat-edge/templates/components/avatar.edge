@@ -2,9 +2,13 @@
 @name Avatar
 @desc User avatar image or fallback initials.
 @types {
+  // Image URL; when set, renders an img inside the .avatar span.
   src?: string
+  // Alt text on the avatar image. @default ''
   alt?: string
+  // Initials or text shown in a span when src is absent.
   fallback?: string
+  // Additional HTML attributes forwarded to the root .avatar span.
   [attr: string]: unknown
 }
 --}}

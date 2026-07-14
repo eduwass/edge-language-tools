@@ -2,17 +2,29 @@
 @name Combobox
 @desc Input-first combobox with listbox; requires basecoat combobox JS (all.min.js).
 @types {
+  // Root element id; also prefixes listbox and popover ids and aria-controls targets.
   id: string
+  // Initial selection consumed by combobox JS, not directly rendered in markup.
   selected?: string | string[] | { value: string; label?: string } | Array<{ value: string; label?: string }>
+  // Name on the hidden input that stores the submitted value.
   name?: string
+  // Switches to multiselect text input and aria-multiselectable listbox.
   multiple?: boolean
+  // Placeholder on the visible combobox text input. @default ''
   placeholder?: string
+  // When true with multiple, sets data-close-on-select on the root.
   close_on_select?: boolean
+  // Uses input-group layout with clear and chevron trigger buttons instead of a plain input.
   clear?: boolean
+  // When true, sets data-auto-highlight for first-match keyboard highlight.
   auto_highlight?: boolean
+  // Selection serialization; object sets data-format on the root. @default 'value'
   format?: 'value' | 'object'
+  // Extra attributes and classes on root .combobox (class merged from main_attrs.class).
   main_attrs?: Record<string, string>
+  // Extra attributes and classes on the visible text input or input-group wrapper.
   input_attrs?: Record<string, string>
+  // Additional HTML attributes forwarded to the combobox root.
   [attr: string]: unknown
 }
 --}}

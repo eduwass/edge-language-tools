@@ -2,7 +2,9 @@
 @name Badge
 @desc Small status label; variants map to basecoat data attributes.
 @types {
+  // Badge style; non-default values set data-variant on the .badge span. @default 'default'
   variant?: 'default' | 'secondary' | 'outline' | 'destructive'
+  // Additional HTML attributes forwarded to the root .badge span.
   [attr: string]: unknown
 }
 --}}

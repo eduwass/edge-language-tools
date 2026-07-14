@@ -9,26 +9,12 @@ description: Form container with field spacing.
 
 <Playground component="form" schema={{"controls":{"action":{"kind":"text"},"method":{"kind":"select","options":["get","post"]}},"defaultProps":{"action":"/submit","method":"post"},"defaultSlot":"  @field({ label: 'Name' })\n    @input({ name: 'name', placeholder: 'Your name' })\n    @end\n  @end\n  @button({ type: 'submit' })\n    Submit\n  @end","previewSlug":"form","minHeight":200}} minHeight={200} />
 
-## Usage
-
-```edge
-@form({ action: '/submit', method: 'post' })
-  @field({ label: 'Name' })
-    @input({ name: 'name', placeholder: 'Your name' })
-    @end
-  @end
-  @button({ type: 'submit' })
-    Submit
-  @end
-@end
-```
-
 ## Props
 
 <TypeTable
   type={{
-    action: { type: "string" },
-    method: { type: "'get' | 'post'" }
+    action: { type: "string", description: "Form submission URL on the form element." },
+    method: { type: "'get' | 'post'", description: "HTTP method on the form element when provided." }
   }}
 />
 

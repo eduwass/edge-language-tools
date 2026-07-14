@@ -2,8 +2,11 @@
 @name Progress
 @desc Progress bar indicator.
 @types {
+  // Current progress value on the progress element when defined.
   value?: number
+  // Maximum value on the progress element when defined.
   max?: number
+  // Additional HTML attributes forwarded to the progress element.
   [attr: string]: unknown
 }
 --}}

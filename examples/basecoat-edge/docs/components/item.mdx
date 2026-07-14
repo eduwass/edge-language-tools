@@ -9,19 +9,12 @@ description: List item row with media, title, and description slots.
 
 <Playground component="item" schema={{"controls":{"title":{"kind":"text"},"description":{"kind":"text"}},"defaultProps":{"title":"Notifications","description":"You have 3 unread messages."},"defaultSlot":"","previewSlug":"item"}} minHeight={160} />
 
-## Usage
-
-```edge
-@item({ title: 'Notifications', description: 'You have 3 unread messages.' })
-@end
-```
-
 ## Props
 
 <TypeTable
   type={{
-    title: { type: "string" },
-    description: { type: "string" }
+    title: { type: "string", description: "Primary line in .item-title when no title slot is provided." },
+    description: { type: "string", description: "Secondary line in .item-description when no description slot." }
   }}
 />
 

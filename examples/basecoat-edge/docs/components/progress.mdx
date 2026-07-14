@@ -9,19 +9,12 @@ description: Progress bar indicator.
 
 <Playground component="progress" schema={{"controls":{},"defaultProps":{"value":60,"max":100},"defaultSlot":"","previewSlug":"progress"}} minHeight={160} />
 
-## Usage
-
-```edge
-@progress({ value: 60, max: 100 })
-@end
-```
-
 ## Props
 
 <TypeTable
   type={{
-    value: { type: "number" },
-    max: { type: "number" }
+    value: { type: "number", description: "Current progress value on the progress element when defined." },
+    max: { type: "number", description: "Maximum value on the progress element when defined." }
   }}
 />
 

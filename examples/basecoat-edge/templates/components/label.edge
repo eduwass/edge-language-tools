@@ -2,7 +2,9 @@
 @name Label
 @desc Form label element.
 @types {
+  // Associates the label with a control via the for attribute.
   htmlFor?: string
+  // Additional HTML attributes forwarded to the root label element.
   [attr: string]: unknown
 }
 --}}

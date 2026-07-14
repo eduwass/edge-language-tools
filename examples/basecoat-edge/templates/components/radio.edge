@@ -2,13 +2,21 @@
 @name Radio
 @desc Styled radio input with optional label.
 @types {
+  // Radio group name shared across inputs in the same group.
   name?: string
+  // Submitted value for this radio option.
   value?: string
+  // When true, renders checked on the radio input.
   checked?: boolean
+  // When true, disables the radio input.
   disabled?: boolean
+  // When true, marks the radio as required.
   required?: boolean
+  // DOM id on the radio input.
   id?: string
+  // Visible label in a span when no main slot is provided.
   label?: string
+  // Additional HTML attributes on the label wrapper.
   [attr: string]: unknown
 }
 --}}

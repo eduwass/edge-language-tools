@@ -2,12 +2,19 @@
 @name Switch
 @desc Toggle switch input.
 @types {
+  // Form field name on the switch input.
   name?: string
+  // When true, renders checked on the role=switch checkbox input.
   checked?: boolean
+  // When true, disables the switch.
   disabled?: boolean
+  // When true, marks the switch as required.
   required?: boolean
+  // DOM id on the switch input.
   id?: string
+  // Visible label in a span when no main slot is provided.
   label?: string
+  // Additional HTML attributes on the label wrapper.
   [attr: string]: unknown
 }
 --}}
