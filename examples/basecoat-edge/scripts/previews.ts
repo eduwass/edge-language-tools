@@ -273,19 +273,15 @@ export const previews: Record<string, PreviewExample[]> = {
   input_group: [
     {
       source: `@inputGroup()
-  @input({ placeholder: '0.00' })
-  @end
+  <input type="text" placeholder="0.00" />
   <span data-align="start">$</span>
   <span data-align="end">USD</span>
 @end`,
     },
     {
       source: `@inputGroup()
-  @input({ placeholder: 'Search...' })
-  @end
-  @button({ variant: 'outline', 'data-align': 'end' })
-    Search
-  @end
+  <input type="text" placeholder="Search..." />
+  <button type="button" class="btn" data-variant="outline" data-align="end">Search</button>
 @end`,
     },
   ],
@@ -455,13 +451,22 @@ export const previews: Record<string, PreviewExample[]> = {
   ],
   toast: [
     {
-      source: `@toast({
+      minHeight: 200,
+      source: `{{--
+  Toasts are fixed to the viewport corner and animated in by basecoat's JS;
+  for a static preview we pin the toaster in-flow and force it visible.
+--}}
+<style>
+  .toaster { position: static !important; inset: auto !important; }
+  .toaster .toast { opacity: 1 !important; transform: none !important; }
+</style>
+@toast({
   toasts: [
     { category: 'success', title: 'Saved', description: 'Your changes have been saved.' },
+    { category: 'error', title: 'Something went wrong', description: 'Could not reach the server.' },
   ],
 })
 @end`,
-      minHeight: 180,
     },
   ],
   tooltip: [
