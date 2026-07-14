@@ -7,13 +7,12 @@ import ts from 'typescript'
 import { templateDocs } from '@edge-language-tools/core'
 import { previews } from './previews.ts'
 import {
-  buildPlaygroundControls,
+  classifyPropType,
   parsePreviewExample,
-  parseTypeProperties,
   previewHtml,
   stemToTag,
 } from '../src/playground.ts'
-import type { PlaygroundSchema } from '../src/playground-types.ts'
+import type { PlaygroundProp, PlaygroundSchema } from '../src/playground-types.ts'
 
 const root = join(import.meta.dir, '..')
 const componentsDir = join(root, 'templates/components')
@@ -193,54 +192,46 @@ function parseTypesBlock(objectLiteral: string): ParsedTypes | null {
   return result
 }
 
-function emitPropsSection(typesBlock: string): string {
-  const parsed = parseTypesBlock(typesBlock)
-  if (!parsed) {
-    return `## Props\n\n\`\`\`ts\n${typesBlock}\n\`\`\`\n`
-  }
-
-  const rows = parsed.properties
-    .map((prop) => {
-      const fields = [`type: ${JSON.stringify(prop.type)}`]
-      if (prop.required) fields.push('required: true')
-      if (prop.description) fields.push(`description: ${JSON.stringify(prop.description)}`)
-      if (prop.default) fields.push(`default: ${JSON.stringify(prop.default)}`)
-      return `    ${prop.name}: { ${fields.join(', ')} }`
-    })
-    .join(',\n')
-
-  let section = '## Props\n\n'
-  if (parsed.properties.length > 0) {
-    section += `<TypeTable\n  type={{\n${rows}\n  }}\n/>\n`
-  }
-  if (parsed.hasIndexSignature) {
-    if (parsed.properties.length > 0) section += '\n'
-    section += 'Plus any additional HTML attributes, forwarded to the root element.\n'
-  }
-  if (parsed.properties.length === 0 && !parsed.hasIndexSignature) {
-    section += `<TypeTable type={{}} />\n`
-  }
-  return section
-}
-
 async function renderPreview(source: string): Promise<string> {
   const body = await edge.renderRaw(source.trim(), {}, join(templatesDir, 'demo.edge'))
   return previewHtml(body)
+}
+
+function acceptsBodyContent(templateSource: string): boolean {
+  return /\$slots\.main\b/.test(templateSource)
 }
 
 function buildPlaygroundSchema(
   stem: string,
   typesBlock: string,
   example: { source: string; minHeight?: number },
+  templateSource: string,
 ): PlaygroundSchema {
   const tag = stemToTag(stem)
-  const { props, slot } = parsePreviewExample(example.source, tag)
-  const controls = buildPlaygroundControls(parseTypeProperties(typesBlock))
+  const { props: defaultProps, slot } = parsePreviewExample(example.source, tag)
+  const parsed = parseTypesBlock(typesBlock)
+  const props: Record<string, PlaygroundProp> = {}
+
+  if (parsed) {
+    for (const prop of parsed.properties) {
+      const control = classifyPropType(prop.type) ?? undefined
+      props[prop.name] = {
+        type: prop.type,
+        required: prop.required,
+        ...(prop.description ? { description: prop.description } : {}),
+        ...(prop.default ? { default: prop.default } : {}),
+        ...(control ? { control } : {}),
+      }
+    }
+  }
+
   return {
-    controls,
-    defaultProps: props,
+    props,
+    defaultProps,
     defaultSlot: slot,
     previewSlug: stem,
+    ...(slot.length > 0 || acceptsBodyContent(templateSource) ? { hasSlot: true } : {}),
+    ...(parsed?.hasIndexSignature ? { hasIndexSignature: true } : {}),
     ...(example.minHeight !== undefined ? { minHeight: example.minHeight } : {}),
   }
 }
@@ -279,7 +270,7 @@ for (const file of files) {
   }
 
   const primaryExample = examples[0]
-  const schema = buildPlaygroundSchema(stem, typesBlock, primaryExample)
+  const schema = buildPlaygroundSchema(stem, typesBlock, primaryExample, source)
 
   const mdx = `---
 title: ${name}
@@ -289,7 +280,6 @@ description: ${descFirst.replace(/"/g, '\\"')}
 ${descBody}
 
 ${emitPlaygroundSection(stem, schema)}
-${emitPropsSection(typesBlock)}
 `
 
   writeFileSync(join(docsDir, `${stem}.mdx`), mdx)

@@ -7,18 +7,5 @@ description: shadcn-style button; variants and sizes map to basecoat data attrib
 
 ## Preview
 
-<Playground component="button" schema={{"controls":{"variant":{"kind":"select","options":["primary","secondary","outline","ghost","link","destructive"]},"size":{"kind":"select","options":["xs","sm","lg","icon","icon-xs","icon-sm","icon-lg"]},"type":{"kind":"select","options":["button","submit","reset"]},"icon":{"kind":"select","options":["inline-start","inline-end"]}},"defaultProps":{"variant":"primary"},"defaultSlot":"  Primary","previewSlug":"button"}} minHeight={160} />
-
-## Props
-
-<TypeTable
-  type={{
-    variant: { type: "'primary' | 'secondary' | 'outline' | 'ghost' | 'link' | 'destructive'", description: "Button style; non-primary values set data-variant on the .btn element.", default: "'primary'" },
-    size: { type: "'xs' | 'sm' | 'lg' | 'icon' | 'icon-xs' | 'icon-sm' | 'icon-lg'", description: "When set, applies data-size on the button for compact, large, or icon sizing." },
-    type: { type: "'button' | 'submit' | 'reset'", description: "Native button type attribute.", default: "'button'" },
-    icon: { type: "'inline-start' | 'inline-end'", description: "Positions slot content relative to an icon via data-icon." }
-  }}
-/>
-
-Plus any additional HTML attributes, forwarded to the root element.
+<Playground component="button" schema={{"props":{"variant":{"type":"'primary' | 'secondary' | 'outline' | 'ghost' | 'link' | 'destructive'","required":false,"description":"Button style; non-primary values set data-variant on the .btn element.","default":"'primary'","control":{"kind":"select","options":["primary","secondary","outline","ghost","link","destructive"]}},"size":{"type":"'xs' | 'sm' | 'lg' | 'icon' | 'icon-xs' | 'icon-sm' | 'icon-lg'","required":false,"description":"When set, applies data-size on the button for compact, large, or icon sizing.","control":{"kind":"select","options":["xs","sm","lg","icon","icon-xs","icon-sm","icon-lg"]}},"type":{"type":"'button' | 'submit' | 'reset'","required":false,"description":"Native button type attribute.","default":"'button'","control":{"kind":"select","options":["button","submit","reset"]}},"icon":{"type":"'inline-start' | 'inline-end'","required":false,"description":"Positions slot content relative to an icon via data-icon.","control":{"kind":"select","options":["inline-start","inline-end"]}}},"defaultProps":{"variant":"primary"},"defaultSlot":"  Primary","previewSlug":"button","hasSlot":true,"hasIndexSignature":true}} minHeight={160} />
 

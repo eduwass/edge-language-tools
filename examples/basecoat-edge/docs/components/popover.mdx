@@ -7,18 +7,5 @@ description: Generic popover with trigger button; requires basecoat popover JS (
 
 ## Preview
 
-<Playground component="popover" schema={{"controls":{"id":{"kind":"text"}},"defaultProps":{"id":"preview-popover"},"defaultSlot":"  @slot('trigger')\n    Open popover\n  @end\n  @slot('main')\n    <p style=\"padding: 0.5rem;\">Popover content goes here.</p>\n  @end","previewSlug":"popover","minHeight":180}} minHeight={180} />
-
-## Props
-
-<TypeTable
-  type={{
-    id: { type: "string", required: true, description: "Root id; ties trigger aria-controls to the data-popover panel." },
-    trigger_attrs: { type: "Record<string, string>", description: "Class and attributes on the trigger button." },
-    popover_attrs: { type: "Record<string, string>", description: "Extra class and attributes for the popover content panel." },
-    main_attrs: { type: "Record<string, string>", description: "Extra class and attributes on root .popover container." }
-  }}
-/>
-
-Plus any additional HTML attributes, forwarded to the root element.
+<Playground component="popover" schema={{"props":{"id":{"type":"string","required":true,"description":"Root id; ties trigger aria-controls to the data-popover panel.","control":{"kind":"text"}},"trigger_attrs":{"type":"Record<string, string>","required":false,"description":"Class and attributes on the trigger button."},"popover_attrs":{"type":"Record<string, string>","required":false,"description":"Extra class and attributes for the popover content panel."},"main_attrs":{"type":"Record<string, string>","required":false,"description":"Extra class and attributes on root .popover container."}},"defaultProps":{"id":"preview-popover"},"defaultSlot":"  @slot('trigger')\n    Open popover\n  @end\n  @slot('main')\n    <p style=\"padding: 0.5rem;\">Popover content goes here.</p>\n  @end","previewSlug":"popover","hasSlot":true,"hasIndexSignature":true,"minHeight":180}} minHeight={180} />
 

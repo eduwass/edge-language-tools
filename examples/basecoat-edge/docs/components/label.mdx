@@ -7,15 +7,5 @@ description: Form label element.
 
 ## Preview
 
-<Playground component="label" schema={{"controls":{"htmlFor":{"kind":"text"}},"defaultProps":{"htmlFor":"preview-email"},"defaultSlot":"  Email address","previewSlug":"label"}} minHeight={160} />
-
-## Props
-
-<TypeTable
-  type={{
-    htmlFor: { type: "string", description: "Associates the label with a control via the for attribute." }
-  }}
-/>
-
-Plus any additional HTML attributes, forwarded to the root element.
+<Playground component="label" schema={{"props":{"htmlFor":{"type":"string","required":false,"description":"Associates the label with a control via the for attribute.","control":{"kind":"text"}}},"defaultProps":{"htmlFor":"preview-email"},"defaultSlot":"  Email address","previewSlug":"label","hasSlot":true,"hasIndexSignature":true}} minHeight={160} />
 

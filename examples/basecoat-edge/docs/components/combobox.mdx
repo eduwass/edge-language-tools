@@ -7,26 +7,5 @@ description: Input-first combobox with listbox; requires basecoat combobox JS (a
 
 ## Preview
 
-<Playground component="combobox" schema={{"controls":{"id":{"kind":"text"},"name":{"kind":"text"},"multiple":{"kind":"toggle"},"placeholder":{"kind":"text"},"close_on_select":{"kind":"toggle"},"clear":{"kind":"toggle"},"auto_highlight":{"kind":"toggle"},"format":{"kind":"select","options":["value","object"]},"empty_text":{"kind":"text"}},"defaultProps":{"id":"preview-combobox","placeholder":"Select framework..."},"defaultSlot":"  <div role=\"option\" data-value=\"react\">React</div>\n  <div role=\"option\" data-value=\"vue\">Vue</div>\n  <div role=\"option\" data-value=\"svelte\">Svelte</div>","previewSlug":"combobox","minHeight":180}} minHeight={180} />
-
-## Props
-
-<TypeTable
-  type={{
-    id: { type: "string", required: true, description: "Root element id; also prefixes listbox and popover ids and aria-controls targets." },
-    selected: { type: "string | string[] | { value: string; label?: string } | Array<{ value: string; label?: string }>", description: "Initial selection consumed by combobox JS, not directly rendered in markup." },
-    name: { type: "string", description: "Name on the hidden input that stores the submitted value." },
-    multiple: { type: "boolean", description: "Switches to multiselect text input and aria-multiselectable listbox." },
-    placeholder: { type: "string", description: "Placeholder on the visible combobox text input.", default: "''" },
-    close_on_select: { type: "boolean", description: "When true with multiple, sets data-close-on-select on the root." },
-    clear: { type: "boolean", description: "Uses input-group layout with clear and chevron trigger buttons instead of a plain input." },
-    auto_highlight: { type: "boolean", description: "When true, sets data-auto-highlight for first-match keyboard highlight." },
-    format: { type: "'value' | 'object'", description: "Selection serialization; object sets data-format on the root.", default: "'value'" },
-    main_attrs: { type: "Record<string, string>", description: "Extra attributes and classes on root .combobox (class merged from main_attrs.class)." },
-    input_attrs: { type: "Record<string, string>", description: "Extra attributes and classes on the visible text input or input-group wrapper." },
-    empty_text: { type: "string", description: "Empty-state message via data-empty on the listbox.", default: "'No items found.'" }
-  }}
-/>
-
-Plus any additional HTML attributes, forwarded to the root element.
+<Playground component="combobox" schema={{"props":{"id":{"type":"string","required":true,"description":"Root element id; also prefixes listbox and popover ids and aria-controls targets.","control":{"kind":"text"}},"selected":{"type":"string | string[] | { value: string; label?: string } | Array<{ value: string; label?: string }>","required":false,"description":"Initial selection consumed by combobox JS, not directly rendered in markup."},"name":{"type":"string","required":false,"description":"Name on the hidden input that stores the submitted value.","control":{"kind":"text"}},"multiple":{"type":"boolean","required":false,"description":"Switches to multiselect text input and aria-multiselectable listbox.","control":{"kind":"toggle"}},"placeholder":{"type":"string","required":false,"description":"Placeholder on the visible combobox text input.","default":"''","control":{"kind":"text"}},"close_on_select":{"type":"boolean","required":false,"description":"When true with multiple, sets data-close-on-select on the root.","control":{"kind":"toggle"}},"clear":{"type":"boolean","required":false,"description":"Uses input-group layout with clear and chevron trigger buttons instead of a plain input.","control":{"kind":"toggle"}},"auto_highlight":{"type":"boolean","required":false,"description":"When true, sets data-auto-highlight for first-match keyboard highlight.","control":{"kind":"toggle"}},"format":{"type":"'value' | 'object'","required":false,"description":"Selection serialization; object sets data-format on the root.","default":"'value'","control":{"kind":"select","options":["value","object"]}},"main_attrs":{"type":"Record<string, string>","required":false,"description":"Extra attributes and classes on root .combobox (class merged from main_attrs.class)."},"input_attrs":{"type":"Record<string, string>","required":false,"description":"Extra attributes and classes on the visible text input or input-group wrapper."},"empty_text":{"type":"string","required":false,"description":"Empty-state message via data-empty on the listbox.","default":"'No items found.'","control":{"kind":"text"}}},"defaultProps":{"id":"preview-combobox","placeholder":"Select framework..."},"defaultSlot":"  <div role=\"option\" data-value=\"react\">React</div>\n  <div role=\"option\" data-value=\"vue\">Vue</div>\n  <div role=\"option\" data-value=\"svelte\">Svelte</div>","previewSlug":"combobox","hasSlot":true,"hasIndexSignature":true,"minHeight":180}} minHeight={180} />
 

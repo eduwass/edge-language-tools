@@ -7,20 +7,5 @@ description: Toggle switch input.
 
 ## Preview
 
-<Playground component="switch" schema={{"controls":{"name":{"kind":"text"},"checked":{"kind":"toggle"},"disabled":{"kind":"toggle"},"required":{"kind":"toggle"},"id":{"kind":"text"},"label":{"kind":"text"}},"defaultProps":{"name":"notifications","label":"Enable notifications"},"defaultSlot":"","previewSlug":"switch"}} minHeight={160} />
-
-## Props
-
-<TypeTable
-  type={{
-    name: { type: "string", description: "Form field name on the switch input." },
-    checked: { type: "boolean", description: "When true, renders checked on the role=switch checkbox input." },
-    disabled: { type: "boolean", description: "When true, disables the switch." },
-    required: { type: "boolean", description: "When true, marks the switch as required." },
-    id: { type: "string", description: "DOM id on the switch input." },
-    label: { type: "string", description: "Visible label in a span when no main slot is provided." }
-  }}
-/>
-
-Plus any additional HTML attributes, forwarded to the root element.
+<Playground component="switch" schema={{"props":{"name":{"type":"string","required":false,"description":"Form field name on the switch input.","control":{"kind":"text"}},"checked":{"type":"boolean","required":false,"description":"When true, renders checked on the role=switch checkbox input.","control":{"kind":"toggle"}},"disabled":{"type":"boolean","required":false,"description":"When true, disables the switch.","control":{"kind":"toggle"}},"required":{"type":"boolean","required":false,"description":"When true, marks the switch as required.","control":{"kind":"toggle"}},"id":{"type":"string","required":false,"description":"DOM id on the switch input.","control":{"kind":"text"}},"label":{"type":"string","required":false,"description":"Visible label in a span when no main slot is provided.","control":{"kind":"text"}}},"defaultProps":{"name":"notifications","label":"Enable notifications"},"defaultSlot":"","previewSlug":"switch","hasSlot":true,"hasIndexSignature":true}} minHeight={160} />
 

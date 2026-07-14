@@ -7,23 +7,5 @@ description: Application sidebar navigation; requires basecoat sidebar JS (all.m
 
 ## Preview
 
-<Playground component="sidebar" schema={{"controls":{"id":{"kind":"text"},"label":{"kind":"text"},"open":{"kind":"toggle"},"side":{"kind":"select","options":["left","right"]}},"defaultProps":{"id":"preview-sidebar","menu":[{"type":"group","label":"Navigation","items":[{"type":"item","label":"Dashboard","url":"#","current":true},{"type":"item","label":"Projects","url":"#"}]},{"type":"separator"},{"type":"item","label":"Settings","url":"#"},{"type":"item","label":"Help","url":"#"}]},"defaultSlot":"","previewSlug":"sidebar","minHeight":320}} minHeight={320} />
-
-## Props
-
-<TypeTable
-  type={{
-    id: { type: "string", description: "Optional id on the aside sidebar element." },
-    label: { type: "string", description: "aria-label on the inner nav element.", default: "'Sidebar navigation'" },
-    open: { type: "boolean", description: "When false, sets aria-hidden and inert on the aside.", default: "true" },
-    side: { type: "'left' | 'right'", description: "Docking edge via data-side on the aside.", default: "'left'" },
-    menu: { type: "Array<{\n    type?: 'item' | 'group' | 'separator' | 'submenu'\n    label?: string\n    url?: string\n    icon?: string\n    current?: boolean\n    open?: boolean\n    items?: Array<{\n      type?: 'item' | 'group' | 'separator' | 'submenu'\n      label?: string\n      url?: string\n      icon?: string\n      current?: boolean\n      open?: boolean\n      items?: unknown[]\n      attrs?: Record<string, string>\n      id?: string\n    }>\n    attrs?: Record<string, string>\n    id?: string\n  }>", description: "Declarative nav tree with items, groups, separators, and submenus; falls back to main slot." },
-    main_attrs: { type: "Record<string, string>", description: "Extra class and attributes on the aside (class merged with sidebar)." },
-    header_attrs: { type: "Record<string, string>", description: "Extra class and attributes on the header element." },
-    content_attrs: { type: "Record<string, string>", description: "Extra class and attributes on the scrollable content section." },
-    footer_attrs: { type: "Record<string, string>", description: "Extra class and attributes on the footer element." }
-  }}
-/>
-
-Plus any additional HTML attributes, forwarded to the root element.
+<Playground component="sidebar" schema={{"props":{"id":{"type":"string","required":false,"description":"Optional id on the aside sidebar element.","control":{"kind":"text"}},"label":{"type":"string","required":false,"description":"aria-label on the inner nav element.","default":"'Sidebar navigation'","control":{"kind":"text"}},"open":{"type":"boolean","required":false,"description":"When false, sets aria-hidden and inert on the aside.","default":"true","control":{"kind":"toggle"}},"side":{"type":"'left' | 'right'","required":false,"description":"Docking edge via data-side on the aside.","default":"'left'","control":{"kind":"select","options":["left","right"]}},"menu":{"type":"Array<{\n    type?: 'item' | 'group' | 'separator' | 'submenu'\n    label?: string\n    url?: string\n    icon?: string\n    current?: boolean\n    open?: boolean\n    items?: Array<{\n      type?: 'item' | 'group' | 'separator' | 'submenu'\n      label?: string\n      url?: string\n      icon?: string\n      current?: boolean\n      open?: boolean\n      items?: unknown[]\n      attrs?: Record<string, string>\n      id?: string\n    }>\n    attrs?: Record<string, string>\n    id?: string\n  }>","required":false,"description":"Declarative nav tree with items, groups, separators, and submenus; falls back to main slot."},"main_attrs":{"type":"Record<string, string>","required":false,"description":"Extra class and attributes on the aside (class merged with sidebar)."},"header_attrs":{"type":"Record<string, string>","required":false,"description":"Extra class and attributes on the header element."},"content_attrs":{"type":"Record<string, string>","required":false,"description":"Extra class and attributes on the scrollable content section."},"footer_attrs":{"type":"Record<string, string>","required":false,"description":"Extra class and attributes on the footer element."}},"defaultProps":{"id":"preview-sidebar","menu":[{"type":"group","label":"Navigation","items":[{"type":"item","label":"Dashboard","url":"#","current":true},{"type":"item","label":"Projects","url":"#"}]},{"type":"separator"},{"type":"item","label":"Settings","url":"#"},{"type":"item","label":"Help","url":"#"}]},"defaultSlot":"","previewSlug":"sidebar","hasSlot":true,"hasIndexSignature":true,"minHeight":320}} minHeight={320} />
 

@@ -7,18 +7,5 @@ description: Styled native select element.
 
 ## Preview
 
-<Playground component="native_select" schema={{"controls":{"name":{"kind":"text"},"id":{"kind":"text"},"disabled":{"kind":"toggle"},"required":{"kind":"toggle"}},"defaultProps":{"name":"fruit"},"defaultSlot":"  <option value=\"\">Select a fruit</option>\n  <option value=\"apple\">Apple</option>\n  <option value=\"banana\">Banana</option>\n  <option value=\"orange\">Orange</option>","previewSlug":"native_select"}} minHeight={160} />
-
-## Props
-
-<TypeTable
-  type={{
-    name: { type: "string", description: "Form field name on the native select element." },
-    id: { type: "string", description: "DOM id on the native select." },
-    disabled: { type: "boolean", description: "Disables the select when truthy." },
-    required: { type: "boolean", description: "Marks the select required when truthy." }
-  }}
-/>
-
-Plus any additional HTML attributes, forwarded to the root element.
+<Playground component="native_select" schema={{"props":{"name":{"type":"string","required":false,"description":"Form field name on the native select element.","control":{"kind":"text"}},"id":{"type":"string","required":false,"description":"DOM id on the native select.","control":{"kind":"text"}},"disabled":{"type":"boolean","required":false,"description":"Disables the select when truthy.","control":{"kind":"toggle"}},"required":{"type":"boolean","required":false,"description":"Marks the select required when truthy.","control":{"kind":"toggle"}}},"defaultProps":{"name":"fruit"},"defaultSlot":"  <option value=\"\">Select a fruit</option>\n  <option value=\"apple\">Apple</option>\n  <option value=\"banana\">Banana</option>\n  <option value=\"orange\">Orange</option>","previewSlug":"native_select","hasSlot":true,"hasIndexSignature":true}} minHeight={160} />
 

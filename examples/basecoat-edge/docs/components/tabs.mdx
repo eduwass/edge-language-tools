@@ -7,21 +7,5 @@ description: Tabbed interface; requires basecoat tabs JS (all.min.js).
 
 ## Preview
 
-<Playground component="tabs" schema={{"controls":{"id":{"kind":"text"},"orientation":{"kind":"select","options":["horizontal","vertical"]},"variant":{"kind":"select","options":["default","line"]}},"defaultProps":{"id":"preview-tabs","tabsets":[{"tab":"Account","panel":"<p>Account settings</p>"},{"tab":"Password","panel":"<p>Change your password</p>"},{"tab":"Team","panel":"<p>Manage your team</p>"}]},"defaultSlot":"","previewSlug":"tabs","minHeight":200}} minHeight={200} />
-
-## Props
-
-<TypeTable
-  type={{
-    id: { type: "string", required: true, description: "Root id prefix for tab buttons and tabpanels." },
-    tabsets: { type: "Array<{\n    tab: string\n    panel?: string\n    tab_attrs?: Record<string, string>\n    panel_attrs?: Record<string, string>\n  }>", required: true, description: "Tab labels and optional panel HTML rendered as role=tab buttons and role=tabpanel sections." },
-    default_tab_index: { type: "number", description: "One-based index of the initially selected and visible tab.", default: "1" },
-    orientation: { type: "'horizontal' | 'vertical'", description: "aria-orientation on the tablist nav.", default: "'horizontal'" },
-    variant: { type: "'default' | 'line'", description: "Tablist style; line sets data-variant on the nav.", default: "'default'" },
-    main_attrs: { type: "Record<string, string>", description: "Extra class and attributes on root .tabs container." },
-    tablist_attrs: { type: "Record<string, string>", description: "Extra class and attributes for the tablist nav element." }
-  }}
-/>
-
-Plus any additional HTML attributes, forwarded to the root element.
+<Playground component="tabs" schema={{"props":{"id":{"type":"string","required":true,"description":"Root id prefix for tab buttons and tabpanels.","control":{"kind":"text"}},"tabsets":{"type":"Array<{\n    tab: string\n    panel?: string\n    tab_attrs?: Record<string, string>\n    panel_attrs?: Record<string, string>\n  }>","required":true,"description":"Tab labels and optional panel HTML rendered as role=tab buttons and role=tabpanel sections."},"default_tab_index":{"type":"number","required":false,"description":"One-based index of the initially selected and visible tab.","default":"1"},"orientation":{"type":"'horizontal' | 'vertical'","required":false,"description":"aria-orientation on the tablist nav.","default":"'horizontal'","control":{"kind":"select","options":["horizontal","vertical"]}},"variant":{"type":"'default' | 'line'","required":false,"description":"Tablist style; line sets data-variant on the nav.","default":"'default'","control":{"kind":"select","options":["default","line"]}},"main_attrs":{"type":"Record<string, string>","required":false,"description":"Extra class and attributes on root .tabs container."},"tablist_attrs":{"type":"Record<string, string>","required":false,"description":"Extra class and attributes for the tablist nav element."}},"defaultProps":{"id":"preview-tabs","tabsets":[{"tab":"Account","panel":"<p>Account settings</p>"},{"tab":"Password","panel":"<p>Change your password</p>"},{"tab":"Team","panel":"<p>Manage your team</p>"}]},"defaultSlot":"","previewSlug":"tabs","hasIndexSignature":true,"minHeight":200}} minHeight={200} />
 

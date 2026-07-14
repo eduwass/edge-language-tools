@@ -3,10 +3,20 @@ export type PropControl =
   | { kind: 'toggle' }
   | { kind: 'text' }
 
+export interface PlaygroundProp {
+  type: string
+  required: boolean
+  description?: string
+  default?: string
+  control?: PropControl
+}
+
 export interface PlaygroundSchema {
-  controls: Record<string, PropControl>
+  props: Record<string, PlaygroundProp>
   defaultProps: Record<string, unknown>
   defaultSlot: string
   previewSlug: string
   minHeight?: number
+  hasIndexSignature?: boolean
+  hasSlot?: boolean
 }

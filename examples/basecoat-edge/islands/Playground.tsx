@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useRef, useState, type CSSProperties } from 'react'
-import type { PlaygroundSchema, PropControl } from '../src/playground-types.ts'
+import { useCallback, useEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react'
+import type { PlaygroundProp, PlaygroundSchema, PropControl } from '../src/playground-types.ts'
 
 const RENDER_URL = 'http://localhost:4790/render'
 const DEBOUNCE_MS = 300
@@ -17,6 +17,13 @@ function requestProps(
   return { ...defaults, ...values }
 }
 
+function firstEditableProp(props: Record<string, PlaygroundProp>): string | null {
+  for (const [name, prop] of Object.entries(props)) {
+    if (prop.control) return name
+  }
+  return null
+}
+
 export default function Playground({ component, schema, minHeight = 160 }: PlaygroundProps) {
   const [propValues, setPropValues] = useState<Record<string, unknown>>(() => ({
     ...schema.defaultProps,
@@ -25,6 +32,10 @@ export default function Playground({ component, schema, minHeight = 160 }: Playg
   const [source, setSource] = useState('')
   const [iframeSrcDoc, setIframeSrcDoc] = useState<string | null>(null)
   const [serverAvailable, setServerAvailable] = useState(true)
+  const [expandedProps, setExpandedProps] = useState<Set<string>>(() => {
+    const first = firstEditableProp(schema.props)
+    return first ? new Set([first]) : new Set()
+  })
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const requestRef = useRef(0)
   const propValuesRef = useRef(propValues)
@@ -32,7 +43,8 @@ export default function Playground({ component, schema, minHeight = 160 }: Playg
   propValuesRef.current = propValues
   slotRef.current = slot
 
-  const editableProps = Object.keys(schema.controls)
+  const propEntries = Object.entries(schema.props)
+  const showPropsTable = propEntries.length > 0 || schema.hasSlot
 
   const renderFromServer = useCallback(
     async (props: Record<string, unknown>, slotText: string) => {
@@ -100,6 +112,15 @@ export default function Playground({ component, schema, minHeight = 160 }: Playg
     queueRender(requestProps(schema.defaultProps, propValuesRef.current), value, true)
   }
 
+  const togglePropRow = (name: string) => {
+    setExpandedProps((current) => {
+      const next = new Set(current)
+      if (next.has(name)) next.delete(name)
+      else next.add(name)
+      return next
+    })
+  }
+
   const copySource = async () => {
     if (!source) return
     try {
@@ -109,58 +130,94 @@ export default function Playground({ component, schema, minHeight = 160 }: Playg
     }
   }
 
-  const renderControl = (name: string, control: PropControl) => {
+  const renderControlInput = (name: string, control: PropControl) => {
     const value = propValues[name]
 
     if (control.kind === 'select') {
       return (
-        <label key={name} style={labelStyle}>
-          <span style={labelTextStyle}>{name}</span>
-          <select
-            value={typeof value === 'string' ? value : ''}
-            onChange={(event) => setPropImmediate(name, event.target.value)}
-            style={inputStyle}
-          >
-            {control.options.map((option) => (
-              <option key={option} value={option}>
-                {option}
-              </option>
-            ))}
-          </select>
-        </label>
+        <select
+          value={typeof value === 'string' ? value : ''}
+          onChange={(event) => setPropImmediate(name, event.target.value)}
+          style={inputStyle}
+        >
+          {control.options.map((option) => (
+            <option key={option} value={option}>
+              {option}
+            </option>
+          ))}
+        </select>
       )
     }
 
     if (control.kind === 'toggle') {
       return (
-        <label
-          key={name}
-          style={{ ...labelStyle, flexDirection: 'row', alignItems: 'center', gap: '0.5rem' }}
-        >
+        <label style={toggleLabelStyle}>
           <input
             type="checkbox"
             checked={Boolean(value)}
             onChange={(event) => setPropImmediate(name, event.target.checked)}
           />
-          <span style={labelTextStyle}>{name}</span>
+          <span style={labelTextStyle}>{Boolean(value) ? 'true' : 'false'}</span>
         </label>
       )
     }
 
     return (
-      <label key={name} style={labelStyle}>
-        <span style={labelTextStyle}>{name}</span>
-        <input
-          type="text"
-          value={typeof value === 'string' ? value : value == null ? '' : String(value)}
-          onChange={(event) => setPropDebounced(name, event.target.value)}
-          style={inputStyle}
-        />
-      </label>
+      <input
+        type="text"
+        value={typeof value === 'string' ? value : value == null ? '' : String(value)}
+        onChange={(event) => setPropDebounced(name, event.target.value)}
+        style={inputStyle}
+      />
     )
   }
 
-  const showSlot = schema.defaultSlot.length > 0 || slot.length > 0
+  const renderPropRow = (
+    name: string,
+    type: string,
+    optional: boolean,
+    detail: ReactNode,
+  ) => {
+    const expanded = expandedProps.has(name)
+    return (
+      <div
+        key={name}
+        style={{
+          ...propsRowStyle,
+          ...(expanded ? propsRowExpandedStyle : {}),
+        }}
+      >
+        <button
+          type="button"
+          onClick={() => togglePropRow(name)}
+          aria-expanded={expanded}
+          style={propsSummaryStyle}
+        >
+          <code style={propNameStyle}>
+            {name}
+            {optional ? '?' : ''}
+          </code>
+          <code style={propTypeStyle}>{type}</code>
+          <svg
+            aria-hidden="true"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            style={{
+              ...chevronStyle,
+              transform: expanded ? 'rotate(180deg)' : 'rotate(0deg)',
+            }}
+          >
+            <path d="m6 9 6 6 6-6" />
+          </svg>
+        </button>
+        {expanded && <div style={propsDetailStyle}>{detail}</div>}
+      </div>
+    )
+  }
 
   return (
     <div style={rootStyle}>
@@ -169,24 +226,6 @@ export default function Playground({ component, schema, minHeight = 160 }: Playg
           Playground needs the demo server: run <code style={codeStyle}>bun run demo</code> in{' '}
           <code style={codeStyle}>examples/basecoat-edge</code>
         </p>
-      )}
-
-      {editableProps.length > 0 && (
-        <div style={controlsStyle}>
-          {editableProps.map((name) => renderControl(name, schema.controls[name]))}
-        </div>
-      )}
-
-      {showSlot && (
-        <label style={labelStyle}>
-          <span style={labelTextStyle}>slot</span>
-          <textarea
-            value={slot}
-            onChange={(event) => setSlotDebounced(event.target.value)}
-            rows={4}
-            style={{ ...inputStyle, resize: 'vertical', fontFamily: 'inherit' }}
-          />
-        </label>
       )}
 
       {serverAvailable && iframeSrcDoc ? (
@@ -238,6 +277,60 @@ export default function Playground({ component, schema, minHeight = 160 }: Playg
             )
           : '…'}
       </pre>
+
+      {showPropsTable && (
+        <>
+          <div style={sourceHeaderStyle}>
+            <span style={labelTextStyle}>Props</span>
+          </div>
+          <div style={propsTableStyle}>
+            <div style={propsHeaderStyle}>
+              <span>Prop</span>
+              <span>Type</span>
+              <span aria-hidden="true" style={chevronSpacerStyle} />
+            </div>
+            <div style={propsBodyStyle}>
+              {propEntries.map(([name, prop]) =>
+                renderPropRow(
+                  name,
+                  prop.type,
+                  !prop.required,
+                  <>
+                    {prop.description && <p style={propDescriptionStyle}>{prop.description}</p>}
+                    {prop.default && (
+                      <p style={propDefaultStyle}>
+                        <span style={propDefaultLabelStyle}>Default:</span>{' '}
+                        <code style={propDefaultValueStyle}>{prop.default}</code>
+                      </p>
+                    )}
+                    {prop.control && (
+                      <div style={propControlStyle}>{renderControlInput(name, prop.control)}</div>
+                    )}
+                  </>,
+                ),
+              )}
+              {schema.hasSlot &&
+                renderPropRow(
+                  'slot',
+                  'edge markup',
+                  true,
+                  <textarea
+                    value={slot}
+                    onChange={(event) => setSlotDebounced(event.target.value)}
+                    rows={4}
+                    style={{ ...inputStyle, resize: 'vertical', fontFamily: 'inherit' }}
+                  />,
+                )}
+            </div>
+          </div>
+        </>
+      )}
+
+      {schema.hasIndexSignature && (
+        <p style={indexSignatureStyle}>
+          Plus any additional HTML attributes, forwarded to the root element.
+        </p>
+      )}
     </div>
   )
 }
@@ -274,16 +367,11 @@ const rootStyle: CSSProperties = {
   marginBlock: '1rem',
 }
 
-const controlsStyle: CSSProperties = {
-  display: 'grid',
-  gap: '0.75rem',
-  gridTemplateColumns: 'repeat(auto-fill, minmax(12rem, 1fr))',
-}
-
-const labelStyle: CSSProperties = {
+const toggleLabelStyle: CSSProperties = {
   display: 'flex',
-  flexDirection: 'column',
-  gap: '0.35rem',
+  flexDirection: 'row',
+  alignItems: 'center',
+  gap: '0.5rem',
 }
 
 const labelTextStyle: CSSProperties = {
@@ -299,6 +387,8 @@ const inputStyle: CSSProperties = {
   background: 'var(--blume-background)',
   color: 'var(--blume-foreground)',
   fontSize: '0.875rem',
+  width: '100%',
+  boxSizing: 'border-box',
 }
 
 const noticeStyle: CSSProperties = {
@@ -345,4 +435,117 @@ const preStyle: CSSProperties = {
   overflowX: 'auto',
   fontFamily: 'var(--font-mono, ui-monospace, monospace)',
   whiteSpace: 'pre-wrap',
+}
+
+const propsTableStyle: CSSProperties = {
+  border: '1px solid var(--blume-border)',
+  borderRadius: '8px',
+  background: 'color-mix(in oklch, var(--blume-muted) 30%, transparent)',
+  padding: '0.375rem',
+}
+
+const propsHeaderStyle: CSSProperties = {
+  display: 'grid',
+  gridTemplateColumns: '1fr 2fr 0.875rem',
+  alignItems: 'center',
+  gap: '1rem',
+  padding: '0.5rem 0.75rem',
+  fontSize: '0.75rem',
+  fontWeight: 500,
+  color: 'var(--blume-muted-foreground)',
+}
+
+const propsBodyStyle: CSSProperties = {
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '0.25rem',
+  marginTop: '0.25rem',
+}
+
+const propsRowStyle: CSSProperties = {
+  borderTop: '1px solid var(--blume-border)',
+}
+
+const propsRowExpandedStyle: CSSProperties = {
+  borderTopColor: 'transparent',
+  borderRadius: '8px',
+  background: 'var(--blume-background)',
+  boxShadow: '0 1px 2px color-mix(in oklch, var(--blume-foreground) 8%, transparent)',
+  outline: '1px solid var(--blume-border)',
+}
+
+const propsSummaryStyle: CSSProperties = {
+  display: 'grid',
+  gridTemplateColumns: '1fr 2fr 0.875rem',
+  alignItems: 'center',
+  gap: '1rem',
+  width: '100%',
+  padding: '0.625rem 0.75rem',
+  border: 'none',
+  background: 'transparent',
+  cursor: 'pointer',
+  textAlign: 'left',
+  font: 'inherit',
+  color: 'inherit',
+}
+
+const propNameStyle: CSSProperties = {
+  fontFamily: 'var(--font-mono, ui-monospace, monospace)',
+  fontSize: '0.75rem',
+  color: 'var(--blume-accent)',
+  wordBreak: 'break-word',
+}
+
+const propTypeStyle: CSSProperties = {
+  fontFamily: 'var(--font-mono, ui-monospace, monospace)',
+  fontSize: '0.75rem',
+  color: 'var(--blume-foreground)',
+  wordBreak: 'break-word',
+}
+
+const chevronStyle: CSSProperties = {
+  width: '0.875rem',
+  height: '0.875rem',
+  flexShrink: 0,
+  color: 'var(--blume-muted-foreground)',
+  transition: 'transform 0.15s ease',
+}
+
+const chevronSpacerStyle: CSSProperties = {
+  width: '0.875rem',
+  height: '0.875rem',
+}
+
+const propsDetailStyle: CSSProperties = {
+  borderTop: '1px solid var(--blume-border)',
+  padding: '0.75rem',
+  fontSize: '0.75rem',
+}
+
+const propDescriptionStyle: CSSProperties = {
+  margin: '0 0 0.5rem',
+  color: 'var(--blume-foreground)',
+}
+
+const propDefaultStyle: CSSProperties = {
+  margin: '0 0 0.5rem',
+  color: 'var(--blume-foreground)',
+}
+
+const propDefaultLabelStyle: CSSProperties = {
+  color: 'var(--blume-muted-foreground)',
+}
+
+const propDefaultValueStyle: CSSProperties = {
+  fontFamily: 'var(--font-mono, ui-monospace, monospace)',
+}
+
+const propControlStyle: CSSProperties = {
+  marginTop: '0.5rem',
+}
+
+const indexSignatureStyle: CSSProperties = {
+  margin: 0,
+  fontSize: '0.875rem',
+  color: 'var(--blume-muted-foreground)',
 }

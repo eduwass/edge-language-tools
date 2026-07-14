@@ -7,19 +7,5 @@ description: CSS-only tooltip via data-tooltip on the trigger element; no JS req
 
 ## Preview
 
-<Playground component="tooltip" schema={{"controls":{"text":{"kind":"text"},"side":{"kind":"select","options":["top","bottom","left","right","inline-start","inline-end"]},"align":{"kind":"select","options":["start","center","end"]},"as_button":{"kind":"toggle"},"variant":{"kind":"select","options":["primary","secondary","outline","ghost","link","destructive"]}},"defaultProps":{"text":"Helpful tooltip text"},"defaultSlot":"  @slot('trigger')\n    Hover me\n  @end","previewSlug":"tooltip","minHeight":180}} minHeight={180} />
-
-## Props
-
-<TypeTable
-  type={{
-    text: { type: "string", required: true, description: "Tooltip text set as data-tooltip on the trigger element." },
-    side: { type: "'top' | 'bottom' | 'left' | 'right' | 'inline-start' | 'inline-end'", description: "Tooltip position via data-side on the trigger.", default: "'top'" },
-    align: { type: "'start' | 'center' | 'end'", description: "Tooltip alignment via data-align on the trigger.", default: "'center'" },
-    as_button: { type: "boolean", description: "When true, wraps slot content in button.btn.", default: "true" },
-    variant: { type: "'primary' | 'secondary' | 'outline' | 'ghost' | 'link' | 'destructive'", description: "Button variant when as_button is true.", default: "'outline'" }
-  }}
-/>
-
-Plus any additional HTML attributes, forwarded to the root element.
+<Playground component="tooltip" schema={{"props":{"text":{"type":"string","required":true,"description":"Tooltip text set as data-tooltip on the trigger element.","control":{"kind":"text"}},"side":{"type":"'top' | 'bottom' | 'left' | 'right' | 'inline-start' | 'inline-end'","required":false,"description":"Tooltip position via data-side on the trigger.","default":"'top'","control":{"kind":"select","options":["top","bottom","left","right","inline-start","inline-end"]}},"align":{"type":"'start' | 'center' | 'end'","required":false,"description":"Tooltip alignment via data-align on the trigger.","default":"'center'","control":{"kind":"select","options":["start","center","end"]}},"as_button":{"type":"boolean","required":false,"description":"When true, wraps slot content in button.btn.","default":"true","control":{"kind":"toggle"}},"variant":{"type":"'primary' | 'secondary' | 'outline' | 'ghost' | 'link' | 'destructive'","required":false,"description":"Button variant when as_button is true.","default":"'outline'","control":{"kind":"select","options":["primary","secondary","outline","ghost","link","destructive"]}}},"defaultProps":{"text":"Helpful tooltip text"},"defaultSlot":"  @slot('trigger')\n    Hover me\n  @end","previewSlug":"tooltip","hasSlot":true,"hasIndexSignature":true,"minHeight":180}} minHeight={180} />
 

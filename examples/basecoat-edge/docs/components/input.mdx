@@ -7,21 +7,5 @@ description: Text-like input with basecoat styling.
 
 ## Preview
 
-<Playground component="input" schema={{"controls":{"type":{"kind":"text"},"name":{"kind":"text"},"value":{"kind":"text"},"placeholder":{"kind":"text"},"disabled":{"kind":"toggle"},"required":{"kind":"toggle"},"id":{"kind":"text"}},"defaultProps":{"type":"email","name":"email","placeholder":"you@example.com"},"defaultSlot":"","previewSlug":"input"}} minHeight={160} />
-
-## Props
-
-<TypeTable
-  type={{
-    type: { type: "string", description: "Native input type on the input element.", default: "'text'" },
-    name: { type: "string", description: "Form field name." },
-    value: { type: "string", description: "Controlled or default value attribute." },
-    placeholder: { type: "string", description: "Placeholder text." },
-    disabled: { type: "boolean", description: "Disables the input when truthy." },
-    required: { type: "boolean", description: "Marks the input required when truthy." },
-    id: { type: "string", description: "DOM id for label association." }
-  }}
-/>
-
-Plus any additional HTML attributes, forwarded to the root element.
+<Playground component="input" schema={{"props":{"type":{"type":"string","required":false,"description":"Native input type on the input element.","default":"'text'","control":{"kind":"text"}},"name":{"type":"string","required":false,"description":"Form field name.","control":{"kind":"text"}},"value":{"type":"string","required":false,"description":"Controlled or default value attribute.","control":{"kind":"text"}},"placeholder":{"type":"string","required":false,"description":"Placeholder text.","control":{"kind":"text"}},"disabled":{"type":"boolean","required":false,"description":"Disables the input when truthy.","control":{"kind":"toggle"}},"required":{"type":"boolean","required":false,"description":"Marks the input required when truthy.","control":{"kind":"toggle"}},"id":{"type":"string","required":false,"description":"DOM id for label association.","control":{"kind":"text"}}},"defaultProps":{"type":"email","name":"email","placeholder":"you@example.com"},"defaultSlot":"","previewSlug":"input","hasIndexSignature":true}} minHeight={160} />
 

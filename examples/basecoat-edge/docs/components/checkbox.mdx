@@ -7,21 +7,5 @@ description: Styled checkbox input with optional label slot.
 
 ## Preview
 
-<Playground component="checkbox" schema={{"controls":{"name":{"kind":"text"},"value":{"kind":"text"},"checked":{"kind":"toggle"},"disabled":{"kind":"toggle"},"required":{"kind":"toggle"},"id":{"kind":"text"},"label":{"kind":"text"}},"defaultProps":{"name":"terms","label":"Accept terms"},"defaultSlot":"","previewSlug":"checkbox"}} minHeight={160} />
-
-## Props
-
-<TypeTable
-  type={{
-    name: { type: "string", description: "Form field name on the checkbox input." },
-    value: { type: "string", description: "Submitted value when the checkbox is checked." },
-    checked: { type: "boolean", description: "When true, renders the checked attribute on the input." },
-    disabled: { type: "boolean", description: "When true, disables the checkbox input." },
-    required: { type: "boolean", description: "When true, marks the checkbox as required for form validation." },
-    id: { type: "string", description: "DOM id on the checkbox input for label association." },
-    label: { type: "string", description: "Visible label text in a span when no main slot is provided." }
-  }}
-/>
-
-Plus any additional HTML attributes, forwarded to the root element.
+<Playground component="checkbox" schema={{"props":{"name":{"type":"string","required":false,"description":"Form field name on the checkbox input.","control":{"kind":"text"}},"value":{"type":"string","required":false,"description":"Submitted value when the checkbox is checked.","control":{"kind":"text"}},"checked":{"type":"boolean","required":false,"description":"When true, renders the checked attribute on the input.","control":{"kind":"toggle"}},"disabled":{"type":"boolean","required":false,"description":"When true, disables the checkbox input.","control":{"kind":"toggle"}},"required":{"type":"boolean","required":false,"description":"When true, marks the checkbox as required for form validation.","control":{"kind":"toggle"}},"id":{"type":"string","required":false,"description":"DOM id on the checkbox input for label association.","control":{"kind":"text"}},"label":{"type":"string","required":false,"description":"Visible label text in a span when no main slot is provided.","control":{"kind":"text"}}},"defaultProps":{"name":"terms","label":"Accept terms"},"defaultSlot":"","previewSlug":"checkbox","hasSlot":true,"hasIndexSignature":true}} minHeight={160} />
 

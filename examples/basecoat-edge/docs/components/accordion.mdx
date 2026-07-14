@@ -7,15 +7,5 @@ description: Vertically stacked disclosure items; requires basecoat accordion JS
 
 ## Preview
 
-<Playground component="accordion" schema={{"controls":{"multiple":{"kind":"toggle"}},"defaultProps":{},"defaultSlot":"  <details open>\n    <summary>\n      Is it accessible?\n      @svg('lucide:chevron-down')\n    </summary>\n    <section>Yes. It uses native disclosure semantics.</section>\n  </details>\n  <details>\n    <summary>\n      Is it styled?\n      @svg('lucide:chevron-down')\n    </summary>\n    <section>Yes. It comes with basecoat styles.</section>\n  </details>","previewSlug":"accordion"}} minHeight={160} />
-
-## Props
-
-<TypeTable
-  type={{
-    multiple: { type: "boolean", description: "When true, sets data-multiple on the accordion so multiple panels can stay open." }
-  }}
-/>
-
-Plus any additional HTML attributes, forwarded to the root element.
+<Playground component="accordion" schema={{"props":{"multiple":{"type":"boolean","required":false,"description":"When true, sets data-multiple on the accordion so multiple panels can stay open.","control":{"kind":"toggle"}}},"defaultProps":{},"defaultSlot":"  <details open>\n    <summary>\n      Is it accessible?\n      @svg('lucide:chevron-down')\n    </summary>\n    <section>Yes. It uses native disclosure semantics.</section>\n  </details>\n  <details>\n    <summary>\n      Is it styled?\n      @svg('lucide:chevron-down')\n    </summary>\n    <section>Yes. It comes with basecoat styles.</section>\n  </details>","previewSlug":"accordion","hasSlot":true,"hasIndexSignature":true}} minHeight={160} />
 

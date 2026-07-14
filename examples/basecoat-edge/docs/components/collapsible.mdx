@@ -7,15 +7,5 @@ description: Native details/summary disclosure; content via main slot.
 
 ## Preview
 
-<Playground component="collapsible" schema={{"controls":{"open":{"kind":"toggle"}},"defaultProps":{"open":true},"defaultSlot":"  <summary>Can I use this in my project?</summary>\n  <section>Yes. It uses native details and summary elements.</section>","previewSlug":"collapsible"}} minHeight={160} />
-
-## Props
-
-<TypeTable
-  type={{
-    open: { type: "boolean", description: "When true, renders the open attribute on the native details element." }
-  }}
-/>
-
-Plus any additional HTML attributes, forwarded to the root element.
+<Playground component="collapsible" schema={{"props":{"open":{"type":"boolean","required":false,"description":"When true, renders the open attribute on the native details element.","control":{"kind":"toggle"}}},"defaultProps":{"open":true},"defaultSlot":"  <summary>Can I use this in my project?</summary>\n  <section>Yes. It uses native details and summary elements.</section>","previewSlug":"collapsible","hasSlot":true,"hasIndexSignature":true}} minHeight={160} />
 

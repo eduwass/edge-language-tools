@@ -7,16 +7,5 @@ description: List item row with media, title, and description slots.
 
 ## Preview
 
-<Playground component="item" schema={{"controls":{"title":{"kind":"text"},"description":{"kind":"text"}},"defaultProps":{"title":"Notifications","description":"You have 3 unread messages."},"defaultSlot":"","previewSlug":"item"}} minHeight={160} />
-
-## Props
-
-<TypeTable
-  type={{
-    title: { type: "string", description: "Primary line as h3 inside section when no title slot is provided." },
-    description: { type: "string", description: "Secondary line as p inside section when no description slot." }
-  }}
-/>
-
-Plus any additional HTML attributes, forwarded to the root element.
+<Playground component="item" schema={{"props":{"title":{"type":"string","required":false,"description":"Primary line as h3 inside section when no title slot is provided.","control":{"kind":"text"}},"description":{"type":"string","required":false,"description":"Secondary line as p inside section when no description slot.","control":{"kind":"text"}}},"defaultProps":{"title":"Notifications","description":"You have 3 unread messages."},"defaultSlot":"","previewSlug":"item","hasIndexSignature":true}} minHeight={160} />
 

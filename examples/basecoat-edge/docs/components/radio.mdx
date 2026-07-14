@@ -7,21 +7,5 @@ description: Styled radio input with optional label.
 
 ## Preview
 
-<Playground component="radio" schema={{"controls":{"name":{"kind":"text"},"value":{"kind":"text"},"checked":{"kind":"toggle"},"disabled":{"kind":"toggle"},"required":{"kind":"toggle"},"id":{"kind":"text"},"label":{"kind":"text"}},"defaultProps":{"name":"plan","value":"free","label":"Free","checked":true},"defaultSlot":"","previewSlug":"radio"}} minHeight={160} />
-
-## Props
-
-<TypeTable
-  type={{
-    name: { type: "string", description: "Radio group name shared across inputs in the same group." },
-    value: { type: "string", description: "Submitted value for this radio option." },
-    checked: { type: "boolean", description: "When true, renders checked on the radio input." },
-    disabled: { type: "boolean", description: "When true, disables the radio input." },
-    required: { type: "boolean", description: "When true, marks the radio as required." },
-    id: { type: "string", description: "DOM id on the radio input." },
-    label: { type: "string", description: "Visible label in a span when no main slot is provided." }
-  }}
-/>
-
-Plus any additional HTML attributes, forwarded to the root element.
+<Playground component="radio" schema={{"props":{"name":{"type":"string","required":false,"description":"Radio group name shared across inputs in the same group.","control":{"kind":"text"}},"value":{"type":"string","required":false,"description":"Submitted value for this radio option.","control":{"kind":"text"}},"checked":{"type":"boolean","required":false,"description":"When true, renders checked on the radio input.","control":{"kind":"toggle"}},"disabled":{"type":"boolean","required":false,"description":"When true, disables the radio input.","control":{"kind":"toggle"}},"required":{"type":"boolean","required":false,"description":"When true, marks the radio as required.","control":{"kind":"toggle"}},"id":{"type":"string","required":false,"description":"DOM id on the radio input.","control":{"kind":"text"}},"label":{"type":"string","required":false,"description":"Visible label in a span when no main slot is provided.","control":{"kind":"text"}}},"defaultProps":{"name":"plan","value":"free","label":"Free","checked":true},"defaultSlot":"","previewSlug":"radio","hasSlot":true,"hasIndexSignature":true}} minHeight={160} />
 

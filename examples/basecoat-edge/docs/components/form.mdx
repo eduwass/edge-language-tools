@@ -7,16 +7,5 @@ description: Form container with field spacing.
 
 ## Preview
 
-<Playground component="form" schema={{"controls":{"action":{"kind":"text"},"method":{"kind":"select","options":["get","post"]}},"defaultProps":{"action":"/submit","method":"post"},"defaultSlot":"  @field({ label: 'Name' })\n    @input({ name: 'name', placeholder: 'Your name' })\n    @end\n  @end\n  @button({ type: 'submit' })\n    Submit\n  @end","previewSlug":"form","minHeight":200}} minHeight={200} />
-
-## Props
-
-<TypeTable
-  type={{
-    action: { type: "string", description: "Form submission URL on the form element." },
-    method: { type: "'get' | 'post'", description: "HTTP method on the form element when provided." }
-  }}
-/>
-
-Plus any additional HTML attributes, forwarded to the root element.
+<Playground component="form" schema={{"props":{"action":{"type":"string","required":false,"description":"Form submission URL on the form element.","control":{"kind":"text"}},"method":{"type":"'get' | 'post'","required":false,"description":"HTTP method on the form element when provided.","control":{"kind":"select","options":["get","post"]}}},"defaultProps":{"action":"/submit","method":"post"},"defaultSlot":"  @field({ label: 'Name' })\n    @input({ name: 'name', placeholder: 'Your name' })\n    @end\n  @end\n  @button({ type: 'submit' })\n    Submit\n  @end","previewSlug":"form","hasSlot":true,"hasIndexSignature":true,"minHeight":200}} minHeight={200} />
 

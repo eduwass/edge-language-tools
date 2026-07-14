@@ -7,17 +7,5 @@ description: User avatar image or fallback initials.
 
 ## Preview
 
-<Playground component="avatar" schema={{"controls":{"src":{"kind":"text"},"alt":{"kind":"text"},"fallback":{"kind":"text"}},"defaultProps":{"src":"https://github.com/shadcn.png","alt":"User"},"defaultSlot":"","previewSlug":"avatar"}} minHeight={160} />
-
-## Props
-
-<TypeTable
-  type={{
-    src: { type: "string", description: "Image URL; when set, renders an img inside the .avatar span with a fallback span." },
-    alt: { type: "string", description: "Alt text on the avatar image.", default: "''" },
-    fallback: { type: "string", description: "Initials or text shown in a fallback span when the image is absent or loading." }
-  }}
-/>
-
-Plus any additional HTML attributes, forwarded to the root element.
+<Playground component="avatar" schema={{"props":{"src":{"type":"string","required":false,"description":"Image URL; when set, renders an img inside the .avatar span with a fallback span.","control":{"kind":"text"}},"alt":{"type":"string","required":false,"description":"Alt text on the avatar image.","default":"''","control":{"kind":"text"}},"fallback":{"type":"string","required":false,"description":"Initials or text shown in a fallback span when the image is absent or loading.","control":{"kind":"text"}}},"defaultProps":{"src":"https://github.com/shadcn.png","alt":"User"},"defaultSlot":"","previewSlug":"avatar","hasSlot":true,"hasIndexSignature":true}} minHeight={160} />
 

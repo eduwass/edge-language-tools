@@ -7,21 +7,5 @@ description: Multi-line text input.
 
 ## Preview
 
-<Playground component="textarea" schema={{"controls":{"name":{"kind":"text"},"value":{"kind":"text"},"placeholder":{"kind":"text"},"disabled":{"kind":"toggle"},"required":{"kind":"toggle"},"id":{"kind":"text"}},"defaultProps":{"name":"message","placeholder":"Type your message here.","rows":4},"defaultSlot":"","previewSlug":"textarea","minHeight":180}} minHeight={180} />
-
-## Props
-
-<TypeTable
-  type={{
-    name: { type: "string", description: "Form field name on the textarea element." },
-    value: { type: "string", description: "Text content inside the textarea element.", default: "''" },
-    placeholder: { type: "string", description: "Placeholder text." },
-    rows: { type: "number", description: "Visible row count on the textarea." },
-    disabled: { type: "boolean", description: "Disables the textarea when truthy." },
-    required: { type: "boolean", description: "Marks the textarea required when truthy." },
-    id: { type: "string", description: "DOM id for label association." }
-  }}
-/>
-
-Plus any additional HTML attributes, forwarded to the root element.
+<Playground component="textarea" schema={{"props":{"name":{"type":"string","required":false,"description":"Form field name on the textarea element.","control":{"kind":"text"}},"value":{"type":"string","required":false,"description":"Text content inside the textarea element.","default":"''","control":{"kind":"text"}},"placeholder":{"type":"string","required":false,"description":"Placeholder text.","control":{"kind":"text"}},"rows":{"type":"number","required":false,"description":"Visible row count on the textarea."},"disabled":{"type":"boolean","required":false,"description":"Disables the textarea when truthy.","control":{"kind":"toggle"}},"required":{"type":"boolean","required":false,"description":"Marks the textarea required when truthy.","control":{"kind":"toggle"}},"id":{"type":"string","required":false,"description":"DOM id for label association.","control":{"kind":"text"}}},"defaultProps":{"name":"message","placeholder":"Type your message here.","rows":4},"defaultSlot":"","previewSlug":"textarea","hasIndexSignature":true,"minHeight":180}} minHeight={180} />
 
