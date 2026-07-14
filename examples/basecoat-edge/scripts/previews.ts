@@ -117,9 +117,27 @@ export const previews: Record<string, PreviewExample[]> = {
   ],
   chart: [
     {
+      minHeight: 320,
       source: `@chart({ id: 'preview-chart', label: 'Monthly visitors' })
-@end`,
-      minHeight: 200,
+@end
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    window.basecoat.chart('#preview-chart', {
+      type: 'bar',
+      labelKey: 'month',
+      data: [
+        { month: 'Jan', desktop: 186, mobile: 80 },
+        { month: 'Feb', desktop: 305, mobile: 200 },
+        { month: 'Mar', desktop: 237, mobile: 120 },
+        { month: 'Apr', desktop: 173, mobile: 190 },
+      ],
+      series: {
+        desktop: { label: 'Desktop', color: 'var(--chart-1)' },
+        mobile: { label: 'Mobile', color: 'var(--chart-2)' },
+      },
+    })
+  })
+</script>`,
     },
   ],
   checkbox: [

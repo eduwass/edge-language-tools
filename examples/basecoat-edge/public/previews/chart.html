@@ -6,6 +6,8 @@
   <title>Preview</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/basecoat-css@1.0.2/dist/basecoat.cdn.min.css" />
   <script src="https://cdn.jsdelivr.net/npm/basecoat-css@1.0.2/dist/js/all.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/basecoat-css@1.0.2/dist/js/chart.min.js" defer></script>
   <style>
     :root { color-scheme: light dark; }
     body {
@@ -45,6 +47,25 @@
   id="preview-chart"
   aria-label="Monthly visitors"
 ></canvas>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    window.basecoat.chart('#preview-chart', {
+      type: 'bar',
+      labelKey: 'month',
+      data: [
+        { month: 'Jan', desktop: 186, mobile: 80 },
+        { month: 'Feb', desktop: 305, mobile: 200 },
+        { month: 'Mar', desktop: 237, mobile: 120 },
+        { month: 'Apr', desktop: 173, mobile: 190 },
+      ],
+      series: {
+        desktop: { label: 'Desktop', color: 'var(--chart-1)' },
+        mobile: { label: 'Mobile', color: 'var(--chart-2)' },
+      },
+    })
+  })
+</script>
   </div>
 </body>
 </html>

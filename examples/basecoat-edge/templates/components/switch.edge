@@ -39,8 +39,9 @@
     required
     @end
   />
-  @if($slots.main)
-    {{{ await $slots.main() }}}
+  @let(body = await $slots.main())
+  @if(body && body.trim())
+    {{{ body }}}
   @elseif(label)
     <span>{{ label }}</span>
   @end

@@ -21,6 +21,8 @@ export function previewHtml(body: string): string {
   <title>Preview</title>
   <link rel="stylesheet" href="${BASECOAT_CSS}" />
   <script src="${BASECOAT_JS}" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/basecoat-css@1.0.2/dist/js/chart.min.js" defer></script>
   <style>
     :root { color-scheme: light dark; }
     body {
