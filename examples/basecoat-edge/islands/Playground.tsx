@@ -192,14 +192,17 @@ export default function Playground({ component, schema, minHeight = 160 }: Playg
       {serverAvailable && iframeSrcDoc ? (
         <iframe
           title={`${component} playground preview`}
-          sandbox=""
+          // allow-scripts: basecoat's runtime and the theme-sync script must run;
+          // allow-same-origin: theme sync reads the parent's data-theme. Content
+          // is our own edge-rendered markup from locally typed props.
+          sandbox="allow-scripts allow-same-origin"
           srcDoc={iframeSrcDoc}
           style={{
             width: '100%',
             minHeight: `${minHeight}px`,
-            border: '1px solid var(--color-border-tertiary)',
+            border: '1px solid var(--blume-border)',
             borderRadius: '8px',
-            background: 'var(--color-bg-primary, #fff)',
+            background: 'var(--blume-background)',
           }}
         />
       ) : (
@@ -210,7 +213,7 @@ export default function Playground({ component, schema, minHeight = 160 }: Playg
           style={{
             width: '100%',
             minHeight: `${minHeight}px`,
-            border: '1px solid var(--color-border-tertiary)',
+            border: '1px solid var(--blume-border)',
             borderRadius: '8px',
           }}
         />
@@ -254,10 +257,10 @@ function highlightEdge(code: string): { text: string; color?: string }[] {
     if (i > last) tokens.push({ text: code.slice(last, i) })
     const t = match[0]
     let color: string | undefined
-    if (t.startsWith('@')) color = 'var(--color-accent, #2563eb)'
-    else if (t.startsWith("'") || t.startsWith('"')) color = 'var(--color-success, #16a34a)'
-    else if (t.startsWith('{{') || t.endsWith('}}')) color = 'var(--color-warning, #d97706)'
-    else if (t.startsWith('<') || t === '>') color = 'var(--color-text-secondary, #64748b)'
+    if (t.startsWith('@')) color = '#3b82f6'
+    else if (t.startsWith("'") || t.startsWith('"')) color = '#22c55e'
+    else if (t.startsWith('{{') || t.endsWith('}}')) color = '#f59e0b'
+    else if (t.startsWith('<') || t === '>') color = 'var(--blume-muted-foreground)'
     tokens.push({ text: t, color })
     last = i + t.length
   }
@@ -286,15 +289,15 @@ const labelStyle: CSSProperties = {
 const labelTextStyle: CSSProperties = {
   fontSize: '0.8125rem',
   fontWeight: 500,
-  color: 'var(--color-text-secondary, #555)',
+  color: 'var(--blume-muted-foreground)',
 }
 
 const inputStyle: CSSProperties = {
   padding: '0.4rem 0.55rem',
-  border: '1px solid var(--color-border-tertiary, #ddd)',
+  border: '1px solid var(--blume-border)',
   borderRadius: '6px',
-  background: 'var(--color-bg-primary, #fff)',
-  color: 'var(--color-text-primary, #111)',
+  background: 'var(--blume-background)',
+  color: 'var(--blume-foreground)',
   fontSize: '0.875rem',
 }
 
@@ -302,9 +305,9 @@ const noticeStyle: CSSProperties = {
   margin: 0,
   padding: '0.65rem 0.75rem',
   borderRadius: '6px',
-  border: '1px solid var(--color-border-tertiary, #ddd)',
-  background: 'var(--color-bg-secondary, #f8f8f8)',
-  color: 'var(--color-text-secondary, #555)',
+  border: '1px solid var(--blume-border)',
+  background: 'var(--blume-muted)',
+  color: 'var(--blume-muted-foreground)',
   fontSize: '0.875rem',
 }
 
@@ -322,10 +325,10 @@ const sourceHeaderStyle: CSSProperties = {
 
 const buttonStyle: CSSProperties = {
   padding: '0.35rem 0.65rem',
-  border: '1px solid var(--color-border-tertiary, #ddd)',
+  border: '1px solid var(--blume-border)',
   borderRadius: '6px',
-  background: 'var(--color-bg-primary, #fff)',
-  color: 'var(--color-text-primary, #111)',
+  background: 'var(--blume-background)',
+  color: 'var(--blume-foreground)',
   fontSize: '0.8125rem',
   cursor: 'pointer',
 }
@@ -334,9 +337,9 @@ const preStyle: CSSProperties = {
   margin: 0,
   padding: '0.75rem 1rem',
   borderRadius: '8px',
-  border: '1px solid var(--color-border-tertiary, #ddd)',
-  background: 'var(--color-bg-secondary, #f8f8f8)',
-  color: 'var(--color-text-primary, #111)',
+  border: '1px solid var(--blume-border)',
+  background: 'var(--blume-muted)',
+  color: 'var(--blume-foreground)',
   fontSize: '0.8125rem',
   lineHeight: 1.5,
   overflowX: 'auto',
