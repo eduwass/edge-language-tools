@@ -22,10 +22,14 @@
   }>
   // Class and attributes on the menu trigger button. @default { class: 'btn' }
   trigger_attrs?: Record<string, string>
-  // Extra class and attributes on root .dropdown-menu container.
-  main_attrs?: Record<string, string>
-  // Additional HTML attributes forwarded to the dropdown root.
-  [attr: string]: unknown
+  // Passthrough HTML, data-*, and aria-* attributes forwarded to the root element via $props.merge(...).except(...).toAttrs().
+  class?: string
+  title?: string
+  role?: string
+  style?: string
+  tabindex?: string
+  [attr: `data-${string}`]: string | number | boolean
+  [attr: `aria-${string}`]: string | boolean
 }
 @url https://basecoatui.com/components/dropdown-menu/
 @example height=180
@@ -43,7 +47,7 @@
     @end
   @end
 --}}
-<div id="{{ id }}" class="dropdown-menu {{ main_attrs?.class ?? '' }}">
+<div {{ $props.merge({ class: 'dropdown-menu' }).except(['items', 'trigger_attrs']).toAttrs() }}>
   <button
     type="button"
     id="{{ id }}-trigger"

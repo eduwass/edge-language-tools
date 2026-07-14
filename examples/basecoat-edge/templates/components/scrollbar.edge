@@ -2,8 +2,15 @@
 @name Scrollbar
 @desc Scrollable region with custom scrollbar styling.
 @types {
-  // Additional HTML attributes forwarded to the scrollable .scrollbar wrapper.
-  [attr: string]: unknown
+  // Passthrough HTML, data-*, and aria-* attributes forwarded to the root element via $props.merge(...).except(...).toAttrs().
+  id?: string
+  class?: string
+  title?: string
+  role?: string
+  style?: string
+  tabindex?: string
+  [attr: `data-${string}`]: string | number | boolean
+  [attr: `aria-${string}`]: string | boolean
 }
 @url https://basecoatui.com/components/scrollbar/
 @example height=180
@@ -20,6 +27,6 @@
     </div>
   @end
 --}}
-<div {{ html.attrs({ class: 'scrollbar' }) }}>
+<div {{ $props.merge({ class: 'scrollbar' }).toAttrs() }}>
   {{{ await $slots.main() }}}
 </div>

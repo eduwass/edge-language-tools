@@ -2,8 +2,15 @@
 @name Table
 @desc Styled data table wrapper.
 @types {
-  // Additional HTML attributes forwarded to the outer .table-container wrapper div.
-  [attr: string]: unknown
+  // Passthrough HTML, data-*, and aria-* attributes forwarded to the root element via $props.merge(...).except(...).toAttrs().
+  id?: string
+  class?: string
+  title?: string
+  role?: string
+  style?: string
+  tabindex?: string
+  [attr: `data-${string}`]: string | number | boolean
+  [attr: `aria-${string}`]: string | boolean
 }
 @url https://basecoatui.com/components/table/
 @example height=200
@@ -17,8 +24,8 @@
     </tbody>
   @end
 --}}
-<div {{ html.attrs({ class: 'table-container' }) }}>
-  <table {{ html.attrs({ class: 'table' }) }}>
+<div {{ $props.merge({ class: 'table-container' }).toAttrs() }}>
+  <table class="table">
     {{{ await $slots.main() }}}
   </table>
 </div>

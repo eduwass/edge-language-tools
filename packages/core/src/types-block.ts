@@ -46,7 +46,7 @@ export function findTypesBlock(tokens: CommentToken[], lines: LineIndex): TypesB
   return null
 }
 
-function matchBrace(text: string, openIndex: number): number {
+export function matchBrace(text: string, openIndex: number): number {
   let depth = 0
   for (let i = openIndex; i < text.length; i++) {
     const ch = text[i]

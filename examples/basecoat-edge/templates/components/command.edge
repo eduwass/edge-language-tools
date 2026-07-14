@@ -35,16 +35,18 @@
   dialog?: boolean
   // When true in dialog mode, renders the open attribute on the dialog.
   open?: boolean
-  // Extra class and attributes on inline .command root in non-dialog mode.
-  main_attrs?: Record<string, string>
   // Extra class and attributes on the search input.
   input_attrs?: Record<string, string>
   // Extra class and attributes on the role=menu results panel.
   menu_attrs?: Record<string, string>
-  // Extra class and attributes on the dialog wrapper in dialog mode.
-  dialog_attrs?: Record<string, string>
-  // Additional HTML attributes forwarded to the command root element.
-  [attr: string]: unknown
+  // Passthrough HTML, data-*, and aria-* attributes forwarded to the root element via $props.merge(...).except(...).toAttrs().
+  class?: string
+  title?: string
+  role?: string
+  style?: string
+  tabindex?: string
+  [attr: `data-${string}`]: string | number | boolean
+  [attr: `aria-${string}`]: string | boolean
 }
 @url https://basecoatui.com/components/command/
 @example height=420
@@ -75,9 +77,12 @@
 --}}
 @if(dialog)
 <dialog
-  id="{{ id }}"
-  class="command-dialog {{ dialog_attrs?.class ?? '' }}"
-  aria-label="Command menu"
+  {{
+    $props.merge({
+      class: 'command-dialog',
+      'aria-label': 'Command menu',
+    }).except(['items', 'placeholder', 'empty_text', 'dialog', 'open', 'input_attrs', 'menu_attrs']).toAttrs()
+  }}
   @if(open)
   open
   @end
@@ -193,7 +198,7 @@
   </div>
 </dialog>
 @else
-<div id="{{ id }}" class="command {{ main_attrs?.class ?? '' }}" aria-label="Command menu">
+<div {{ $props.merge({ class: 'command', 'aria-label': 'Command menu' }).except(['items', 'placeholder', 'empty_text', 'dialog', 'open', 'input_attrs', 'menu_attrs']).toAttrs() }}>
   <header>
     @svg('lucide:search')
     <input type="text" id="{{ id }}-input" placeholder="{{ placeholder ?? 'Type a command or search...' }}" autocomplete="off" autocorrect="off" spellcheck="false" aria-autocomplete="list" role="combobox" aria-expanded="true" aria-controls="{{ id }}-menu" class="{{ input_attrs?.class ?? '' }}" />

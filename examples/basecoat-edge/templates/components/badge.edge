@@ -4,8 +4,15 @@
 @types {
   // Badge style; non-default values set data-variant on the .badge span. @default 'default'
   variant?: 'default' | 'secondary' | 'outline' | 'destructive'
-  // Additional HTML attributes forwarded to the root .badge span.
-  [attr: string]: unknown
+  // Passthrough HTML, data-*, and aria-* attributes forwarded to the root element via $props.merge(...).except(...).toAttrs().
+  id?: string
+  class?: string
+  title?: string
+  role?: string
+  style?: string
+  tabindex?: string
+  [attr: `data-${string}`]: string | number | boolean
+  [attr: `aria-${string}`]: string | boolean
 }
 @url https://basecoatui.com/components/badge/
 @example
@@ -14,10 +21,7 @@
   @end
 --}}
 <span {{
-  html.attrs({
-    class: 'badge',
-    ...(variant && variant !== 'default' ? { 'data-variant': variant } : {}),
-  })
+  $props.merge({ class: 'badge', ...(variant && variant !== 'default' ? { 'data-variant': variant } : {}) }).except(['variant']).toAttrs()
 }}>
   {{{ await $slots.main() }}}
 </span>

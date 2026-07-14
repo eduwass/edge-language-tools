@@ -32,16 +32,20 @@
     attrs?: Record<string, string>
     id?: string
   }>
-  // Extra class and attributes on the aside (class merged with sidebar).
-  main_attrs?: Record<string, string>
   // Extra class and attributes on the header element.
   header_attrs?: Record<string, string>
   // Extra class and attributes on the scrollable content section.
   content_attrs?: Record<string, string>
   // Extra class and attributes on the footer element.
   footer_attrs?: Record<string, string>
-  // Additional HTML attributes forwarded to the sidebar aside.
-  [attr: string]: unknown
+  // Passthrough HTML, data-*, and aria-* attributes forwarded to the root element via $props.merge(...).except(...).toAttrs().
+  class?: string
+  title?: string
+  role?: string
+  style?: string
+  tabindex?: string
+  [attr: `data-${string}`]: string | number | boolean
+  [attr: `aria-${string}`]: string | boolean
 }
 @url https://basecoatui.com/components/sidebar/
 @example height=320
@@ -65,12 +69,13 @@
   </div>
 --}}
 <aside
-  @if(id)
-  id="{{ id }}"
-  @end
-  class="sidebar {{ main_attrs?.class ?? '' }}"
-  data-side="{{ side ?? 'left' }}"
-  aria-hidden="{{ open === false ? 'true' : 'false' }}"
+  {{
+    $props.merge({
+      class: 'sidebar',
+      'data-side': side ?? 'left',
+      'aria-hidden': open === false ? 'true' : 'false',
+    }).except(['label', 'open', 'side', 'menu', 'header_attrs', 'content_attrs', 'footer_attrs']).toAttrs()
+  }}
   @if(open === false)
   inert
   @end

@@ -10,8 +10,14 @@
   disabled?: boolean
   // Marks the select required when truthy.
   required?: boolean
-  // Additional HTML attributes forwarded to the select element.
-  [attr: string]: unknown
+  // Passthrough HTML, data-*, and aria-* attributes forwarded to the root element via $props.merge(...).except(...).toAttrs().
+  class?: string
+  title?: string
+  role?: string
+  style?: string
+  tabindex?: string
+  [attr: `data-${string}`]: string | number | boolean
+  [attr: `aria-${string}`]: string | boolean
 }
 @url https://basecoatui.com/components/native-select/
 @example
@@ -22,6 +28,6 @@
     <option value="orange">Orange</option>
   @end
 --}}
-<select {{ html.attrs({ class: 'select', name, id, disabled, required }) }}>
+<select {{ $props.merge({ class: 'select' }).toAttrs() }}>
   {{{ await $slots.main() }}}
 </select>

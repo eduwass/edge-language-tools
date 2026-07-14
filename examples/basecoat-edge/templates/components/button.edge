@@ -11,8 +11,21 @@
   type?: 'button' | 'submit' | 'reset'
   // Positions slot content relative to an icon via data-icon.
   icon?: 'inline-start' | 'inline-end'
-  // Additional HTML attributes forwarded to the root button element.
-  [attr: string]: unknown
+  // Native button disabled state and form association attributes.
+  disabled?: boolean
+  name?: string
+  value?: string
+  form?: string
+  autofocus?: boolean
+  // Passthrough HTML, data-*, and aria-* attributes forwarded to the root element via $props.merge(...).except(...).toAttrs().
+  id?: string
+  class?: string
+  title?: string
+  role?: string
+  style?: string
+  tabindex?: string
+  [attr: `data-${string}`]: string | number | boolean
+  [attr: `aria-${string}`]: string | boolean
 }
 @url https://basecoatui.com/components/button/
 @example Variants
@@ -27,13 +40,13 @@
   @end
 --}}
 <button {{
-  html.attrs({
+  $props.merge({
     type: type ?? 'button',
     class: 'btn',
     ...(variant && variant !== 'primary' ? { 'data-variant': variant } : {}),
     ...(size ? { 'data-size': size } : {}),
     ...(icon ? { 'data-icon': icon } : {}),
-  })
+  }).except(['variant', 'size', 'type', 'icon']).toAttrs()
 }}>
   {{{ await $slots.main() }}}
 </button>

@@ -25,12 +25,16 @@
   close_on_select?: boolean
   // Hidden value shape; object sets data-format on the root. @default 'value'
   format?: 'value' | 'object'
-  // Extra class and attributes on root .select container.
-  main_attrs?: Record<string, string>
   // Extra class and attributes on the listbox trigger button.
   trigger_attrs?: Record<string, string>
-  // Additional HTML attributes forwarded to the select root.
-  [attr: string]: unknown
+  // Passthrough HTML, data-*, and aria-* attributes forwarded to the root element via $props.merge(...).except(...).toAttrs().
+  class?: string
+  title?: string
+  role?: string
+  style?: string
+  tabindex?: string
+  [attr: `data-${string}`]: string | number | boolean
+  [attr: `aria-${string}`]: string | boolean
 }
 @url https://basecoatui.com/components/select/
 @example height=180
@@ -45,14 +49,13 @@
   })
 --}}
 <div
-  id="{{ id }}"
-  class="select {{ main_attrs?.class ?? '' }}"
   {{
-    html.attrs({
+    $props.merge({
+      class: 'select',
       ...(format === 'object' ? { 'data-format': 'object' } : {}),
       ...(placeholder ? { 'data-placeholder': placeholder } : {}),
       ...(multiple && close_on_select ? { 'data-close-on-select': 'true' } : {}),
-    })
+    }).except(['selected', 'name', 'items', 'multiple', 'placeholder', 'close_on_select', 'format', 'trigger_attrs']).toAttrs()
   }}
 >
   <button

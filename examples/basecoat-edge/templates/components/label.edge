@@ -4,8 +4,15 @@
 @types {
   // Associates the label with a control via the for attribute.
   htmlFor?: string
-  // Additional HTML attributes forwarded to the root label element.
-  [attr: string]: unknown
+  // Passthrough HTML, data-*, and aria-* attributes forwarded to the root element via $props.merge(...).except(...).toAttrs().
+  id?: string
+  class?: string
+  title?: string
+  role?: string
+  style?: string
+  tabindex?: string
+  [attr: `data-${string}`]: string | number | boolean
+  [attr: `aria-${string}`]: string | boolean
 }
 @url https://basecoatui.com/components/label/
 @example
@@ -14,10 +21,10 @@
   @end
 --}}
 <label {{
-  html.attrs({
+  $props.merge({
     class: 'label',
     ...(htmlFor ? { for: htmlFor } : {}),
-  })
+  }).except(['htmlFor']).toAttrs()
 }}>
   {{{ await $slots.main() }}}
 </label>

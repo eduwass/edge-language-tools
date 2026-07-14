@@ -4,8 +4,15 @@
 @types {
   // Compact card density; when set, applies data-size on the .card container.
   size?: 'sm'
-  // Additional HTML attributes forwarded to the root .card div.
-  [attr: string]: unknown
+  // Passthrough HTML, data-*, and aria-* attributes forwarded to the root element via $props.merge(...).except(...).toAttrs().
+  id?: string
+  class?: string
+  title?: string
+  role?: string
+  style?: string
+  tabindex?: string
+  [attr: `data-${string}`]: string | number | boolean
+  [attr: `aria-${string}`]: string | boolean
 }
 @url https://basecoatui.com/components/card/
 @example height=220
@@ -25,10 +32,10 @@
   @end
 --}}
 <div {{
-  html.attrs({
+  $props.merge({
     class: 'card',
     ...(size ? { 'data-size': size } : {}),
-  })
+  }).except(['size']).toAttrs()
 }}>
   @if($slots.header)
     <header>

@@ -8,10 +8,14 @@
   trigger_attrs?: Record<string, string>
   // Extra class and attributes for the popover content panel.
   popover_attrs?: Record<string, string>
-  // Extra class and attributes on root .popover container.
-  main_attrs?: Record<string, string>
-  // Additional HTML attributes forwarded to the popover root.
-  [attr: string]: unknown
+  // Passthrough HTML, data-*, and aria-* attributes forwarded to the root element via $props.merge(...).except(...).toAttrs().
+  class?: string
+  title?: string
+  role?: string
+  style?: string
+  tabindex?: string
+  [attr: `data-${string}`]: string | number | boolean
+  [attr: `aria-${string}`]: string | boolean
 }
 @url https://basecoatui.com/components/popover/
 @example height=180
@@ -25,8 +29,7 @@
   @end
 --}}
 <div
-  id="{{ id }}"
-  class="popover {{ main_attrs?.class ?? '' }}"
+  {{ $props.merge({ class: 'popover' }).except(['trigger_attrs', 'popover_attrs']).toAttrs() }}
 >
   <button
     id="{{ id }}-trigger"

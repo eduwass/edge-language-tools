@@ -12,8 +12,15 @@
   as_button?: boolean
   // Button variant when as_button is true. @default 'outline'
   variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'link' | 'destructive'
-  // Additional HTML attributes forwarded to the trigger element.
-  [attr: string]: unknown
+  // Passthrough HTML, data-*, and aria-* attributes forwarded to the root element via $props.merge(...).except(...).toAttrs().
+  id?: string
+  class?: string
+  title?: string
+  role?: string
+  style?: string
+  tabindex?: string
+  [attr: `data-${string}`]: string | number | boolean
+  [attr: `aria-${string}`]: string | boolean
 }
 @url https://basecoatui.com/components/tooltip/
 @example height=180
@@ -25,15 +32,15 @@
 --}}
 @if(as_button !== false)
 <button
-  type="button"
-  class="btn"
   {{
-    html.attrs({
+    $props.merge({
+      class: 'btn',
+      type: 'button',
       'data-variant': variant ?? 'outline',
       'data-tooltip': text,
       ...(side ? { 'data-side': side } : {}),
       ...(align ? { 'data-align': align } : {}),
-    })
+    }).except(['text', 'side', 'align', 'as_button', 'variant']).toAttrs()
   }}
 >
   {{{ await $slots.trigger() }}}
@@ -41,11 +48,11 @@
 @else
 <span
   {{
-    html.attrs({
+    $props.merge({
       'data-tooltip': text,
       ...(side ? { 'data-side': side } : {}),
       ...(align ? { 'data-align': align } : {}),
-    })
+    }).except(['text', 'side', 'align', 'as_button', 'variant']).toAttrs()
   }}
 >
   {{{ await $slots.trigger() }}}

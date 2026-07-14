@@ -17,12 +17,16 @@
   orientation?: 'horizontal' | 'vertical'
   // Tablist style; line sets data-variant on the nav. @default 'default'
   variant?: 'default' | 'line'
-  // Extra class and attributes on root .tabs container.
-  main_attrs?: Record<string, string>
   // Extra class and attributes for the tablist nav element.
   tablist_attrs?: Record<string, string>
-  // Additional HTML attributes forwarded to the tabs root.
-  [attr: string]: unknown
+  // Passthrough HTML, data-*, and aria-* attributes forwarded to the root element via $props.merge(...).except(...).toAttrs().
+  class?: string
+  title?: string
+  role?: string
+  style?: string
+  tabindex?: string
+  [attr: `data-${string}`]: string | number | boolean
+  [attr: `aria-${string}`]: string | boolean
 }
 @url https://basecoatui.com/components/tabs/
 @example height=200
@@ -35,7 +39,7 @@
     ],
   })
 --}}
-<div id="{{ id }}" class="tabs {{ main_attrs?.class ?? '' }}">
+<div {{ $props.merge({ class: 'tabs' }).except(['tabsets', 'default_tab_index', 'orientation', 'variant', 'tablist_attrs']).toAttrs() }}>
   <nav
     role="tablist"
     aria-orientation="{{ orientation ?? 'horizontal' }}"

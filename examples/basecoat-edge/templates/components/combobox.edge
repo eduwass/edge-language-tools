@@ -20,14 +20,18 @@
   auto_highlight?: boolean
   // Selection serialization; object sets data-format on the root. @default 'value'
   format?: 'value' | 'object'
-  // Extra attributes and classes on root .combobox (class merged from main_attrs.class).
-  main_attrs?: Record<string, string>
   // Extra attributes and classes on the visible text input or input-group wrapper.
   input_attrs?: Record<string, string>
   // Empty-state message via data-empty on the listbox. @default 'No items found.'
   empty_text?: string
-  // Additional HTML attributes forwarded to the combobox root.
-  [attr: string]: unknown
+  // Passthrough HTML, data-*, and aria-* attributes forwarded to the root element via $props.merge(...).except(...).toAttrs().
+  class?: string
+  title?: string
+  role?: string
+  style?: string
+  tabindex?: string
+  [attr: `data-${string}`]: string | number | boolean
+  [attr: `aria-${string}`]: string | boolean
 }
 @url https://basecoatui.com/components/combobox/
 @example height=180
@@ -38,14 +42,13 @@
   @end
 --}}
 <div
-  id="{{ id }}"
-  class="combobox {{ main_attrs?.class ?? '' }}"
   {{
-    html.attrs({
+    $props.merge({
+      class: 'combobox',
       ...(format === 'object' ? { 'data-format': 'object' } : {}),
       ...(multiple && close_on_select ? { 'data-close-on-select': 'true' } : {}),
       ...(auto_highlight ? { 'data-auto-highlight': 'true' } : {}),
-    })
+    }).except(['selected', 'name', 'multiple', 'placeholder', 'close_on_select', 'clear', 'auto_highlight', 'format', 'input_attrs', 'empty_text']).toAttrs()
   }}
 >
   @if(multiple)

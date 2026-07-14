@@ -4,8 +4,15 @@
 @types {
   // When true, renders the open attribute on the native details element.
   open?: boolean
-  // Additional HTML attributes forwarded to the root details element.
-  [attr: string]: unknown
+  // Passthrough HTML, data-*, and aria-* attributes forwarded to the root element via $props.merge(...).except(...).toAttrs().
+  id?: string
+  class?: string
+  title?: string
+  role?: string
+  style?: string
+  tabindex?: string
+  [attr: `data-${string}`]: string | number | boolean
+  [attr: `aria-${string}`]: string | boolean
 }
 @url https://basecoatui.com/components/collapsible/
 @example
@@ -15,7 +22,7 @@
   @end
 --}}
 <details
-  {{ html.attrs({ class: 'collapsible' }) }}
+  {{ $props.merge({ class: 'collapsible' }).except(['open']).toAttrs() }}
   @if(open)
   open
   @end

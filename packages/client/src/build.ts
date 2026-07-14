@@ -1,4 +1,5 @@
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
+import ts from 'typescript'
 import { join, relative, sep } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { findEdgeFiles, templateDocs } from '@edge-language-tools/core'
@@ -84,24 +85,19 @@ function runtimeImportExt(format: 'ts' | 'js'): string {
   return format === 'ts' ? './runtime.ts' : './runtime.js'
 }
 
+/**
+ * Real type stripping for --format js: transpile the emitted TS with the
+ * TypeScript compiler (types only - ESNext in, ESNext out, no downleveling).
+ * A hand-rolled regex stripper broke in browsers on the first inline type.
+ */
 function stripTypesForJs(source: string): string {
-  return source
-    .replace(/^export type .*$/gm, '')
-    .replace(/^export interface [\s\S]*?^}/gm, '')
-    .replace(/\breadonly\b/g, '')
-    .replace(/: SafeValue/g, '')
-    .replace(/: ClientTemplate/g, '')
-    .replace(/: CompiledTemplate/g, '')
-    .replace(/: Record<string, unknown>/g, '')
-    .replace(/: Record<string, CompiledTemplate>/g, '')
-    .replace(/: Record<string, \(\) => Promise<string>>/g, '')
-    .replace(/: string\[\]/g, '')
-    .replace(/: string/g, '')
-    .replace(/: number/g, '')
-    .replace(/: unknown/g, '')
-    .replace(/: Promise<string>/g, '')
-    .replace(/<[^>]+>/g, '')
-    .replace(/\n{3,}/g, '\n\n')
+  return ts.transpileModule(source, {
+    compilerOptions: {
+      target: ts.ScriptTarget.ESNext,
+      module: ts.ModuleKind.ESNext,
+      verbatimModuleSyntax: false,
+    },
+  }).outputText
 }
 
 function emitRuntime(outDir: string, format: 'ts' | 'js'): string {
@@ -182,7 +178,8 @@ function emitTemplatesModule(
   lines.push('')
 
   const path = join(outDir, `templates.${ext}`)
-  writeFileSync(path, lines.join('\n'))
+  const text = lines.join('\n')
+  writeFileSync(path, ext === 'js' ? stripTypesForJs(text) : text)
   return path
 }
 

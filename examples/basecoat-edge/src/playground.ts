@@ -160,10 +160,16 @@ export function serializeValue(value: unknown): string {
   return JSON.stringify(value)
 }
 
+function serializeKey(key: string): string {
+  return /^[a-zA-Z_$][a-zA-Z0-9_$]*$/.test(key)
+    ? key
+    : `'${key.replace(/\\/g, '\\\\').replace(/'/g, "\\'")}'`
+}
+
 export function serializeProps(props: Record<string, unknown>): string {
   const entries = Object.entries(props).filter(([, value]) => value !== undefined)
   if (entries.length === 0) return ''
-  return `{ ${entries.map(([key, value]) => `${key}: ${serializeValue(value)}`).join(', ')} }`
+  return `{ ${entries.map(([key, value]) => `${serializeKey(key)}: ${serializeValue(value)}`).join(', ')} }`
 }
 
 export function buildEdgeSource(

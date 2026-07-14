@@ -6,8 +6,14 @@
   title?: string
   // Supporting copy rendered as a paragraph inside header when no description slot.
   description?: string
-  // Additional HTML attributes forwarded to the root .empty section.
-  [attr: string]: unknown
+  // Passthrough HTML, data-*, and aria-* attributes forwarded to the root element via $props.merge(...).except(...).toAttrs().
+  id?: string
+  class?: string
+  role?: string
+  style?: string
+  tabindex?: string
+  [attr: `data-${string}`]: string | number | boolean
+  [attr: `aria-${string}`]: string | boolean
 }
 @url https://basecoatui.com/components/empty/
 @example height=180
@@ -17,7 +23,7 @@
     @end
   @end
 --}}
-<section {{ html.attrs({ class: 'empty' }) }}>
+<section {{ $props.merge({ class: 'empty' }).except(['title', 'description']).toAttrs() }}>
   @if($slots.icon || $slots.title || title || $slots.description || description)
     <header>
       @if($slots.icon)

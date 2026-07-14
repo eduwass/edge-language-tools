@@ -144,3 +144,18 @@ renderButton({ label: 123 })
     expect(renderExportName('components/user_card')).toBe('renderUserCard')
   })
 })
+
+// Regression: --format js once emitted TypeScript syntax that bun's test
+// runner strips transparently, so it passed here and broke in every real
+// browser ("Unexpected identifier 'CompiledTemplate'"). Validate the emitted
+// module with actual Node, which does not strip types from ESM input.
+test('emitted js is genuine JavaScript (node parses it)', () => {
+  const dir = mkdtempSync(join(tmpdir(), 'edge-client-js-'))
+  buildClient({ templatesDir: fixturesDir, outDir: dir, format: "js" })
+  for (const file of ['templates.js', 'runtime.js']) {
+    const result = Bun.spawnSync(['node', '--input-type=module', '--check'], {
+      stdin: Buffer.from(readFileSync(join(dir, file))),
+    })
+    expect(result.exitCode).toBe(0)
+  }
+})

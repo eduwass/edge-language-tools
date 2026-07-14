@@ -16,8 +16,14 @@
   data?: Array<Record<string, string | number>>
   // Per-series config keyed by row field: display label and CSS color.
   series?: Record<string, { label?: string, color?: string }>
-  // Additional HTML attributes forwarded to the canvas element.
-  [attr: string]: unknown
+  // Passthrough HTML, data-*, and aria-* attributes forwarded to the root element via $props.merge(...).except(...).toAttrs().
+  class?: string
+  title?: string
+  role?: string
+  style?: string
+  tabindex?: string
+  [attr: `data-${string}`]: string | number | boolean
+  [attr: `aria-${string}`]: string | boolean
 }
 @url https://basecoatui.com/components/chart/
 @example height=340
@@ -51,11 +57,10 @@
 @end
 @end
 <canvas
-  id="{{ id }}"
   {{
-    html.attrs({
+    $props.merge({
       ...(label ? { 'aria-label': label } : {}),
-    })
+    }).except(['basecoatAssets', 'label', 'type', 'labelKey', 'data', 'series']).toAttrs()
   }}
 ></canvas>
 @if(data)

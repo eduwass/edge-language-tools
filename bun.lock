@@ -63,6 +63,7 @@
         "@edge-language-tools/core": "workspace:*",
         "edge-lexer": "^6.0.5",
         "edge.js": "^6.5.1",
+        "typescript": "^5.8.0",
       },
     },
     "packages/codegen": {

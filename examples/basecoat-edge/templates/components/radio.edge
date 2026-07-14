@@ -16,15 +16,21 @@
   id?: string
   // Visible label in a span when no main slot is provided.
   label?: string
-  // Additional HTML attributes on the label wrapper.
-  [attr: string]: unknown
+  // Passthrough HTML, data-*, and aria-* attributes forwarded to the root element via $props.merge(...).except(...).toAttrs().
+  class?: string
+  title?: string
+  role?: string
+  style?: string
+  tabindex?: string
+  [attr: `data-${string}`]: string | number | boolean
+  [attr: `aria-${string}`]: string | boolean
 }
 @url https://basecoatui.com/components/radio/
 @example
   @!radio({ name: 'plan', value: 'free', label: 'Free', checked: true })
   @!radio({ name: 'plan', value: 'pro', label: 'Pro' })
 --}}
-<label class="label">
+<label {{ $props.merge({ class: 'label' }).except(['name', 'value', 'checked', 'disabled', 'required', 'id', 'label']).toAttrs() }}>
   <input
     type="radio"
     class="input"

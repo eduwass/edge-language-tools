@@ -4,8 +4,15 @@
 @types {
   // Layout direction; vertical sets data-orientation on the group container. @default 'horizontal'
   orientation?: 'horizontal' | 'vertical'
-  // Additional HTML attributes forwarded to the root role=group div.
-  [attr: string]: unknown
+  // Passthrough HTML, data-*, and aria-* attributes forwarded to the root element via $props.merge(...).except(...).toAttrs().
+  id?: string
+  class?: string
+  title?: string
+  role?: string
+  style?: string
+  tabindex?: string
+  [attr: `data-${string}`]: string | number | boolean
+  [attr: `aria-${string}`]: string | boolean
 }
 @url https://basecoatui.com/components/button-group/
 @example
@@ -22,12 +29,12 @@
   @end
 --}}
 <div
-  role="group"
   {{
-    html.attrs({
+    $props.merge({
       class: 'button-group',
+      role: 'group',
       ...(orientation === 'vertical' ? { 'data-orientation': 'vertical' } : {}),
-    })
+    }).except(['orientation']).toAttrs()
   }}
 >
   {{{ await $slots.main() }}}

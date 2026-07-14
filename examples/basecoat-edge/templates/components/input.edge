@@ -16,22 +16,22 @@
   required?: boolean
   // DOM id for label association.
   id?: string
-  // Additional HTML attributes forwarded to the input element.
-  [attr: string]: unknown
+  // Passthrough HTML, data-*, and aria-* attributes forwarded to the root element via $props.merge(...).except(...).toAttrs().
+  class?: string
+  title?: string
+  role?: string
+  style?: string
+  tabindex?: string
+  [attr: `data-${string}`]: string | number | boolean
+  [attr: `aria-${string}`]: string | boolean
 }
 @url https://basecoatui.com/components/input/
 @example
   @!input({ type: 'email', name: 'email', placeholder: 'you@example.com' })
 --}}
 <input {{
-  html.attrs({
+  $props.merge({
     class: 'input',
     type: type ?? 'text',
-    name,
-    value,
-    placeholder,
-    disabled,
-    required,
-    id,
-  })
+  }).except(['type']).toAttrs()
 }} />

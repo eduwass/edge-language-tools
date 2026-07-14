@@ -6,8 +6,15 @@
   label?: string
   // Helper text in a paragraph below the control when no description slot.
   description?: string
-  // Additional HTML attributes forwarded to the root .field wrapper.
-  [attr: string]: unknown
+  // Passthrough HTML, data-*, and aria-* attributes forwarded to the root element via $props.merge(...).except(...).toAttrs().
+  id?: string
+  class?: string
+  title?: string
+  role?: string
+  style?: string
+  tabindex?: string
+  [attr: `data-${string}`]: string | number | boolean
+  [attr: `aria-${string}`]: string | boolean
 }
 @url https://basecoatui.com/components/field/
 @example
@@ -15,7 +22,7 @@
     @!input({ type: 'email', name: 'email', placeholder: 'you@example.com' })
   @end
 --}}
-<div {{ html.attrs({ class: 'field', role: 'group' }) }}>
+<div {{ $props.merge({ class: 'field', role: 'group' }).except(['label', 'description']).toAttrs() }}>
   @if($slots.label)
     {{{ await $slots.label() }}}
   @elseif(label)

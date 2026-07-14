@@ -26,10 +26,13 @@
   action?: { label: string; onclick?: string; href?: string }
   // Single-toast mode: secondary dismiss or action control in the footer.
   cancel?: { label: string; onclick?: string; href?: string }
-  // Single-toast mode: extra class and attributes on the .toast root.
-  attrs?: Record<string, string>
-  // Additional HTML attributes forwarded to the toast or toaster root.
-  [attr: string]: unknown
+  // Passthrough HTML, data-*, and aria-* attributes forwarded to the root element via $props.merge(...).except(...).toAttrs().
+  class?: string
+  role?: string
+  style?: string
+  tabindex?: string
+  [attr: `data-${string}`]: string | number | boolean
+  [attr: `aria-${string}`]: string | boolean
 }
 @url https://basecoatui.com/components/toast/
 @example height=200
@@ -49,7 +52,12 @@
   })
 --}}
 @if(toasts)
-<div id="{{ id ?? 'toaster' }}" class="toaster">
+<div {{
+  $props.merge({
+    class: 'toaster',
+    id: id ?? 'toaster',
+  }).except(['id', 'toasts', 'category', 'title', 'description', 'duration', 'action', 'cancel']).toAttrs()
+}}>
   @each((item, itemIndex) in toasts)
     <div
       class="toast"
@@ -88,15 +96,15 @@
 </div>
 @else
 <div
-  class="toast {{ attrs?.class ?? '' }}"
-  role="{{ category === 'error' ? 'alert' : 'status' }}"
-  aria-atomic="true"
-  aria-hidden="false"
   {{
-    html.attrs({
+    $props.merge({
+      class: 'toast',
+      role: category === 'error' ? 'alert' : 'status',
+      'aria-atomic': 'true',
+      'aria-hidden': 'false',
       ...(category ? { 'data-category': category } : {}),
       ...(duration !== undefined ? { 'data-duration': duration } : {}),
-    })
+    }).except(['id', 'toasts', 'category', 'title', 'description', 'duration', 'action', 'cancel']).toAttrs()
   }}
 >
   <div class="toast-content">

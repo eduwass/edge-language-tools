@@ -77,7 +77,24 @@ export class ComponentProps {
   }
 
   merge(extra: Record<string, unknown>): ComponentProps {
-    return new ComponentProps({ ...this.values, ...extra })
+    if (extra.class && this.values.class) {
+      const classes = new Set<string>()
+      for (const value of [extra.class, this.values.class]) {
+        if (Array.isArray(value)) {
+          for (const item of value) classes.add(String(item))
+        } else {
+          for (const item of String(value).split(/\s+/)) {
+            if (item) classes.add(item)
+          }
+        }
+      }
+      return new ComponentProps({
+        ...extra,
+        ...this.values,
+        class: Array.from(classes).join(' '),
+      })
+    }
+    return new ComponentProps({ ...extra, ...this.values })
   }
 
   mergeIf(condition: unknown, extra: Record<string, unknown>): ComponentProps {

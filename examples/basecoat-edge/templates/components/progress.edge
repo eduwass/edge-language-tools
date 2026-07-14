@@ -8,15 +8,22 @@
   max?: number
   // Accessible name via aria-label on the progressbar root.
   label?: string
-  // Additional HTML attributes forwarded to the progressbar root div.
-  [attr: string]: unknown
+  // Passthrough HTML, data-*, and aria-* attributes forwarded to the root element via $props.merge(...).except(...).toAttrs().
+  id?: string
+  class?: string
+  title?: string
+  role?: string
+  style?: string
+  tabindex?: string
+  [attr: `data-${string}`]: string | number | boolean
+  [attr: `aria-${string}`]: string | boolean
 }
 @url https://basecoatui.com/components/progress/
 @example
   @!progress({ value: 60, max: 100 })
 --}}
 <div {{
-  html.attrs({
+  $props.merge({
     class: 'progress',
     role: 'progressbar',
     ...(label ? { 'aria-label': label } : {}),
@@ -25,7 +32,7 @@
       'aria-valuemin': 0,
       'aria-valuemax': max ?? 100,
     } : {}),
-  })
+  }).except(['value', 'max', 'label']).toAttrs()
 }}>
   <span style="width: {{ value !== undefined ? (value / (max ?? 100) * 100) : 0 }}%"></span>
 </div>

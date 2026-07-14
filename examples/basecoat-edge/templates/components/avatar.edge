@@ -8,8 +8,15 @@
   alt?: string
   // Initials or text shown in a fallback span when the image is absent or loading.
   fallback?: string
-  // Additional HTML attributes forwarded to the root .avatar span.
-  [attr: string]: unknown
+  // Passthrough HTML, data-*, and aria-* attributes forwarded to the root element via $props.merge(...).except(...).toAttrs().
+  id?: string
+  class?: string
+  title?: string
+  role?: string
+  style?: string
+  tabindex?: string
+  [attr: `data-${string}`]: string | number | boolean
+  [attr: `aria-${string}`]: string | boolean
 }
 @url https://basecoatui.com/components/avatar/
 @example
@@ -17,7 +24,7 @@
 @example Fallback
   @!avatar({ fallback: 'CN' })
 --}}
-<span {{ html.attrs({ class: 'avatar' }) }}>
+<span {{ $props.merge({ class: 'avatar' }).except(['src', 'alt', 'fallback']).toAttrs() }}>
   @if(src)
     <img src="{{ src }}" alt="{{ alt ?? '' }}" />
     <span>{{ fallback ?? '' }}</span>

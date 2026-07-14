@@ -8,8 +8,14 @@
   title?: string
   // Renders body copy inside a section when no section slot is provided.
   description?: string
-  // Additional HTML attributes forwarded to the root alert div.
-  [attr: string]: unknown
+  // Passthrough HTML, data-*, and aria-* attributes forwarded to the root element via $props.merge(...).except(...).toAttrs().
+  id?: string
+  class?: string
+  role?: string
+  style?: string
+  tabindex?: string
+  [attr: `data-${string}`]: string | number | boolean
+  [attr: `aria-${string}`]: string | boolean
 }
 @url https://basecoatui.com/components/alert/
 @example
@@ -20,10 +26,10 @@
   @end
 --}}
 <div {{
-  html.attrs({
+  $props.merge({
     class: 'alert',
     ...(variant === 'destructive' ? { 'data-variant': 'destructive' } : {}),
-  })
+  }).except(['variant', 'title', 'description']).toAttrs()
 }}>
   @if($slots.icon)
     {{{ await $slots.icon() }}}

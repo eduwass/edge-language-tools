@@ -14,14 +14,20 @@
   id?: string
   // Visible label in a span when no main slot is provided.
   label?: string
-  // Additional HTML attributes on the label wrapper.
-  [attr: string]: unknown
+  // Passthrough HTML, data-*, and aria-* attributes forwarded to the root element via $props.merge(...).except(...).toAttrs().
+  class?: string
+  title?: string
+  role?: string
+  style?: string
+  tabindex?: string
+  [attr: `data-${string}`]: string | number | boolean
+  [attr: `aria-${string}`]: string | boolean
 }
 @url https://basecoatui.com/components/switch/
 @example
   @!switch({ name: 'notifications', label: 'Enable notifications' })
 --}}
-<label class="label">
+<label {{ $props.merge({ class: 'label' }).except(['name', 'checked', 'disabled', 'required', 'id', 'label']).toAttrs() }}>
   <input
     type="checkbox"
     class="input"

@@ -18,16 +18,19 @@
   close_on_overlay_click?: boolean
   // Class and attributes on the optional trigger button.
   trigger_attrs?: Record<string, string>
-  // Class and attributes on the dialog element.
-  dialog_attrs?: Record<string, string>
   // Extra class and attributes for the dialog header region.
   header_attrs?: Record<string, string>
   // Extra class and attributes for the dialog body region.
   body_attrs?: Record<string, string>
   // Extra class and attributes for the dialog footer region.
   footer_attrs?: Record<string, string>
-  // Additional HTML attributes forwarded to the dialog root.
-  [attr: string]: unknown
+  // Passthrough HTML, data-*, and aria-* attributes forwarded to the root element via $props.merge(...).except(...).toAttrs().
+  class?: string
+  role?: string
+  style?: string
+  tabindex?: string
+  [attr: `data-${string}`]: string | number | boolean
+  [attr: `aria-${string}`]: string | boolean
 }
 @url https://basecoatui.com/components/dialog/
 @example height=280
@@ -60,13 +63,12 @@
 </button>
 @end
 <dialog
-  id="{{ id }}"
-  class="dialog {{ dialog_attrs?.class ?? '' }}"
   {{
-    html.attrs({
+    $props.merge({
+      class: 'dialog',
       ...(title ? { 'aria-labelledby': id + '-title' } : {}),
       ...(description ? { 'aria-describedby': id + '-description' } : {}),
-    })
+    }).except(['trigger', 'title', 'description', 'open', 'close_button', 'close_on_overlay_click', 'trigger_attrs', 'header_attrs', 'body_attrs', 'footer_attrs']).toAttrs()
   }}
   @if(open)
   open

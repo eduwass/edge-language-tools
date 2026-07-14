@@ -6,8 +6,15 @@
   action?: string
   // HTTP method on the form element when provided.
   method?: 'get' | 'post'
-  // Additional HTML attributes forwarded to the form element.
-  [attr: string]: unknown
+  // Passthrough HTML, data-*, and aria-* attributes forwarded to the root element via $props.merge(...).except(...).toAttrs().
+  id?: string
+  class?: string
+  title?: string
+  role?: string
+  style?: string
+  tabindex?: string
+  [attr: `data-${string}`]: string | number | boolean
+  [attr: `aria-${string}`]: string | boolean
 }
 @url https://basecoatui.com/components/form/
 @example height=200
@@ -21,11 +28,9 @@
   @end
 --}}
 <form {{
-  html.attrs({
+  $props.merge({
     class: 'form',
-    ...(action ? { action } : {}),
-    ...(method ? { method } : {}),
-  })
+  }).toAttrs()
 }}>
   {{{ await $slots.main() }}}
 </form>

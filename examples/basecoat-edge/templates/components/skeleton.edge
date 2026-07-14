@@ -2,8 +2,15 @@
 @name Skeleton
 @desc Loading placeholder skeleton.
 @types {
-  // Additional HTML attributes forwarded to the loading .skeleton placeholder div.
-  [attr: string]: unknown
+  // Passthrough HTML, data-*, and aria-* attributes forwarded to the root element via $props.merge(...).except(...).toAttrs().
+  id?: string
+  class?: string
+  title?: string
+  role?: string
+  style?: string
+  tabindex?: string
+  [attr: `data-${string}`]: string | number | boolean
+  [attr: `aria-${string}`]: string | boolean
 }
 @url https://basecoatui.com/components/skeleton/
 @example
@@ -11,6 +18,6 @@
     <div style="height: 2rem; width: 12rem;"></div>
   @end
 --}}
-<div {{ html.attrs({ class: 'skeleton' }) }}>
+<div {{ $props.merge({ class: 'skeleton' }).toAttrs() }}>
   {{{ await $slots.main() }}}
 </div>

@@ -6,14 +6,20 @@
   title?: string
   // Secondary line as p inside section when no description slot.
   description?: string
-  // Additional HTML attributes forwarded to the root .item article.
-  [attr: string]: unknown
+  // Passthrough HTML, data-*, and aria-* attributes forwarded to the root element via $props.merge(...).except(...).toAttrs().
+  id?: string
+  class?: string
+  role?: string
+  style?: string
+  tabindex?: string
+  [attr: `data-${string}`]: string | number | boolean
+  [attr: `aria-${string}`]: string | boolean
 }
 @url https://basecoatui.com/components/item/
 @example
   @!item({ title: 'Notifications', description: 'You have 3 unread messages.' })
 --}}
-<article {{ html.attrs({ class: 'item' }) }}>
+<article {{ $props.merge({ class: 'item' }).except(['title', 'description']).toAttrs() }}>
   @if($slots.media)
     <figure>{{{ await $slots.media() }}}</figure>
   @end

@@ -2,8 +2,15 @@
 @name Kbd
 @desc Keyboard key indicator.
 @types {
-  // Additional HTML attributes forwarded to the root kbd element.
-  [attr: string]: unknown
+  // Passthrough HTML, data-*, and aria-* attributes forwarded to the root element via $props.merge(...).except(...).toAttrs().
+  id?: string
+  class?: string
+  title?: string
+  role?: string
+  style?: string
+  tabindex?: string
+  [attr: `data-${string}`]: string | number | boolean
+  [attr: `aria-${string}`]: string | boolean
 }
 @url https://basecoatui.com/components/kbd/
 @example
@@ -14,6 +21,6 @@
     K
   @end
 --}}
-<kbd {{ html.attrs({ class: 'kbd' }) }}>
+<kbd {{ $props.merge({ class: 'kbd' }).toAttrs() }}>
   {{{ await $slots.main() }}}
 </kbd>

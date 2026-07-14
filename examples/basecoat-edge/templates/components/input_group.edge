@@ -2,8 +2,15 @@
 @name Input Group
 @desc Input with inline addons (icons, text, buttons).
 @types {
-  // Additional HTML attributes forwarded to the root .input-group wrapper.
-  [attr: string]: unknown
+  // Passthrough HTML, data-*, and aria-* attributes forwarded to the root element via $props.merge(...).except(...).toAttrs().
+  id?: string
+  class?: string
+  title?: string
+  role?: string
+  style?: string
+  tabindex?: string
+  [attr: `data-${string}`]: string | number | boolean
+  [attr: `aria-${string}`]: string | boolean
 }
 @url https://basecoatui.com/components/input-group/
 @example
@@ -18,6 +25,6 @@
     <button type="button" class="btn" data-variant="outline" data-align="end">Search</button>
   @end
 --}}
-<div {{ html.attrs({ class: 'input-group' }) }}>
+<div {{ $props.merge({ class: 'input-group' }).toAttrs() }}>
   {{{ await $slots.main() }}}
 </div>

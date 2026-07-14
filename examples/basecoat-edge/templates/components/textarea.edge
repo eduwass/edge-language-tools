@@ -16,21 +16,21 @@
   required?: boolean
   // DOM id for label association.
   id?: string
-  // Additional HTML attributes forwarded to the textarea element.
-  [attr: string]: unknown
+  // Passthrough HTML, data-*, and aria-* attributes forwarded to the root element via $props.merge(...).except(...).toAttrs().
+  class?: string
+  title?: string
+  role?: string
+  style?: string
+  tabindex?: string
+  [attr: `data-${string}`]: string | number | boolean
+  [attr: `aria-${string}`]: string | boolean
 }
 @url https://basecoatui.com/components/textarea/
 @example height=180
   @!textarea({ name: 'message', placeholder: 'Type your message here.', rows: 4 })
 --}}
 <textarea {{
-  html.attrs({
+  $props.merge({
     class: 'textarea',
-    name,
-    placeholder,
-    rows,
-    disabled,
-    required,
-    id,
-  })
+  }).except(['value']).toAttrs()
 }}>{{ value ?? '' }}</textarea>

@@ -2,8 +2,15 @@
 @name Breadcrumb
 @desc Navigation breadcrumb trail.
 @types {
-  // Additional HTML attributes forwarded to the root nav element (aria-label defaults to Breadcrumb).
-  [attr: string]: unknown
+  // Passthrough HTML, data-*, and aria-* attributes forwarded to the root element via $props.merge(...).except(...).toAttrs().
+  id?: string
+  class?: string
+  title?: string
+  role?: string
+  style?: string
+  tabindex?: string
+  [attr: `data-${string}`]: string | number | boolean
+  [attr: `aria-${string}`]: string | boolean
 }
 @url https://basecoatui.com/components/breadcrumb/
 @example
@@ -19,7 +26,7 @@
     <li><span aria-current="page">Breadcrumb</span></li>
   @end
 --}}
-<nav {{ html.attrs({ class: 'breadcrumb', 'aria-label': 'Breadcrumb' }) }}>
+<nav {{ $props.merge({ class: 'breadcrumb', 'aria-label': 'Breadcrumb' }).toAttrs() }}>
   <ol>
     {{{ await $slots.main() }}}
   </ol>

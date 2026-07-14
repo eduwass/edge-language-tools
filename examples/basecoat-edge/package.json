@@ -3,7 +3,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "check": "edge-check templates",
+    "check": "edge-check templates && bun run check:attrs",
+    "check:attrs": "bun run scripts/check-attrs.ts",
     "codegen": "edge-codegen templates --out edge-templates.d.ts",
     "gen-client": "edge-client build templates --out client --format js",
     "gen-docs": "bun run scripts/gen-docs.ts",

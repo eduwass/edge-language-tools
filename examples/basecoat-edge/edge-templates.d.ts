@@ -8,8 +8,15 @@ export interface EdgeTemplates {
   "components/accordion": {
   // When true, sets data-multiple on the accordion so multiple panels can stay open.
   multiple?: boolean
-  // Additional HTML attributes forwarded to the root section element.
-  [attr: string]: unknown
+  // Passthrough HTML, data-*, and aria-* attributes forwarded to the root element via $props.merge(...).except(...).toAttrs().
+  id?: string
+  class?: string
+  title?: string
+  role?: string
+  style?: string
+  tabindex?: string
+  [attr: `data-${string}`]: string | number | boolean
+  [attr: `aria-${string}`]: string | boolean
 }
   "components/alert": {
   // Alert tone; destructive sets data-variant on the root .alert div. @default 'default'
@@ -18,8 +25,14 @@ export interface EdgeTemplates {
   title?: string
   // Renders body copy inside a section when no section slot is provided.
   description?: string
-  // Additional HTML attributes forwarded to the root alert div.
-  [attr: string]: unknown
+  // Passthrough HTML, data-*, and aria-* attributes forwarded to the root element via $props.merge(...).except(...).toAttrs().
+  id?: string
+  class?: string
+  role?: string
+  style?: string
+  tabindex?: string
+  [attr: `data-${string}`]: string | number | boolean
+  [attr: `aria-${string}`]: string | boolean
 }
   "components/avatar": {
   // Image URL; when set, renders an img inside the .avatar span with a fallback span.
@@ -28,14 +41,28 @@ export interface EdgeTemplates {
   alt?: string
   // Initials or text shown in a fallback span when the image is absent or loading.
   fallback?: string
-  // Additional HTML attributes forwarded to the root .avatar span.
-  [attr: string]: unknown
+  // Passthrough HTML, data-*, and aria-* attributes forwarded to the root element via $props.merge(...).except(...).toAttrs().
+  id?: string
+  class?: string
+  title?: string
+  role?: string
+  style?: string
+  tabindex?: string
+  [attr: `data-${string}`]: string | number | boolean
+  [attr: `aria-${string}`]: string | boolean
 }
   "components/badge": {
   // Badge style; non-default values set data-variant on the .badge span. @default 'default'
   variant?: 'default' | 'secondary' | 'outline' | 'destructive'
-  // Additional HTML attributes forwarded to the root .badge span.
-  [attr: string]: unknown
+  // Passthrough HTML, data-*, and aria-* attributes forwarded to the root element via $props.merge(...).except(...).toAttrs().
+  id?: string
+  class?: string
+  title?: string
+  role?: string
+  style?: string
+  tabindex?: string
+  [attr: `data-${string}`]: string | number | boolean
+  [attr: `aria-${string}`]: string | boolean
 }
   "components/basecoat_scripts": {
   // Asset loading strategy, set app-wide via edge.global('basecoatAssets', ...). @default cdn
@@ -46,8 +73,15 @@ export interface EdgeTemplates {
   basecoatAssets?: { mode: 'cdn' | 'local' | 'none', base?: string }
 }
   "components/breadcrumb": {
-  // Additional HTML attributes forwarded to the root nav element (aria-label defaults to Breadcrumb).
-  [attr: string]: unknown
+  // Passthrough HTML, data-*, and aria-* attributes forwarded to the root element via $props.merge(...).except(...).toAttrs().
+  id?: string
+  class?: string
+  title?: string
+  role?: string
+  style?: string
+  tabindex?: string
+  [attr: `data-${string}`]: string | number | boolean
+  [attr: `aria-${string}`]: string | boolean
 }
   "components/button": {
   // Button style; non-primary values set data-variant on the .btn element. @default 'primary'
@@ -58,20 +92,47 @@ export interface EdgeTemplates {
   type?: 'button' | 'submit' | 'reset'
   // Positions slot content relative to an icon via data-icon.
   icon?: 'inline-start' | 'inline-end'
-  // Additional HTML attributes forwarded to the root button element.
-  [attr: string]: unknown
+  // Native button disabled state and form association attributes.
+  disabled?: boolean
+  name?: string
+  value?: string
+  form?: string
+  autofocus?: boolean
+  // Passthrough HTML, data-*, and aria-* attributes forwarded to the root element via $props.merge(...).except(...).toAttrs().
+  id?: string
+  class?: string
+  title?: string
+  role?: string
+  style?: string
+  tabindex?: string
+  [attr: `data-${string}`]: string | number | boolean
+  [attr: `aria-${string}`]: string | boolean
 }
   "components/button_group": {
   // Layout direction; vertical sets data-orientation on the group container. @default 'horizontal'
   orientation?: 'horizontal' | 'vertical'
-  // Additional HTML attributes forwarded to the root role=group div.
-  [attr: string]: unknown
+  // Passthrough HTML, data-*, and aria-* attributes forwarded to the root element via $props.merge(...).except(...).toAttrs().
+  id?: string
+  class?: string
+  title?: string
+  role?: string
+  style?: string
+  tabindex?: string
+  [attr: `data-${string}`]: string | number | boolean
+  [attr: `aria-${string}`]: string | boolean
 }
   "components/card": {
   // Compact card density; when set, applies data-size on the .card container.
   size?: 'sm'
-  // Additional HTML attributes forwarded to the root .card div.
-  [attr: string]: unknown
+  // Passthrough HTML, data-*, and aria-* attributes forwarded to the root element via $props.merge(...).except(...).toAttrs().
+  id?: string
+  class?: string
+  title?: string
+  role?: string
+  style?: string
+  tabindex?: string
+  [attr: `data-${string}`]: string | number | boolean
+  [attr: `aria-${string}`]: string | boolean
 }
   "components/chart": {
   // Asset loading strategy, set app-wide via edge.global('basecoatAssets', ...). @default cdn
@@ -88,8 +149,14 @@ export interface EdgeTemplates {
   data?: Array<Record<string, string | number>>
   // Per-series config keyed by row field: display label and CSS color.
   series?: Record<string, { label?: string, color?: string }>
-  // Additional HTML attributes forwarded to the canvas element.
-  [attr: string]: unknown
+  // Passthrough HTML, data-*, and aria-* attributes forwarded to the root element via $props.merge(...).except(...).toAttrs().
+  class?: string
+  title?: string
+  role?: string
+  style?: string
+  tabindex?: string
+  [attr: `data-${string}`]: string | number | boolean
+  [attr: `aria-${string}`]: string | boolean
 }
   "components/checkbox": {
   // Form field name on the checkbox input.
@@ -106,14 +173,27 @@ export interface EdgeTemplates {
   id?: string
   // Visible label text in a span when no main slot is provided.
   label?: string
-  // Additional HTML attributes on the label wrapper.
-  [attr: string]: unknown
+  // Passthrough HTML, data-*, and aria-* attributes forwarded to the root element via $props.merge(...).except(...).toAttrs().
+  class?: string
+  title?: string
+  role?: string
+  style?: string
+  tabindex?: string
+  [attr: `data-${string}`]: string | number | boolean
+  [attr: `aria-${string}`]: string | boolean
 }
   "components/collapsible": {
   // When true, renders the open attribute on the native details element.
   open?: boolean
-  // Additional HTML attributes forwarded to the root details element.
-  [attr: string]: unknown
+  // Passthrough HTML, data-*, and aria-* attributes forwarded to the root element via $props.merge(...).except(...).toAttrs().
+  id?: string
+  class?: string
+  title?: string
+  role?: string
+  style?: string
+  tabindex?: string
+  [attr: `data-${string}`]: string | number | boolean
+  [attr: `aria-${string}`]: string | boolean
 }
   "components/combobox": {
   // Root element id; also prefixes listbox and popover ids and aria-controls targets.
@@ -134,14 +214,18 @@ export interface EdgeTemplates {
   auto_highlight?: boolean
   // Selection serialization; object sets data-format on the root. @default 'value'
   format?: 'value' | 'object'
-  // Extra attributes and classes on root .combobox (class merged from main_attrs.class).
-  main_attrs?: Record<string, string>
   // Extra attributes and classes on the visible text input or input-group wrapper.
   input_attrs?: Record<string, string>
   // Empty-state message via data-empty on the listbox. @default 'No items found.'
   empty_text?: string
-  // Additional HTML attributes forwarded to the combobox root.
-  [attr: string]: unknown
+  // Passthrough HTML, data-*, and aria-* attributes forwarded to the root element via $props.merge(...).except(...).toAttrs().
+  class?: string
+  title?: string
+  role?: string
+  style?: string
+  tabindex?: string
+  [attr: `data-${string}`]: string | number | boolean
+  [attr: `aria-${string}`]: string | boolean
 }
   "components/command": {
   // Root id prefix for dialog or container, search input, menu, and generated item ids.
@@ -177,16 +261,18 @@ export interface EdgeTemplates {
   dialog?: boolean
   // When true in dialog mode, renders the open attribute on the dialog.
   open?: boolean
-  // Extra class and attributes on inline .command root in non-dialog mode.
-  main_attrs?: Record<string, string>
   // Extra class and attributes on the search input.
   input_attrs?: Record<string, string>
   // Extra class and attributes on the role=menu results panel.
   menu_attrs?: Record<string, string>
-  // Extra class and attributes on the dialog wrapper in dialog mode.
-  dialog_attrs?: Record<string, string>
-  // Additional HTML attributes forwarded to the command root element.
-  [attr: string]: unknown
+  // Passthrough HTML, data-*, and aria-* attributes forwarded to the root element via $props.merge(...).except(...).toAttrs().
+  class?: string
+  title?: string
+  role?: string
+  style?: string
+  tabindex?: string
+  [attr: `data-${string}`]: string | number | boolean
+  [attr: `aria-${string}`]: string | boolean
 }
   "components/dialog": {
   // Id on the dialog and for aria-labelledby and aria-describedby title and description targets.
@@ -205,16 +291,19 @@ export interface EdgeTemplates {
   close_on_overlay_click?: boolean
   // Class and attributes on the optional trigger button.
   trigger_attrs?: Record<string, string>
-  // Class and attributes on the dialog element.
-  dialog_attrs?: Record<string, string>
   // Extra class and attributes for the dialog header region.
   header_attrs?: Record<string, string>
   // Extra class and attributes for the dialog body region.
   body_attrs?: Record<string, string>
   // Extra class and attributes for the dialog footer region.
   footer_attrs?: Record<string, string>
-  // Additional HTML attributes forwarded to the dialog root.
-  [attr: string]: unknown
+  // Passthrough HTML, data-*, and aria-* attributes forwarded to the root element via $props.merge(...).except(...).toAttrs().
+  class?: string
+  role?: string
+  style?: string
+  tabindex?: string
+  [attr: `data-${string}`]: string | number | boolean
+  [attr: `aria-${string}`]: string | boolean
 }
   "components/dropdown_menu": {
   // Root id; prefixes trigger, popover, menu, and item element ids.
@@ -237,34 +326,58 @@ export interface EdgeTemplates {
   }>
   // Class and attributes on the menu trigger button. @default { class: 'btn' }
   trigger_attrs?: Record<string, string>
-  // Extra class and attributes on root .dropdown-menu container.
-  main_attrs?: Record<string, string>
-  // Additional HTML attributes forwarded to the dropdown root.
-  [attr: string]: unknown
+  // Passthrough HTML, data-*, and aria-* attributes forwarded to the root element via $props.merge(...).except(...).toAttrs().
+  class?: string
+  title?: string
+  role?: string
+  style?: string
+  tabindex?: string
+  [attr: `data-${string}`]: string | number | boolean
+  [attr: `aria-${string}`]: string | boolean
 }
   "components/empty": {
   // Empty-state heading rendered as h3 inside header when no title slot.
   title?: string
   // Supporting copy rendered as a paragraph inside header when no description slot.
   description?: string
-  // Additional HTML attributes forwarded to the root .empty section.
-  [attr: string]: unknown
+  // Passthrough HTML, data-*, and aria-* attributes forwarded to the root element via $props.merge(...).except(...).toAttrs().
+  id?: string
+  class?: string
+  role?: string
+  style?: string
+  tabindex?: string
+  [attr: `data-${string}`]: string | number | boolean
+  [attr: `aria-${string}`]: string | boolean
 }
   "components/field": {
   // Field label text in a label element when no label slot is provided.
   label?: string
   // Helper text in a paragraph below the control when no description slot.
   description?: string
-  // Additional HTML attributes forwarded to the root .field wrapper.
-  [attr: string]: unknown
+  // Passthrough HTML, data-*, and aria-* attributes forwarded to the root element via $props.merge(...).except(...).toAttrs().
+  id?: string
+  class?: string
+  title?: string
+  role?: string
+  style?: string
+  tabindex?: string
+  [attr: `data-${string}`]: string | number | boolean
+  [attr: `aria-${string}`]: string | boolean
 }
   "components/form": {
   // Form submission URL on the form element.
   action?: string
   // HTTP method on the form element when provided.
   method?: 'get' | 'post'
-  // Additional HTML attributes forwarded to the form element.
-  [attr: string]: unknown
+  // Passthrough HTML, data-*, and aria-* attributes forwarded to the root element via $props.merge(...).except(...).toAttrs().
+  id?: string
+  class?: string
+  title?: string
+  role?: string
+  style?: string
+  tabindex?: string
+  [attr: `data-${string}`]: string | number | boolean
+  [attr: `aria-${string}`]: string | boolean
 }
   "components/input": {
   // Native input type on the input element. @default 'text'
@@ -281,30 +394,63 @@ export interface EdgeTemplates {
   required?: boolean
   // DOM id for label association.
   id?: string
-  // Additional HTML attributes forwarded to the input element.
-  [attr: string]: unknown
+  // Passthrough HTML, data-*, and aria-* attributes forwarded to the root element via $props.merge(...).except(...).toAttrs().
+  class?: string
+  title?: string
+  role?: string
+  style?: string
+  tabindex?: string
+  [attr: `data-${string}`]: string | number | boolean
+  [attr: `aria-${string}`]: string | boolean
 }
   "components/input_group": {
-  // Additional HTML attributes forwarded to the root .input-group wrapper.
-  [attr: string]: unknown
+  // Passthrough HTML, data-*, and aria-* attributes forwarded to the root element via $props.merge(...).except(...).toAttrs().
+  id?: string
+  class?: string
+  title?: string
+  role?: string
+  style?: string
+  tabindex?: string
+  [attr: `data-${string}`]: string | number | boolean
+  [attr: `aria-${string}`]: string | boolean
 }
   "components/item": {
   // Primary line as h3 inside section when no title slot is provided.
   title?: string
   // Secondary line as p inside section when no description slot.
   description?: string
-  // Additional HTML attributes forwarded to the root .item article.
-  [attr: string]: unknown
+  // Passthrough HTML, data-*, and aria-* attributes forwarded to the root element via $props.merge(...).except(...).toAttrs().
+  id?: string
+  class?: string
+  role?: string
+  style?: string
+  tabindex?: string
+  [attr: `data-${string}`]: string | number | boolean
+  [attr: `aria-${string}`]: string | boolean
 }
   "components/kbd": {
-  // Additional HTML attributes forwarded to the root kbd element.
-  [attr: string]: unknown
+  // Passthrough HTML, data-*, and aria-* attributes forwarded to the root element via $props.merge(...).except(...).toAttrs().
+  id?: string
+  class?: string
+  title?: string
+  role?: string
+  style?: string
+  tabindex?: string
+  [attr: `data-${string}`]: string | number | boolean
+  [attr: `aria-${string}`]: string | boolean
 }
   "components/label": {
   // Associates the label with a control via the for attribute.
   htmlFor?: string
-  // Additional HTML attributes forwarded to the root label element.
-  [attr: string]: unknown
+  // Passthrough HTML, data-*, and aria-* attributes forwarded to the root element via $props.merge(...).except(...).toAttrs().
+  id?: string
+  class?: string
+  title?: string
+  role?: string
+  style?: string
+  tabindex?: string
+  [attr: `data-${string}`]: string | number | boolean
+  [attr: `aria-${string}`]: string | boolean
 }
   "components/native_select": {
   // Form field name on the native select element.
@@ -315,8 +461,14 @@ export interface EdgeTemplates {
   disabled?: boolean
   // Marks the select required when truthy.
   required?: boolean
-  // Additional HTML attributes forwarded to the select element.
-  [attr: string]: unknown
+  // Passthrough HTML, data-*, and aria-* attributes forwarded to the root element via $props.merge(...).except(...).toAttrs().
+  class?: string
+  title?: string
+  role?: string
+  style?: string
+  tabindex?: string
+  [attr: `data-${string}`]: string | number | boolean
+  [attr: `aria-${string}`]: string | boolean
 }
   "components/popover": {
   // Root id; ties trigger aria-controls to the data-popover panel.
@@ -325,10 +477,14 @@ export interface EdgeTemplates {
   trigger_attrs?: Record<string, string>
   // Extra class and attributes for the popover content panel.
   popover_attrs?: Record<string, string>
-  // Extra class and attributes on root .popover container.
-  main_attrs?: Record<string, string>
-  // Additional HTML attributes forwarded to the popover root.
-  [attr: string]: unknown
+  // Passthrough HTML, data-*, and aria-* attributes forwarded to the root element via $props.merge(...).except(...).toAttrs().
+  class?: string
+  title?: string
+  role?: string
+  style?: string
+  tabindex?: string
+  [attr: `data-${string}`]: string | number | boolean
+  [attr: `aria-${string}`]: string | boolean
 }
   "components/progress": {
   // Current progress value used for aria-valuenow and the indicator width.
@@ -337,8 +493,15 @@ export interface EdgeTemplates {
   max?: number
   // Accessible name via aria-label on the progressbar root.
   label?: string
-  // Additional HTML attributes forwarded to the progressbar root div.
-  [attr: string]: unknown
+  // Passthrough HTML, data-*, and aria-* attributes forwarded to the root element via $props.merge(...).except(...).toAttrs().
+  id?: string
+  class?: string
+  title?: string
+  role?: string
+  style?: string
+  tabindex?: string
+  [attr: `data-${string}`]: string | number | boolean
+  [attr: `aria-${string}`]: string | boolean
 }
   "components/radio": {
   // Radio group name shared across inputs in the same group.
@@ -355,12 +518,25 @@ export interface EdgeTemplates {
   id?: string
   // Visible label in a span when no main slot is provided.
   label?: string
-  // Additional HTML attributes on the label wrapper.
-  [attr: string]: unknown
+  // Passthrough HTML, data-*, and aria-* attributes forwarded to the root element via $props.merge(...).except(...).toAttrs().
+  class?: string
+  title?: string
+  role?: string
+  style?: string
+  tabindex?: string
+  [attr: `data-${string}`]: string | number | boolean
+  [attr: `aria-${string}`]: string | boolean
 }
   "components/scrollbar": {
-  // Additional HTML attributes forwarded to the scrollable .scrollbar wrapper.
-  [attr: string]: unknown
+  // Passthrough HTML, data-*, and aria-* attributes forwarded to the root element via $props.merge(...).except(...).toAttrs().
+  id?: string
+  class?: string
+  title?: string
+  role?: string
+  style?: string
+  tabindex?: string
+  [attr: `data-${string}`]: string | number | boolean
+  [attr: `aria-${string}`]: string | boolean
 }
   "components/select": {
   // Root id; prefixes trigger, listbox, popover, and option ids.
@@ -386,12 +562,16 @@ export interface EdgeTemplates {
   close_on_select?: boolean
   // Hidden value shape; object sets data-format on the root. @default 'value'
   format?: 'value' | 'object'
-  // Extra class and attributes on root .select container.
-  main_attrs?: Record<string, string>
   // Extra class and attributes on the listbox trigger button.
   trigger_attrs?: Record<string, string>
-  // Additional HTML attributes forwarded to the select root.
-  [attr: string]: unknown
+  // Passthrough HTML, data-*, and aria-* attributes forwarded to the root element via $props.merge(...).except(...).toAttrs().
+  class?: string
+  title?: string
+  role?: string
+  style?: string
+  tabindex?: string
+  [attr: `data-${string}`]: string | number | boolean
+  [attr: `aria-${string}`]: string | boolean
 }
   "components/sidebar": {
   // Optional id on the aside sidebar element.
@@ -424,20 +604,31 @@ export interface EdgeTemplates {
     attrs?: Record<string, string>
     id?: string
   }>
-  // Extra class and attributes on the aside (class merged with sidebar).
-  main_attrs?: Record<string, string>
   // Extra class and attributes on the header element.
   header_attrs?: Record<string, string>
   // Extra class and attributes on the scrollable content section.
   content_attrs?: Record<string, string>
   // Extra class and attributes on the footer element.
   footer_attrs?: Record<string, string>
-  // Additional HTML attributes forwarded to the sidebar aside.
-  [attr: string]: unknown
+  // Passthrough HTML, data-*, and aria-* attributes forwarded to the root element via $props.merge(...).except(...).toAttrs().
+  class?: string
+  title?: string
+  role?: string
+  style?: string
+  tabindex?: string
+  [attr: `data-${string}`]: string | number | boolean
+  [attr: `aria-${string}`]: string | boolean
 }
   "components/skeleton": {
-  // Additional HTML attributes forwarded to the loading .skeleton placeholder div.
-  [attr: string]: unknown
+  // Passthrough HTML, data-*, and aria-* attributes forwarded to the root element via $props.merge(...).except(...).toAttrs().
+  id?: string
+  class?: string
+  title?: string
+  role?: string
+  style?: string
+  tabindex?: string
+  [attr: `data-${string}`]: string | number | boolean
+  [attr: `aria-${string}`]: string | boolean
 }
   "components/switch": {
   // Form field name on the switch input.
@@ -452,12 +643,25 @@ export interface EdgeTemplates {
   id?: string
   // Visible label in a span when no main slot is provided.
   label?: string
-  // Additional HTML attributes on the label wrapper.
-  [attr: string]: unknown
+  // Passthrough HTML, data-*, and aria-* attributes forwarded to the root element via $props.merge(...).except(...).toAttrs().
+  class?: string
+  title?: string
+  role?: string
+  style?: string
+  tabindex?: string
+  [attr: `data-${string}`]: string | number | boolean
+  [attr: `aria-${string}`]: string | boolean
 }
   "components/table": {
-  // Additional HTML attributes forwarded to the outer .table-container wrapper div.
-  [attr: string]: unknown
+  // Passthrough HTML, data-*, and aria-* attributes forwarded to the root element via $props.merge(...).except(...).toAttrs().
+  id?: string
+  class?: string
+  title?: string
+  role?: string
+  style?: string
+  tabindex?: string
+  [attr: `data-${string}`]: string | number | boolean
+  [attr: `aria-${string}`]: string | boolean
 }
   "components/tabs": {
   // Root id prefix for tab buttons and tabpanels.
@@ -475,12 +679,16 @@ export interface EdgeTemplates {
   orientation?: 'horizontal' | 'vertical'
   // Tablist style; line sets data-variant on the nav. @default 'default'
   variant?: 'default' | 'line'
-  // Extra class and attributes on root .tabs container.
-  main_attrs?: Record<string, string>
   // Extra class and attributes for the tablist nav element.
   tablist_attrs?: Record<string, string>
-  // Additional HTML attributes forwarded to the tabs root.
-  [attr: string]: unknown
+  // Passthrough HTML, data-*, and aria-* attributes forwarded to the root element via $props.merge(...).except(...).toAttrs().
+  class?: string
+  title?: string
+  role?: string
+  style?: string
+  tabindex?: string
+  [attr: `data-${string}`]: string | number | boolean
+  [attr: `aria-${string}`]: string | boolean
 }
   "components/textarea": {
   // Form field name on the textarea element.
@@ -497,8 +705,14 @@ export interface EdgeTemplates {
   required?: boolean
   // DOM id for label association.
   id?: string
-  // Additional HTML attributes forwarded to the textarea element.
-  [attr: string]: unknown
+  // Passthrough HTML, data-*, and aria-* attributes forwarded to the root element via $props.merge(...).except(...).toAttrs().
+  class?: string
+  title?: string
+  role?: string
+  style?: string
+  tabindex?: string
+  [attr: `data-${string}`]: string | number | boolean
+  [attr: `aria-${string}`]: string | boolean
 }
   "components/toast": {
   // Container id when rendering multiple toasts inside .toaster. @default 'toaster'
@@ -525,10 +739,13 @@ export interface EdgeTemplates {
   action?: { label: string; onclick?: string; href?: string }
   // Single-toast mode: secondary dismiss or action control in the footer.
   cancel?: { label: string; onclick?: string; href?: string }
-  // Single-toast mode: extra class and attributes on the .toast root.
-  attrs?: Record<string, string>
-  // Additional HTML attributes forwarded to the toast or toaster root.
-  [attr: string]: unknown
+  // Passthrough HTML, data-*, and aria-* attributes forwarded to the root element via $props.merge(...).except(...).toAttrs().
+  class?: string
+  role?: string
+  style?: string
+  tabindex?: string
+  [attr: `data-${string}`]: string | number | boolean
+  [attr: `aria-${string}`]: string | boolean
 }
   "components/tooltip": {
   // Tooltip text set as data-tooltip on the trigger element.
@@ -541,8 +758,15 @@ export interface EdgeTemplates {
   as_button?: boolean
   // Button variant when as_button is true. @default 'outline'
   variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'link' | 'destructive'
-  // Additional HTML attributes forwarded to the trigger element.
-  [attr: string]: unknown
+  // Passthrough HTML, data-*, and aria-* attributes forwarded to the root element via $props.merge(...).except(...).toAttrs().
+  id?: string
+  class?: string
+  title?: string
+  role?: string
+  style?: string
+  tabindex?: string
+  [attr: `data-${string}`]: string | number | boolean
+  [attr: `aria-${string}`]: string | boolean
 }
 }
 
