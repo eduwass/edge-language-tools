@@ -26,7 +26,7 @@
 }
 @url https://basecoatui.com/components/tabs/
 @example height=200
-  @tabs({
+  @!tabs({
     id: 'preview-tabs',
     tabsets: [
       { tab: 'Account', panel: '<p>Account settings</p>' },
@@ -34,7 +34,6 @@
       { tab: 'Team', panel: '<p>Manage your team</p>' },
     ],
   })
-  @end
 --}}
 <div id="{{ id }}" class="tabs {{ main_attrs?.class ?? '' }}">
   <nav

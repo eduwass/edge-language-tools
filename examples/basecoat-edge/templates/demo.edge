@@ -4,8 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>basecoat-edge demo</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/basecoat-css@1.0.2/dist/basecoat.cdn.min.css" />
-  <script src="https://cdn.jsdelivr.net/npm/basecoat-css@1.0.2/dist/js/all.min.js" defer></script>
+  @!basecoatStyles()
   <style>
     body { font-family: system-ui, sans-serif; margin: 0; padding: 2rem; background: var(--background, #fff); color: var(--foreground, #111); }
     .demo-grid { display: grid; gap: 2rem; max-width: 72rem; margin: 0 auto; }
@@ -37,8 +36,7 @@
 
     <section class="demo-section">
       <h2>Alert</h2>
-      @alert({ variant: 'default', title: 'Heads up', description: 'You can add components to your app.' })
-      @end
+      @!alert({ variant: 'default', title: 'Heads up', description: 'You can add components to your app.' })
     </section>
 
     <section class="demo-section">
@@ -62,14 +60,11 @@
     <section class="demo-section">
       <h2>Form controls</h2>
       @component('components/field', { label: 'Email', description: 'We will never share your email.' })
-        @component('components/input', { type: 'email', name: 'email', placeholder: 'you@example.com' })
-        @end
+        @!component('components/input', { type: 'email', name: 'email', placeholder: 'you@example.com' })
       @end
       <div class="demo-row">
-        @checkbox({ name: 'terms', label: 'Accept terms' })
-        @end
-        @switch({ name: 'notifications', label: 'Enable notifications' })
-        @end
+        @!checkbox({ name: 'terms', label: 'Accept terms' })
+        @!switch({ name: 'notifications', label: 'Enable notifications' })
       </div>
     </section>
 
@@ -95,7 +90,7 @@
 
     <section class="demo-section">
       <h2>Tabs</h2>
-      @tabs({
+      @!tabs({
         id: 'demo-tabs',
         tabsets: [
           { tab: 'Account', panel: '<p>Account settings</p>' },
@@ -103,7 +98,6 @@
           { tab: 'Team', panel: '<p>Manage your team</p>' },
         ],
       })
-      @end
     </section>
 
     <section class="demo-section">
@@ -161,8 +155,7 @@
     <section class="demo-section">
       <h2>Progress and skeleton</h2>
       <div class="demo-row">
-        @progress({ value: 60, max: 100 })
-        @end
+        @!progress({ value: 60, max: 100 })
         @skeleton()
           <div style="height: 2rem; width: 12rem;"></div>
         @end
@@ -171,13 +164,13 @@
 
     <section class="demo-section">
       <h2>Toast container</h2>
-      @toast({
+      @!toast({
         toasts: [
           { category: 'success', title: 'Saved', description: 'Your changes have been saved.' },
         ],
       })
-      @end
     </section>
   </div>
+  @!basecoatScripts()
 </body>
 </html>

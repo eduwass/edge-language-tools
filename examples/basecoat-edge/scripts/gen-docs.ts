@@ -17,7 +17,6 @@ const root = join(import.meta.dir, '..')
 const componentsDir = join(root, 'templates/components')
 const docsDir = join(root, 'docs/components')
 const previewsDir = join(root, 'public/previews')
-const templatesDir = join(root, 'templates')
 
 mkdirSync(docsDir, { recursive: true })
 mkdirSync(previewsDir, { recursive: true })
@@ -229,9 +228,32 @@ function parseTypesBlock(objectLiteral: string): ParsedTypes | null {
   return result
 }
 
-async function renderPreview(source: string): Promise<string> {
-  const body = await edge.renderRaw(source.trim(), {}, join(templatesDir, 'demo.edge'))
-  return previewHtml(body)
+async function renderPreview(source: string, stem: string): Promise<string> {
+  return previewHtml(edge, source, {
+    includeShellScripts: stem !== 'basecoat_scripts',
+  })
+}
+
+// Components whose interactivity is provided by the core all.min.js runtime.
+const RUNTIME_JS_COMPONENTS = new Set([
+  'accordion',
+  'combobox',
+  'command',
+  'dialog',
+  'dropdown_menu',
+  'popover',
+  'select',
+  'sidebar',
+  'tabs',
+  'toast',
+])
+
+const ASSET_COMPONENTS = new Set(['basecoat_styles', 'basecoat_scripts'])
+
+function needsJs(stem: string, source: string): boolean {
+  if (ASSET_COMPONENTS.has(stem)) return false
+  if (RUNTIME_JS_COMPONENTS.has(stem)) return true
+  return /pushOnceTo\s*\(\s*['"]basecoat:scripts['"]\s*\)/.test(source)
 }
 
 function acceptsBodyContent(templateSource: string): boolean {
@@ -302,7 +324,7 @@ for (const file of files) {
 
   for (let i = 0; i < examples.length; i++) {
     const slug = i === 0 ? stem : `${stem}-${i}`
-    const html = await renderPreview(examples[i].raw)
+    const html = await renderPreview(examples[i].raw, stem)
     writeFileSync(join(previewsDir, `${slug}.html`), html)
   }
 
@@ -310,8 +332,10 @@ for (const file of files) {
   const schema = buildPlaygroundSchema(stem, typesBlock, primaryExample, source)
 
   const referenceLine = docs.url
-    ? `\nReference: <a href="${docs.url}" target="_blank" rel="noopener noreferrer">${docs.url}</a>\n`
-    : ''
+    ? `\nReference: <a href="${docs.url}" target="_blank" rel="noopener noreferrer">${docs.url}</a>${needsJs(stem, source) ? ' — Needs JS' : ''}\n`
+    : needsJs(stem, source)
+      ? '\nNeeds JS\n'
+      : ''
 
   const mdx = `---
 title: ${name}

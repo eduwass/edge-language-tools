@@ -37,6 +37,14 @@ export interface EdgeTemplates {
   // Additional HTML attributes forwarded to the root .badge span.
   [attr: string]: unknown
 }
+  "components/basecoat_scripts": {
+  // Asset loading strategy, set app-wide via edge.global('basecoatAssets', ...). @default cdn
+  basecoatAssets?: { mode: 'cdn' | 'local' | 'none', base?: string }
+}
+  "components/basecoat_styles": {
+  // Asset loading strategy, set app-wide via edge.global('basecoatAssets', ...). @default cdn
+  basecoatAssets?: { mode: 'cdn' | 'local' | 'none', base?: string }
+}
   "components/breadcrumb": {
   // Additional HTML attributes forwarded to the root nav element (aria-label defaults to Breadcrumb).
   [attr: string]: unknown
@@ -66,10 +74,20 @@ export interface EdgeTemplates {
   [attr: string]: unknown
 }
   "components/chart": {
+  // Asset loading strategy, set app-wide via edge.global('basecoatAssets', ...). @default cdn
+  basecoatAssets?: { mode: 'cdn' | 'local' | 'none', base?: string }
   // Canvas element id passed to basecoat.chart().
   id: string
   // Accessible name via aria-label on the canvas.
   label?: string
+  // Chart.js chart type. @default 'bar'
+  type?: 'bar' | 'line' | 'pie' | 'doughnut' | 'radar' | 'polarArea'
+  // Row field used for the x-axis labels.
+  labelKey?: string
+  // Data rows; each object holds the label field plus one number per series.
+  data?: Array<Record<string, string | number>>
+  // Per-series config keyed by row field: display label and CSS color.
+  series?: Record<string, { label?: string, color?: string }>
   // Additional HTML attributes forwarded to the canvas element.
   [attr: string]: unknown
 }
@@ -135,6 +153,8 @@ export interface EdgeTemplates {
     url?: string
     icon?: string
     keywords?: string
+    // Keyboard hint rendered as a data-shortcut span (display only).
+    shortcut?: string
     disabled?: boolean
     items?: Array<{
       type?: 'item' | 'group' | 'separator'
@@ -142,6 +162,8 @@ export interface EdgeTemplates {
       url?: string
       icon?: string
       keywords?: string
+      // Keyboard hint rendered as a data-shortcut span (display only).
+      shortcut?: string
       disabled?: boolean
     }>
     attrs?: Record<string, string>

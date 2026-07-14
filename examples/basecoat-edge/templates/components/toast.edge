@@ -41,13 +41,12 @@
     .toaster { position: static !important; inset: auto !important; }
     .toaster .toast { opacity: 1 !important; transform: none !important; }
   </style>
-  @toast({
+  @!toast({
     toasts: [
       { category: 'success', title: 'Saved', description: 'Your changes have been saved.' },
       { category: 'error', title: 'Something went wrong', description: 'Could not reach the server.' },
     ],
   })
-  @end
 --}}
 @if(toasts)
 <div id="{{ id ?? 'toaster' }}" class="toaster">

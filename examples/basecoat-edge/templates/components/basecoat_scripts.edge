@@ -1,0 +1,19 @@
+{{--
+@name Basecoat Scripts
+@desc Emits the basecoat core runtime script and the basecoat:scripts stack.
+@types {
+  // Asset loading strategy, set app-wide via edge.global('basecoatAssets', ...). @default cdn
+  basecoatAssets?: { mode: 'cdn' | 'local' | 'none', base?: string }
+}
+@url https://basecoatui.com/installation/
+@example
+  @!basecoatScripts()
+--}}
+@let(mode = basecoatAssets?.mode ?? 'cdn')
+@if(mode === 'cdn')
+<script src="https://cdn.jsdelivr.net/npm/basecoat-css@1.0.2/dist/js/all.min.js" defer></script>
+@elseif(mode === 'local')
+@let(base = basecoatAssets?.base ?? '/vendor/basecoat')
+<script src="{{ base }}/js/all.min.js" defer></script>
+@end
+@stack('basecoat:scripts')

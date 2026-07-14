@@ -1,7 +1,9 @@
 {{--
 @name Chart
-@desc Themed Chart.js canvas; needs Chart.js, basecoat.min.js, and basecoat chart.min.js loaded.
+@desc Themed Chart.js canvas; pushes Chart.js scripts to the basecoat:scripts stack when assets are enabled.
 @types {
+  // Asset loading strategy, set app-wide via edge.global('basecoatAssets', ...). @default cdn
+  basecoatAssets?: { mode: 'cdn' | 'local' | 'none', base?: string }
   // Canvas element id passed to basecoat.chart().
   id: string
   // Accessible name via aria-label on the canvas.
@@ -19,7 +21,7 @@
 }
 @url https://basecoatui.com/components/chart/
 @example height=340
-  @chart({
+  @!chart({
     id: 'preview-chart',
     label: 'Monthly visitors',
     type: 'bar',
@@ -35,8 +37,19 @@
       mobile: { label: 'Mobile', color: 'var(--chart-2)' },
     },
   })
-  @end
 --}}
+@if((basecoatAssets?.mode ?? 'cdn') !== 'none')
+@pushOnceTo('basecoat:scripts')
+@if((basecoatAssets?.mode ?? 'cdn') === 'local')
+@let(base = basecoatAssets?.base ?? '/vendor/basecoat')
+<script src="{{ base }}/js/chart.umd.min.js"></script>
+<script src="{{ base }}/js/chart.min.js" defer></script>
+@else
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/basecoat-css@1.0.2/dist/js/chart.min.js" defer></script>
+@end
+@end
+@end
 <canvas
   id="{{ id }}"
   {{

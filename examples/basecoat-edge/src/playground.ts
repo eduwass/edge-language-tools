@@ -1,68 +1,36 @@
+import { readFileSync } from 'node:fs'
+import { join } from 'node:path'
 import ts from 'typescript'
 import type { PlaygroundSchema, PropControl } from './playground-types.ts'
 
 export type { PlaygroundSchema, PropControl } from './playground-types.ts'
 
-export const BASECOAT_CSS =
-  'https://cdn.jsdelivr.net/npm/basecoat-css@1.0.2/dist/basecoat.cdn.min.css'
-export const BASECOAT_JS =
-  'https://cdn.jsdelivr.net/npm/basecoat-css@1.0.2/dist/js/all.min.js'
+const PREVIEW_TEMPLATE_PATH = join(import.meta.dir, '../templates/preview.edge')
+const previewTemplate = readFileSync(PREVIEW_TEMPLATE_PATH, 'utf8')
+const BODY_PLACEHOLDER = '{{{ body }}}'
+const bodyPlaceholderIndex = previewTemplate.indexOf(BODY_PLACEHOLDER)
+if (bodyPlaceholderIndex === -1) {
+  throw new Error('preview.edge must contain {{{ body }}}')
+}
+const previewBefore = previewTemplate.slice(0, bodyPlaceholderIndex)
+const previewAfter = previewTemplate.slice(bodyPlaceholderIndex + BODY_PLACEHOLDER.length)
+
+export interface PreviewRenderer {
+  renderRaw(template: string, state: Record<string, unknown>, filename: string): Promise<string>
+}
 
 export function stemToTag(stem: string): string {
   return stem.replace(/_([a-z])/g, (_, c: string) => c.toUpperCase())
 }
 
-export function previewHtml(body: string): string {
-  return `<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Preview</title>
-  <link rel="stylesheet" href="${BASECOAT_CSS}" />
-  <script src="${BASECOAT_JS}" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/basecoat-css@1.0.2/dist/js/chart.min.js" defer></script>
-  <style>
-    :root { color-scheme: light dark; }
-    body {
-      font-family: system-ui, sans-serif;
-      margin: 0;
-      padding: 24px;
-      background: var(--background, Canvas);
-      color: var(--foreground, CanvasText);
-      box-sizing: border-box;
-    }
-    .preview-root { width: 100%; max-width: 48rem; margin: 0 auto; }
-  </style>
-  <script>
-    // Follow the docs site's theme: blume stamps data-theme on its root, and
-    // previews are same-origin, so the parent document is readable. Falls
-    // back to the OS preference when embedded elsewhere. Basecoat's dark
-    // palette activates via the .dark class.
-    ;(function () {
-      function apply() {
-        var dark
-        try {
-          var t = parent.document.documentElement.dataset.theme
-          dark = t ? t === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches
-        } catch (e) {
-          dark = matchMedia('(prefers-color-scheme: dark)').matches
-        }
-        document.documentElement.classList.toggle('dark', dark)
-      }
-      apply()
-      setInterval(apply, 500)
-    })()
-  </script>
-</head>
-<body>
-  <div class="preview-root">
-${body}
-  </div>
-</body>
-</html>
-`
+export async function previewHtml(
+  edge: PreviewRenderer,
+  exampleSource: string,
+  options?: { includeShellScripts?: boolean },
+): Promise<string> {
+  const tail = options?.includeShellScripts === false ? '\n</body>\n</html>\n' : previewAfter
+  const template = previewBefore + exampleSource.trim() + tail
+  return edge.renderRaw(template.trim(), {}, PREVIEW_TEMPLATE_PATH)
 }
 
 export function classifyPropType(type: string): PropControl | null {
@@ -126,10 +94,18 @@ export function parsePreviewExample(
   source: string,
   tag: string,
 ): { props: Record<string, unknown>; slot: string } {
-  const marker = `@${tag}`
-  const start = source.indexOf(marker)
+  const selfMarker = `@!${tag}`
+  const blockMarker = `@${tag}`
+  let selfClosing = false
+  let start = source.indexOf(selfMarker)
+  if (start !== -1) {
+    selfClosing = true
+  } else {
+    start = source.indexOf(blockMarker)
+  }
   if (start === -1) return { props: {}, slot: '' }
 
+  const marker = selfClosing ? selfMarker : blockMarker
   let cursor = start + marker.length
   let props: Record<string, unknown> = {}
 
@@ -139,6 +115,8 @@ export function parsePreviewExample(
     props = evalObjectLiteral(source.slice(cursor + 1, close))
     cursor = close + 1
   }
+
+  if (selfClosing) return { props, slot: '' }
 
   const bodyStart = source.indexOf('\n', cursor)
   if (bodyStart === -1) return { props, slot: '' }
@@ -194,9 +172,11 @@ export function buildEdgeSource(
   slot?: string,
 ): string {
   const propsLiteral = serializeProps(props)
-  const open = propsLiteral ? `@${tag}(${propsLiteral})` : `@${tag}()`
   const trimmedSlot = slot?.trim()
-  if (!trimmedSlot) return `${open}\n@end`
+  if (!trimmedSlot) {
+    return propsLiteral ? `@!${tag}(${propsLiteral})` : `@!${tag}()`
+  }
+  const open = propsLiteral ? `@${tag}(${propsLiteral})` : `@${tag}()`
   const indented = trimmedSlot
     .split('\n')
     .map((line) => (line.length > 0 ? `  ${line}` : ''))
@@ -210,11 +190,15 @@ export function buildRenderTemplate(
   slot?: string,
 ): string {
   const propsLiteral = serializeProps(props)
+  const trimmedSlot = slot?.trim()
+  if (!trimmedSlot) {
+    return propsLiteral
+      ? `@!component('components/${component}', ${propsLiteral})`
+      : `@!component('components/${component}')`
+  }
   const open = propsLiteral
     ? `@component('components/${component}', ${propsLiteral})`
     : `@component('components/${component}')`
-  const trimmedSlot = slot?.trim()
-  if (!trimmedSlot) return `${open}\n@end`
   return `${open}\n${trimmedSlot}\n@end`
 }
 

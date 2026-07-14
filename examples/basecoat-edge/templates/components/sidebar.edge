@@ -46,7 +46,7 @@
 @url https://basecoatui.com/components/sidebar/
 @example height=320
   <div style="display: flex; min-height: 16rem; border: 1px solid var(--border, #e5e5e5); border-radius: 0.5rem; overflow: hidden;">
-    @sidebar({
+    @!sidebar({
       id: 'preview-sidebar',
       menu: [
         { type: 'group', label: 'Navigation', items: [
@@ -58,7 +58,6 @@
         { type: 'item', label: 'Help', url: '#' },
       ],
     })
-    @end
     <main style="flex: 1; padding: 1rem;">
       <h1 style="margin: 0; font-size: 1.125rem;">Content</h1>
       <p style="margin: 0.5rem 0 0; color: var(--muted-foreground, #666);">Page content beside the sidebar.</p>

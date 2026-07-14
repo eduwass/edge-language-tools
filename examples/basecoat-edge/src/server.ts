@@ -19,7 +19,6 @@ edge.mount(new URL('../templates/', import.meta.url))
 
 const root = join(import.meta.dir, '..')
 const componentsDir = join(root, 'templates/components')
-const templatesDir = join(root, 'templates')
 const allowedComponents = new Set(
   readdirSync(componentsDir)
     .filter((file) => file.endsWith('.edge'))
@@ -98,10 +97,9 @@ async function handleRender(req: Request): Promise<Response> {
   const { component, props, slot } = parsed
   const tag = stemToTag(component)
   const template = buildRenderTemplate(component, props, slot)
-  const body = await edge.renderRaw(template.trim(), {}, join(templatesDir, 'demo.edge'))
   const source = buildEdgeSource(tag, props, slot)
 
-  return jsonResponse({ html: previewHtml(body), source }, 200, origin)
+  return jsonResponse({ html: await previewHtml(edge, template), source }, 200, origin)
 }
 
 Bun.serve({

@@ -1,0 +1,48 @@
+---
+title: Assets
+description: Load basecoat CSS and JS via typed Edge components and a global config.
+---
+
+# Assets
+
+Configure how basecoat CSS and JavaScript reach your pages with `@!basecoatStyles()` and `@!basecoatScripts()` — Livewire-style asset components backed by Edge stacks.
+
+## Modes
+
+Set the `basecoatAssets` Edge global once in your app bootstrap:
+
+```ts
+edge.global('basecoatAssets', { mode: 'cdn' })
+```
+
+| Mode | Behavior |
+| --- | --- |
+| `cdn` | Load from jsDelivr (default when unset) |
+| `local` | Load from `base`, defaulting to `/vendor/basecoat` |
+| `none` | Emit no CSS or core JS (per-component scripts are skipped too) |
+
+Optional `base` overrides the local asset root:
+
+```ts
+edge.global('basecoatAssets', { mode: 'local', base: '/static/basecoat' })
+```
+
+## Layout setup
+
+In your layout head and body:
+
+```edge
+@!basecoatStyles()
+
+<!-- page content -->
+
+@!basecoatScripts()
+```
+
+`@!basecoatScripts()` renders the core `all.min.js` runtime and `@stack('basecoat:scripts')`, where components such as `@!chart({...})` push extra scripts via `@pushOnceTo('basecoat:scripts')`.
+
+## Local mode
+
+Copy the `basecoat-css` npm package assets into your static directory (for example `public/vendor/basecoat`) so paths like `/vendor/basecoat/basecoat.cdn.min.css` and `/vendor/basecoat/js/all.min.js` resolve.
+
+Works like Blade stacks + Livewire assets, but typed.
