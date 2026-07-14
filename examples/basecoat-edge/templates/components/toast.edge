@@ -31,6 +31,23 @@
   // Additional HTML attributes forwarded to the toast or toaster root.
   [attr: string]: unknown
 }
+@url https://basecoatui.com/components/toast/
+@example height=200
+  <!--
+    Toasts are fixed to the viewport corner and animated in by basecoat's JS;
+    for a static preview we pin the toaster in-flow and force it visible.
+  -->
+  <style>
+    .toaster { position: static !important; inset: auto !important; }
+    .toaster .toast { opacity: 1 !important; transform: none !important; }
+  </style>
+  @toast({
+    toasts: [
+      { category: 'success', title: 'Saved', description: 'Your changes have been saved.' },
+      { category: 'error', title: 'Something went wrong', description: 'Could not reach the server.' },
+    ],
+  })
+  @end
 --}}
 @if(toasts)
 <div id="{{ id ?? 'toaster' }}" class="toaster">

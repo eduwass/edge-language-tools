@@ -29,6 +29,26 @@
   // Additional HTML attributes forwarded to the dialog root.
   [attr: string]: unknown
 }
+@url https://basecoatui.com/components/dialog/
+@example height=280
+  @dialog({
+    id: 'preview-dialog',
+    trigger: 'Open dialog',
+    title: 'Edit profile',
+    description: 'Make changes to your profile here.',
+  })
+    @slot('main')
+      <p>Dialog body content.</p>
+    @end
+    @slot('footer')
+      @button({ variant: 'outline' })
+        Cancel
+      @end
+      @button()
+        Save
+      @end
+    @end
+  @end
 --}}
 @if(trigger)
 <button

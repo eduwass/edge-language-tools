@@ -4,8 +4,7 @@ import { Edge } from 'edge.js'
 import { edgeIconify, addCollection } from 'edge-iconify'
 import { icons as lucideIcons } from '@iconify-json/lucide'
 import ts from 'typescript'
-import { templateDocs } from '@edge-language-tools/core'
-import { previews } from './previews.ts'
+import { templateDocs, type TemplateExample } from '@edge-language-tools/core'
 import {
   classifyPropType,
   parsePreviewExample,
@@ -50,11 +49,16 @@ interface TemplateDocs {
   name: string | null
   desc: string | null
   types: string | null
+  url: string | null
+  examples: TemplateExample[]
 }
 
 const NAME_DIRECTIVE = /(?:^|\n)[ \t]*@name[ \t]+([^\n]+)/
 const DESC_DIRECTIVE = /(?:^|\n)[ \t]*@desc\b[ \t]*/
 const TYPES_DIRECTIVE = /(?:^|\n)[ \t]*@types\b/
+const URL_DIRECTIVE = /(?:^|\n)[ \t]*@url[ \t]+([^\n]+)/
+const EXAMPLE_DIRECTIVE = /(?:^|\n)[ \t]*@example\b([^\n]*)/g
+const NEXT_DIRECTIVE = /\n[ \t]*@(?:name|desc|types|example|url)\b/
 
 function matchBrace(text: string, openIndex: number): number {
   let depth = 0
@@ -69,18 +73,31 @@ function matchBrace(text: string, openIndex: number): number {
 }
 
 /** Fallback when edge-lexer cannot tokenize a template (e.g. complex @if nesting). */
+function dedentExample(text: string): string {
+  const lines = text.replace(/^\n/, '').split('\n')
+  let min = Infinity
+  for (const line of lines) {
+    if (line.trim().length === 0) continue
+    const indent = line.length - line.trimStart().length
+    if (indent < min) min = indent
+  }
+  if (!Number.isFinite(min) || min === 0) return text.trim()
+  return lines.map((line) => line.slice(min)).join('\n').trim()
+}
+
 function parseDocCommentFallback(source: string): TemplateDocs {
   const match = /\{\{--([\s\S]*?)--\}\}/.exec(source)
-  if (!match) return { name: null, desc: null, types: null }
+  if (!match) return { name: null, desc: null, types: null, url: null, examples: [] }
 
   const comment = match[1]
   const name = NAME_DIRECTIVE.exec(comment)?.[1]?.trim() ?? null
+  const url = URL_DIRECTIVE.exec(comment)?.[1]?.trim() ?? null
 
   let desc: string | null = null
   const descStart = DESC_DIRECTIVE.exec(comment)
   if (descStart) {
     const body = comment.slice(descStart.index + descStart[0].length)
-    const next = /\n[ \t]*@(?:name|desc|types)\b/.exec(body)
+    const next = NEXT_DIRECTIVE.exec(body)
     const text = (next ? body.slice(0, next.index) : body)
       .split('\n')
       .map((line) => line.trim())
@@ -99,23 +116,43 @@ function parseDocCommentFallback(source: string): TemplateDocs {
       const end = matchBrace(expr, 0)
       if (end !== -1) types = expr.slice(0, end + 1)
     } else {
-      const next = /\n[ \t]*@(?:name|desc)\b/.exec(expr)
+      const next = NEXT_DIRECTIVE.exec(expr)
       const raw = (next ? expr.slice(0, next.index) : expr).trimEnd()
       types = raw.length > 0 ? raw : null
     }
   }
 
-  return { name, desc, types }
+  const examples: TemplateExample[] = []
+  for (const exampleMatch of comment.matchAll(EXAMPLE_DIRECTIVE)) {
+    const headerRest = exampleMatch[1] ?? ''
+    const bodyStart = (exampleMatch.index ?? 0) + exampleMatch[0].length
+    const next = NEXT_DIRECTIVE.exec(comment.slice(bodyStart))
+    const bodyEnd = next ? bodyStart + next.index : comment.length
+    const raw = dedentExample(comment.slice(bodyStart, bodyEnd))
+    if (raw.length === 0) continue
+    let height: number | null = null
+    const title = headerRest
+      .replace(/\bheight=(\d+)\b/, (_, h: string) => {
+        height = Number(h)
+        return ''
+      })
+      .trim()
+    examples.push({ title: title.length > 0 ? title : null, height, raw })
+  }
+
+  return { name, desc, types, url, examples }
 }
 
 function getTemplateDocs(source: string, file: string): TemplateDocs {
   const docs = templateDocs(source, file)
-  if (docs.name && docs.types) return docs
+  if (docs.name && docs.types && docs.examples.length > 0) return docs
   const fallback = parseDocCommentFallback(source)
   return {
     name: docs.name ?? fallback.name,
     desc: docs.desc ?? fallback.desc,
     types: docs.types ?? fallback.types,
+    url: docs.url ?? fallback.url,
+    examples: docs.examples.length > 0 ? docs.examples : fallback.examples,
   }
 }
 
@@ -204,11 +241,11 @@ function acceptsBodyContent(templateSource: string): boolean {
 function buildPlaygroundSchema(
   stem: string,
   typesBlock: string,
-  example: { source: string; minHeight?: number },
+  example: TemplateExample,
   templateSource: string,
 ): PlaygroundSchema {
   const tag = stemToTag(stem)
-  const { props: defaultProps, slot } = parsePreviewExample(example.source, tag)
+  const { props: defaultProps, slot } = parsePreviewExample(example.raw, tag)
   const parsed = parseTypesBlock(typesBlock)
   const props: Record<string, PlaygroundProp> = {}
 
@@ -232,7 +269,7 @@ function buildPlaygroundSchema(
     previewSlug: stem,
     ...(slot.length > 0 || acceptsBodyContent(templateSource) ? { hasSlot: true } : {}),
     ...(parsed?.hasIndexSignature ? { hasIndexSignature: true } : {}),
-    ...(example.minHeight !== undefined ? { minHeight: example.minHeight } : {}),
+    ...(example.height !== null && example.height !== undefined ? { minHeight: example.height } : {}),
   }
 }
 
@@ -258,26 +295,30 @@ for (const file of files) {
   const descBody = docs.desc?.split('\n').slice(1).join('\n').trim() ?? ''
   const typesBlock = docs.types ?? '{}'
 
-  const examples = previews[stem]
-  if (!examples?.length) {
-    throw new Error(`Missing preview examples for component: ${stem}`)
+  const examples = docs.examples
+  if (!examples.length) {
+    throw new Error(`Missing @example directives for component: ${stem}`)
   }
 
   for (let i = 0; i < examples.length; i++) {
     const slug = i === 0 ? stem : `${stem}-${i}`
-    const html = await renderPreview(examples[i].source)
+    const html = await renderPreview(examples[i].raw)
     writeFileSync(join(previewsDir, `${slug}.html`), html)
   }
 
   const primaryExample = examples[0]
   const schema = buildPlaygroundSchema(stem, typesBlock, primaryExample, source)
 
+  const referenceLine = docs.url
+    ? `\nReference: <a href="${docs.url}" target="_blank" rel="noopener noreferrer">${docs.url}</a>\n`
+    : ''
+
   const mdx = `---
 title: ${name}
 description: ${descFirst.replace(/"/g, '\\"')}
 ---
 
-${descBody}
+${descBody}${referenceLine}
 
 ${emitPlaygroundSection(stem, schema)}
 `

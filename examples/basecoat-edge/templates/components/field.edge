@@ -9,6 +9,12 @@
   // Additional HTML attributes forwarded to the root .field wrapper.
   [attr: string]: unknown
 }
+@url https://basecoatui.com/components/field/
+@example
+  @field({ label: 'Email', description: 'We will never share your email.' })
+    @input({ type: 'email', name: 'email', placeholder: 'you@example.com' })
+    @end
+  @end
 --}}
 <div {{ html.attrs({ class: 'field', role: 'group' }) }}>
   @if($slots.label)

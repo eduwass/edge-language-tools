@@ -11,6 +11,10 @@
   // Additional HTML attributes forwarded to the progressbar root div.
   [attr: string]: unknown
 }
+@url https://basecoatui.com/components/progress/
+@example
+  @progress({ value: 60, max: 100 })
+  @end
 --}}
 <div {{
   html.attrs({

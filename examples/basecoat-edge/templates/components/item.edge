@@ -9,6 +9,10 @@
   // Additional HTML attributes forwarded to the root .item article.
   [attr: string]: unknown
 }
+@url https://basecoatui.com/components/item/
+@example
+  @item({ title: 'Notifications', description: 'You have 3 unread messages.' })
+  @end
 --}}
 <article {{ html.attrs({ class: 'item' }) }}>
   @if($slots.media)

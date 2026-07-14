@@ -29,6 +29,13 @@
   // Additional HTML attributes forwarded to the combobox root.
   [attr: string]: unknown
 }
+@url https://basecoatui.com/components/combobox/
+@example height=180
+  @combobox({ id: 'preview-combobox', placeholder: 'Select framework...' })
+    <div role="option" data-value="react">React</div>
+    <div role="option" data-value="vue">Vue</div>
+    <div role="option" data-value="svelte">Svelte</div>
+  @end
 --}}
 <div
   id="{{ id }}"

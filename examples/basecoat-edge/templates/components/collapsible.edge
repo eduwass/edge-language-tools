@@ -7,6 +7,12 @@
   // Additional HTML attributes forwarded to the root details element.
   [attr: string]: unknown
 }
+@url https://basecoatui.com/components/collapsible/
+@example
+  @collapsible({ open: true })
+    <summary>Can I use this in my project?</summary>
+    <section>Yes. It uses native details and summary elements.</section>
+  @end
 --}}
 <details
   {{ html.attrs({ class: 'collapsible' }) }}

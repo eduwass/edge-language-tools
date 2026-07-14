@@ -5,6 +5,20 @@
   // Additional HTML attributes forwarded to the scrollable .scrollbar wrapper.
   [attr: string]: unknown
 }
+@url https://basecoatui.com/components/scrollbar/
+@example height=180
+  @scrollbar()
+    <div style="max-height: 8rem; overflow: auto;">
+      <p>Scrollable content line 1</p>
+      <p>Scrollable content line 2</p>
+      <p>Scrollable content line 3</p>
+      <p>Scrollable content line 4</p>
+      <p>Scrollable content line 5</p>
+      <p>Scrollable content line 6</p>
+      <p>Scrollable content line 7</p>
+      <p>Scrollable content line 8</p>
+    </div>
+  @end
 --}}
 <div {{ html.attrs({ class: 'scrollbar' }) }}>
   {{{ await $slots.main() }}}

@@ -13,6 +13,17 @@
   // Additional HTML attributes forwarded to the root button element.
   [attr: string]: unknown
 }
+@url https://basecoatui.com/components/button/
+@example Variants
+  @button({ variant: 'primary' })
+    Primary
+  @end
+  @button({ variant: 'outline', size: 'sm' })
+    Outline small
+  @end
+  @button({ variant: 'ghost' })
+    Ghost
+  @end
 --}}
 <button {{
   html.attrs({

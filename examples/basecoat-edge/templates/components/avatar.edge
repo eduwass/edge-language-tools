@@ -11,6 +11,13 @@
   // Additional HTML attributes forwarded to the root .avatar span.
   [attr: string]: unknown
 }
+@url https://basecoatui.com/components/avatar/
+@example
+  @avatar({ src: 'https://github.com/shadcn.png', alt: 'User' })
+  @end
+@example Fallback
+  @avatar({ fallback: 'CN' })
+  @end
 --}}
 <span {{ html.attrs({ class: 'avatar' }) }}>
   @if(src)

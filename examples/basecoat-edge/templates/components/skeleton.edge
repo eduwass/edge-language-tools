@@ -5,6 +5,11 @@
   // Additional HTML attributes forwarded to the loading .skeleton placeholder div.
   [attr: string]: unknown
 }
+@url https://basecoatui.com/components/skeleton/
+@example
+  @skeleton()
+    <div style="height: 2rem; width: 12rem;"></div>
+  @end
 --}}
 <div {{ html.attrs({ class: 'skeleton' }) }}>
   {{{ await $slots.main() }}}

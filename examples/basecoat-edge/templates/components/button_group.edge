@@ -7,6 +7,19 @@
   // Additional HTML attributes forwarded to the root role=group div.
   [attr: string]: unknown
 }
+@url https://basecoatui.com/components/button-group/
+@example
+  @buttonGroup()
+    @button({ variant: 'outline' })
+      Left
+    @end
+    @button({ variant: 'outline' })
+      Center
+    @end
+    @button({ variant: 'outline' })
+      Right
+    @end
+  @end
 --}}
 <div
   role="group"

@@ -5,6 +5,18 @@
   // Additional HTML attributes forwarded to the root .input-group wrapper.
   [attr: string]: unknown
 }
+@url https://basecoatui.com/components/input-group/
+@example
+  @inputGroup()
+    <input type="text" placeholder="0.00" />
+    <span data-align="start">$</span>
+    <span data-align="end">USD</span>
+  @end
+@example
+  @inputGroup()
+    <input type="text" placeholder="Search..." />
+    <button type="button" class="btn" data-variant="outline" data-align="end">Search</button>
+  @end
 --}}
 <div {{ html.attrs({ class: 'input-group' }) }}>
   {{{ await $slots.main() }}}

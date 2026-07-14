@@ -7,6 +7,11 @@
   // Additional HTML attributes forwarded to the root label element.
   [attr: string]: unknown
 }
+@url https://basecoatui.com/components/label/
+@example
+  @label({ htmlFor: 'preview-email' })
+    Email address
+  @end
 --}}
 <label {{
   html.attrs({

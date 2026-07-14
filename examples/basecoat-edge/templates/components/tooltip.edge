@@ -15,6 +15,13 @@
   // Additional HTML attributes forwarded to the trigger element.
   [attr: string]: unknown
 }
+@url https://basecoatui.com/components/tooltip/
+@example height=180
+  @tooltip({ text: 'Helpful tooltip text' })
+    @slot('trigger')
+      Hover me
+    @end
+  @end
 --}}
 @if(as_button !== false)
 <button

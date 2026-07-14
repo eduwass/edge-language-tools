@@ -19,6 +19,12 @@
   // Additional HTML attributes on the label wrapper.
   [attr: string]: unknown
 }
+@url https://basecoatui.com/components/radio/
+@example
+  @radio({ name: 'plan', value: 'free', label: 'Free', checked: true })
+  @end
+  @radio({ name: 'plan', value: 'pro', label: 'Pro' })
+  @end
 --}}
 <label class="label">
   <input

@@ -19,6 +19,10 @@
   // Additional HTML attributes forwarded to the textarea element.
   [attr: string]: unknown
 }
+@url https://basecoatui.com/components/textarea/
+@example height=180
+  @textarea({ name: 'message', placeholder: 'Type your message here.', rows: 4 })
+  @end
 --}}
 <textarea {{
   html.attrs({

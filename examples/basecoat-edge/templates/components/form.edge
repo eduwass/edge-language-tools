@@ -9,6 +9,17 @@
   // Additional HTML attributes forwarded to the form element.
   [attr: string]: unknown
 }
+@url https://basecoatui.com/components/form/
+@example height=200
+  @form({ action: '/submit', method: 'post' })
+    @field({ label: 'Name' })
+      @input({ name: 'name', placeholder: 'Your name' })
+      @end
+    @end
+    @button({ type: 'submit' })
+      Submit
+    @end
+  @end
 --}}
 <form {{
   html.attrs({

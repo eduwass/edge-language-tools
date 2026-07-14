@@ -13,6 +13,16 @@
   // Additional HTML attributes forwarded to the popover root.
   [attr: string]: unknown
 }
+@url https://basecoatui.com/components/popover/
+@example height=180
+  @popover({ id: 'preview-popover' })
+    @slot('trigger')
+      Open popover
+    @end
+    @slot('main')
+      <p style="padding: 0.5rem;">Popover content goes here.</p>
+    @end
+  @end
 --}}
 <div
   id="{{ id }}"

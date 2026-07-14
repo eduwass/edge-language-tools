@@ -24,6 +24,17 @@
   // Additional HTML attributes forwarded to the tabs root.
   [attr: string]: unknown
 }
+@url https://basecoatui.com/components/tabs/
+@example height=200
+  @tabs({
+    id: 'preview-tabs',
+    tabsets: [
+      { tab: 'Account', panel: '<p>Account settings</p>' },
+      { tab: 'Password', panel: '<p>Change your password</p>' },
+      { tab: 'Team', panel: '<p>Manage your team</p>' },
+    ],
+  })
+  @end
 --}}
 <div id="{{ id }}" class="tabs {{ main_attrs?.class ?? '' }}">
   <nav

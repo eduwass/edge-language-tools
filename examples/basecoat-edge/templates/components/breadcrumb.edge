@@ -5,6 +5,19 @@
   // Additional HTML attributes forwarded to the root nav element (aria-label defaults to Breadcrumb).
   [attr: string]: unknown
 }
+@url https://basecoatui.com/components/breadcrumb/
+@example
+  @breadcrumb()
+    <li><a href="#">Home</a></li>
+    <li aria-hidden="true">
+      @svg('lucide:chevron-right')
+    </li>
+    <li><a href="#">Components</a></li>
+    <li aria-hidden="true">
+      @svg('lucide:chevron-right')
+    </li>
+    <li><span aria-current="page">Breadcrumb</span></li>
+  @end
 --}}
 <nav {{ html.attrs({ class: 'breadcrumb', 'aria-label': 'Breadcrumb' }) }}>
   <ol>

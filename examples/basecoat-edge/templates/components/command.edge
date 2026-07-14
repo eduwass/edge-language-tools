@@ -46,6 +46,33 @@
   // Additional HTML attributes forwarded to the command root element.
   [attr: string]: unknown
 }
+@url https://basecoatui.com/components/command/
+@example height=420
+  @command({
+    id: 'preview-command',
+    items: [
+      {
+        type: 'group',
+        label: 'Suggestions',
+        items: [
+          { label: 'Calendar', icon: 'lucide:calendar', keywords: 'date event schedule' },
+          { label: 'Search Emoji', icon: 'lucide:smile', keywords: 'emoji smile reaction' },
+          { label: 'Calculator', icon: 'lucide:calculator', disabled: true },
+        ],
+      },
+      { type: 'separator' },
+      {
+        type: 'group',
+        label: 'Settings',
+        items: [
+          { label: 'Profile', icon: 'lucide:user', shortcut: '⌘P' },
+          { label: 'Billing', icon: 'lucide:credit-card', shortcut: '⌘B' },
+          { label: 'Settings', icon: 'lucide:settings', shortcut: '⌘S' },
+        ],
+      },
+    ],
+  })
+  @end
 --}}
 @if(dialog)
 <dialog

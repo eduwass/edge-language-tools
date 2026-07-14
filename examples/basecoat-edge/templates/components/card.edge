@@ -7,6 +7,22 @@
   // Additional HTML attributes forwarded to the root .card div.
   [attr: string]: unknown
 }
+@url https://basecoatui.com/components/card/
+@example height=220
+  @card()
+    @slot('header')
+      <h2>Card title</h2>
+      <p>Card description</p>
+    @end
+    @slot('section')
+      <p>Card content goes here.</p>
+    @end
+    @slot('footer')
+      @button({ variant: 'outline' })
+        Action
+      @end
+    @end
+  @end
 --}}
 <div {{
   html.attrs({

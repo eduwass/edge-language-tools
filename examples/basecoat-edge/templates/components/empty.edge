@@ -9,6 +9,13 @@
   // Additional HTML attributes forwarded to the root .empty section.
   [attr: string]: unknown
 }
+@url https://basecoatui.com/components/empty/
+@example height=180
+  @empty({ title: 'No results', description: 'Try adjusting your search or filters.' })
+    @slot('icon')
+      @svg('lucide:folder-open')
+    @end
+  @end
 --}}
 <section {{ html.attrs({ class: 'empty' }) }}>
   @if($slots.icon || $slots.title || title || $slots.description || description)

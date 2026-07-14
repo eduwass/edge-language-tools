@@ -7,6 +7,24 @@
   // Additional HTML attributes forwarded to the root section element.
   [attr: string]: unknown
 }
+@url https://basecoatui.com/components/accordion/
+@example
+  @accordion()
+    <details open>
+      <summary>
+        Is it accessible?
+        @svg('lucide:chevron-down')
+      </summary>
+      <section>Yes. It uses native disclosure semantics.</section>
+    </details>
+    <details>
+      <summary>
+        Is it styled?
+        @svg('lucide:chevron-down')
+      </summary>
+      <section>Yes. It comes with basecoat styles.</section>
+    </details>
+  @end
 --}}
 <section {{
   html.attrs({

@@ -47,7 +47,7 @@ export interface TemplateDiagnostic {
 export { generateVirtualTs } from './generator.ts'
 export { findEdgeFiles } from './walk.ts'
 export { templateDocs } from './doc-block.ts'
-export type { TemplateDocs } from './doc-block.ts'
+export type { TemplateDocs, TemplateExample } from './doc-block.ts'
 export { isTypesRequired, loadCheckConfig } from './config.ts'
 export type { CheckConfig } from './config.ts'
 

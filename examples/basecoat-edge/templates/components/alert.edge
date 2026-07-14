@@ -11,6 +11,13 @@
   // Additional HTML attributes forwarded to the root alert div.
   [attr: string]: unknown
 }
+@url https://basecoatui.com/components/alert/
+@example
+  @alert({ variant: 'default', title: 'Heads up', description: 'You can add components to your app.' })
+    @slot('icon')
+      @svg('lucide:info')
+    @end
+  @end
 --}}
 <div {{
   html.attrs({

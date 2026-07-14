@@ -17,6 +17,25 @@
   // Additional HTML attributes forwarded to the canvas element.
   [attr: string]: unknown
 }
+@url https://basecoatui.com/components/chart/
+@example height=340
+  @chart({
+    id: 'preview-chart',
+    label: 'Monthly visitors',
+    type: 'bar',
+    labelKey: 'month',
+    data: [
+      { month: 'Jan', desktop: 186, mobile: 80 },
+      { month: 'Feb', desktop: 305, mobile: 200 },
+      { month: 'Mar', desktop: 237, mobile: 120 },
+      { month: 'Apr', desktop: 173, mobile: 190 },
+    ],
+    series: {
+      desktop: { label: 'Desktop', color: 'var(--chart-1)' },
+      mobile: { label: 'Mobile', color: 'var(--chart-2)' },
+    },
+  })
+  @end
 --}}
 <canvas
   id="{{ id }}"

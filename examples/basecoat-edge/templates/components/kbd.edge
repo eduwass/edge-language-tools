@@ -5,6 +5,14 @@
   // Additional HTML attributes forwarded to the root kbd element.
   [attr: string]: unknown
 }
+@url https://basecoatui.com/components/kbd/
+@example
+  @kbd()
+    Ctrl
+  @end
+  @kbd()
+    K
+  @end
 --}}
 <kbd {{ html.attrs({ class: 'kbd' }) }}>
   {{{ await $slots.main() }}}

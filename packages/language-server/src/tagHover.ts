@@ -87,7 +87,7 @@ export function createTagHoverPlugin(): LanguageServicePlugin {
           const target = resolve(document, position)
           if (!target) return undefined
 
-          const value = target.builtinDoc ?? (target.templatePath ? (templateDocMarkdown(target.templatePath) ?? `\`${target.templatePath}\``) : null)
+          const value = target.builtinDoc ?? (target.templatePath ? (templateDocMarkdown(target.templatePath, { includeReference: true }) ?? `\`${target.templatePath}\``) : null)
           if (!value) return undefined
           return {
             contents: { kind: 'markdown' as const, value },

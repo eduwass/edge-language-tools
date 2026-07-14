@@ -5,6 +5,17 @@
   // Additional HTML attributes forwarded to the outer .table-container wrapper div.
   [attr: string]: unknown
 }
+@url https://basecoatui.com/components/table/
+@example height=200
+  @table()
+    <thead>
+      <tr><th>Name</th><th>Status</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Ada Lovelace</td><td>Active</td></tr>
+      <tr><td>Alan Turing</td><td>Active</td></tr>
+    </tbody>
+  @end
 --}}
 <div {{ html.attrs({ class: 'table-container' }) }}>
   <table {{ html.attrs({ class: 'table' }) }}>

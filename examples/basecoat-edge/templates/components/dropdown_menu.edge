@@ -27,6 +27,21 @@
   // Additional HTML attributes forwarded to the dropdown root.
   [attr: string]: unknown
 }
+@url https://basecoatui.com/components/dropdown-menu/
+@example height=180
+  @dropdownMenu({
+    id: 'preview-dropdown',
+    items: [
+      { label: 'Profile', type: 'item' },
+      { label: 'Settings', type: 'item' },
+      { type: 'separator' },
+      { label: 'Logout', type: 'item' },
+    ],
+  })
+    @slot('trigger')
+      Open menu
+    @end
+  @end
 --}}
 <div id="{{ id }}" class="dropdown-menu {{ main_attrs?.class ?? '' }}">
   <button

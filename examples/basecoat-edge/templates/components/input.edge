@@ -19,6 +19,10 @@
   // Additional HTML attributes forwarded to the input element.
   [attr: string]: unknown
 }
+@url https://basecoatui.com/components/input/
+@example
+  @input({ type: 'email', name: 'email', placeholder: 'you@example.com' })
+  @end
 --}}
 <input {{
   html.attrs({
