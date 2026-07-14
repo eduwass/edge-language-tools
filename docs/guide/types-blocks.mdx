@@ -75,6 +75,23 @@ Imports resolve through your project's `tsconfig.json`, so path aliases work —
   Edge's tokenizer requires a block tag to always have a matching `@end`, whether or not its body is empty — `@types(expr)` with no closing tag isn't valid Edge grammar. The comment form doesn't have this restriction, so it stays the more compact option for a one-line import expression.
 </Panel>
 
+## The doc header: `@name` and `@desc`
+
+The same comment can carry documentation — JSDoc for templates. `@name` takes the rest of its line; `@desc` runs until the next directive or the comment's end:
+
+```edge components/user_card.edge
+{{--
+@name User Card
+@desc Displays a user card with title and body.
+  Used on the profile and team pages.
+@types {
+  user: { name: string }
+}
+--}}
+```
+
+Editors surface all three together: hover `@userCard` (or the path string in `@component('components/user_card', ...)`) anywhere it's used and you get the name, the description, and the props signature. The same card appears in the `@` tag-completion popup, so a component library documents itself as you browse. Comment form only — the `@types()` tag form stays types-only. Stock Edge ignores comments, so none of this touches rendering.
+
 ## What's inferred (never declared)
 
 - `@let(total = items.length * 2)` — `total: number`

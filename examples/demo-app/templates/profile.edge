@@ -6,7 +6,10 @@
 --}}
 @include('partials/nav')
 
-@component('components/user-card', { displayName: user.displayName, bio: user.bio })
+{{-- components/user_card.edge as a supercharged tag: hover @userCard for its
+     doc header, cmd-click it to jump to the file, and typo a prop to see it
+     checked against the component's @types. --}}
+@userCard({ displayName: user.displayName, bio: user.bio })
   @slot('actions')
     <button>Follow</button>
   @end

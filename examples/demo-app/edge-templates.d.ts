@@ -5,9 +5,9 @@
 import type { Edge } from 'edge.js'
 
 export interface EdgeTemplates {
-  "components/user-card": {
+  "components/user_card": {
   displayName: string
-  bio: string
+  bio?: string
 }
   "home": {
   user: { name: string }

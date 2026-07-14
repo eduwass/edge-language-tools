@@ -3,14 +3,17 @@
 Full code intelligence for [EdgeJS](https://edgejs.dev) templates: a real
 language server (powered by TypeScript + Volar, the machinery behind Vue and
 Astro tooling) with type-aware diagnostics, autocomplete for props and
-expressions, hover types, and template-path completion for `@include` and
+expressions, hover types and docs on every tag, go-to-definition into
+components and partials, tag completion on `@` (built-ins and your components
+as supercharged tags), and template-path completion for `@include` and
 `@component` — plus a CI type-checker and generated types that make
 `edge.render()` calls compile-time-checked. Works with bare `edge.js`;
 no AdonisJS required.
 
 Docs: https://eduwass.github.io/edge-language-tools/
 
-Declare a template's interface once, in a comment:
+Declare a template's interface once, in a comment (optionally with a doc
+header — `@name` and `@desc` — that editors show on hover and in completions):
 
 ```edge
 {{--

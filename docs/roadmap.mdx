@@ -1,0 +1,40 @@
+---
+title: Roadmap & known limitations
+description: What's not covered yet, what's planned, and what's deliberately deferred.
+---
+
+An honest inventory. Everything here is additive — none of it blocks using what exists today, and an unchecked construct always degrades to exactly what Edge does now: it renders, untyped.
+
+## Known limitations
+
+<Panel title="Slots have no contract">
+  `@types` describes props only. A typo'd `@slot('haeder')` passes silently, and a scoped slot's payload — the object a component passes when calling `await $slots.content({ cardSize })` — is expressible nowhere. Slot *bodies* are still checked (they close over the caller's scope, matching Edge's semantics); it's the slot names and payload shapes that have no declared type.
+</Panel>
+
+<Panel title="`$props` dynamic access is untyped">
+  Destructured props are fully typed, but the `$props` object's string-keyed API — `get`, `has`, `only`, `except`, `merge`, `toAttrs` — is not typed against the template's `@types`. `$props.get('titel')` won't squiggle today.
+</Panel>
+
+- **Attr-forwarding components vs excess-property checks.** Edge idiom lets a component forward arbitrary attributes via `$props.toAttrs()`. A typed component rejects undeclared props — that's the feature — so an attr-forwarding component should declare it: add `[attr: string]: unknown` to its `@types`. Declared keys stay strictly checked; extra keys are welcomed, which is exactly that component's real contract.
+- **Disk-prefixed supercharged tags** (`@uikit.input` from a named disk) aren't resolved — they stay unchecked and don't appear in tag completion. Single-disk (`components/`) tags are fully supported.
+- **Plugin-registered tags** are guessed as block tags (their runtime shape is statically unknowable). If the guess breaks parsing, the template degrades gracefully — see the coverage notes in the README.
+- **`@let` can't shadow a declared prop.** Locals are emitted in the template's single scope, so `@let(user = ...)` collides with a declared `user` prop instead of shadowing it per-block.
+- **Editor staleness on cross-file edits.** The language server re-reads a component's `@types` from disk when the *caller* regenerates — editing a component's types doesn't immediately re-check already-open callers until they change.
+- **`@name` / `@desc` are comment-form only.** The `@types()` tag form stays types-only for now.
+
+## Planned
+
+- **Typed `$props`**: emit `$props` as a generic view over the template's `@types` so `get`/`only`/`except` narrow correctly and key names autocomplete. Glue-only change, no new syntax.
+- **npm publish**: the packages currently install from the repo (see [Getting started](/guide/getting-started)); a proper npm release with prebuilt `dist/` is the next infrastructure step.
+- **Per-block `@let` scoping**, fixing the shadowing limitation above.
+
+## Relationship to the official edge-vscode extension
+
+[edge-js/edge-vscode](https://github.com/edge-js/edge-vscode) provides syntax highlighting, folding, snippets, and regex-based template navigation/completion. This project operates a layer below: a real language server with type-aware diagnostics, typed completions, hover, and go-to-definition backed by the TypeScript compiler. There is some feature overlap at the edges (template-path completion, go-to-template), and the endgame is convergence, not competition — if the `@types` proposal lands upstream, the natural home for this language server is inside the official extension, replacing its regex-based features with compiler-backed ones. The extensions shipped here exist so the language server is usable today.
+
+## Deliberately deferred
+
+These add syntax surface, so they're parked as open questions for the [upstream discussion (edge-js/edge#160)](https://github.com/edge-js/edge/issues/160) rather than shipped unilaterally:
+
+- **`@slots` directive** — `@slots { content: { cardSize: string } }` alongside `@types`, giving slot-name checking at call sites and typed scoped-slot payloads inside the component. Maps 1:1 onto Edge's existing runtime model; undeclared slots keep today's unchecked behavior.
+- **Comment form vs tag form** as the canonical `@types` syntax — both are implemented so maintainers can choose.

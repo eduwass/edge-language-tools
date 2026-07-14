@@ -1,0 +1,16 @@
+{{--
+@name User Card
+@desc Displays a user's name and a truncated bio, with an actions slot.
+  Rendered as the supercharged @userCard tag (file: user_card.edge).
+@types {
+  displayName: string
+  bio?: string
+}
+--}}
+<div class="user-card">
+  <h3>{{ displayName }}</h3>
+  <p>{{ truncate(bio ?? '', 80) }}</p>
+  <div class="user-card-actions">
+    {{{ await $slots.actions() }}}
+  </div>
+</div>

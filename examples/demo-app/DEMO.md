@@ -1,8 +1,9 @@
 # Demo walkthrough
 
 A bare edge.js app (no AdonisJS) exercising the full feature surface: typed
-props, `@each`/`@else`, globals, `@include`, `@component`/`@slot`, and one
-untyped template for gradual adoption. Run everything from
+props, `@each`/`@else`, globals, `@include`, a supercharged component tag
+(`@userCard`) with a `@name`/`@desc` doc header, `@slot`, and one untyped
+template for gradual adoption. Run everything from
 `examples/demo-app/`.
 
 ```sh
@@ -57,9 +58,9 @@ Change `templates/profile.edge`'s prop access from `user.displayName` to
 ```sh
 $ bun run check
 $ edge-check templates
-templates/profile.edge:9:56 - error TS2551: Property 'displayNaem' does not exist on type '{ displayName: string; bio: string; }'. Did you mean 'displayName'?
-@component('components/user-card', { displayName: user.displayNaem, bio: user.bio })
-                                                       ^^^^^^^^^^^
+templates/profile.edge:12:31 - error TS2551: Property 'displayNaem' does not exist on type '{ displayName: string; bio: string; }'. Did you mean 'displayName'?
+@userCard({ displayName: user.displayNaem, bio: user.bio })
+                              ^^^^^^^^^^^
 
 1 error across 4 checked templates (1 unchecked, 5 total)
 ```
@@ -92,19 +93,20 @@ layer — no need to run the template to find the mismatch.
 
 ## Act 4 — component contract
 
-Pass an undeclared `size` prop from `templates/profile.edge` to
-`components/user-card`:
+Pass an undeclared `size` prop from `templates/profile.edge` to the
+`@userCard` tag (which is `components/user_card.edge` — Edge's supercharged
+filename-to-tag mapping, `user_card` -> `@userCard`):
 
 ```edge
-@component('components/user-card', { displayName: user.displayName, bio: user.bio, size: 'large' })
+@userCard({ displayName: user.displayName, bio: user.bio, size: 'large' })
 ```
 
 ```sh
 $ bun run check
 $ edge-check templates
-templates/profile.edge:9:84 - error TS2353: Object literal may only specify known properties, and 'size' does not exist in type '{ displayName: string; bio: string; }'.
-@component('components/user-card', { displayName: user.displayName, bio: user.bio, size: 'large' })
-                                                                                   ^^^^
+templates/profile.edge:12:59 - error TS2353: Object literal may only specify known properties, and 'size' does not exist in type '{ displayName: string; bio?: string | undefined; }'.
+@userCard({ displayName: user.displayName, bio: user.bio, size: 'large' })
+                                                          ^^^^
 
 1 error across 4 checked templates (1 unchecked, 5 total)
 ```
@@ -112,7 +114,37 @@ templates/profile.edge:9:84 - error TS2353: Object literal may only specify know
 The component's own `@types` block is its contract — callers are checked
 against it, same as any other typed template.
 
-## Act 5 — gradual adoption
+## Act 5 — the editor knows your components
+
+`components/user_card.edge` opens with a doc header:
+
+```edge
+{{--
+@name User Card
+@desc Displays a user's name and a truncated bio, with an actions slot.
+  Rendered as the supercharged @userCard tag (file: user_card.edge).
+@types {
+  displayName: string
+  bio?: string
+}
+--}}
+```
+
+In VS Code, Cursor, or Zed (with the extension installed):
+
+- Type `@` in any template — the popup lists every built-in tag (each with a
+  one-line doc) plus `@userCard`, showing its name, description, and props.
+- Hover `@userCard` in `profile.edge` — same doc card, in place.
+- Hover `@include` or the `'partials/nav'` path string — built-in docs and
+  the partial's doc header, respectively.
+- Cmd/Ctrl-click `@userCard` or `'partials/nav'` — jumps to the `.edge` file.
+- Inside `@userCard({ ... })`, prop names autocomplete from the component's
+  `@types`.
+
+None of this needed registration anywhere — the doc header lives in the same
+comment as `@types`, and stock Edge ignores comments.
+
+## Act 6 — gradual adoption
 
 `templates/legacy-banner.edge` has no `@types` block. It still renders fine:
 
@@ -132,7 +164,7 @@ all clean (4 checked, 1 unchecked, 5 total)
 Adoption is template-by-template; an unchecked template can never break a
 build.
 
-## Act 6 — strict mode: make types required where it matters
+## Act 7 — strict mode: make types required where it matters
 
 Gradual is the default, but this app opts components into required types via
 `package.json`:

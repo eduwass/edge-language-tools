@@ -44,4 +44,7 @@ One Volar-based language server powers every editor. Your project needs `@edge-l
 - Diagnostics on exact template offsets, live as you type
 - Prop-name completions inside `@component(...)` / shorthand-tag props objects
 - Template-path completions inside `@include('`, `@includeIf('`, and `@component('`
+- Tag completions on `@`: all built-in tags (each with a one-line doc) plus your components as supercharged shorthand tags (`@toolTip`, `@checkoutForm.input`), with the component's doc header (`@name`, `@desc`, `@types`) shown in the popup
+- Hover on any tag: built-ins explain what they do; component tags and `@include`/`@component` path strings show the target template's doc header
+- Go-to-definition on a component tag or template path string jumps to the `.edge` file
 - Hover types for any expression
