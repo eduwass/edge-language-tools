@@ -1,0 +1,19 @@
+{{--
+@name Button Group
+@desc Group related buttons with shared borders.
+@types {
+  orientation?: 'horizontal' | 'vertical'
+  [attr: string]: unknown
+}
+--}}
+<div
+  role="group"
+  {{
+    html.attrs({
+      class: 'button-group',
+      ...(orientation === 'vertical' ? { 'data-orientation': 'vertical' } : {}),
+    })
+  }}
+>
+  {{{ await $slots.main() }}}
+</div>

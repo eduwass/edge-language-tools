@@ -1,0 +1,25 @@
+---
+title: Avatar
+description: User avatar image or fallback initials.
+---
+
+User avatar image or fallback initials.
+
+## Props
+
+```ts
+{
+  src?: string
+  alt?: string
+  fallback?: string
+  [attr: string]: unknown
+}
+```
+
+## Usage
+
+```edge
+@@avatar({ /* see props */ })
+  Content
+@end
+```

@@ -1,0 +1,19 @@
+{{--
+@name Avatar
+@desc User avatar image or fallback initials.
+@types {
+  src?: string
+  alt?: string
+  fallback?: string
+  [attr: string]: unknown
+}
+--}}
+<span {{ html.attrs({ class: 'avatar' }) }}>
+  @if(src)
+    <img src="{{ src }}" alt="{{ alt ?? '' }}" />
+  @elseif(fallback)
+    <span>{{ fallback }}</span>
+  @else
+    {{{ await $slots.main() }}}
+  @end
+</span>

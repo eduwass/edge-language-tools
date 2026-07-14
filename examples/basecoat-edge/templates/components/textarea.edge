@@ -1,0 +1,25 @@
+{{--
+@name Textarea
+@desc Multi-line text input.
+@types {
+  name?: string
+  value?: string
+  placeholder?: string
+  rows?: number
+  disabled?: boolean
+  required?: boolean
+  id?: string
+  [attr: string]: unknown
+}
+--}}
+<textarea {{
+  html.attrs({
+    class: 'textarea',
+    name,
+    placeholder,
+    rows,
+    disabled,
+    required,
+    id,
+  })
+}}>{{ value ?? '' }}</textarea>

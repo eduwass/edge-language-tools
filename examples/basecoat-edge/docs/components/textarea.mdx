@@ -1,0 +1,29 @@
+---
+title: Textarea
+description: Multi-line text input.
+---
+
+Multi-line text input.
+
+## Props
+
+```ts
+{
+  name?: string
+  value?: string
+  placeholder?: string
+  rows?: number
+  disabled?: boolean
+  required?: boolean
+  id?: string
+  [attr: string]: unknown
+}
+```
+
+## Usage
+
+```edge
+@@textarea({ /* see props */ })
+  Content
+@end
+```

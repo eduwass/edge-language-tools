@@ -1,0 +1,23 @@
+---
+title: Badge
+description: Small status label; variants map to basecoat data attributes.
+---
+
+Small status label; variants map to basecoat data attributes.
+
+## Props
+
+```ts
+{
+  variant?: 'default' | 'secondary' | 'outline' | 'destructive'
+  [attr: string]: unknown
+}
+```
+
+## Usage
+
+```edge
+@@badge({ /* see props */ })
+  Content
+@end
+```

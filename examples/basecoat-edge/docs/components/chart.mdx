@@ -1,0 +1,23 @@
+---
+title: Chart
+description: Chart container; requires basecoat chart JS (all.min.js).
+---
+
+Chart container; requires basecoat chart JS (all.min.js).
+
+## Props
+
+```ts
+{
+  type?: 'bar' | 'line' | 'area' | 'pie' | 'donut'
+  [attr: string]: unknown
+}
+```
+
+## Usage
+
+```edge
+@@chart({ /* see props */ })
+  Content
+@end
+```

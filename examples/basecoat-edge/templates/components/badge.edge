@@ -1,0 +1,16 @@
+{{--
+@name Badge
+@desc Small status label; variants map to basecoat data attributes.
+@types {
+  variant?: 'default' | 'secondary' | 'outline' | 'destructive'
+  [attr: string]: unknown
+}
+--}}
+<span {{
+  html.attrs({
+    class: 'badge',
+    ...(variant && variant !== 'default' ? { 'data-variant': variant } : {}),
+  })
+}}>
+  {{{ await $slots.main() }}}
+</span>

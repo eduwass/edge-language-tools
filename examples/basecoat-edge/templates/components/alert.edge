@@ -1,0 +1,37 @@
+{{--
+@name Alert
+@desc Alert banner with optional destructive variant; use icon, title, section, and footer slots.
+@types {
+  variant?: 'default' | 'destructive'
+  title?: string
+  description?: string
+  [attr: string]: unknown
+}
+--}}
+<div {{
+  html.attrs({
+    class: 'alert',
+    ...(variant === 'destructive' ? { 'data-variant': 'destructive' } : {}),
+  })
+}}>
+  @if($slots.icon)
+    {{{ await $slots.icon() }}}
+  @end
+  @if($slots.title)
+    {{{ await $slots.title() }}}
+  @elseif(title)
+    <h2>{{ title }}</h2>
+  @end
+  @if($slots.section)
+    <section>
+      {{{ await $slots.section() }}}
+    </section>
+  @elseif(description)
+    <section>{{ description }}</section>
+  @end
+  @if($slots.footer)
+    <footer>
+      {{{ await $slots.footer() }}}
+    </footer>
+  @end
+</div>

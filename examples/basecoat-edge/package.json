@@ -1,0 +1,30 @@
+{
+  "name": "@edge-language-tools/basecoat-edge",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "check": "edge-check templates",
+    "codegen": "edge-codegen templates --out edge-templates.d.ts",
+    "gen-docs": "bun run scripts/gen-docs.ts",
+    "demo": "bun run src/server.ts",
+    "docs:dev": "blume dev --isolated",
+    "docs:build": "blume build --isolated"
+  },
+  "edge": {
+    "check": {
+      "requireTypes": ["templates/components/**"]
+    }
+  },
+  "dependencies": {
+    "@iconify-json/lucide": "^1.2.0",
+    "edge-iconify": "^2.0.0",
+    "edge.js": "^6.5.1"
+  },
+  "devDependencies": {
+    "@edge-language-tools/check": "workspace:*",
+    "@edge-language-tools/codegen": "workspace:*",
+    "@edge-language-tools/core": "workspace:*",
+    "blume": "^0.7.0",
+    "typescript": "^5.8.0"
+  }
+}

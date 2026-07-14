@@ -1,0 +1,16 @@
+{{--
+@name Accordion
+@desc Vertically stacked disclosure items; requires basecoat accordion JS (all.min.js).
+@types {
+  multiple?: boolean
+  [attr: string]: unknown
+}
+--}}
+<section {{
+  html.attrs({
+    class: 'accordion',
+    ...(multiple ? { 'data-multiple': 'true' } : {}),
+  })
+}}>
+  {{{ await $slots.main() }}}
+</section>

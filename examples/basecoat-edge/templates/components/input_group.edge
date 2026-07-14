@@ -1,0 +1,10 @@
+{{--
+@name Input Group
+@desc Input with inline addons (icons, text, buttons).
+@types {
+  [attr: string]: unknown
+}
+--}}
+<div {{ html.attrs({ class: 'input-group' }) }}>
+  {{{ await $slots.main() }}}
+</div>

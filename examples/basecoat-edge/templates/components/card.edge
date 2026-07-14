@@ -1,0 +1,34 @@
+{{--
+@name Card
+@desc Card container with header, section, and footer slots matching basecoat structure.
+@types {
+  size?: 'sm'
+  [attr: string]: unknown
+}
+--}}
+<div {{
+  html.attrs({
+    class: 'card',
+    ...(size ? { 'data-size': size } : {}),
+  })
+}}>
+  @if($slots.header)
+    <header>
+      {{{ await $slots.header() }}}
+    </header>
+  @end
+  @if($slots.section)
+    <section>
+      {{{ await $slots.section() }}}
+    </section>
+  @elseif($slots.main)
+    <section>
+      {{{ await $slots.main() }}}
+    </section>
+  @end
+  @if($slots.footer)
+    <footer>
+      {{{ await $slots.footer() }}}
+    </footer>
+  @end
+</div>

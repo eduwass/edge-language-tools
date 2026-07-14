@@ -1,0 +1,26 @@
+---
+title: Popover
+description: Generic popover with trigger button; requires basecoat popover JS (all.min.js).
+---
+
+Generic popover with trigger button; requires basecoat popover JS (all.min.js).
+
+## Props
+
+```ts
+{
+  id: string
+  trigger_attrs?: Record<string, string>
+  popover_attrs?: Record<string, string>
+  main_attrs?: Record<string, string>
+  [attr: string]: unknown
+}
+```
+
+## Usage
+
+```edge
+@@popover({ /* required props */ })
+  Content
+@end
+```

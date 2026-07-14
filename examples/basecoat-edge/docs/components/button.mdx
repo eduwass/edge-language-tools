@@ -1,0 +1,26 @@
+---
+title: Button
+description: shadcn-style button; variants and sizes map to basecoat data attributes.
+---
+
+shadcn-style button; variants and sizes map to basecoat data attributes.
+
+## Props
+
+```ts
+{
+  variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'link' | 'destructive'
+  size?: 'xs' | 'sm' | 'lg' | 'icon' | 'icon-xs' | 'icon-sm' | 'icon-lg'
+  type?: 'button' | 'submit' | 'reset'
+  icon?: 'inline-start' | 'inline-end'
+  [attr: string]: unknown
+}
+```
+
+## Usage
+
+```edge
+@@button({ /* see props */ })
+  Content
+@end
+```

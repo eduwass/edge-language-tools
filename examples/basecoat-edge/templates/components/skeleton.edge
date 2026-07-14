@@ -1,0 +1,10 @@
+{{--
+@name Skeleton
+@desc Loading placeholder skeleton.
+@types {
+  [attr: string]: unknown
+}
+--}}
+<div {{ html.attrs({ class: 'skeleton' }) }}>
+  {{{ await $slots.main() }}}
+</div>

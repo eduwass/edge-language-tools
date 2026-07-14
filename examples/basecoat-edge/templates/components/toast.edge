@@ -1,0 +1,109 @@
+{{--
+@name Toast
+@desc Toast notifications container and messages; requires basecoat toast JS (all.min.js).
+@types {
+  id?: string
+  toasts?: Array<{
+    category?: 'success' | 'error' | 'info' | 'warning'
+    title?: string
+    description?: string
+    duration?: number
+    action?: { label: string; onclick?: string; href?: string }
+    cancel?: { label: string; onclick?: string; href?: string }
+    attrs?: Record<string, string>
+  }>
+  category?: 'success' | 'error' | 'info' | 'warning'
+  title?: string
+  description?: string
+  duration?: number
+  action?: { label: string; onclick?: string; href?: string }
+  cancel?: { label: string; onclick?: string; href?: string }
+  attrs?: Record<string, string>
+  [attr: string]: unknown
+}
+--}}
+@if(toasts)
+<div id="{{ id ?? 'toaster' }}" class="toaster">
+  @each((item, itemIndex) in toasts)
+    <div
+      class="toast"
+      role="{{ item.category === 'error' ? 'alert' : 'status' }}"
+      aria-atomic="true"
+      aria-hidden="false"
+      {{
+        html.attrs({
+          ...(item.category ? { 'data-category': item.category } : {}),
+          ...(item.duration !== undefined ? { 'data-duration': item.duration } : {}),
+        })
+      }}
+    >
+      <div class="toast-content">
+        <section>
+          @if(item.title)
+            <h2>{{ item.title }}</h2>
+          @end
+          @if(item.description)
+            <p>{{ item.description }}</p>
+          @end
+        </section>
+      </div>
+    </div>
+  @end
+  {{{ await $slots.main() }}}
+</div>
+@else
+<div
+  class="toast {{ attrs?.class ?? '' }}"
+  role="{{ category === 'error' ? 'alert' : 'status' }}"
+  aria-atomic="true"
+  aria-hidden="false"
+  {{
+    html.attrs({
+      ...(category ? { 'data-category': category } : {}),
+      ...(duration !== undefined ? { 'data-duration': duration } : {}),
+    })
+  }}
+>
+  <div class="toast-content">
+    @if(category === 'success')
+      @svg('lucide:circle-check', { 'aria-hidden': 'true' })
+    @elseif(category === 'error')
+      @svg('lucide:circle-x', { 'aria-hidden': 'true' })
+    @elseif(category === 'info')
+      @svg('lucide:info', { 'aria-hidden': 'true' })
+    @elseif(category === 'warning')
+      @svg('lucide:triangle-alert', { 'aria-hidden': 'true' })
+    @end
+    <section>
+      @if(title)
+        <h2>{{ title }}</h2>
+      @end
+      @if(description)
+        <p>{{ description }}</p>
+      @end
+    </section>
+    @if(action || cancel)
+      <footer>
+        @if(action)
+          @if(action.href)
+            <a href="{{ action.href }}" class="btn" data-size="sm" data-toast-action>{{ action.label }}</a>
+          @else
+            <button type="button" class="btn" data-size="sm" data-toast-action>
+              {{ action.label }}
+            </button>
+          @end
+        @end
+        @if(cancel)
+          @if(cancel.href)
+            <a href="{{ cancel.href }}" class="btn" data-variant="outline" data-size="sm" data-toast-cancel>{{ cancel.label }}</a>
+          @else
+            <button type="button" class="btn" data-variant="outline" data-size="sm" data-toast-cancel>
+              {{ cancel.label }}
+            </button>
+          @end
+        @end
+      </footer>
+    @end
+  </div>
+</div>
+@end

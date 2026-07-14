@@ -1,0 +1,26 @@
+{{--
+@name Input
+@desc Text-like input with basecoat styling.
+@types {
+  type?: string
+  name?: string
+  value?: string
+  placeholder?: string
+  disabled?: boolean
+  required?: boolean
+  id?: string
+  [attr: string]: unknown
+}
+--}}
+<input {{
+  html.attrs({
+    class: 'input',
+    type: type ?? 'text',
+    name,
+    value,
+    placeholder,
+    disabled,
+    required,
+    id,
+  })
+}} />

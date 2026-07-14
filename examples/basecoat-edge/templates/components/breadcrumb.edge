@@ -1,0 +1,12 @@
+{{--
+@name Breadcrumb
+@desc Navigation breadcrumb trail.
+@types {
+  [attr: string]: unknown
+}
+--}}
+<nav {{ html.attrs({ class: 'breadcrumb', 'aria-label': 'Breadcrumb' }) }}>
+  <ol>
+    {{{ await $slots.main() }}}
+  </ol>
+</nav>

@@ -1,0 +1,34 @@
+---
+title: Tabs
+description: Tabbed interface; requires basecoat tabs JS (all.min.js).
+---
+
+Tabbed interface; requires basecoat tabs JS (all.min.js).
+
+## Props
+
+```ts
+{
+  id: string
+  tabsets: Array<{
+    tab: string
+    panel?: string
+    tab_attrs?: Record<string, string>
+    panel_attrs?: Record<string, string>
+  }>
+  default_tab_index?: number
+  orientation?: 'horizontal' | 'vertical'
+  variant?: 'default' | 'line'
+  main_attrs?: Record<string, string>
+  tablist_attrs?: Record<string, string>
+  [attr: string]: unknown
+}
+```
+
+## Usage
+
+```edge
+@@tabs({ /* required props */ })
+  Content
+@end
+```

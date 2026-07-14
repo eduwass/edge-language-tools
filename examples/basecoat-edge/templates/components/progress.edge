@@ -1,0 +1,16 @@
+{{--
+@name Progress
+@desc Progress bar indicator.
+@types {
+  value?: number
+  max?: number
+  [attr: string]: unknown
+}
+--}}
+<progress {{
+  html.attrs({
+    class: 'progress',
+    ...(value !== undefined ? { value } : {}),
+    ...(max !== undefined ? { max } : {}),
+  })
+}}></progress>

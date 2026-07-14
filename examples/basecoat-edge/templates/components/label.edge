@@ -1,0 +1,16 @@
+{{--
+@name Label
+@desc Form label element.
+@types {
+  htmlFor?: string
+  [attr: string]: unknown
+}
+--}}
+<label {{
+  html.attrs({
+    class: 'label',
+    ...(htmlFor ? { for: htmlFor } : {}),
+  })
+}}>
+  {{{ await $slots.main() }}}
+</label>

@@ -1,0 +1,12 @@
+{{--
+@name Table
+@desc Styled data table wrapper.
+@types {
+  [attr: string]: unknown
+}
+--}}
+<div {{ html.attrs({ class: 'table' }) }}>
+  <table>
+    {{{ await $slots.main() }}}
+  </table>
+</div>

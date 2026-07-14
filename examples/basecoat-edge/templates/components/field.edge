@@ -1,0 +1,22 @@
+{{--
+@name Field
+@desc Accessible form field wrapper with label and description slots.
+@types {
+  label?: string
+  description?: string
+  [attr: string]: unknown
+}
+--}}
+<div {{ html.attrs({ class: 'field' }) }}>
+  @if($slots.label)
+    {{{ await $slots.label() }}}
+  @elseif(label)
+    <label>{{ label }}</label>
+  @end
+  {{{ await $slots.main() }}}
+  @if($slots.description)
+    <p>{{{ await $slots.description() }}}</p>
+  @elseif(description)
+    <p>{{ description }}</p>
+  @end
+</div>

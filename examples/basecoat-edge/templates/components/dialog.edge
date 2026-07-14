@@ -1,0 +1,72 @@
+{{--
+@name Dialog
+@desc Modal dialog with optional trigger; requires basecoat dialog JS (all.min.js).
+@types {
+  id: string
+  trigger?: string
+  title?: string
+  description?: string
+  open?: boolean
+  close_button?: boolean
+  close_on_overlay_click?: boolean
+  trigger_attrs?: Record<string, string>
+  dialog_attrs?: Record<string, string>
+  header_attrs?: Record<string, string>
+  body_attrs?: Record<string, string>
+  footer_attrs?: Record<string, string>
+  [attr: string]: unknown
+}
+--}}
+@if(trigger)
+<button
+  type="button"
+  onclick="document.getElementById('{{ id }}').showModal()"
+  class="{{ trigger_attrs?.class ?? '' }}"
+>
+  {{ trigger }}
+</button>
+@end
+<dialog
+  id="{{ id }}"
+  class="dialog {{ dialog_attrs?.class ?? '' }}"
+  {{
+    html.attrs({
+      ...(title ? { 'aria-labelledby': id + '-title' } : {}),
+      ...(description ? { 'aria-describedby': id + '-description' } : {}),
+    })
+  }}
+  @if(open)
+  open
+  @end
+  @if(close_on_overlay_click !== false)
+  onclick="if (event.target === this) this.close()"
+  @end
+>
+  <div>
+    @if(title || description)
+      <header>
+        @if(title)
+          <h2 id="{{ id }}-title">{{ title }}</h2>
+        @end
+        @if(description)
+          <p id="{{ id }}-description">{{ description }}</p>
+        @end
+      </header>
+    @end
+    @if($slots.main)
+      <section>
+        {{{ await $slots.main() }}}
+      </section>
+    @end
+    @if($slots.footer)
+      <footer>
+        {{{ await $slots.footer() }}}
+      </footer>
+    @end
+    @if(close_button !== false)
+      <button type="button" class="btn" data-variant="ghost" data-size="icon-sm" aria-label="Close dialog" onclick="this.closest('dialog').close()">
+        @svg('lucide:x')
+      </button>
+    @end
+  </div>
+</dialog>

@@ -1,0 +1,42 @@
+{{--
+@name Radio
+@desc Styled radio input with optional label.
+@types {
+  name?: string
+  value?: string
+  checked?: boolean
+  disabled?: boolean
+  required?: boolean
+  id?: string
+  label?: string
+  [attr: string]: unknown
+}
+--}}
+<label {{ html.attrs({ class: 'radio' }) }}>
+  <input
+    type="radio"
+    @if(id)
+    id="{{ id }}"
+    @end
+    @if(name)
+    name="{{ name }}"
+    @end
+    @if(value)
+    value="{{ value }}"
+    @end
+    @if(checked)
+    checked
+    @end
+    @if(disabled)
+    disabled
+    @end
+    @if(required)
+    required
+    @end
+  />
+  @if($slots.main)
+    {{{ await $slots.main() }}}
+  @elseif(label)
+    <span>{{ label }}</span>
+  @end
+</label>

@@ -1,0 +1,25 @@
+---
+title: Alert
+description: Alert banner with optional destructive variant; use icon, title, section, and footer slots.
+---
+
+Alert banner with optional destructive variant; use icon, title, section, and footer slots.
+
+## Props
+
+```ts
+{
+  variant?: 'default' | 'destructive'
+  title?: string
+  description?: string
+  [attr: string]: unknown
+}
+```
+
+## Usage
+
+```edge
+@@alert({ /* see props */ })
+  Content
+@end
+```

@@ -1,0 +1,16 @@
+{{--
+@name Chart
+@desc Chart container; requires basecoat chart JS (all.min.js).
+@types {
+  type?: 'bar' | 'line' | 'area' | 'pie' | 'donut'
+  [attr: string]: unknown
+}
+--}}
+<div {{
+  html.attrs({
+    class: 'chart',
+    ...(type ? { 'data-type': type } : {}),
+  })
+}}>
+  {{{ await $slots.main() }}}
+</div>

@@ -1,0 +1,92 @@
+{{--
+@name Select
+@desc Custom select with listbox popover; requires basecoat select JS (all.min.js).
+@types {
+  id: string
+  selected?: string | string[]
+  name?: string
+  items?: Array<{
+    type?: 'item' | 'group' | 'separator'
+    label?: string
+    value?: string
+    items?: Array<{ label: string; value?: string; attrs?: Record<string, string> }>
+    attrs?: Record<string, string>
+    id?: string
+  }>
+  multiple?: boolean
+  placeholder?: string
+  close_on_select?: boolean
+  format?: 'value' | 'object'
+  main_attrs?: Record<string, string>
+  trigger_attrs?: Record<string, string>
+  [attr: string]: unknown
+}
+--}}
+<div
+  id="{{ id }}"
+  class="select {{ main_attrs?.class ?? '' }}"
+  {{
+    html.attrs({
+      ...(format === 'object' ? { 'data-format': 'object' } : {}),
+      ...(placeholder ? { 'data-placeholder': placeholder } : {}),
+      ...(multiple && close_on_select ? { 'data-close-on-select': 'true' } : {}),
+    })
+  }}
+>
+  <button
+    type="button"
+    class="{{ trigger_attrs?.class ?? '' }}"
+    id="{{ id }}-trigger"
+    aria-haspopup="listbox"
+    aria-expanded="false"
+    aria-controls="{{ id }}-listbox"
+  >
+    <span class="truncate">{{ placeholder ?? '' }}</span>
+    @svg('lucide:chevron-down', { class: 'text-muted-foreground opacity-50 shrink-0' })
+  </button>
+  <div id="{{ id }}-popover" data-popover aria-hidden="true">
+    <div
+      role="listbox"
+      id="{{ id }}-listbox"
+      aria-orientation="vertical"
+      aria-labelledby="{{ id }}-trigger"
+      @if(multiple)
+      aria-multiselectable="true"
+      @end
+    >
+      @if(items && items.length)
+        @each((item, itemIndex) in items)
+          @if(item.type === 'group')
+            <div role="group" aria-labelledby="group-label-{{ id }}-{{ itemIndex + 1 }}">
+              <div role="heading" id="group-label-{{ id }}-{{ itemIndex + 1 }}">{{ item.label }}</div>
+              @if(item.items)
+                @each((sub, subIndex) in item.items)
+                <div
+                  id="{{ id }}-items-{{ itemIndex + 1 }}-{{ subIndex + 1 }}"
+                  role="option"
+                  @if(sub.value)
+                  data-value="{{ sub.value }}"
+                  @end
+                >{{ sub.label }}</div>
+                @end
+              @end
+            </div>
+          @elseif(item.type === 'separator')
+            <hr role="separator" />
+          @else
+            <div
+              id="{{ id }}-items-{{ itemIndex + 1 }}"
+              role="option"
+              @if(item.value)
+              data-value="{{ item.value }}"
+              @end
+            >{{ item.label }}</div>
+          @end
+        @end
+      @else
+        {{{ await $slots.main() }}}
+      @end
+    </div>
+  </div>
+  <input type="hidden" name="{{ name ?? id + '-value' }}" value="" />
+</div>

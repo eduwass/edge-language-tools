@@ -1,0 +1,29 @@
+{{--
+@name Item
+@desc List item row with media, title, and description slots.
+@types {
+  title?: string
+  description?: string
+  [attr: string]: unknown
+}
+--}}
+<div {{ html.attrs({ class: 'item' }) }}>
+  @if($slots.media)
+    <div class="item-media">{{{ await $slots.media() }}}</div>
+  @end
+  <div class="item-content">
+    @if($slots.title)
+      <div class="item-title">{{{ await $slots.title() }}}</div>
+    @elseif(title)
+      <div class="item-title">{{ title }}</div>
+    @end
+    @if($slots.description)
+      <div class="item-description">{{{ await $slots.description() }}}</div>
+    @elseif(description)
+      <div class="item-description">{{ description }}</div>
+    @end
+  </div>
+  @if($slots.actions)
+    <div class="item-actions">{{{ await $slots.actions() }}}</div>
+  @end
+</div>

@@ -1,0 +1,39 @@
+{{--
+@name Switch
+@desc Toggle switch input.
+@types {
+  name?: string
+  checked?: boolean
+  disabled?: boolean
+  required?: boolean
+  id?: string
+  label?: string
+  [attr: string]: unknown
+}
+--}}
+<label {{ html.attrs({ class: 'switch' }) }}>
+  <input
+    type="checkbox"
+    role="switch"
+    @if(id)
+    id="{{ id }}"
+    @end
+    @if(name)
+    name="{{ name }}"
+    @end
+    @if(checked)
+    checked
+    @end
+    @if(disabled)
+    disabled
+    @end
+    @if(required)
+    required
+    @end
+  />
+  @if($slots.main)
+    {{{ await $slots.main() }}}
+  @elseif(label)
+    <span>{{ label }}</span>
+  @end
+</label>

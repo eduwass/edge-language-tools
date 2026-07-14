@@ -1,0 +1,16 @@
+{{--
+@name Collapsible
+@desc Native details/summary disclosure; content via main slot.
+@types {
+  open?: boolean
+  [attr: string]: unknown
+}
+--}}
+<details
+  {{ html.attrs({ class: 'collapsible' }) }}
+  @if(open)
+  open
+  @end
+>
+  {{{ await $slots.main() }}}
+</details>

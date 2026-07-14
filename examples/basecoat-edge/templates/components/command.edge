@@ -1,0 +1,115 @@
+{{--
+@name Command
+@desc Command palette with search; requires basecoat command JS (all.min.js).
+@types {
+  id: string
+  items?: Array<{
+    type?: 'item' | 'group' | 'separator'
+    label?: string
+    url?: string
+    icon?: string
+    keywords?: string
+    disabled?: boolean
+    items?: Array<{
+      type?: 'item' | 'group' | 'separator'
+      label?: string
+      url?: string
+      icon?: string
+      keywords?: string
+      disabled?: boolean
+    }>
+    attrs?: Record<string, string>
+    id?: string
+  }>
+  placeholder?: string
+  empty_text?: string
+  dialog?: boolean
+  open?: boolean
+  main_attrs?: Record<string, string>
+  input_attrs?: Record<string, string>
+  menu_attrs?: Record<string, string>
+  dialog_attrs?: Record<string, string>
+  [attr: string]: unknown
+}
+--}}
+@if(dialog)
+<dialog
+  id="{{ id }}"
+  class="command-dialog {{ dialog_attrs?.class ?? '' }}"
+  aria-label="Command menu"
+  @if(open)
+  open
+  @end
+  onclick="if (event.target === this) this.close()"
+>
+  <div class="command">
+    <header>
+      @svg('lucide:search')
+      <input type="text" id="{{ id }}-input" placeholder="{{ placeholder ?? 'Type a command or search...' }}" autocomplete="off" autocorrect="off" spellcheck="false" aria-autocomplete="list" role="combobox" aria-expanded="true" aria-controls="{{ id }}-menu" class="{{ input_attrs?.class ?? '' }}" />
+    </header>
+    <div role="menu" id="{{ id }}-menu" aria-orientation="vertical" data-empty="{{ empty_text ?? 'No results found.' }}" class="{{ menu_attrs?.class ?? '' }}">
+      @if(items && items.length)
+        @each((item, itemIndex) in items)
+          @if(item.type === 'group')
+            <div role="group" aria-labelledby="group-label-{{ id }}-{{ itemIndex + 1 }}">
+              <span role="heading" id="group-label-{{ id }}-{{ itemIndex + 1 }}">{{ item.label }}</span>
+              @if(item.items)
+                @each((sub, subIndex) in item.items)
+                  @if(sub.url)
+                    <a id="{{ id }}-items-{{ itemIndex + 1 }}-{{ subIndex + 1 }}" href="{{ sub.url }}" role="menuitem">{{ sub.label }}</a>
+                  @else
+                    <div id="{{ id }}-items-{{ itemIndex + 1 }}-{{ subIndex + 1 }}" role="menuitem">{{ sub.label }}</div>
+                  @end
+                @end
+              @end
+            </div>
+          @elseif(item.type === 'separator')
+            <hr role="separator" />
+          @elseif(item.url)
+            <a id="{{ id }}-items-{{ itemIndex + 1 }}" href="{{ item.url }}" role="menuitem">{{ item.label }}</a>
+          @else
+            <div id="{{ id }}-items-{{ itemIndex + 1 }}" role="menuitem">{{ item.label }}</div>
+          @end
+        @end
+      @else
+        {{{ await $slots.main() }}}
+      @end
+    </div>
+  </div>
+</dialog>
+@else
+<div id="{{ id }}" class="command {{ main_attrs?.class ?? '' }}" aria-label="Command menu">
+  <header>
+    @svg('lucide:search')
+    <input type="text" id="{{ id }}-input" placeholder="{{ placeholder ?? 'Type a command or search...' }}" autocomplete="off" autocorrect="off" spellcheck="false" aria-autocomplete="list" role="combobox" aria-expanded="true" aria-controls="{{ id }}-menu" class="{{ input_attrs?.class ?? '' }}" />
+  </header>
+  <div role="menu" id="{{ id }}-menu" aria-orientation="vertical" data-empty="{{ empty_text ?? 'No results found.' }}" class="{{ menu_attrs?.class ?? '' }}">
+    @if(items && items.length)
+      @each((item, itemIndex) in items)
+        @if(item.type === 'group')
+          <div role="group" aria-labelledby="group-label-{{ id }}-{{ itemIndex + 1 }}">
+            <span role="heading" id="group-label-{{ id }}-{{ itemIndex + 1 }}">{{ item.label }}</span>
+            @if(item.items)
+              @each((sub, subIndex) in item.items)
+                @if(sub.url)
+                  <a id="{{ id }}-items-{{ itemIndex + 1 }}-{{ subIndex + 1 }}" href="{{ sub.url }}" role="menuitem">{{ sub.label }}</a>
+                @else
+                  <div id="{{ id }}-items-{{ itemIndex + 1 }}-{{ subIndex + 1 }}" role="menuitem">{{ sub.label }}</div>
+                @end
+              @end
+            @end
+          </div>
+        @elseif(item.type === 'separator')
+          <hr role="separator" />
+        @elseif(item.url)
+          <a id="{{ id }}-items-{{ itemIndex + 1 }}" href="{{ item.url }}" role="menuitem">{{ item.label }}</a>
+        @else
+          <div id="{{ id }}-items-{{ itemIndex + 1 }}" role="menuitem">{{ item.label }}</div>
+        @end
+      @end
+    @else
+      {{{ await $slots.main() }}}
+    @end
+  </div>
+</div>
+@end

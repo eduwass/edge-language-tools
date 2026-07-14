@@ -1,0 +1,29 @@
+---
+title: Checkbox
+description: Styled checkbox input with optional label slot.
+---
+
+Styled checkbox input with optional label slot.
+
+## Props
+
+```ts
+{
+  name?: string
+  value?: string
+  checked?: boolean
+  disabled?: boolean
+  required?: boolean
+  id?: string
+  label?: string
+  [attr: string]: unknown
+}
+```
+
+## Usage
+
+```edge
+@@checkbox({ /* see props */ })
+  Content
+@end
+```

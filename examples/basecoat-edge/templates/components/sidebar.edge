@@ -1,0 +1,120 @@
+{{--
+@name Sidebar
+@desc Application sidebar navigation; requires basecoat sidebar JS (all.min.js).
+@types {
+  id?: string
+  label?: string
+  open?: boolean
+  side?: 'left' | 'right'
+  menu?: Array<{
+    type?: 'item' | 'group' | 'separator' | 'submenu'
+    label?: string
+    url?: string
+    icon?: string
+    current?: boolean
+    open?: boolean
+    items?: Array<{
+      type?: 'item' | 'group' | 'separator' | 'submenu'
+      label?: string
+      url?: string
+      icon?: string
+      current?: boolean
+      open?: boolean
+      items?: unknown[]
+    }>
+    attrs?: Record<string, string>
+    id?: string
+  }>
+  main_attrs?: Record<string, string>
+  [attr: string]: unknown
+}
+--}}
+<aside
+  @if(id)
+  id="{{ id }}"
+  @end
+  class="sidebar {{ main_attrs?.class ?? '' }}"
+  data-side="{{ side ?? 'left' }}"
+  aria-hidden="{{ open === false ? 'true' : 'false' }}"
+  @if(open === false)
+  inert
+  @end
+>
+  <nav aria-label="{{ label ?? 'Sidebar navigation' }}">
+    @if($slots.header)
+      <header>{{{ await $slots.header() }}}</header>
+    @end
+    <section>
+      @if(menu && menu.length)
+        <ul>
+          @each((item, itemIndex) in menu)
+            @if(item.type === 'group')
+              <li>
+                <div role="group" @if(item.label) aria-labelledby="group-label-{{ itemIndex + 1 }}" @end>
+                  @if(item.label)
+                    <h3 id="group-label-{{ itemIndex + 1 }}">{{ item.label }}</h3>
+                  @end
+                  <ul>
+                    @if(item.items)
+                      @each((sub, subIndex) in item.items)
+                        <li>
+                          <a href="{{ sub.url }}" @if(sub.current) aria-current="page" @end>
+                            @if(sub.icon)
+                              {{{ sub.icon }}}
+                            @end
+                            <span>{{ sub.label }}</span>
+                          </a>
+                        </li>
+                      @end
+                    @end
+                  </ul>
+                </div>
+              </li>
+            @elseif(item.type === 'separator')
+              <li><hr role="separator" /></li>
+            @elseif(item.type === 'submenu')
+              <li>
+                <details id="submenu-{{ itemIndex + 1 }}" @if(item.open) open @end>
+                  <summary aria-controls="submenu-{{ itemIndex + 1 }}-content">
+                    @if(item.icon)
+                      {{{ item.icon }}}
+                    @end
+                    <span>{{ item.label }}</span>
+                  </summary>
+                  <ul id="submenu-{{ itemIndex + 1 }}-content">
+                    @if(item.items)
+                      @each((sub, subIndex) in item.items)
+                        <li>
+                          <a href="{{ sub.url }}" @if(sub.current) aria-current="page" @end>
+                            @if(sub.icon)
+                              {{{ sub.icon }}}
+                            @end
+                            <span>{{ sub.label }}</span>
+                          </a>
+                        </li>
+                      @end
+                    @end
+                  </ul>
+                </details>
+              </li>
+            @else
+              <li>
+                <a href="{{ item.url }}" @if(item.current) aria-current="page" @end>
+                  @if(item.icon)
+                    {{{ item.icon }}}
+                  @end
+                  <span>{{ item.label }}</span>
+                </a>
+              </li>
+            @end
+          @end
+        </ul>
+      @else
+        {{{ await $slots.main() }}}
+      @end
+    </section>
+    @if($slots.footer)
+      <footer>{{{ await $slots.footer() }}}</footer>
+    @end
+  </nav>
+</aside>

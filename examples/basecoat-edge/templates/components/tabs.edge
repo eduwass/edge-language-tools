@@ -1,0 +1,53 @@
+{{--
+@name Tabs
+@desc Tabbed interface; requires basecoat tabs JS (all.min.js).
+@types {
+  id: string
+  tabsets: Array<{
+    tab: string
+    panel?: string
+    tab_attrs?: Record<string, string>
+    panel_attrs?: Record<string, string>
+  }>
+  default_tab_index?: number
+  orientation?: 'horizontal' | 'vertical'
+  variant?: 'default' | 'line'
+  main_attrs?: Record<string, string>
+  tablist_attrs?: Record<string, string>
+  [attr: string]: unknown
+}
+--}}
+<div id="{{ id }}" class="tabs {{ main_attrs?.class ?? '' }}">
+  <nav
+    role="tablist"
+    aria-orientation="{{ orientation ?? 'horizontal' }}"
+    @if(variant === 'line')
+    data-variant="line"
+    @end
+  >
+    @each((tabset, index) in tabsets)
+      <button
+        type="button"
+        role="tab"
+        id="{{ id }}-tab-{{ index + 1 }}"
+        aria-controls="{{ id }}-panel-{{ index + 1 }}"
+        aria-selected="{{ index + 1 === (default_tab_index ?? 1) ? 'true' : 'false' }}"
+        tabindex="{{ index + 1 === (default_tab_index ?? 1) ? '0' : '-1' }}"
+      >{{{ tabset.tab }}}</button>
+    @end
+  </nav>
+  @each((tabset, index) in tabsets)
+    @if(tabset.panel)
+      <div
+        role="tabpanel"
+        id="{{ id }}-panel-{{ index + 1 }}"
+        aria-labelledby="{{ id }}-tab-{{ index + 1 }}"
+        tabindex="-1"
+        aria-selected="{{ index + 1 === (default_tab_index ?? 1) ? 'true' : 'false' }}"
+        @if(index + 1 !== (default_tab_index ?? 1))
+        hidden
+        @end
+      >{{{ tabset.panel }}}</div>
+    @end
+  @end
+</div>

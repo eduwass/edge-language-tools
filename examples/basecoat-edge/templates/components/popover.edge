@@ -1,0 +1,32 @@
+{{--
+@name Popover
+@desc Generic popover with trigger button; requires basecoat popover JS (all.min.js).
+@types {
+  id: string
+  trigger_attrs?: Record<string, string>
+  popover_attrs?: Record<string, string>
+  main_attrs?: Record<string, string>
+  [attr: string]: unknown
+}
+--}}
+<div
+  id="{{ id }}"
+  class="popover {{ main_attrs?.class ?? '' }}"
+>
+  <button
+    id="{{ id }}-trigger"
+    type="button"
+    aria-expanded="false"
+    aria-controls="{{ id }}-popover"
+    class="{{ trigger_attrs?.class ?? '' }}"
+  >
+    {{{ await $slots.trigger() }}}
+  </button>
+  <div
+    id="{{ id }}-popover"
+    data-popover
+    aria-hidden="true"
+  >
+    {{{ await $slots.main() }}}
+  </div>
+</div>

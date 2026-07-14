@@ -1,0 +1,27 @@
+{{--
+@name Empty
+@desc Empty state placeholder with icon, title, and description slots.
+@types {
+  title?: string
+  description?: string
+  [attr: string]: unknown
+}
+--}}
+<div {{ html.attrs({ class: 'empty' }) }}>
+  @if($slots.icon)
+    <div class="empty-icon">{{{ await $slots.icon() }}}</div>
+  @end
+  @if($slots.title)
+    <div class="empty-title">{{{ await $slots.title() }}}</div>
+  @elseif(title)
+    <div class="empty-title"><h3>{{ title }}</h3></div>
+  @end
+  @if($slots.description)
+    <div class="empty-description">{{{ await $slots.description() }}}</div>
+  @elseif(description)
+    <div class="empty-description"><p>{{ description }}</p></div>
+  @end
+  @if($slots.main)
+    <div class="empty-content">{{{ await $slots.main() }}}</div>
+  @end
+</div>

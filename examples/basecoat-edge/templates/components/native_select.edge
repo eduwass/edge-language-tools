@@ -1,0 +1,14 @@
+{{--
+@name Native Select
+@desc Styled native select element.
+@types {
+  name?: string
+  id?: string
+  disabled?: boolean
+  required?: boolean
+  [attr: string]: unknown
+}
+--}}
+<select {{ html.attrs({ class: 'native-select', name, id, disabled, required }) }}>
+  {{{ await $slots.main() }}}
+</select>

@@ -1,0 +1,44 @@
+---
+title: basecoat-edge
+description: Typed EdgeJS components wrapping basecoat UI — a showcase for edge-language-tools.
+---
+
+# basecoat-edge
+
+Typed [EdgeJS](https://edgejs.dev) components that wrap [basecoat UI](https://basecoatui.com) markup. Each component carries a doc header (`@name`, `@desc`, `@types`) enforced by `edge-check`.
+
+## Install
+
+From the monorepo root:
+
+```bash
+bun install
+cd examples/basecoat-edge
+```
+
+## Run the demo
+
+```bash
+bun run demo
+```
+
+Open [http://localhost:4790](http://localhost:4790).
+
+## Checks
+
+```bash
+bun run check      # edge-check over templates/
+bun run codegen    # generate edge-templates.d.ts
+bunx tsc -p tsconfig.json
+```
+
+## Regenerate docs
+
+```bash
+bun run gen-docs
+bun run docs:build
+```
+
+## Components
+
+See the [Components](/components) section for generated API pages.

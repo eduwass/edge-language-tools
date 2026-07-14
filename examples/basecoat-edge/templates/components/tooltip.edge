@@ -1,0 +1,16 @@
+{{--
+@name Tooltip
+@desc Tooltip trigger with content; requires basecoat tooltip JS.
+@types {
+  id: string
+  [attr: string]: unknown
+}
+--}}
+<div id="{{ id }}" class="tooltip">
+  <button type="button" id="{{ id }}-trigger" aria-describedby="{{ id }}-content">
+    {{{ await $slots.trigger() }}}
+  </button>
+  <div id="{{ id }}-content" role="tooltip" data-tooltip aria-hidden="true">
+    {{{ await $slots.main() }}}
+  </div>
+</div>

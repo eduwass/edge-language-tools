@@ -1,0 +1,99 @@
+{{--
+@name Combobox
+@desc Input-first combobox with listbox; requires basecoat combobox JS (all.min.js).
+@types {
+  id: string
+  selected?: string | string[] | { value: string; label?: string } | Array<{ value: string; label?: string }>
+  name?: string
+  multiple?: boolean
+  placeholder?: string
+  close_on_select?: boolean
+  clear?: boolean
+  auto_highlight?: boolean
+  format?: 'value' | 'object'
+  main_attrs?: Record<string, string>
+  input_attrs?: Record<string, string>
+  [attr: string]: unknown
+}
+--}}
+<div
+  id="{{ id }}"
+  class="combobox {{ main_attrs?.class ?? '' }}"
+  {{
+    html.attrs({
+      ...(format === 'object' ? { 'data-format': 'object' } : {}),
+      ...(multiple && close_on_select ? { 'data-close-on-select': 'true' } : {}),
+      ...(auto_highlight ? { 'data-auto-highlight': 'true' } : {}),
+    })
+  }}
+>
+  @if(multiple)
+    <input
+      type="text"
+      role="combobox"
+      class="{{ input_attrs?.class ?? '' }}"
+      placeholder="{{ placeholder ?? '' }}"
+      autocomplete="off"
+      autocorrect="off"
+      spellcheck="false"
+      aria-autocomplete="list"
+      aria-expanded="false"
+      aria-controls="{{ id }}-listbox"
+    />
+  @elseif(clear)
+    <div class="input-group {{ input_attrs?.class ?? '' }}">
+      <input
+        type="text"
+        role="combobox"
+        placeholder="{{ placeholder ?? '' }}"
+        autocomplete="off"
+        autocorrect="off"
+        spellcheck="false"
+        aria-autocomplete="list"
+        aria-expanded="false"
+        aria-controls="{{ id }}-listbox"
+      />
+      <span role="group" data-align="inline-end">
+        <button type="button" data-clear aria-label="Clear selection">
+          @svg('lucide:x', { class: 'size-4', 'aria-hidden': 'true' })
+        </button>
+        <button type="button" class="btn" data-variant="ghost" data-size="icon-xs" aria-label="Open suggestions" aria-haspopup="listbox" aria-expanded="false" aria-controls="{{ id }}-listbox">
+          @svg('lucide:chevron-down', { 'aria-hidden': 'true' })
+        </button>
+      </span>
+    </div>
+  @else
+    <input
+      type="text"
+      role="combobox"
+      placeholder="{{ placeholder ?? '' }}"
+      autocomplete="off"
+      autocorrect="off"
+      spellcheck="false"
+      aria-autocomplete="list"
+      aria-expanded="false"
+      aria-controls="{{ id }}-listbox"
+      class="{{ input_attrs?.class ?? '' }}"
+    />
+    @svg('lucide:chevron-down', { class: 'combobox-trigger-icon', 'aria-hidden': 'true' })
+  @end
+  <div id="{{ id }}-popover" data-popover aria-hidden="true">
+    <div
+      role="listbox"
+      id="{{ id }}-listbox"
+      aria-orientation="vertical"
+      @if(multiple)
+      aria-multiselectable="true"
+      @end
+    >
+      {{{ await $slots.main() }}}
+    </div>
+  </div>
+  <input
+    type="hidden"
+    @if(name)
+    name="{{ name }}"
+    @end
+    value=""
+  />
+</div>
