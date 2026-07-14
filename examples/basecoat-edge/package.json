@@ -7,12 +7,14 @@
     "codegen": "edge-codegen templates --out edge-templates.d.ts",
     "gen-docs": "bun run scripts/gen-docs.ts",
     "demo": "bun run src/server.ts",
-    "docs:dev": "blume dev --isolated",
-    "docs:build": "blume build --isolated"
+    "docs:dev": "bun run gen-docs && blume dev --isolated",
+    "docs:build": "bun run gen-docs && blume build --isolated"
   },
   "edge": {
     "check": {
-      "requireTypes": ["templates/components/**"]
+      "requireTypes": [
+        "templates/components/**"
+      ]
     }
   },
   "dependencies": {
