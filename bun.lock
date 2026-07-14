@@ -56,16 +56,6 @@
         "typescript": "^5.8.0",
       },
     },
-    "packages/edge-plugin": {
-      "name": "@edge-language-tools/edge-plugin",
-      "version": "0.0.0",
-      "devDependencies": {
-        "edge.js": "^6.5.1",
-      },
-      "peerDependencies": {
-        "edge.js": "^6.5.1",
-      },
-    },
     "packages/language-server": {
       "name": "@edge-language-tools/language-server",
       "version": "0.0.0",
@@ -230,8 +220,6 @@
     "@edge-language-tools/core": ["@edge-language-tools/core@workspace:packages/core"],
 
     "@edge-language-tools/demo-app": ["@edge-language-tools/demo-app@workspace:examples/demo-app"],
-
-    "@edge-language-tools/edge-plugin": ["@edge-language-tools/edge-plugin@workspace:packages/edge-plugin"],
 
     "@edge-language-tools/language-server": ["@edge-language-tools/language-server@workspace:packages/language-server"],
 
