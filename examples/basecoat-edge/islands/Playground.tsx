@@ -222,9 +222,47 @@ export default function Playground({ component, schema, minHeight = 160 }: Playg
           Copy
         </button>
       </div>
-      <pre style={preStyle}>{source || '…'}</pre>
+      <pre style={preStyle}>
+        {source
+          ? highlightEdge(source).map((t, i) =>
+              t.color ? (
+                <span key={i} style={{ color: t.color }}>
+                  {t.text}
+                </span>
+              ) : (
+                t.text
+              ),
+            )
+          : '…'}
+      </pre>
     </div>
   )
+}
+
+
+/**
+ * Minimal Edge-aware highlighter for the live Usage snippet. Deterministic
+ * regex tokenizer (tags, mustaches, strings, HTML) with theme-variable colors
+ * so it tracks light/dark like the shiki fences elsewhere on the page.
+ */
+function highlightEdge(code: string): { text: string; color?: string }[] {
+  const tokens: { text: string; color?: string }[] = []
+  const pattern = /(@!?[\w.]+|@end\b|\{\{--|--\}\}|\{\{\{?|\}?\}\}|'[^']*'|"[^"]*"|<\/?[a-zA-Z][\w-]*|>)/g
+  let last = 0
+  for (const match of code.matchAll(pattern)) {
+    const i = match.index ?? 0
+    if (i > last) tokens.push({ text: code.slice(last, i) })
+    const t = match[0]
+    let color: string | undefined
+    if (t.startsWith('@')) color = 'var(--color-accent, #2563eb)'
+    else if (t.startsWith("'") || t.startsWith('"')) color = 'var(--color-success, #16a34a)'
+    else if (t.startsWith('{{') || t.endsWith('}}')) color = 'var(--color-warning, #d97706)'
+    else if (t.startsWith('<') || t === '>') color = 'var(--color-text-secondary, #64748b)'
+    tokens.push({ text: t, color })
+    last = i + t.length
+  }
+  if (last < code.length) tokens.push({ text: code.slice(last) })
+  return tokens
 }
 
 const rootStyle: CSSProperties = {
