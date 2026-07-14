@@ -3,7 +3,7 @@ import type { CommentToken, MustacheToken, TagToken, Token } from 'edge-lexer/ty
 import { GLOBALS_TS } from './globals.ts'
 import { LineIndex } from './offsets.ts'
 import { tokenize } from './tokenize.ts'
-import { findTypesBlock } from './types-block.ts'
+import { findTypesBlock, findTypesTag } from './types-block.ts'
 import { collectStateIdents } from './used-idents.ts'
 import type { GenerateOptions, Segment, VirtualFile } from './index.ts'
 
@@ -32,10 +32,14 @@ function safeTokenize(source: string, filename: string): Token[] {
 export function generateVirtualTs(source: string, filename: string, opts?: GenerateOptions): VirtualFile {
   const lines = new LineIndex(source)
   const tokens = safeTokenize(source, filename)
-  const typesBlock = findTypesBlock(
-    tokens.filter((t): t is CommentToken => t.type === 'comment'),
-    lines,
-  )
+  // The tag form (`@types ... @end`) wins deterministically when both forms
+  // are present in the same template — the comment form is never consulted.
+  const typesBlock =
+    findTypesTag(tokens, lines) ??
+    findTypesBlock(
+      tokens.filter((t): t is CommentToken => t.type === 'comment'),
+      lines,
+    )
 
   const ctx: Ctx = {
     // export {} makes the virtual file a module: without it, tsserver treats
@@ -50,7 +54,20 @@ export function generateVirtualTs(source: string, filename: string, opts?: Gener
 
   if (typesBlock) {
     emit(ctx, 'type __Types = ')
-    emitVerbatim(ctx, typesBlock.raw, typesBlock.sourceOffset)
+    if (typesBlock.lines) {
+      // Tag block form: each body line is emitted as its own verbatim
+      // segment (real per-line source offsets) rather than one span covering
+      // the reconstructed `raw` string, which isn't a contiguous slice of
+      // the source once lines are rejoined.
+      emit(ctx, '{\n')
+      for (const line of typesBlock.lines) {
+        emitVerbatim(ctx, line.text, line.sourceOffset)
+        emit(ctx, '\n')
+      }
+      emit(ctx, '}')
+    } else {
+      emitVerbatim(ctx, typesBlock.raw, typesBlock.sourceOffset)
+    }
     emit(ctx, '\ndeclare const state: __Types\n')
     // Wrapped in an async IIFE (rather than left at module top level) so
     // `{{ await expr }}` is syntactically legal; narrowing across @if is
@@ -138,6 +155,11 @@ function emitTag(ctx: Ctx, tokens: Token[], index: number): number {
   const token = tokens[index] as TagToken
   const { name } = token.properties
 
+  // Static-only construct already consumed via findTypesTag above — never
+  // markup, never a checkable jsArg, never walked as a child scope.
+  if (name === 'types') {
+    return index
+  }
   if (name === 'each') {
     emitEach(ctx, token)
     return index
@@ -210,10 +232,12 @@ function resolveTypesBlock(ctx: Ctx, name: string): { raw: string } | null {
   if (!resolved) return null
   const resolvedLines = new LineIndex(resolved.source)
   const resolvedTokens = safeTokenize(resolved.source, resolved.filename)
-  const typesBlock = findTypesBlock(
-    resolvedTokens.filter((t): t is CommentToken => t.type === 'comment'),
-    resolvedLines,
-  )
+  const typesBlock =
+    findTypesTag(resolvedTokens, resolvedLines) ??
+    findTypesBlock(
+      resolvedTokens.filter((t): t is CommentToken => t.type === 'comment'),
+      resolvedLines,
+    )
   return typesBlock ? { raw: typesBlock.raw } : null
 }
 
