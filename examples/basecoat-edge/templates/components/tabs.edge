@@ -39,37 +39,41 @@
     ],
   })
 --}}
-<div {{ $props.merge({ class: 'tabs' }).except(['tabsets', 'default_tab_index', 'orientation', 'variant', 'tablist_attrs']).toAttrs() }}>
-  <nav
-    role="tablist"
-    aria-orientation="{{ orientation ?? 'horizontal' }}"
-    @if(variant === 'line')
-    data-variant="line"
-    @end
-  >
-    @each((tabset, index) in tabsets)
-      <button
-        type="button"
-        role="tab"
-        id="{{ id }}-tab-{{ index + 1 }}"
-        aria-controls="{{ id }}-panel-{{ index + 1 }}"
-        aria-selected="{{ index + 1 === (default_tab_index ?? 1) ? 'true' : 'false' }}"
-        tabindex="{{ index + 1 === (default_tab_index ?? 1) ? '0' : '-1' }}"
-      >{{{ tabset.tab }}}</button>
-    @end
-  </nav>
-  @each((tabset, index) in tabsets)
-    @if(tabset.panel)
-      <div
-        role="tabpanel"
-        id="{{ id }}-panel-{{ index + 1 }}"
-        aria-labelledby="{{ id }}-tab-{{ index + 1 }}"
-        tabindex="-1"
-        aria-selected="{{ index + 1 === (default_tab_index ?? 1) ? 'true' : 'false' }}"
-        @if(index + 1 !== (default_tab_index ?? 1))
-        hidden
+<div
+    {{ $props.merge({ class: 'tabs' }).except(['tabsets', 'default_tab_index', 'orientation', 'variant', 'tablist_attrs']).toAttrs() }}
+>
+    <nav
+        role="tablist"
+        aria-orientation="{{ orientation ?? 'horizontal' }}"
+        @if(variant === 'line')
+        data-variant="line"
         @end
-      >{{{ tabset.panel }}}</div>
+    >
+        @each((tabset, index) in tabsets)
+            <button
+                type="button"
+                role="tab"
+                id="{{ id }}-tab-{{ index + 1 }}"
+                aria-controls="{{ id }}-panel-{{ index + 1 }}"
+                aria-selected="{{ index + 1 === (default_tab_index ?? 1) ? 'true' : 'false' }}"
+                tabindex="{{ index + 1 === (default_tab_index ?? 1) ? '0' : '-1' }}"
+            >{{{ tabset.tab }}}</button>
+        @end
+    </nav>
+    @each((tabset, index) in tabsets)
+        @if(tabset.panel)
+            <div
+                role="tabpanel"
+                id="{{ id }}-panel-{{ index + 1 }}"
+                aria-labelledby="{{ id }}-tab-{{ index + 1 }}"
+                tabindex="-1"
+                aria-selected="{{ index + 1 === (default_tab_index ?? 1) ? 'true' : 'false' }}"
+                @if(index + 1 !== (default_tab_index ?? 1))
+                hidden
+                @end
+            >
+                {{{ tabset.panel }}}
+            </div>
+        @end
     @end
-  @end
 </div>

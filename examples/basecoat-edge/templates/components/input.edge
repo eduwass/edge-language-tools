@@ -29,9 +29,9 @@
 @example
   @!input({ type: 'email', name: 'email', placeholder: 'you@example.com' })
 --}}
-<input {{
-  $props.merge({
+<input
+    {{ $props.merge({
     class: 'input',
     type: type ?? 'text',
-  }).except(['type']).toAttrs()
-}} />
+  }).except(['type']).toAttrs() }}
+/>

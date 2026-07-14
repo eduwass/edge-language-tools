@@ -29,5 +29,5 @@
   @end
 --}}
 <select {{ $props.merge({ class: 'select' }).toAttrs() }}>
-  {{{ await $slots.main() }}}
+    {{{ await $slots.main() }}}
 </select>

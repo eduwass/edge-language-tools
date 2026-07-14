@@ -22,8 +22,8 @@
 @example
   @!progress({ value: 60, max: 100 })
 --}}
-<div {{
-  $props.merge({
+<div
+    {{ $props.merge({
     class: 'progress',
     role: 'progressbar',
     ...(label ? { 'aria-label': label } : {}),
@@ -32,7 +32,7 @@
       'aria-valuemin': 0,
       'aria-valuemax': max ?? 100,
     } : {}),
-  }).except(['value', 'max', 'label']).toAttrs()
-}}>
-  <span style="width: {{ value !== undefined ? (value / (max ?? 100) * 100) : 0 }}%"></span>
+  }).except(['value', 'max', 'label']).toAttrs() }}
+>
+    <span style="width: {{ value !== undefined ? (value / (max ?? 100) * 100) : 0 }}%"></span>
 </div>

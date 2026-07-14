@@ -48,64 +48,66 @@
   @end
 --}}
 <div {{ $props.merge({ class: 'dropdown-menu' }).except(['items', 'trigger_attrs']).toAttrs() }}>
-  <button
-    type="button"
-    id="{{ id }}-trigger"
-    aria-haspopup="menu"
-    aria-controls="{{ id }}-menu"
-    aria-expanded="false"
-    class="{{ trigger_attrs?.class ?? 'btn' }}"
-  >
-    {{{ await $slots.trigger() }}}
+    <button
+        type="button"
+        id="{{ id }}-trigger"
+        aria-haspopup="menu"
+        aria-controls="{{ id }}-menu"
+        aria-expanded="false"
+        class="{{ trigger_attrs?.class ?? 'btn' }}"
+    >
+        {{{ await $slots.trigger() }}}
   </button>
-  <div id="{{ id }}-popover" data-popover aria-hidden="true">
-    <div role="menu" id="{{ id }}-menu" aria-labelledby="{{ id }}-trigger">
-      @if(items && items.length)
-        @each((item, itemIndex) in items)
-          @if(item.type === 'group')
-            <div role="group" aria-labelledby="group-label-{{ id }}-{{ itemIndex + 1 }}">
-              <div role="heading" id="group-label-{{ id }}-{{ itemIndex + 1 }}">{{ item.label }}</div>
-              @if(item.items)
-                @each((sub, subIndex) in item.items)
-                @if(sub.url)
-                  <a id="{{ id }}-items-{{ itemIndex + 1 }}-{{ subIndex + 1 }}" role="menuitem" href="{{ sub.url }}">
-                    @if(sub.icon)
-                      {{{ sub.icon }}}
+    <div id="{{ id }}-popover" data-popover aria-hidden="true">
+        <div role="menu" id="{{ id }}-menu" aria-labelledby="{{ id }}-trigger">
+            @if(items && items.length)
+                @each((item, itemIndex) in items)
+                    @if(item.type === 'group')
+                        <div role="group" aria-labelledby="group-label-{{ id }}-{{ itemIndex + 1 }}">
+                            <div role="heading" id="group-label-{{ id }}-{{ itemIndex + 1 }}">
+                                {{ item.label }}
+                            </div>
+                            @if(item.items)
+                                @each((sub, subIndex) in item.items)
+                                    @if(sub.url)
+                                        <a id="{{ id }}-items-{{ itemIndex + 1 }}-{{ subIndex + 1 }}" role="menuitem" href="{{ sub.url }}">
+                                            @if(sub.icon)
+                                                {{{ sub.icon }}}
+                                            @end
+                                            <span>{{ sub.label }}</span>
+                                        </a>
+                                    @else
+                                        <div id="{{ id }}-items-{{ itemIndex + 1 }}-{{ subIndex + 1 }}" role="menuitem">
+                                            @if(sub.icon)
+                                                {{{ sub.icon }}}
+                                            @end
+                                            <span>{{ sub.label }}</span>
+                                        </div>
+                                    @end
+                                @end
+                            @end
+                        </div>
+                    @elseif(item.type === 'separator')
+                        <hr role="separator" />
+                    @elseif(item.url)
+                        <a id="{{ id }}-items-{{ itemIndex + 1 }}" role="menuitem" href="{{ item.url }}">
+                            @if(item.icon)
+                                {{{ item.icon }}}
+                            @end
+                            <span>{{ item.label }}</span>
+                        </a>
+                    @else
+                        <div id="{{ id }}-items-{{ itemIndex + 1 }}" role="menuitem">
+                            @if(item.icon)
+                                {{{ item.icon }}}
+                            @end
+                            <span>{{ item.label }}</span>
+                        </div>
                     @end
-                    <span>{{ sub.label }}</span>
-                  </a>
-                @else
-                  <div id="{{ id }}-items-{{ itemIndex + 1 }}-{{ subIndex + 1 }}" role="menuitem">
-                    @if(sub.icon)
-                      {{{ sub.icon }}}
-                    @end
-                    <span>{{ sub.label }}</span>
-                  </div>
                 @end
-                @end
-              @end
-            </div>
-          @elseif(item.type === 'separator')
-            <hr role="separator" />
-          @elseif(item.url)
-            <a id="{{ id }}-items-{{ itemIndex + 1 }}" role="menuitem" href="{{ item.url }}">
-              @if(item.icon)
-                {{{ item.icon }}}
-              @end
-              <span>{{ item.label }}</span>
-            </a>
-          @else
-            <div id="{{ id }}-items-{{ itemIndex + 1 }}" role="menuitem">
-              @if(item.icon)
-                {{{ item.icon }}}
-              @end
-              <span>{{ item.label }}</span>
-            </div>
-          @end
-        @end
-      @else
-        {{{ await $slots.main() }}}
-      @end
+            @else
+                {{{ await $slots.main() }}}
+            @end
+        </div>
     </div>
-  </div>
 </div>

@@ -31,30 +31,26 @@
   @end
 --}}
 @if(as_button !== false)
-<button
-  {{
-    $props.merge({
+    <button
+        {{ $props.merge({
       class: 'btn',
       type: 'button',
       'data-variant': variant ?? 'outline',
       'data-tooltip': text,
       ...(side ? { 'data-side': side } : {}),
       ...(align ? { 'data-align': align } : {}),
-    }).except(['text', 'side', 'align', 'as_button', 'variant']).toAttrs()
-  }}
->
-  {{{ await $slots.trigger() }}}
+    }).except(['text', 'side', 'align', 'as_button', 'variant']).toAttrs() }}
+    >
+        {{{ await $slots.trigger() }}}
 </button>
 @else
-<span
-  {{
-    $props.merge({
+    <span
+        {{ $props.merge({
       'data-tooltip': text,
       ...(side ? { 'data-side': side } : {}),
       ...(align ? { 'data-align': align } : {}),
-    }).except(['text', 'side', 'align', 'as_button', 'variant']).toAttrs()
-  }}
->
-  {{{ await $slots.trigger() }}}
+    }).except(['text', 'side', 'align', 'as_button', 'variant']).toAttrs() }}
+    >
+        {{{ await $slots.trigger() }}}
 </span>
 @end

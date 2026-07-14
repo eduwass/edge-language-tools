@@ -20,8 +20,8 @@
     New
   @end
 --}}
-<span {{
-  $props.merge({ class: 'badge', ...(variant && variant !== 'default' ? { 'data-variant': variant } : {}) }).except(['variant']).toAttrs()
-}}>
-  {{{ await $slots.main() }}}
+<span
+    {{ $props.merge({ class: 'badge', ...(variant && variant !== 'default' ? { 'data-variant': variant } : {}) }).except(['variant']).toAttrs() }}
+>
+    {{{ await $slots.main() }}}
 </span>

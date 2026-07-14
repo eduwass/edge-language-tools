@@ -1,0 +1,9 @@
+{
+  "plugins": ["prettier-plugin-edgejs"],
+  "overrides": [
+    {
+      "files": "*.edge",
+      "options": { "parser": "edgejs", "printWidth": 100 }
+    }
+  ]
+}

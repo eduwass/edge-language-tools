@@ -33,11 +33,11 @@
     </details>
   @end
 --}}
-<section {{
-  $props.merge({
+<section
+    {{ $props.merge({
     class: 'accordion',
     ...(multiple ? { 'data-multiple': 'true' } : {}),
-  }).except(['multiple']).toAttrs()
-}}>
-  {{{ await $slots.main() }}}
+  }).except(['multiple']).toAttrs() }}
+>
+    {{{ await $slots.main() }}}
 </section>

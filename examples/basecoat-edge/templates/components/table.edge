@@ -25,7 +25,7 @@
   @end
 --}}
 <div {{ $props.merge({ class: 'table-container' }).toAttrs() }}>
-  <table class="table">
-    {{{ await $slots.main() }}}
-  </table>
+    <table class="table">
+        {{{ await $slots.main() }}}
+    </table>
 </div>

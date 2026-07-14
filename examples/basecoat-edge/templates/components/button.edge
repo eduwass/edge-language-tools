@@ -39,14 +39,14 @@
     Ghost
   @end
 --}}
-<button {{
-  $props.merge({
+<button
+    {{ $props.merge({
     type: type ?? 'button',
     class: 'btn',
     ...(variant && variant !== 'primary' ? { 'data-variant': variant } : {}),
     ...(size ? { 'data-size': size } : {}),
     ...(icon ? { 'data-icon': icon } : {}),
-  }).except(['variant', 'size', 'type', 'icon']).toAttrs()
-}}>
-  {{{ await $slots.main() }}}
+  }).except(['variant', 'size', 'type', 'icon']).toAttrs() }}
+>
+    {{{ await $slots.main() }}}
 </button>

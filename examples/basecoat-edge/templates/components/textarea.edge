@@ -29,8 +29,6 @@
 @example height=180
   @!textarea({ name: 'message', placeholder: 'Type your message here.', rows: 4 })
 --}}
-<textarea {{
-  $props.merge({
+<textarea {{ $props.merge({
     class: 'textarea',
-  }).except(['value']).toAttrs()
-}}>{{ value ?? '' }}</textarea>
+  }).except(['value']).toAttrs() }}>{{ value ?? '' }}</textarea>

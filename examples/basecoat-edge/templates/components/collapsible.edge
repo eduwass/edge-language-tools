@@ -21,11 +21,8 @@
     <section>Yes. It uses native details and summary elements.</section>
   @end
 --}}
-<details
-  {{ $props.merge({ class: 'collapsible' }).except(['open']).toAttrs() }}
-  @if(open)
+<details {{ $props.merge({ class: 'collapsible' }).except(['open']).toAttrs() }} @if(open)
   open
-  @end
->
-  {{{ await $slots.main() }}}
+@end>
+    {{{ await $slots.main() }}}
 </details>

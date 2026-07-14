@@ -27,7 +27,7 @@
   @end
 --}}
 <nav {{ $props.merge({ class: 'breadcrumb', 'aria-label': 'Breadcrumb' }).toAttrs() }}>
-  <ol>
-    {{{ await $slots.main() }}}
-  </ol>
+    <ol>
+        {{{ await $slots.main() }}}
+    </ol>
 </nav>

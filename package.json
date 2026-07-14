@@ -2,18 +2,25 @@
   "name": "edge-language-tools",
   "private": true,
   "type": "module",
-  "workspaces": ["packages/*", "examples/*"],
+  "workspaces": [
+    "packages/*",
+    "examples/*"
+  ],
   "scripts": {
     "check:lint": "oxlint packages",
     "check:types": "tsc -b",
     "check:test": "bun test",
-    "precommit": "bun run check:lint && bun run check:types && bun run check:test"
+    "precommit": "bun run check:lint && bun run check:fmt-edge && bun run check:types && bun run check:test",
+    "fmt:edge": "prettier --write '**/*.edge'",
+    "check:fmt-edge": "prettier --check '**/*.edge'"
   },
   "devDependencies": {
     "@edge-language-tools/language-server": "workspace:*",
     "blume": "^0.7.0",
     "bun-types": "^1.3.0",
     "oxlint": "^1.0.0",
+    "prettier": "^3.9.5",
+    "prettier-plugin-edgejs": "^1.0.7",
     "typescript": "^5.8.0"
   }
 }

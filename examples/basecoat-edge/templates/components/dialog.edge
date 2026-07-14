@@ -54,54 +54,63 @@
   @end
 --}}
 @if(trigger)
-<button
-  type="button"
-  onclick="document.getElementById('{{ id }}').showModal()"
-  class="{{ trigger_attrs?.class ?? '' }}"
->
-  {{ trigger }}
+    <button
+        type="button"
+        onclick="document.getElementById('{{ id }}').showModal()"
+        class="{{ trigger_attrs?.class ?? '' }}"
+    >
+        {{ trigger }}
 </button>
 @end
 <dialog
-  {{
-    $props.merge({
+    {{ $props.merge({
       class: 'dialog',
       ...(title ? { 'aria-labelledby': id + '-title' } : {}),
       ...(description ? { 'aria-describedby': id + '-description' } : {}),
-    }).except(['trigger', 'title', 'description', 'open', 'close_button', 'close_on_overlay_click', 'trigger_attrs', 'header_attrs', 'body_attrs', 'footer_attrs']).toAttrs()
-  }}
-  @if(open)
-  open
-  @end
-  @if(close_on_overlay_click !== false)
-  onclick="if (event.target === this) this.close()"
-  @end
+    }).except(['trigger', 'title', 'description', 'open', 'close_button', 'close_on_overlay_click', 'trigger_attrs', 'header_attrs', 'body_attrs', 'footer_attrs']).toAttrs() }}
+    @if(open)
+    open
+    @end
+    @if(close_on_overlay_click !== false)
+    onclick="if (event.target === this) this.close()"
+    @end
 >
-  <div>
-    @if(title || description)
-      <header>
-        @if(title)
-          <h2 id="{{ id }}-title">{{ title }}</h2>
+    <div>
+        @if(title || description)
+            <header>
+                @if(title)
+                    <h2 id="{{ id }}-title">
+                        {{ title }}
+                    </h2>
+                @end
+                @if(description)
+                    <p id="{{ id }}-description">
+                        {{ description }}
+                    </p>
+                @end
+            </header>
         @end
-        @if(description)
-          <p id="{{ id }}-description">{{ description }}</p>
+        @if($slots.main)
+            <section>
+                {{{ await $slots.main() }}}
+            </section>
         @end
-      </header>
-    @end
-    @if($slots.main)
-      <section>
-        {{{ await $slots.main() }}}
-      </section>
-    @end
-    @if($slots.footer)
-      <footer>
-        {{{ await $slots.footer() }}}
-      </footer>
-    @end
-    @if(close_button !== false)
-      <button type="button" class="btn" data-variant="ghost" data-size="icon-sm" aria-label="Close dialog" onclick="this.closest('dialog').close()">
-        @svg('lucide:x')
-      </button>
-    @end
-  </div>
+        @if($slots.footer)
+            <footer>
+                {{{ await $slots.footer() }}}
+            </footer>
+        @end
+        @if(close_button !== false)
+            <button
+                type="button"
+                class="btn"
+                data-variant="ghost"
+                data-size="icon-sm"
+                aria-label="Close dialog"
+                onclick="this.closest('dialog').close()"
+            >
+                @svg('lucide:x')
+            </button>
+        @end
+    </div>
 </dialog>

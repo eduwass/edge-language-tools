@@ -29,13 +29,11 @@
   @end
 --}}
 <div
-  {{
-    $props.merge({
+    {{ $props.merge({
       class: 'button-group',
       role: 'group',
       ...(orientation === 'vertical' ? { 'data-orientation': 'vertical' } : {}),
-    }).except(['orientation']).toAttrs()
-  }}
+    }).except(['orientation']).toAttrs() }}
 >
-  {{{ await $slots.main() }}}
+    {{{ await $slots.main() }}}
 </div>

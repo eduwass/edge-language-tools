@@ -28,23 +28,17 @@
     @end
   @end
 --}}
-<div
-  {{ $props.merge({ class: 'popover' }).except(['trigger_attrs', 'popover_attrs']).toAttrs() }}
->
-  <button
-    id="{{ id }}-trigger"
-    type="button"
-    aria-expanded="false"
-    aria-controls="{{ id }}-popover"
-    class="{{ trigger_attrs?.class ?? '' }}"
-  >
-    {{{ await $slots.trigger() }}}
+<div {{ $props.merge({ class: 'popover' }).except(['trigger_attrs', 'popover_attrs']).toAttrs() }}>
+    <button
+        id="{{ id }}-trigger"
+        type="button"
+        aria-expanded="false"
+        aria-controls="{{ id }}-popover"
+        class="{{ trigger_attrs?.class ?? '' }}"
+    >
+        {{{ await $slots.trigger() }}}
   </button>
-  <div
-    id="{{ id }}-popover"
-    data-popover
-    aria-hidden="true"
-  >
-    {{{ await $slots.main() }}}
-  </div>
+    <div id="{{ id }}-popover" data-popover aria-hidden="true">
+        {{{ await $slots.main() }}}
+    </div>
 </div>

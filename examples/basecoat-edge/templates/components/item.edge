@@ -20,22 +20,30 @@
   @!item({ title: 'Notifications', description: 'You have 3 unread messages.' })
 --}}
 <article {{ $props.merge({ class: 'item' }).except(['title', 'description']).toAttrs() }}>
-  @if($slots.media)
-    <figure>{{{ await $slots.media() }}}</figure>
-  @end
-  <section>
-    @if($slots.title)
-      {{{ await $slots.title() }}}
-    @elseif(title)
-      <h3>{{ title }}</h3>
+    @if($slots.media)
+        <figure>
+            {{{ await $slots.media() }}}
+        </figure>
     @end
-    @if($slots.description)
-      {{{ await $slots.description() }}}
-    @elseif(description)
-      <p>{{ description }}</p>
+    <section>
+        @if($slots.title)
+            {{{ await $slots.title() }}}
+        @elseif(title)
+            <h3>
+                {{ title }}
+            </h3>
+        @end
+        @if($slots.description)
+            {{{ await $slots.description() }}}
+        @elseif(description)
+            <p>
+                {{ description }}
+            </p>
+        @end
+    </section>
+    @if($slots.actions)
+        <aside>
+            {{{ await $slots.actions() }}}
+        </aside>
     @end
-  </section>
-  @if($slots.actions)
-    <aside>{{{ await $slots.actions() }}}</aside>
-  @end
 </article>

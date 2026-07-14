@@ -24,30 +24,36 @@
   @end
 --}}
 <section {{ $props.merge({ class: 'empty' }).except(['title', 'description']).toAttrs() }}>
-  @if($slots.icon || $slots.title || title || $slots.description || description)
-    <header>
-      @if($slots.icon)
-        <figure>{{{ await $slots.icon() }}}</figure>
-      @end
-      @if($slots.title)
-        {{{ await $slots.title() }}}
-      @elseif(title)
-        <h3>{{ title }}</h3>
-      @end
-      @if($slots.description)
-        {{{ await $slots.description() }}}
-      @elseif(description)
-        <p>{{ description }}</p>
-      @end
-    </header>
-  @end
-  @if($slots.footer)
-    <footer>
-      {{{ await $slots.footer() }}}
-    </footer>
-  @elseif($slots.main)
-    <footer>
-      {{{ await $slots.main() }}}
-    </footer>
-  @end
+    @if($slots.icon || $slots.title || title || $slots.description || description)
+        <header>
+            @if($slots.icon)
+                <figure>
+                    {{{ await $slots.icon() }}}
+                </figure>
+            @end
+            @if($slots.title)
+                {{{ await $slots.title() }}}
+            @elseif(title)
+                <h3>
+                    {{ title }}
+                </h3>
+            @end
+            @if($slots.description)
+                {{{ await $slots.description() }}}
+            @elseif(description)
+                <p>
+                    {{ description }}
+                </p>
+            @end
+        </header>
+    @end
+    @if($slots.footer)
+        <footer>
+            {{{ await $slots.footer() }}}
+        </footer>
+    @elseif($slots.main)
+        <footer>
+            {{{ await $slots.main() }}}
+        </footer>
+    @end
 </section>

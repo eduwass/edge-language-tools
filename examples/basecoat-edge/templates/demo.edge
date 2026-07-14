@@ -1,219 +1,320 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>basecoat-edge demo</title>
-  @!basecoatStyles()
-  <script src="https://cdn.jsdelivr.net/npm/idiomorph@0.7.3/dist/idiomorph.min.js"></script>
-  <style>
-    body { font-family: system-ui, sans-serif; margin: 0; padding: 2rem; background: var(--background, #fff); color: var(--foreground, #111); }
-    .demo-grid { display: grid; gap: 2rem; max-width: 72rem; margin: 0 auto; }
-    .demo-section h2 { margin: 0 0 1rem; font-size: 1.125rem; }
-    .demo-row { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; }
-    .demo-muted { margin: 0.5rem 0 0; font-size: 0.875rem; color: var(--muted-foreground, #666); }
-  </style>
-</head>
-<body>
-  <div class="demo-grid">
-    <header>
-      <h1>basecoat-edge</h1>
-      <p>Typed EdgeJS components wrapping <a href="https://basecoatui.com">basecoat UI</a>.</p>
-    </header>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>
+            basecoat-edge demo
+        </title>
+        @!basecoatStyles()
+        <script src="https://cdn.jsdelivr.net/npm/idiomorph@0.7.3/dist/idiomorph.min.js">
 
-    <section class="demo-section">
-      <h2>Buttons and badges</h2>
-      <div class="demo-row">
-        @button({ variant: 'primary' })
-          Primary
-        @end
-        @button({ variant: 'outline', size: 'sm' })
-          Outline small
-        @end
-        @badge({ variant: 'secondary' })
-          New
-        @end
-      </div>
-    </section>
+        </script>
+        <style>
+            body {
+                font-family: system-ui, sans-serif;
+                margin: 0;
+                padding: 2rem;
+                background: var(--background, #fff);
+                color: var(--foreground, #111);
+            }
+            
+            .demo-grid {
+                display: grid;
+                gap: 2rem;
+                max-width: 72rem;
+                margin: 0 auto;
+            }
+            
+            .demo-section h2 {
+                margin: 0 0 1rem;
+                font-size: 1.125rem;
+            }
+            
+            .demo-row {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 0.75rem;
+                align-items: center;
+            }
+            
+            .demo-muted {
+                margin: 0.5rem 0 0;
+                font-size: 0.875rem;
+                color: var(--muted-foreground, #666);
+            }
+        </style>
+    </head>
+    <body>
+        <div class="demo-grid">
+            <header>
+                <h1>
+                    basecoat-edge
+                </h1>
+                <p>
+                    Typed EdgeJS components wrapping <a href="https://basecoatui.com">basecoat UI</a>.
+                </p>
+            </header>
 
-    <section class="demo-section">
-      <h2>Alert</h2>
-      @!alert({ variant: 'default', title: 'Heads up', description: 'You can add components to your app.' })
-    </section>
+            <section class="demo-section">
+                <h2>
+                    Buttons and badges
+                </h2>
+                <div class="demo-row">
+                    @button({ variant: 'primary' })
+                        Primary
+                    @end
+                    @button({ variant: 'outline', size: 'sm' })
+                        Outline small
+                    @end
+                    @badge({ variant: 'secondary' })
+                        New
+                    @end
+                </div>
+            </section>
 
-    <section class="demo-section">
-      <h2>Card</h2>
-      @card()
-        @slot('header')
-          <h2>Card title</h2>
-          <p>Card description</p>
-        @end
-        @slot('section')
-          <p>Card content goes here.</p>
-        @end
-        @slot('footer')
-          @button({ variant: 'outline' })
-            Action
-          @end
-        @end
-      @end
-    </section>
+            <section class="demo-section">
+                <h2>
+                    Alert
+                </h2>
+                @!alert({ variant: 'default', title: 'Heads up', description: 'You can add components to your app.' })
+            </section>
 
-    <section class="demo-section">
-      <h2>Form controls</h2>
-      @component('components/field', { label: 'Email', description: 'We will never share your email.' })
-        @!component('components/input', { type: 'email', name: 'email', placeholder: 'you@example.com' })
-      @end
-      <div class="demo-row">
-        @!checkbox({ name: 'terms', label: 'Accept terms' })
-        @!switch({ name: 'notifications', label: 'Enable notifications' })
-      </div>
-    </section>
+            <section class="demo-section">
+                <h2>
+                    Card
+                </h2>
+                @card()
+                    @slot('header')
+                        <h2>
+                            Card title
+                        </h2>
+                        <p>
+                            Card description
+                        </p>
+                    @end
+                    @slot('section')
+                        <p>
+                            Card content goes here.
+                        </p>
+                    @end
+                    @slot('footer')
+                        @button({ variant: 'outline' })
+                            Action
+                        @end
+                    @end
+                @end
+            </section>
 
-    <section class="demo-section">
-      <h2>Accordion</h2>
-      @accordion()
-        <details open>
-          <summary>
-            Is it accessible?
-            @svg('lucide:chevron-down')
-          </summary>
-          <section>Yes. It uses native disclosure semantics.</section>
-        </details>
-        <details>
-          <summary>
-            Is it styled?
-            @svg('lucide:chevron-down')
-          </summary>
-          <section>Yes. It comes with basecoat styles.</section>
-        </details>
-      @end
-    </section>
+            <section class="demo-section">
+                <h2>
+                    Form controls
+                </h2>
+                @component('components/field', { label: 'Email', description: 'We will never share your email.' })
+                    @!component('components/input', { type: 'email', name: 'email', placeholder: 'you@example.com' })
+                @end
+                <div class="demo-row">
+                    @!checkbox({ name: 'terms', label: 'Accept terms' })
+                    @!switch({ name: 'notifications', label: 'Enable notifications' })
+                </div>
+            </section>
 
-    <section class="demo-section">
-      <h2>Tabs</h2>
-      @!tabs({
-        id: 'demo-tabs',
-        tabsets: [
-          { tab: 'Account', panel: '<p>Account settings</p>' },
-          { tab: 'Password', panel: '<p>Change your password</p>' },
-          { tab: 'Team', panel: '<p>Manage your team</p>' },
-        ],
-      })
-    </section>
+            <section class="demo-section">
+                <h2>
+                    Accordion
+                </h2>
+                @accordion()
+                    <details open>
+                        <summary>
+                            Is it accessible?
+                            @svg('lucide:chevron-down')
+                        </summary>
+                        <section>
+                            Yes. It uses native disclosure semantics.
+                        </section>
+                    </details>
+                    <details>
+                        <summary>
+                            Is it styled?
+                            @svg('lucide:chevron-down')
+                        </summary>
+                        <section>
+                            Yes. It comes with basecoat styles.
+                        </section>
+                    </details>
+                @end
+            </section>
 
-    <section class="demo-section">
-      <h2>Dialog</h2>
-      @dialog({
-        id: 'demo-dialog',
-        trigger: 'Open dialog',
-        title: 'Edit profile',
-        description: 'Make changes to your profile here.',
-      })
-        @slot('main')
-          <p>Dialog body content.</p>
-        @end
-        @slot('footer')
-          @button({ variant: 'outline' })
-            Cancel
-          @end
-          @button()
-            Save
-          @end
-        @end
-      @end
-    </section>
+            <section class="demo-section">
+                <h2>
+                    Tabs
+                </h2>
+                @!tabs({
+                id: 'demo-tabs',
+                tabsets: [
+                { tab: 'Account', panel: '<p>Account settings</p>' },
+                { tab: 'Password', panel: '<p>Change your password</p>' },
+                { tab: 'Team', panel: '<p>Manage your team</p>' },
+                ],
+                })
+            </section>
 
-    <section class="demo-section">
-      <h2>Dropdown menu</h2>
-      @dropdownMenu({
-        id: 'demo-dropdown',
-        items: [
-          { label: 'Profile', type: 'item' },
-          { label: 'Settings', type: 'item' },
-          { type: 'separator' },
-          { label: 'Logout', type: 'item' },
-        ],
-      })
-        @slot('trigger')
-          Open menu
-        @end
-      @end
-    </section>
+            <section class="demo-section">
+                <h2>
+                    Dialog
+                </h2>
+                @dialog({
+                id: 'demo-dialog',
+                trigger: 'Open dialog',
+                title: 'Edit profile',
+                description: 'Make changes to your profile here.',
+                })
+                    @slot('main')
+                        <p>
+                            Dialog body content.
+                        </p>
+                    @end
+                    @slot('footer')
+                        @button({ variant: 'outline' })
+                            Cancel
+                        @end
+                        @button()
+                            Save
+                        @end
+                    @end
+                @end
+            </section>
 
-    <section class="demo-section">
-      <h2>Table</h2>
-      @table()
-        <thead>
-          <tr><th>Name</th><th>Status</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>Ada Lovelace</td><td>Active</td></tr>
-          <tr><td>Alan Turing</td><td>Active</td></tr>
-        </tbody>
-      @end
-    </section>
+            <section class="demo-section">
+                <h2>
+                    Dropdown menu
+                </h2>
+                @dropdownMenu({
+                id: 'demo-dropdown',
+                items: [
+                { label: 'Profile', type: 'item' },
+                { label: 'Settings', type: 'item' },
+                { type: 'separator' },
+                { label: 'Logout', type: 'item' },
+                ],
+                })
+                    @slot('trigger')
+                        Open menu
+                    @end
+                @end
+            </section>
 
-    <section class="demo-section">
-      <h2>Progress and skeleton</h2>
-      <div class="demo-row">
-        @!progress({ value: 60, max: 100 })
-        @skeleton()
-          <div style="height: 2rem; width: 12rem;"></div>
-        @end
-      </div>
-    </section>
+            <section class="demo-section">
+                <h2>
+                    Table
+                </h2>
+                @table()
+                    <thead>
+                        <tr>
+                            <th>
+                                Name
+                            </th>
+                            <th>
+                                Status
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                Ada Lovelace
+                            </td>
+                            <td>
+                                Active
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Alan Turing
+                            </td>
+                            <td>
+                                Active
+                            </td>
+                        </tr>
+                    </tbody>
+                @end
+            </section>
 
-    <section class="demo-section" id="optimistic-update">
-      <h2>Optimistic update</h2>
-      <p>Click re-renders <code>button.edge</code> in the browser via <code>edge-client</code>, morphing the DOM with Idiomorph before a simulated server confirm.</p>
-      <div id="like-button-host">
-        @button({ variant: 'outline', type: 'button', id: 'like-button' })
-          Like (<span data-like-count>12</span>)
-        @end
-      </div>
-      <p id="like-status" class="demo-muted"></p>
-    </section>
+            <section class="demo-section">
+                <h2>
+                    Progress and skeleton
+                </h2>
+                <div class="demo-row">
+                    @!progress({ value: 60, max: 100 })
+                    @skeleton()
+                        <div style="height: 2rem; width: 12rem;">
+                        </div>
+                    @end
+                </div>
+            </section>
 
-    <section class="demo-section">
-      <h2>Toast container</h2>
-      @!toast({
-        toasts: [
-          { category: 'success', title: 'Saved', description: 'Your changes have been saved.' },
-        ],
-      })
-    </section>
-  </div>
-  <script type="module">
-    import { renderButton } from '/client/templates.js'
+            <section class="demo-section" id="optimistic-update">
+                <h2>
+                    Optimistic update
+                </h2>
+                <p>
+                    Click re-renders <code>button.edge</code>in the browser via <code>edge-client</code>, morphing the DOM with Idiomorph before a simulated server confirm.
+                </p>
+                <div id="like-button-host">
+                    @button({ variant: 'outline', type: 'button', id: 'like-button' })
+                        Like (<span data-like-count>12</span>)
+                    @end
+                </div>
+                <p id="like-status" class="demo-muted">
+                </p>
+            </section>
 
-    const host = document.getElementById('like-button-host')
-    const status = document.getElementById('like-status')
-    if (host && status && globalThis.Idiomorph) {
-      let count = 12
-      let timer = null
+            <section class="demo-section">
+                <h2>
+                    Toast container
+                </h2>
+                @!toast({
+                toasts: [
+                { category: 'success', title: 'Saved', description: 'Your changes have been saved.' },
+                ],
+                })
+            </section>
+        </div>
+        <script type="module">
+            import {
+                renderButton
+            } from "/client/templates.js";
 
-      async function paint() {
-        const html = await renderButton(
-          { variant: 'outline', type: 'button', id: 'like-button' },
-          { main: async () => `Like (<span data-like-count>${count}</span>)` },
-        )
-        globalThis.Idiomorph.morph(host, html)
-      }
+            const host = document.getElementById("like-button-host");
 
-      host.addEventListener('click', async (event) => {
-        const button = event.target.closest('#like-button')
-        if (!button) return
-        count += 1
-        status.textContent = 'Saving…'
-        await paint()
-        if (timer) clearTimeout(timer)
-        timer = setTimeout(() => {
-          status.textContent = 'Saved (server confirmed)'
-        }, 700)
-      })
-    }
-  </script>
-  @!basecoatScripts()
-</body>
+            const status = document.getElementById("like-status");
+
+            if (host && status && globalThis.Idiomorph) {
+                let count = 12;
+                let timer = null;
+                async function paint() {
+                    const html = await renderButton({
+                        variant: "outline",
+                        type: "button",
+                        id: "like-button"
+                    }, {
+                        main: async () => `Like (<span data-like-count>${count}</span>)`
+                    });
+                    globalThis.Idiomorph.morph(host, html);
+                }
+                host.addEventListener("click", async event => {
+                    const button = event.target.closest("#like-button");
+                    if (!button) return;
+                    count += 1;
+                    status.textContent = "Saving…";
+                    await paint();
+                    if (timer) clearTimeout(timer);
+                    timer = setTimeout(() => {
+                        status.textContent = "Saved (server confirmed)";
+                    }, 700);
+                });
+            }
+        </script>
+        @!basecoatScripts()
+    </body>
 </html>

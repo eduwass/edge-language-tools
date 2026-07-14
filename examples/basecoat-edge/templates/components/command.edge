@@ -76,234 +76,270 @@
   })
 --}}
 @if(dialog)
-<dialog
-  {{
-    $props.merge({
+    <dialog
+        onclick="if (event.target === this) this.close()"
+        {{ $props.merge({
       class: 'command-dialog',
       'aria-label': 'Command menu',
-    }).except(['items', 'placeholder', 'empty_text', 'dialog', 'open', 'input_attrs', 'menu_attrs']).toAttrs()
-  }}
-  @if(open)
-  open
-  @end
-  onclick="if (event.target === this) this.close()"
->
-  <div class="command">
-    <header>
-      @svg('lucide:search')
-      <input type="text" id="{{ id }}-input" placeholder="{{ placeholder ?? 'Type a command or search...' }}" autocomplete="off" autocorrect="off" spellcheck="false" aria-autocomplete="list" role="combobox" aria-expanded="true" aria-controls="{{ id }}-menu" class="{{ input_attrs?.class ?? '' }}" />
-    </header>
-    <div role="menu" id="{{ id }}-menu" aria-orientation="vertical" data-empty="{{ empty_text ?? 'No results found.' }}" class="{{ menu_attrs?.class ?? '' }}">
-      @if(items && items.length)
-        @each((item, itemIndex) in items)
-          @if(item.type === 'group')
-            <div role="group" aria-labelledby="group-label-{{ id }}-{{ itemIndex + 1 }}">
-              <span role="heading" id="group-label-{{ id }}-{{ itemIndex + 1 }}">{{ item.label }}</span>
-              @if(item.items)
-                @each((sub, subIndex) in item.items)
-                  @if(sub.url)
-                    <a
-                      id="{{ id }}-items-{{ itemIndex + 1 }}-{{ subIndex + 1 }}"
-                      href="{{ sub.url }}"
-                      role="menuitem"
-                      data-filter="{{ sub.label }}"
-                      @if(sub.keywords)
-                      data-keywords="{{ sub.keywords }}"
-                      @end
-                      @if(sub.disabled)
-                      aria-disabled="true"
-                      @end
-                    >
-                      @if(sub.icon)
-                        @svg(sub.icon)
-                      @end
-                      <span>{{ sub.label }}</span>
-                      @if(sub.shortcut)
-                      <span data-shortcut>{{ sub.shortcut }}</span>
-                      @end
-                    </a>
-                  @else
-                    <div
-                      id="{{ id }}-items-{{ itemIndex + 1 }}-{{ subIndex + 1 }}"
-                      role="menuitem"
-                      data-filter="{{ sub.label }}"
-                      @if(sub.keywords)
-                      data-keywords="{{ sub.keywords }}"
-                      @end
-                      @if(sub.disabled)
-                      aria-disabled="true"
-                      @end
-                    >
-                      @if(sub.icon)
-                        @svg(sub.icon)
-                      @end
-                      <span>{{ sub.label }}</span>
-                      @if(sub.shortcut)
-                      <span data-shortcut>{{ sub.shortcut }}</span>
-                      @end
-                    </div>
-                  @end
-                @end
-              @end
-            </div>
-          @elseif(item.type === 'separator')
-            <hr role="separator" />
-          @elseif(item.url)
-            <a
-              id="{{ id }}-items-{{ itemIndex + 1 }}"
-              href="{{ item.url }}"
-              role="menuitem"
-              data-filter="{{ item.label }}"
-              @if(item.keywords)
-              data-keywords="{{ item.keywords }}"
-              @end
-              @if(item.disabled)
-              aria-disabled="true"
-              @end
-            >
-              @if(item.icon)
-                @svg(item.icon)
-              @end
-              <span>{{ item.label }}</span>
-                  @if(item.shortcut)
-                  <span data-shortcut>{{ item.shortcut }}</span>
-                  @end
-            </a>
-          @else
+    }).except(['items', 'placeholder', 'empty_text', 'dialog', 'open', 'input_attrs', 'menu_attrs']).toAttrs() }}
+        @if(open)
+        open
+        @end
+    >
+        <div class="command">
+            <header>
+                @svg('lucide:search')
+                <input
+                    type="text"
+                    id="{{ id }}-input"
+                    placeholder="{{ placeholder ?? 'Type a command or search...' }}"
+                    autocomplete="off"
+                    autocorrect="off"
+                    spellcheck="false"
+                    aria-autocomplete="list"
+                    role="combobox"
+                    aria-expanded="true"
+                    aria-controls="{{ id }}-menu"
+                    class="{{ input_attrs?.class ?? '' }}"
+                />
+            </header>
             <div
-              id="{{ id }}-items-{{ itemIndex + 1 }}"
-              role="menuitem"
-              data-filter="{{ item.label }}"
-              @if(item.keywords)
-              data-keywords="{{ item.keywords }}"
-              @end
-              @if(item.disabled)
-              aria-disabled="true"
-              @end
+                role="menu"
+                id="{{ id }}-menu"
+                aria-orientation="vertical"
+                data-empty="{{ empty_text ?? 'No results found.' }}"
+                class="{{ menu_attrs?.class ?? '' }}"
             >
-              @if(item.icon)
-                @svg(item.icon)
-              @end
-              <span>{{ item.label }}</span>
-                  @if(item.shortcut)
-                  <span data-shortcut>{{ item.shortcut }}</span>
-                  @end
-            </div>
-          @end
-        @end
-      @else
-        {{{ await $slots.main() }}}
-      @end
-    </div>
-  </div>
-</dialog>
-@else
-<div {{ $props.merge({ class: 'command', 'aria-label': 'Command menu' }).except(['items', 'placeholder', 'empty_text', 'dialog', 'open', 'input_attrs', 'menu_attrs']).toAttrs() }}>
-  <header>
-    @svg('lucide:search')
-    <input type="text" id="{{ id }}-input" placeholder="{{ placeholder ?? 'Type a command or search...' }}" autocomplete="off" autocorrect="off" spellcheck="false" aria-autocomplete="list" role="combobox" aria-expanded="true" aria-controls="{{ id }}-menu" class="{{ input_attrs?.class ?? '' }}" />
-  </header>
-  <div role="menu" id="{{ id }}-menu" aria-orientation="vertical" data-empty="{{ empty_text ?? 'No results found.' }}" class="{{ menu_attrs?.class ?? '' }}">
-    @if(items && items.length)
-      @each((item, itemIndex) in items)
-        @if(item.type === 'group')
-          <div role="group" aria-labelledby="group-label-{{ id }}-{{ itemIndex + 1 }}">
-            <span role="heading" id="group-label-{{ id }}-{{ itemIndex + 1 }}">{{ item.label }}</span>
-            @if(item.items)
-              @each((sub, subIndex) in item.items)
-                @if(sub.url)
-                  <a
-                    id="{{ id }}-items-{{ itemIndex + 1 }}-{{ subIndex + 1 }}"
-                    href="{{ sub.url }}"
-                    role="menuitem"
-                    data-filter="{{ sub.label }}"
-                    @if(sub.keywords)
-                    data-keywords="{{ sub.keywords }}"
+                @if(items && items.length)
+                    @each((item, itemIndex) in items)
+                        @if(item.type === 'group')
+                            <div role="group" aria-labelledby="group-label-{{ id }}-{{ itemIndex + 1 }}">
+                                <span role="heading" id="group-label-{{ id }}-{{ itemIndex + 1 }}">{{ item.label }}</span>
+                                @if(item.items)
+                                    @each((sub, subIndex) in item.items)
+                                        @if(sub.url)
+                                            <a
+                                                id="{{ id }}-items-{{ itemIndex + 1 }}-{{ subIndex + 1 }}"
+                                                href="{{ sub.url }}"
+                                                role="menuitem"
+                                                data-filter="{{ sub.label }}"
+                                                @if(sub.keywords)
+                                                data-keywords="{{ sub.keywords }}"
+                                                @end
+                                                @if(sub.disabled)
+                                                aria-disabled="true"
+                                                @end
+                                            >
+                                                @if(sub.icon)
+                                                    @svg(sub.icon)
+                                                @end
+                                                <span>{{ sub.label }}</span>
+                                                @if(sub.shortcut)
+                                                    <span data-shortcut>{{ sub.shortcut }}</span>
+                                                @end
+                                            </a>
+                                        @else
+                                            <div
+                                                id="{{ id }}-items-{{ itemIndex + 1 }}-{{ subIndex + 1 }}"
+                                                role="menuitem"
+                                                data-filter="{{ sub.label }}"
+                                                @if(sub.keywords)
+                                                data-keywords="{{ sub.keywords }}"
+                                                @end
+                                                @if(sub.disabled)
+                                                aria-disabled="true"
+                                                @end
+                                            >
+                                                @if(sub.icon)
+                                                    @svg(sub.icon)
+                                                @end
+                                                <span>{{ sub.label }}</span>
+                                                @if(sub.shortcut)
+                                                    <span data-shortcut>{{ sub.shortcut }}</span>
+                                                @end
+                                            </div>
+                                        @end
+                                    @end
+                                @end
+                            </div>
+                        @elseif(item.type === 'separator')
+                            <hr role="separator" />
+                        @elseif(item.url)
+                            <a
+                                id="{{ id }}-items-{{ itemIndex + 1 }}"
+                                href="{{ item.url }}"
+                                role="menuitem"
+                                data-filter="{{ item.label }}"
+                                @if(item.keywords)
+                                data-keywords="{{ item.keywords }}"
+                                @end
+                                @if(item.disabled)
+                                aria-disabled="true"
+                                @end
+                            >
+                                @if(item.icon)
+                                    @svg(item.icon)
+                                @end
+                                <span>{{ item.label }}</span>
+                                @if(item.shortcut)
+                                    <span data-shortcut>{{ item.shortcut }}</span>
+                                @end
+                            </a>
+                        @else
+                            <div
+                                id="{{ id }}-items-{{ itemIndex + 1 }}"
+                                role="menuitem"
+                                data-filter="{{ item.label }}"
+                                @if(item.keywords)
+                                data-keywords="{{ item.keywords }}"
+                                @end
+                                @if(item.disabled)
+                                aria-disabled="true"
+                                @end
+                            >
+                                @if(item.icon)
+                                    @svg(item.icon)
+                                @end
+                                <span>{{ item.label }}</span>
+                                @if(item.shortcut)
+                                    <span data-shortcut>{{ item.shortcut }}</span>
+                                @end
+                            </div>
+                        @end
                     @end
-                    @if(sub.disabled)
-                    aria-disabled="true"
-                    @end
-                  >
-                    @if(sub.icon)
-                      @svg(sub.icon)
-                    @end
-                    <span>{{ sub.label }}</span>
-                      @if(sub.shortcut)
-                      <span data-shortcut>{{ sub.shortcut }}</span>
-                      @end
-                  </a>
                 @else
-                  <div
-                    id="{{ id }}-items-{{ itemIndex + 1 }}-{{ subIndex + 1 }}"
-                    role="menuitem"
-                    data-filter="{{ sub.label }}"
-                    @if(sub.keywords)
-                    data-keywords="{{ sub.keywords }}"
-                    @end
-                    @if(sub.disabled)
-                    aria-disabled="true"
-                    @end
-                  >
-                    @if(sub.icon)
-                      @svg(sub.icon)
-                    @end
-                    <span>{{ sub.label }}</span>
-                      @if(sub.shortcut)
-                      <span data-shortcut>{{ sub.shortcut }}</span>
-                      @end
-                  </div>
+                    {{{ await $slots.main() }}}
                 @end
-              @end
+            </div>
+        </div>
+    </dialog>
+@else
+    <div
+        {{ $props.merge({ class: 'command', 'aria-label': 'Command menu' }).except(['items', 'placeholder', 'empty_text', 'dialog', 'open', 'input_attrs', 'menu_attrs']).toAttrs() }}
+    >
+        <header>
+            @svg('lucide:search')
+            <input
+                type="text"
+                id="{{ id }}-input"
+                placeholder="{{ placeholder ?? 'Type a command or search...' }}"
+                autocomplete="off"
+                autocorrect="off"
+                spellcheck="false"
+                aria-autocomplete="list"
+                role="combobox"
+                aria-expanded="true"
+                aria-controls="{{ id }}-menu"
+                class="{{ input_attrs?.class ?? '' }}"
+            />
+        </header>
+        <div
+            role="menu"
+            id="{{ id }}-menu"
+            aria-orientation="vertical"
+            data-empty="{{ empty_text ?? 'No results found.' }}"
+            class="{{ menu_attrs?.class ?? '' }}"
+        >
+            @if(items && items.length)
+                @each((item, itemIndex) in items)
+                    @if(item.type === 'group')
+                        <div role="group" aria-labelledby="group-label-{{ id }}-{{ itemIndex + 1 }}">
+                            <span role="heading" id="group-label-{{ id }}-{{ itemIndex + 1 }}">{{ item.label }}</span>
+                            @if(item.items)
+                                @each((sub, subIndex) in item.items)
+                                    @if(sub.url)
+                                        <a
+                                            id="{{ id }}-items-{{ itemIndex + 1 }}-{{ subIndex + 1 }}"
+                                            href="{{ sub.url }}"
+                                            role="menuitem"
+                                            data-filter="{{ sub.label }}"
+                                            @if(sub.keywords)
+                                            data-keywords="{{ sub.keywords }}"
+                                            @end
+                                            @if(sub.disabled)
+                                            aria-disabled="true"
+                                            @end
+                                        >
+                                            @if(sub.icon)
+                                                @svg(sub.icon)
+                                            @end
+                                            <span>{{ sub.label }}</span>
+                                            @if(sub.shortcut)
+                                                <span data-shortcut>{{ sub.shortcut }}</span>
+                                            @end
+                                        </a>
+                                    @else
+                                        <div
+                                            id="{{ id }}-items-{{ itemIndex + 1 }}-{{ subIndex + 1 }}"
+                                            role="menuitem"
+                                            data-filter="{{ sub.label }}"
+                                            @if(sub.keywords)
+                                            data-keywords="{{ sub.keywords }}"
+                                            @end
+                                            @if(sub.disabled)
+                                            aria-disabled="true"
+                                            @end
+                                        >
+                                            @if(sub.icon)
+                                                @svg(sub.icon)
+                                            @end
+                                            <span>{{ sub.label }}</span>
+                                            @if(sub.shortcut)
+                                                <span data-shortcut>{{ sub.shortcut }}</span>
+                                            @end
+                                        </div>
+                                    @end
+                                @end
+                            @end
+                        </div>
+                    @elseif(item.type === 'separator')
+                        <hr role="separator" />
+                    @elseif(item.url)
+                        <a
+                            id="{{ id }}-items-{{ itemIndex + 1 }}"
+                            href="{{ item.url }}"
+                            role="menuitem"
+                            data-filter="{{ item.label }}"
+                            @if(item.keywords)
+                            data-keywords="{{ item.keywords }}"
+                            @end
+                            @if(item.disabled)
+                            aria-disabled="true"
+                            @end
+                        >
+                            @if(item.icon)
+                                @svg(item.icon)
+                            @end
+                            <span>{{ item.label }}</span>
+                            @if(item.shortcut)
+                                <span data-shortcut>{{ item.shortcut }}</span>
+                            @end
+                        </a>
+                    @else
+                        <div
+                            id="{{ id }}-items-{{ itemIndex + 1 }}"
+                            role="menuitem"
+                            data-filter="{{ item.label }}"
+                            @if(item.keywords)
+                            data-keywords="{{ item.keywords }}"
+                            @end
+                            @if(item.disabled)
+                            aria-disabled="true"
+                            @end
+                        >
+                            @if(item.icon)
+                                @svg(item.icon)
+                            @end
+                            <span>{{ item.label }}</span>
+                            @if(item.shortcut)
+                                <span data-shortcut>{{ item.shortcut }}</span>
+                            @end
+                        </div>
+                    @end
+                @end
+            @else
+                {{{ await $slots.main() }}}
             @end
-          </div>
-        @elseif(item.type === 'separator')
-          <hr role="separator" />
-        @elseif(item.url)
-          <a
-            id="{{ id }}-items-{{ itemIndex + 1 }}"
-            href="{{ item.url }}"
-            role="menuitem"
-            data-filter="{{ item.label }}"
-            @if(item.keywords)
-            data-keywords="{{ item.keywords }}"
-            @end
-            @if(item.disabled)
-            aria-disabled="true"
-            @end
-          >
-            @if(item.icon)
-              @svg(item.icon)
-            @end
-            <span>{{ item.label }}</span>
-                  @if(item.shortcut)
-                  <span data-shortcut>{{ item.shortcut }}</span>
-                  @end
-          </a>
-        @else
-          <div
-            id="{{ id }}-items-{{ itemIndex + 1 }}"
-            role="menuitem"
-            data-filter="{{ item.label }}"
-            @if(item.keywords)
-            data-keywords="{{ item.keywords }}"
-            @end
-            @if(item.disabled)
-            aria-disabled="true"
-            @end
-          >
-            @if(item.icon)
-              @svg(item.icon)
-            @end
-            <span>{{ item.label }}</span>
-                  @if(item.shortcut)
-                  <span data-shortcut>{{ item.shortcut }}</span>
-                  @end
-          </div>
-        @end
-      @end
-    @else
-      {{{ await $slots.main() }}}
-    @end
-  </div>
-</div>
+        </div>
+    </div>
 @end

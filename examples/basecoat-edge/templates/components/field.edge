@@ -23,15 +23,19 @@
   @end
 --}}
 <div {{ $props.merge({ class: 'field', role: 'group' }).except(['label', 'description']).toAttrs() }}>
-  @if($slots.label)
-    {{{ await $slots.label() }}}
-  @elseif(label)
-    <label>{{ label }}</label>
-  @end
-  {{{ await $slots.main() }}}
-  @if($slots.description)
-    <p>{{{ await $slots.description() }}}</p>
-  @elseif(description)
-    <p>{{ description }}</p>
-  @end
+    @if($slots.label)
+        {{{ await $slots.label() }}}
+    @elseif(label)
+        <label>{{ label }}</label>
+    @end
+    {{{ await $slots.main() }}}
+    @if($slots.description)
+        <p>
+            {{{ await $slots.description() }}}
+        </p>
+    @elseif(description)
+        <p>
+            {{ description }}
+        </p>
+    @end
 </div>

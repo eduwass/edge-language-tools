@@ -29,33 +29,35 @@
 @example
   @!checkbox({ name: 'terms', label: 'Accept terms' })
 --}}
-<label {{ $props.merge({ class: 'label' }).except(['name', 'value', 'checked', 'disabled', 'required', 'id', 'label']).toAttrs() }}>
-  <input
-    type="checkbox"
-    class="input"
-    @if(id)
-    id="{{ id }}"
+<label
+    {{ $props.merge({ class: 'label' }).except(['name', 'value', 'checked', 'disabled', 'required', 'id', 'label']).toAttrs() }}
+>
+    <input
+        type="checkbox"
+        class="input"
+        @if(id)
+        id="{{ id }}"
+        @end
+        @if(name)
+        name="{{ name }}"
+        @end
+        @if(value)
+        value="{{ value }}"
+        @end
+        @if(checked)
+        checked
+        @end
+        @if(disabled)
+        disabled
+        @end
+        @if(required)
+        required
+        @end
+    />
+    @let(body = await $slots.main())
+    @if(body && body.trim())
+        {{{ body }}}
+    @elseif(label)
+        <span>{{ label }}</span>
     @end
-    @if(name)
-    name="{{ name }}"
-    @end
-    @if(value)
-    value="{{ value }}"
-    @end
-    @if(checked)
-    checked
-    @end
-    @if(disabled)
-    disabled
-    @end
-    @if(required)
-    required
-    @end
-  />
-  @let(body = await $slots.main())
-  @if(body && body.trim())
-    {{{ body }}}
-  @elseif(label)
-    <span>{{ label }}</span>
-  @end
 </label>

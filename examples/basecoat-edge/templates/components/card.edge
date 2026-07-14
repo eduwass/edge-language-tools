@@ -31,29 +31,29 @@
     @end
   @end
 --}}
-<div {{
-  $props.merge({
+<div
+    {{ $props.merge({
     class: 'card',
     ...(size ? { 'data-size': size } : {}),
-  }).except(['size']).toAttrs()
-}}>
-  @if($slots.header)
-    <header>
-      {{{ await $slots.header() }}}
-    </header>
-  @end
-  @if($slots.section)
-    <section>
-      {{{ await $slots.section() }}}
-    </section>
-  @elseif($slots.main)
-    <section>
-      {{{ await $slots.main() }}}
-    </section>
-  @end
-  @if($slots.footer)
-    <footer>
-      {{{ await $slots.footer() }}}
-    </footer>
-  @end
+  }).except(['size']).toAttrs() }}
+>
+    @if($slots.header)
+        <header>
+            {{{ await $slots.header() }}}
+        </header>
+    @end
+    @if($slots.section)
+        <section>
+            {{{ await $slots.section() }}}
+        </section>
+    @elseif($slots.main)
+        <section>
+            {{{ await $slots.main() }}}
+        </section>
+    @end
+    @if($slots.footer)
+        <footer>
+            {{{ await $slots.footer() }}}
+        </footer>
+    @end
 </div>

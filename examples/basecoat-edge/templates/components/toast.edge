@@ -52,101 +52,105 @@
   })
 --}}
 @if(toasts)
-<div {{
-  $props.merge({
+    <div
+        {{ $props.merge({
     class: 'toaster',
     id: id ?? 'toaster',
-  }).except(['id', 'toasts', 'category', 'title', 'description', 'duration', 'action', 'cancel']).toAttrs()
-}}>
-  @each((item, itemIndex) in toasts)
-    <div
-      class="toast"
-      role="{{ item.category === 'error' ? 'alert' : 'status' }}"
-      aria-atomic="true"
-      aria-hidden="false"
-      {{
-        html.attrs({
+  }).except(['id', 'toasts', 'category', 'title', 'description', 'duration', 'action', 'cancel']).toAttrs() }}
+    >
+        @each((item, itemIndex) in toasts)
+            <div
+                class="toast"
+                role="{{ item.category === 'error' ? 'alert' : 'status' }}"
+                aria-atomic="true"
+                aria-hidden="false"
+                {{ html.attrs({
           ...(item.category ? { 'data-category': item.category } : {}),
           ...(item.duration !== undefined ? { 'data-duration': item.duration } : {}),
-        })
-      }}
-    >
-      <div class="toast-content">
-        @if(item.category === 'success')
-          @svg('lucide:circle-check', { 'aria-hidden': 'true' })
-        @elseif(item.category === 'error')
-          @svg('lucide:circle-x', { 'aria-hidden': 'true' })
-        @elseif(item.category === 'info')
-          @svg('lucide:info', { 'aria-hidden': 'true' })
-        @elseif(item.category === 'warning')
-          @svg('lucide:triangle-alert', { 'aria-hidden': 'true' })
+        }) }}
+            >
+                <div class="toast-content">
+                    @if(item.category === 'success')
+                        @svg('lucide:circle-check', { 'aria-hidden': 'true' })
+                    @elseif(item.category === 'error')
+                        @svg('lucide:circle-x', { 'aria-hidden': 'true' })
+                    @elseif(item.category === 'info')
+                        @svg('lucide:info', { 'aria-hidden': 'true' })
+                    @elseif(item.category === 'warning')
+                        @svg('lucide:triangle-alert', { 'aria-hidden': 'true' })
+                    @end
+                    <section>
+                        @if(item.title)
+                            <h2>
+                                {{ item.title }}
+                            </h2>
+                        @end
+                        @if(item.description)
+                            <p>
+                                {{ item.description }}
+                            </p>
+                        @end
+                    </section>
+                </div>
+            </div>
         @end
-        <section>
-          @if(item.title)
-            <h2>{{ item.title }}</h2>
-          @end
-          @if(item.description)
-            <p>{{ item.description }}</p>
-          @end
-        </section>
-      </div>
+        {{{ await $slots.main() }}}
     </div>
-  @end
-  {{{ await $slots.main() }}}
-</div>
 @else
-<div
-  {{
-    $props.merge({
+    <div
+        {{ $props.merge({
       class: 'toast',
       role: category === 'error' ? 'alert' : 'status',
       'aria-atomic': 'true',
       'aria-hidden': 'false',
       ...(category ? { 'data-category': category } : {}),
       ...(duration !== undefined ? { 'data-duration': duration } : {}),
-    }).except(['id', 'toasts', 'category', 'title', 'description', 'duration', 'action', 'cancel']).toAttrs()
-  }}
->
-  <div class="toast-content">
-    @if(category === 'success')
-      @svg('lucide:circle-check', { 'aria-hidden': 'true' })
-    @elseif(category === 'error')
-      @svg('lucide:circle-x', { 'aria-hidden': 'true' })
-    @elseif(category === 'info')
-      @svg('lucide:info', { 'aria-hidden': 'true' })
-    @elseif(category === 'warning')
-      @svg('lucide:triangle-alert', { 'aria-hidden': 'true' })
-    @end
-    <section>
-      @if(title)
-        <h2>{{ title }}</h2>
-      @end
-      @if(description)
-        <p>{{ description }}</p>
-      @end
-    </section>
-    @if(action || cancel)
-      <footer>
-        @if(action)
-          @if(action.href)
-            <a href="{{ action.href }}" class="btn" data-size="sm" data-toast-action>{{ action.label }}</a>
-          @else
-            <button type="button" class="btn" data-size="sm" data-toast-action>
-              {{ action.label }}
+    }).except(['id', 'toasts', 'category', 'title', 'description', 'duration', 'action', 'cancel']).toAttrs() }}
+    >
+        <div class="toast-content">
+            @if(category === 'success')
+                @svg('lucide:circle-check', { 'aria-hidden': 'true' })
+            @elseif(category === 'error')
+                @svg('lucide:circle-x', { 'aria-hidden': 'true' })
+            @elseif(category === 'info')
+                @svg('lucide:info', { 'aria-hidden': 'true' })
+            @elseif(category === 'warning')
+                @svg('lucide:triangle-alert', { 'aria-hidden': 'true' })
+            @end
+            <section>
+                @if(title)
+                    <h2>
+                        {{ title }}
+                    </h2>
+                @end
+                @if(description)
+                    <p>
+                        {{ description }}
+                    </p>
+                @end
+            </section>
+            @if(action || cancel)
+                <footer>
+                    @if(action)
+                        @if(action.href)
+                            <a href="{{ action.href }}" class="btn" data-size="sm" data-toast-action>{{ action.label }}</a>
+                        @else
+                            <button type="button" class="btn" data-size="sm" data-toast-action>
+                                {{ action.label }}
             </button>
-          @end
-        @end
-        @if(cancel)
-          @if(cancel.href)
-            <a href="{{ cancel.href }}" class="btn" data-variant="outline" data-size="sm" data-toast-cancel>{{ cancel.label }}</a>
-          @else
-            <button type="button" class="btn" data-variant="outline" data-size="sm" data-toast-cancel>
-              {{ cancel.label }}
+                        @end
+                    @end
+                    @if(cancel)
+                        @if(cancel.href)
+                            <a href="{{ cancel.href }}" class="btn" data-variant="outline" data-size="sm" data-toast-cancel>{{ cancel.label }}</a>
+                        @else
+                            <button type="button" class="btn" data-variant="outline" data-size="sm" data-toast-cancel>
+                                {{ cancel.label }}
             </button>
-          @end
-        @end
-      </footer>
-    @end
-  </div>
-</div>
+                        @end
+                    @end
+                </footer>
+            @end
+        </div>
+    </div>
 @end

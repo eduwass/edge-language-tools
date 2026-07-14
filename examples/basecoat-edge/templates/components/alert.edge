@@ -25,30 +25,34 @@
     @end
   @end
 --}}
-<div {{
-  $props.merge({
+<div
+    {{ $props.merge({
     class: 'alert',
     ...(variant === 'destructive' ? { 'data-variant': 'destructive' } : {}),
-  }).except(['variant', 'title', 'description']).toAttrs()
-}}>
-  @if($slots.icon)
-    {{{ await $slots.icon() }}}
-  @end
-  @if($slots.title)
-    {{{ await $slots.title() }}}
-  @elseif(title)
-    <h2>{{ title }}</h2>
-  @end
-  @if($slots.section)
-    <section>
-      {{{ await $slots.section() }}}
-    </section>
-  @elseif(description)
-    <section>{{ description }}</section>
-  @end
-  @if($slots.footer)
-    <footer>
-      {{{ await $slots.footer() }}}
-    </footer>
-  @end
+  }).except(['variant', 'title', 'description']).toAttrs() }}
+>
+    @if($slots.icon)
+        {{{ await $slots.icon() }}}
+    @end
+    @if($slots.title)
+        {{{ await $slots.title() }}}
+    @elseif(title)
+        <h2>
+            {{ title }}
+        </h2>
+    @end
+    @if($slots.section)
+        <section>
+            {{{ await $slots.section() }}}
+        </section>
+    @elseif(description)
+        <section>
+            {{ description }}
+        </section>
+    @end
+    @if($slots.footer)
+        <footer>
+            {{{ await $slots.footer() }}}
+        </footer>
+    @end
 </div>

@@ -25,12 +25,12 @@
   @!avatar({ fallback: 'CN' })
 --}}
 <span {{ $props.merge({ class: 'avatar' }).except(['src', 'alt', 'fallback']).toAttrs() }}>
-  @if(src)
-    <img src="{{ src }}" alt="{{ alt ?? '' }}" />
-    <span>{{ fallback ?? '' }}</span>
-  @elseif(fallback)
-    <span>{{ fallback }}</span>
-  @else
-    {{{ await $slots.main() }}}
-  @end
+    @if(src)
+        <img src="{{ src }}" alt="{{ alt ?? '' }}" />
+        <span>{{ fallback ?? '' }}</span>
+    @elseif(fallback)
+        <span>{{ fallback }}</span>
+    @else
+        {{{ await $slots.main() }}}
+    @end
 </span>

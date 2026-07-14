@@ -11,8 +11,11 @@
 --}}
 @let(mode = basecoatAssets?.mode ?? 'cdn')
 @if(mode === 'cdn')
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/basecoat-css@1.0.2/dist/basecoat.cdn.min.css" />
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/basecoat-css@1.0.2/dist/basecoat.cdn.min.css"
+    />
 @elseif(mode === 'local')
-@let(base = basecoatAssets?.base ?? '/vendor/basecoat')
-<link rel="stylesheet" href="{{ base }}/basecoat.cdn.min.css" />
+    @let(base = basecoatAssets?.base ?? '/vendor/basecoat')
+    <link rel="stylesheet" href="{{ base }}/basecoat.cdn.min.css" />
 @end

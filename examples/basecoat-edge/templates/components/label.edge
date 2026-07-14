@@ -20,11 +20,11 @@
     Email address
   @end
 --}}
-<label {{
-  $props.merge({
+<label
+    {{ $props.merge({
     class: 'label',
     ...(htmlFor ? { for: htmlFor } : {}),
-  }).except(['htmlFor']).toAttrs()
-}}>
-  {{{ await $slots.main() }}}
+  }).except(['htmlFor']).toAttrs() }}
+>
+    {{{ await $slots.main() }}}
 </label>

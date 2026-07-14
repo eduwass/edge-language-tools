@@ -45,34 +45,41 @@
   })
 --}}
 @if((basecoatAssets?.mode ?? 'cdn') !== 'none')
-@pushOnceTo('basecoat:scripts')
-@if((basecoatAssets?.mode ?? 'cdn') === 'local')
-@let(base = basecoatAssets?.base ?? '/vendor/basecoat')
-<script src="{{ base }}/js/chart.umd.min.js"></script>
-<script src="{{ base }}/js/chart.min.js" defer></script>
-@else
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/basecoat-css@1.0.2/dist/js/chart.min.js" defer></script>
-@end
-@end
+    @pushOnceTo('basecoat:scripts')
+        @if((basecoatAssets?.mode ?? 'cdn') === 'local')
+            @let(base = basecoatAssets?.base ?? '/vendor/basecoat')
+            <script src="{{ base }}/js/chart.umd.min.js">
+
+            </script>
+            <script src="{{ base }}/js/chart.min.js" defer>
+
+            </script>
+        @else
+            <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js">
+
+            </script>
+            <script src="https://cdn.jsdelivr.net/npm/basecoat-css@1.0.2/dist/js/chart.min.js" defer>
+
+            </script>
+        @end
+    @end
 @end
 <canvas
-  {{
-    $props.merge({
+    {{ $props.merge({
       ...(label ? { 'aria-label': label } : {}),
-    }).except(['basecoatAssets', 'label', 'type', 'labelKey', 'data', 'series']).toAttrs()
-  }}
-></canvas>
+    }).except(['basecoatAssets', 'label', 'type', 'labelKey', 'data', 'series']).toAttrs() }}
+>
+</canvas>
 @if(data)
-<script>
-  (function init() {
-    if (!window.basecoat || !window.basecoat.chart) return setTimeout(init, 50)
-    window.basecoat.chart('#{{ id }}', {
-      type: {{{ JSON.stringify(type ?? 'bar') }}},
-      labelKey: {{{ JSON.stringify(labelKey ?? 'label') }}},
-      data: {{{ JSON.stringify(data) }}},
-      series: {{{ JSON.stringify(series ?? {}) }}},
-    })
-  })()
-</script>
+    <script>
+        (function init() {
+            if (!window.basecoat || !window.basecoat.chart) return setTimeout(init, 50);
+            window.basecoat.chart("#{{ id }}", {
+                type: {{{ JSON.stringify(type ?? 'bar') }}},
+                labelKey: {{{ JSON.stringify(labelKey ?? 'label') }}},
+                data: {{{ JSON.stringify(data) }}},
+                series: {{{ JSON.stringify(series ?? {}) }}}
+            });
+        })();
+    </script>
 @end

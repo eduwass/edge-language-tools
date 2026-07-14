@@ -1,0 +1,13 @@
+**/*.ts
+**/*.tsx
+**/*.js
+**/*.mjs
+**/*.json
+**/*.md
+**/*.mdx
+**/node_modules/**
+**/.blume-verify/**
+teaser/**
+packages/core/fixtures/**
+packages/language-server/tests/**
+packages/client/tests/**
