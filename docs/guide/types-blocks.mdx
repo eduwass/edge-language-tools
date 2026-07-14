@@ -3,10 +3,10 @@ title: The @types block
 description: Declaring a template's interface.
 ---
 
-A `@types` block is the template's function signature. It can be written as a comment (works everywhere, zero setup) or as a real tag (needs one line of runtime setup, but formats with Prettier and reads like the rest of the template). Both accept the same bodies: an object literal or any TypeScript type expression.
+A `@types` block is the template's function signature, written in a comment — it works with plain Edge, requires zero runtime changes, and can never affect rendering. The body is an object literal or any TypeScript type expression.
 
 <Tabs>
-  <Tab title="Comment form">
+  <Tab title="Object literal">
     <CodeGroup>
     ```edge profile.edge
     {{--
@@ -18,40 +18,14 @@ A `@types` block is the template's function signature. It can be written as a co
     ```
     </CodeGroup>
 
-    Works with plain Edge, no runtime changes. This is the default — reach for it first.
-  </Tab>
-  <Tab title="Tag form">
-    <CodeGroup>
-    ```edge profile.edge
-    @types()
-      user: { name: string, email: string }
-      posts: { title: string, body: string }[]
-    @end
-    ```
-    </CodeGroup>
-
-    Real Edge doesn't know the `@types` tag yet, so it needs to be registered once at startup — otherwise it renders its body as literal text. `@edge-language-tools/edge-plugin` supplies a no-op tag that consumes it silently:
-
-    ```ts app/edge.ts
-    import { Edge } from 'edge.js'
-    import { registerTypesTag } from '@edge-language-tools/edge-plugin'
-
-    const edge = Edge.create()
-    registerTypesTag(edge)
-    ```
-
-    If both forms appear in the same template, the tag form wins — the comment form is skipped entirely.
+    The common case: declare the props right where they're used.
   </Tab>
   <Tab title="Imported type expression">
-    The body accepts any TypeScript type expression, so shared shapes live in real `.ts` files. Works in either form:
+    The body accepts any TypeScript type expression, so shared shapes live in real `.ts` files:
 
     <CodeGroup>
     ```edge dashboard.edge
     {{-- @types import('./shared/layout.types.ts').Props --}}
-    ```
-    ```edge dashboard.edge
-    @types(import('./shared/layout.types.ts').Props)
-    @end
     ```
     ```ts shared/layout.types.ts
     export interface Props {
@@ -71,10 +45,6 @@ Imports resolve through your project's `tsconfig.json`, so path aliases work —
 {{-- @types { user: import('#models/user').User } --}}
 ```
 
-<Panel title="Why the tag form has an empty `@end` for a single-line type">
-  Edge's tokenizer requires a block tag to always have a matching `@end`, whether or not its body is empty — `@types(expr)` with no closing tag isn't valid Edge grammar. The comment form doesn't have this restriction, so it stays the more compact option for a one-line import expression.
-</Panel>
-
 ## The doc header: `@name` and `@desc`
 
 The same comment can carry documentation — JSDoc for templates. `@name` takes the rest of its line; `@desc` runs until the next directive or the comment's end:
@@ -90,7 +60,7 @@ The same comment can carry documentation — JSDoc for templates. `@name` takes 
 --}}
 ```
 
-Editors surface all three together: hover `@userCard` (or the path string in `@component('components/user_card', ...)`) anywhere it's used and you get the name, the description, and the props signature. The same card appears in the `@` tag-completion popup, so a component library documents itself as you browse. Comment form only — the `@types()` tag form stays types-only. Stock Edge ignores comments, so none of this touches rendering.
+Editors surface all three together: hover `@userCard` (or the path string in `@component('components/user_card', ...)`) anywhere it's used and you get the name, the description, and the props signature. The same card appears in the `@` tag-completion popup, so a component library documents itself as you browse. Stock Edge ignores comments, so none of this touches rendering.
 
 ## What's inferred (never declared)
 

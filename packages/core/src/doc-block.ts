@@ -1,6 +1,6 @@
 import type { CommentToken } from 'edge-lexer/types'
 import { LineIndex } from './offsets.ts'
-import { findTypesBlock, findTypesTag } from './types-block.ts'
+import { findTypesBlock } from './types-block.ts'
 import { tokenize } from './tokenize.ts'
 
 /**
@@ -15,7 +15,7 @@ import { tokenize } from './tokenize.ts'
  *   --}}
  *
  * `@name` is rest-of-line; `@desc` runs until the next directive line or the
- * comment's end. Comment form only — the `@types()` tag form stays types-only.
+ * comment's end.
  */
 export interface TemplateDocs {
   name: string | null
@@ -36,7 +36,7 @@ export function templateDocs(source: string, filename: string): TemplateDocs {
   }
   const lines = new LineIndex(source)
   const comments = tokens.filter((t): t is CommentToken => t.type === 'comment')
-  const types = findTypesTag(tokens, lines) ?? findTypesBlock(comments, lines)
+  const types = findTypesBlock(comments, lines)
 
   let name: string | null = null
   let desc: string | null = null

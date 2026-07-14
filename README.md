@@ -33,13 +33,6 @@ Everything below the block is inferred by TypeScript: `@let` locals,
 `@each` item types, narrowing in `@if`. Templates without a block stay
 unchecked — adoption is gradual and can never break rendering.
 
-The comment form above is the default — zero setup, works with plain Edge. A
-real `@types() ... @end` tag form also exists for templates that would rather
-declare their interface as markup than a comment; it needs
-`@edge-language-tools/edge-plugin` registered once at startup. See
-[the types-blocks guide](https://eduwass.github.io/edge-language-tools/guide/types-blocks)
-for both forms.
-
 ## How it works
 
 The core generates a virtual TypeScript module per template (expressions

@@ -22,5 +22,4 @@ export const BUILTIN_TAGS: { name: string; seekable: boolean; doc: string }[] = 
   { name: 'stack', seekable: true, doc: "Placeholder where pushed content renders: `@stack('scripts')`." },
   { name: 'unless', seekable: true, doc: 'Inverted conditional block — renders when the expression is falsy.' },
   { name: 'end', seekable: false, doc: 'Closes the nearest open block tag.' },
-  { name: 'types', seekable: true, doc: "edge-language-tools: declares the template's props interface (tag form of the `@types` block). Needs `registerTypesTag` from `@edge-language-tools/edge-plugin` at runtime." },
 ]

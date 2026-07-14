@@ -20,7 +20,6 @@ An honest inventory. Everything here is additive — none of it blocks using wha
 - **Plugin-registered tags** are guessed as block tags (their runtime shape is statically unknowable). If the guess breaks parsing, the template degrades gracefully — see the coverage notes in the README.
 - **`@let` can't shadow a declared prop.** Locals are emitted in the template's single scope, so `@let(user = ...)` collides with a declared `user` prop instead of shadowing it per-block.
 - **Editor staleness on cross-file edits.** The language server re-reads a component's `@types` from disk when the *caller* regenerates — editing a component's types doesn't immediately re-check already-open callers until they change.
-- **`@name` / `@desc` are comment-form only.** The `@types()` tag form stays types-only for now.
 
 ## Planned
 
@@ -37,4 +36,4 @@ An honest inventory. Everything here is additive — none of it blocks using wha
 These add syntax surface, so they're parked as open questions for the [upstream discussion (edge-js/edge#160)](https://github.com/edge-js/edge/issues/160) rather than shipped unilaterally:
 
 - **`@slots` directive** — `@slots { content: { cardSize: string } }` alongside `@types`, giving slot-name checking at call sites and typed scoped-slot payloads inside the component. Maps 1:1 onto Edge's existing runtime model; undeclared slots keep today's unchecked behavior.
-- **Comment form vs tag form** as the canonical `@types` syntax — both are implemented so maintainers can choose.
+- **A real `@types() ... @end` tag form.** A prototype existed (with a runtime no-op plugin) and was removed to keep the proposal surface minimal — the comment form needs no runtime registration and can never affect rendering. If maintainers prefer tag syntax, the prototype is in the git history.
