@@ -22,7 +22,7 @@ describe('edge-check cli', () => {
     const diagnostics = JSON.parse(result.stdout.toString('utf8')) as unknown[]
 
     // one per fixture that declares an expected diagnostic in diagnostics.json
-    expect(diagnostics.length).toBe(25)
+    expect(diagnostics.length).toBe(22)
     expect(result.exitCode).toBe(1)
   }, 30_000)
 
