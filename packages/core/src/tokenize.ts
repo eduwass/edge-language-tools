@@ -21,6 +21,14 @@ const tags: Tags = {
   stack: { block: false, seekable: true },
   pushTo: { block: true, seekable: true },
   pushOnceTo: { block: true, seekable: true },
+  // seekable:true is required even for the bare block form (`@types()...@end`)
+  // — edge-lexer throws "Missing token (" for a block:true tag with
+  // seekable:false when the source omits parens, but seekable:true requires
+  // parens to always be present, so the block form carries empty `()`. The
+  // same {block:true, seekable:true} shape also parses the inline expression
+  // form `@types(expr)` followed immediately by `@end` (empty body) —
+  // verified directly against edge-lexer's Tokenizer, see types-block.ts.
+  types: { block: true, seekable: true },
 }
 
 /**
