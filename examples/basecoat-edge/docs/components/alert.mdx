@@ -7,7 +7,7 @@ description: Alert banner with optional destructive variant; use icon, title, se
 
 ## Preview
 
-<Playground component="alert" schema={{"controls":{"variant":{"kind":"select","options":["default","destructive"]},"title":{"kind":"text"},"description":{"kind":"text"}},"defaultProps":{"variant":"default","title":"Heads up","description":"You can add components to your app."},"defaultSlot":"","previewSlug":"alert"}} minHeight={160} />
+<Playground component="alert" schema={{"controls":{"variant":{"kind":"select","options":["default","destructive"]},"title":{"kind":"text"},"description":{"kind":"text"}},"defaultProps":{"variant":"default","title":"Heads up","description":"You can add components to your app."},"defaultSlot":"  @slot('icon')\n    @svg('lucide:info')\n  @end","previewSlug":"alert"}} minHeight={160} />
 
 ## Props
 

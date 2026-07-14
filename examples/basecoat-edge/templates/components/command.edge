@@ -67,9 +67,38 @@
               @if(item.items)
                 @each((sub, subIndex) in item.items)
                   @if(sub.url)
-                    <a id="{{ id }}-items-{{ itemIndex + 1 }}-{{ subIndex + 1 }}" href="{{ sub.url }}" role="menuitem">{{ sub.label }}</a>
+                    <a
+                      id="{{ id }}-items-{{ itemIndex + 1 }}-{{ subIndex + 1 }}"
+                      href="{{ sub.url }}"
+                      role="menuitem"
+                      @if(sub.keywords)
+                      data-keywords="{{ sub.keywords }}"
+                      @end
+                      @if(sub.disabled)
+                      aria-disabled="true"
+                      @end
+                    >
+                      @if(sub.icon)
+                        @svg(sub.icon)
+                      @end
+                      <span>{{ sub.label }}</span>
+                    </a>
                   @else
-                    <div id="{{ id }}-items-{{ itemIndex + 1 }}-{{ subIndex + 1 }}" role="menuitem">{{ sub.label }}</div>
+                    <div
+                      id="{{ id }}-items-{{ itemIndex + 1 }}-{{ subIndex + 1 }}"
+                      role="menuitem"
+                      @if(sub.keywords)
+                      data-keywords="{{ sub.keywords }}"
+                      @end
+                      @if(sub.disabled)
+                      aria-disabled="true"
+                      @end
+                    >
+                      @if(sub.icon)
+                        @svg(sub.icon)
+                      @end
+                      <span>{{ sub.label }}</span>
+                    </div>
                   @end
                 @end
               @end
@@ -77,9 +106,38 @@
           @elseif(item.type === 'separator')
             <hr role="separator" />
           @elseif(item.url)
-            <a id="{{ id }}-items-{{ itemIndex + 1 }}" href="{{ item.url }}" role="menuitem">{{ item.label }}</a>
+            <a
+              id="{{ id }}-items-{{ itemIndex + 1 }}"
+              href="{{ item.url }}"
+              role="menuitem"
+              @if(item.keywords)
+              data-keywords="{{ item.keywords }}"
+              @end
+              @if(item.disabled)
+              aria-disabled="true"
+              @end
+            >
+              @if(item.icon)
+                @svg(item.icon)
+              @end
+              <span>{{ item.label }}</span>
+            </a>
           @else
-            <div id="{{ id }}-items-{{ itemIndex + 1 }}" role="menuitem">{{ item.label }}</div>
+            <div
+              id="{{ id }}-items-{{ itemIndex + 1 }}"
+              role="menuitem"
+              @if(item.keywords)
+              data-keywords="{{ item.keywords }}"
+              @end
+              @if(item.disabled)
+              aria-disabled="true"
+              @end
+            >
+              @if(item.icon)
+                @svg(item.icon)
+              @end
+              <span>{{ item.label }}</span>
+            </div>
           @end
         @end
       @else
@@ -103,9 +161,38 @@
             @if(item.items)
               @each((sub, subIndex) in item.items)
                 @if(sub.url)
-                  <a id="{{ id }}-items-{{ itemIndex + 1 }}-{{ subIndex + 1 }}" href="{{ sub.url }}" role="menuitem">{{ sub.label }}</a>
+                  <a
+                    id="{{ id }}-items-{{ itemIndex + 1 }}-{{ subIndex + 1 }}"
+                    href="{{ sub.url }}"
+                    role="menuitem"
+                    @if(sub.keywords)
+                    data-keywords="{{ sub.keywords }}"
+                    @end
+                    @if(sub.disabled)
+                    aria-disabled="true"
+                    @end
+                  >
+                    @if(sub.icon)
+                      @svg(sub.icon)
+                    @end
+                    <span>{{ sub.label }}</span>
+                  </a>
                 @else
-                  <div id="{{ id }}-items-{{ itemIndex + 1 }}-{{ subIndex + 1 }}" role="menuitem">{{ sub.label }}</div>
+                  <div
+                    id="{{ id }}-items-{{ itemIndex + 1 }}-{{ subIndex + 1 }}"
+                    role="menuitem"
+                    @if(sub.keywords)
+                    data-keywords="{{ sub.keywords }}"
+                    @end
+                    @if(sub.disabled)
+                    aria-disabled="true"
+                    @end
+                  >
+                    @if(sub.icon)
+                      @svg(sub.icon)
+                    @end
+                    <span>{{ sub.label }}</span>
+                  </div>
                 @end
               @end
             @end
@@ -113,9 +200,38 @@
         @elseif(item.type === 'separator')
           <hr role="separator" />
         @elseif(item.url)
-          <a id="{{ id }}-items-{{ itemIndex + 1 }}" href="{{ item.url }}" role="menuitem">{{ item.label }}</a>
+          <a
+            id="{{ id }}-items-{{ itemIndex + 1 }}"
+            href="{{ item.url }}"
+            role="menuitem"
+            @if(item.keywords)
+            data-keywords="{{ item.keywords }}"
+            @end
+            @if(item.disabled)
+            aria-disabled="true"
+            @end
+          >
+            @if(item.icon)
+              @svg(item.icon)
+            @end
+            <span>{{ item.label }}</span>
+          </a>
         @else
-          <div id="{{ id }}-items-{{ itemIndex + 1 }}" role="menuitem">{{ item.label }}</div>
+          <div
+            id="{{ id }}-items-{{ itemIndex + 1 }}"
+            role="menuitem"
+            @if(item.keywords)
+            data-keywords="{{ item.keywords }}"
+            @end
+            @if(item.disabled)
+            aria-disabled="true"
+            @end
+          >
+            @if(item.icon)
+              @svg(item.icon)
+            @end
+            <span>{{ item.label }}</span>
+          </div>
         @end
       @end
     @else

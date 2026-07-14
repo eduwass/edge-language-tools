@@ -24,6 +24,8 @@
   main_attrs?: Record<string, string>
   // Extra attributes and classes on the visible text input or input-group wrapper.
   input_attrs?: Record<string, string>
+  // Empty-state message via data-empty on the listbox. @default 'No items found.'
+  empty_text?: string
   // Additional HTML attributes forwarded to the combobox root.
   [attr: string]: unknown
 }
@@ -94,6 +96,7 @@
       role="listbox"
       id="{{ id }}-listbox"
       aria-orientation="vertical"
+      data-empty="{{ empty_text ?? 'No items found.' }}"
       @if(multiple)
       aria-multiselectable="true"
       @end

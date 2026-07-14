@@ -69,7 +69,7 @@
         @each((item, itemIndex) in items)
           @if(item.type === 'group')
             <div role="group" aria-labelledby="group-label-{{ id }}-{{ itemIndex + 1 }}">
-              <div role="heading" id="group-label-{{ id }}-{{ itemIndex + 1 }}">{{ item.label }}</div>
+              <span role="heading" id="group-label-{{ id }}-{{ itemIndex + 1 }}">{{ item.label }}</span>
               @if(item.items)
                 @each((sub, subIndex) in item.items)
                 <div

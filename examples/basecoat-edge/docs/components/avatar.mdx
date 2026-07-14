@@ -13,9 +13,9 @@ description: User avatar image or fallback initials.
 
 <TypeTable
   type={{
-    src: { type: "string", description: "Image URL; when set, renders an img inside the .avatar span." },
+    src: { type: "string", description: "Image URL; when set, renders an img inside the .avatar span with a fallback span." },
     alt: { type: "string", description: "Alt text on the avatar image.", default: "''" },
-    fallback: { type: "string", description: "Initials or text shown in a span when src is absent." }
+    fallback: { type: "string", description: "Initials or text shown in a fallback span when the image is absent or loading." }
   }}
 />
 

@@ -7,14 +7,15 @@ description: Progress bar indicator.
 
 ## Preview
 
-<Playground component="progress" schema={{"controls":{},"defaultProps":{"value":60,"max":100},"defaultSlot":"","previewSlug":"progress"}} minHeight={160} />
+<Playground component="progress" schema={{"controls":{"label":{"kind":"text"}},"defaultProps":{"value":60,"max":100},"defaultSlot":"","previewSlug":"progress"}} minHeight={160} />
 
 ## Props
 
 <TypeTable
   type={{
-    value: { type: "number", description: "Current progress value on the progress element when defined." },
-    max: { type: "number", description: "Maximum value on the progress element when defined." }
+    value: { type: "number", description: "Current progress value used for aria-valuenow and the indicator width." },
+    max: { type: "number", description: "Maximum value used for aria-valuemax and width calculation.", default: "100" },
+    label: { type: "string", description: "Accessible name via aria-label on the progressbar root." }
   }}
 />
 

@@ -6,77 +6,129 @@ import type { Edge } from 'edge.js'
 
 export interface EdgeTemplates {
   "components/accordion": {
+  // When true, sets data-multiple on the accordion so multiple panels can stay open.
   multiple?: boolean
+  // Additional HTML attributes forwarded to the root section element.
   [attr: string]: unknown
 }
   "components/alert": {
+  // Alert tone; destructive sets data-variant on the root .alert div. @default 'default'
   variant?: 'default' | 'destructive'
+  // Renders an h2 in the alert when no title slot is provided.
   title?: string
+  // Renders body copy inside a section when no section slot is provided.
   description?: string
+  // Additional HTML attributes forwarded to the root alert div.
   [attr: string]: unknown
 }
   "components/avatar": {
+  // Image URL; when set, renders an img inside the .avatar span with a fallback span.
   src?: string
+  // Alt text on the avatar image. @default ''
   alt?: string
+  // Initials or text shown in a fallback span when the image is absent or loading.
   fallback?: string
+  // Additional HTML attributes forwarded to the root .avatar span.
   [attr: string]: unknown
 }
   "components/badge": {
+  // Badge style; non-default values set data-variant on the .badge span. @default 'default'
   variant?: 'default' | 'secondary' | 'outline' | 'destructive'
+  // Additional HTML attributes forwarded to the root .badge span.
   [attr: string]: unknown
 }
   "components/breadcrumb": {
+  // Additional HTML attributes forwarded to the root nav element (aria-label defaults to Breadcrumb).
   [attr: string]: unknown
 }
   "components/button": {
+  // Button style; non-primary values set data-variant on the .btn element. @default 'primary'
   variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'link' | 'destructive'
+  // When set, applies data-size on the button for compact, large, or icon sizing.
   size?: 'xs' | 'sm' | 'lg' | 'icon' | 'icon-xs' | 'icon-sm' | 'icon-lg'
+  // Native button type attribute. @default 'button'
   type?: 'button' | 'submit' | 'reset'
+  // Positions slot content relative to an icon via data-icon.
   icon?: 'inline-start' | 'inline-end'
+  // Additional HTML attributes forwarded to the root button element.
   [attr: string]: unknown
 }
   "components/button_group": {
+  // Layout direction; vertical sets data-orientation on the group container. @default 'horizontal'
   orientation?: 'horizontal' | 'vertical'
+  // Additional HTML attributes forwarded to the root role=group div.
   [attr: string]: unknown
 }
   "components/card": {
+  // Compact card density; when set, applies data-size on the .card container.
   size?: 'sm'
+  // Additional HTML attributes forwarded to the root .card div.
   [attr: string]: unknown
 }
   "components/chart": {
-  type?: 'bar' | 'line' | 'area' | 'pie' | 'donut'
+  // Canvas element id passed to basecoat.chart().
+  id: string
+  // Accessible name via aria-label on the canvas.
+  label?: string
+  // Additional HTML attributes forwarded to the canvas element.
   [attr: string]: unknown
 }
   "components/checkbox": {
+  // Form field name on the checkbox input.
   name?: string
+  // Submitted value when the checkbox is checked.
   value?: string
+  // When true, renders the checked attribute on the input.
   checked?: boolean
+  // When true, disables the checkbox input.
   disabled?: boolean
+  // When true, marks the checkbox as required for form validation.
   required?: boolean
+  // DOM id on the checkbox input for label association.
   id?: string
+  // Visible label text in a span when no main slot is provided.
   label?: string
+  // Additional HTML attributes on the label wrapper.
   [attr: string]: unknown
 }
   "components/collapsible": {
+  // When true, renders the open attribute on the native details element.
   open?: boolean
+  // Additional HTML attributes forwarded to the root details element.
   [attr: string]: unknown
 }
   "components/combobox": {
+  // Root element id; also prefixes listbox and popover ids and aria-controls targets.
   id: string
+  // Initial selection consumed by combobox JS, not directly rendered in markup.
   selected?: string | string[] | { value: string; label?: string } | Array<{ value: string; label?: string }>
+  // Name on the hidden input that stores the submitted value.
   name?: string
+  // Switches to multiselect text input and aria-multiselectable listbox.
   multiple?: boolean
+  // Placeholder on the visible combobox text input. @default ''
   placeholder?: string
+  // When true with multiple, sets data-close-on-select on the root.
   close_on_select?: boolean
+  // Uses input-group layout with clear and chevron trigger buttons instead of a plain input.
   clear?: boolean
+  // When true, sets data-auto-highlight for first-match keyboard highlight.
   auto_highlight?: boolean
+  // Selection serialization; object sets data-format on the root. @default 'value'
   format?: 'value' | 'object'
+  // Extra attributes and classes on root .combobox (class merged from main_attrs.class).
   main_attrs?: Record<string, string>
+  // Extra attributes and classes on the visible text input or input-group wrapper.
   input_attrs?: Record<string, string>
+  // Empty-state message via data-empty on the listbox. @default 'No items found.'
+  empty_text?: string
+  // Additional HTML attributes forwarded to the combobox root.
   [attr: string]: unknown
 }
   "components/command": {
+  // Root id prefix for dialog or container, search input, menu, and generated item ids.
   id: string
+  // Declarative menu tree rendered as role=menu links; falls back to main slot when empty.
   items?: Array<{
     type?: 'item' | 'group' | 'separator'
     label?: string
@@ -95,33 +147,57 @@ export interface EdgeTemplates {
     attrs?: Record<string, string>
     id?: string
   }>
+  // Search input placeholder in the command header. @default 'Type a command or search...'
   placeholder?: string
+  // Empty-state message via data-empty on the menu panel. @default 'No results found.'
   empty_text?: string
+  // When true, renders as a dialog element instead of an inline .command div.
   dialog?: boolean
+  // When true in dialog mode, renders the open attribute on the dialog.
   open?: boolean
+  // Extra class and attributes on inline .command root in non-dialog mode.
   main_attrs?: Record<string, string>
+  // Extra class and attributes on the search input.
   input_attrs?: Record<string, string>
+  // Extra class and attributes on the role=menu results panel.
   menu_attrs?: Record<string, string>
+  // Extra class and attributes on the dialog wrapper in dialog mode.
   dialog_attrs?: Record<string, string>
+  // Additional HTML attributes forwarded to the command root element.
   [attr: string]: unknown
 }
   "components/dialog": {
+  // Id on the dialog and for aria-labelledby and aria-describedby title and description targets.
   id: string
+  // When set, renders a button that calls showModal on the dialog.
   trigger?: string
+  // Header h2 with id suffix -title and aria-labelledby hook.
   title?: string
+  // Header paragraph with id suffix -description and aria-describedby hook.
   description?: string
+  // When true, renders the open attribute on the dialog element.
   open?: boolean
+  // When not false, renders the ghost icon close button in the dialog chrome. @default true
   close_button?: boolean
+  // When not false, clicking the dialog backdrop calls close. @default true
   close_on_overlay_click?: boolean
+  // Class and attributes on the optional trigger button.
   trigger_attrs?: Record<string, string>
+  // Class and attributes on the dialog element.
   dialog_attrs?: Record<string, string>
+  // Extra class and attributes for the dialog header region.
   header_attrs?: Record<string, string>
+  // Extra class and attributes for the dialog body region.
   body_attrs?: Record<string, string>
+  // Extra class and attributes for the dialog footer region.
   footer_attrs?: Record<string, string>
+  // Additional HTML attributes forwarded to the dialog root.
   [attr: string]: unknown
 }
   "components/dropdown_menu": {
+  // Root id; prefixes trigger, popover, menu, and item element ids.
   id: string
+  // Declarative menu items rendered inside role=menu; falls back to main slot.
   items?: Array<{
     type?: 'item' | 'group' | 'separator'
     label?: string
@@ -137,86 +213,141 @@ export interface EdgeTemplates {
     attrs?: Record<string, string>
     id?: string
   }>
+  // Class and attributes on the menu trigger button. @default { class: 'btn' }
   trigger_attrs?: Record<string, string>
+  // Extra class and attributes on root .dropdown-menu container.
   main_attrs?: Record<string, string>
+  // Additional HTML attributes forwarded to the dropdown root.
   [attr: string]: unknown
 }
   "components/empty": {
+  // Empty-state heading rendered as h3 inside header when no title slot.
   title?: string
+  // Supporting copy rendered as a paragraph inside header when no description slot.
   description?: string
+  // Additional HTML attributes forwarded to the root .empty section.
   [attr: string]: unknown
 }
   "components/field": {
+  // Field label text in a label element when no label slot is provided.
   label?: string
+  // Helper text in a paragraph below the control when no description slot.
   description?: string
+  // Additional HTML attributes forwarded to the root .field wrapper.
   [attr: string]: unknown
 }
   "components/form": {
+  // Form submission URL on the form element.
   action?: string
+  // HTTP method on the form element when provided.
   method?: 'get' | 'post'
+  // Additional HTML attributes forwarded to the form element.
   [attr: string]: unknown
 }
   "components/input": {
+  // Native input type on the input element. @default 'text'
   type?: string
+  // Form field name.
   name?: string
+  // Controlled or default value attribute.
   value?: string
+  // Placeholder text.
   placeholder?: string
+  // Disables the input when truthy.
   disabled?: boolean
+  // Marks the input required when truthy.
   required?: boolean
+  // DOM id for label association.
   id?: string
+  // Additional HTML attributes forwarded to the input element.
   [attr: string]: unknown
 }
   "components/input_group": {
+  // Additional HTML attributes forwarded to the root .input-group wrapper.
   [attr: string]: unknown
 }
   "components/item": {
+  // Primary line as h3 inside section when no title slot is provided.
   title?: string
+  // Secondary line as p inside section when no description slot.
   description?: string
+  // Additional HTML attributes forwarded to the root .item article.
   [attr: string]: unknown
 }
   "components/kbd": {
+  // Additional HTML attributes forwarded to the root kbd element.
   [attr: string]: unknown
 }
   "components/label": {
+  // Associates the label with a control via the for attribute.
   htmlFor?: string
+  // Additional HTML attributes forwarded to the root label element.
   [attr: string]: unknown
 }
   "components/native_select": {
+  // Form field name on the native select element.
   name?: string
+  // DOM id on the native select.
   id?: string
+  // Disables the select when truthy.
   disabled?: boolean
+  // Marks the select required when truthy.
   required?: boolean
+  // Additional HTML attributes forwarded to the select element.
   [attr: string]: unknown
 }
   "components/popover": {
+  // Root id; ties trigger aria-controls to the data-popover panel.
   id: string
+  // Class and attributes on the trigger button.
   trigger_attrs?: Record<string, string>
+  // Extra class and attributes for the popover content panel.
   popover_attrs?: Record<string, string>
+  // Extra class and attributes on root .popover container.
   main_attrs?: Record<string, string>
+  // Additional HTML attributes forwarded to the popover root.
   [attr: string]: unknown
 }
   "components/progress": {
+  // Current progress value used for aria-valuenow and the indicator width.
   value?: number
+  // Maximum value used for aria-valuemax and width calculation. @default 100
   max?: number
+  // Accessible name via aria-label on the progressbar root.
+  label?: string
+  // Additional HTML attributes forwarded to the progressbar root div.
   [attr: string]: unknown
 }
   "components/radio": {
+  // Radio group name shared across inputs in the same group.
   name?: string
+  // Submitted value for this radio option.
   value?: string
+  // When true, renders checked on the radio input.
   checked?: boolean
+  // When true, disables the radio input.
   disabled?: boolean
+  // When true, marks the radio as required.
   required?: boolean
+  // DOM id on the radio input.
   id?: string
+  // Visible label in a span when no main slot is provided.
   label?: string
+  // Additional HTML attributes on the label wrapper.
   [attr: string]: unknown
 }
   "components/scrollbar": {
+  // Additional HTML attributes forwarded to the scrollable .scrollbar wrapper.
   [attr: string]: unknown
 }
   "components/select": {
+  // Root id; prefixes trigger, listbox, popover, and option ids.
   id: string
+  // Initial selection consumed by select JS, not directly rendered in markup.
   selected?: string | string[]
+  // Name on the hidden input storing the submitted value. @default id + '-value'
   name?: string
+  // Declarative listbox options and groups; falls back to main slot.
   items?: Array<{
     type?: 'item' | 'group' | 'separator'
     label?: string
@@ -225,19 +356,31 @@ export interface EdgeTemplates {
     attrs?: Record<string, string>
     id?: string
   }>
+  // Enables multiselect with aria-multiselectable on the listbox.
   multiple?: boolean
+  // Shown in the trigger button and as data-placeholder on root. @default ''
   placeholder?: string
+  // When true with multiple, sets data-close-on-select on the root.
   close_on_select?: boolean
+  // Hidden value shape; object sets data-format on the root. @default 'value'
   format?: 'value' | 'object'
+  // Extra class and attributes on root .select container.
   main_attrs?: Record<string, string>
+  // Extra class and attributes on the listbox trigger button.
   trigger_attrs?: Record<string, string>
+  // Additional HTML attributes forwarded to the select root.
   [attr: string]: unknown
 }
   "components/sidebar": {
+  // Optional id on the aside sidebar element.
   id?: string
+  // aria-label on the inner nav element. @default 'Sidebar navigation'
   label?: string
+  // When false, sets aria-hidden and inert on the aside. @default true
   open?: boolean
+  // Docking edge via data-side on the aside. @default 'left'
   side?: 'left' | 'right'
+  // Declarative nav tree with items, groups, separators, and submenus; falls back to main slot.
   menu?: Array<{
     type?: 'item' | 'group' | 'separator' | 'submenu'
     label?: string
@@ -253,55 +396,92 @@ export interface EdgeTemplates {
       current?: boolean
       open?: boolean
       items?: unknown[]
+      attrs?: Record<string, string>
+      id?: string
     }>
     attrs?: Record<string, string>
     id?: string
   }>
+  // Extra class and attributes on the aside (class merged with sidebar).
   main_attrs?: Record<string, string>
+  // Extra class and attributes on the header element.
+  header_attrs?: Record<string, string>
+  // Extra class and attributes on the scrollable content section.
+  content_attrs?: Record<string, string>
+  // Extra class and attributes on the footer element.
+  footer_attrs?: Record<string, string>
+  // Additional HTML attributes forwarded to the sidebar aside.
   [attr: string]: unknown
 }
   "components/skeleton": {
+  // Additional HTML attributes forwarded to the loading .skeleton placeholder div.
   [attr: string]: unknown
 }
   "components/switch": {
+  // Form field name on the switch input.
   name?: string
+  // When true, renders checked on the role=switch checkbox input.
   checked?: boolean
+  // When true, disables the switch.
   disabled?: boolean
+  // When true, marks the switch as required.
   required?: boolean
+  // DOM id on the switch input.
   id?: string
+  // Visible label in a span when no main slot is provided.
   label?: string
+  // Additional HTML attributes on the label wrapper.
   [attr: string]: unknown
 }
   "components/table": {
+  // Additional HTML attributes forwarded to the outer .table-container wrapper div.
   [attr: string]: unknown
 }
   "components/tabs": {
+  // Root id prefix for tab buttons and tabpanels.
   id: string
+  // Tab labels and optional panel HTML rendered as role=tab buttons and role=tabpanel sections.
   tabsets: Array<{
     tab: string
     panel?: string
     tab_attrs?: Record<string, string>
     panel_attrs?: Record<string, string>
   }>
+  // One-based index of the initially selected and visible tab. @default 1
   default_tab_index?: number
+  // aria-orientation on the tablist nav. @default 'horizontal'
   orientation?: 'horizontal' | 'vertical'
+  // Tablist style; line sets data-variant on the nav. @default 'default'
   variant?: 'default' | 'line'
+  // Extra class and attributes on root .tabs container.
   main_attrs?: Record<string, string>
+  // Extra class and attributes for the tablist nav element.
   tablist_attrs?: Record<string, string>
+  // Additional HTML attributes forwarded to the tabs root.
   [attr: string]: unknown
 }
   "components/textarea": {
+  // Form field name on the textarea element.
   name?: string
+  // Text content inside the textarea element. @default ''
   value?: string
+  // Placeholder text.
   placeholder?: string
+  // Visible row count on the textarea.
   rows?: number
+  // Disables the textarea when truthy.
   disabled?: boolean
+  // Marks the textarea required when truthy.
   required?: boolean
+  // DOM id for label association.
   id?: string
+  // Additional HTML attributes forwarded to the textarea element.
   [attr: string]: unknown
 }
   "components/toast": {
+  // Container id when rendering multiple toasts inside .toaster. @default 'toaster'
   id?: string
+  // Batch mode: renders a .toaster container with multiple .toast children.
   toasts?: Array<{
     category?: 'success' | 'error' | 'info' | 'warning'
     title?: string
@@ -311,17 +491,35 @@ export interface EdgeTemplates {
     cancel?: { label: string; onclick?: string; href?: string }
     attrs?: Record<string, string>
   }>
+  // Single-toast mode: sets data-category and picks the status icon and role.
   category?: 'success' | 'error' | 'info' | 'warning'
+  // Single-toast mode: h2 heading inside the toast.
   title?: string
+  // Single-toast mode: body paragraph inside the toast.
   description?: string
+  // Auto-dismiss timing via data-duration on single or per-item toasts.
   duration?: number
+  // Single-toast mode: primary action button or link in the toast footer.
   action?: { label: string; onclick?: string; href?: string }
+  // Single-toast mode: secondary dismiss or action control in the footer.
   cancel?: { label: string; onclick?: string; href?: string }
+  // Single-toast mode: extra class and attributes on the .toast root.
   attrs?: Record<string, string>
+  // Additional HTML attributes forwarded to the toast or toaster root.
   [attr: string]: unknown
 }
   "components/tooltip": {
-  id: string
+  // Tooltip text set as data-tooltip on the trigger element.
+  text: string
+  // Tooltip position via data-side on the trigger. @default 'top'
+  side?: 'top' | 'bottom' | 'left' | 'right' | 'inline-start' | 'inline-end'
+  // Tooltip alignment via data-align on the trigger. @default 'center'
+  align?: 'start' | 'center' | 'end'
+  // When true, wraps slot content in button.btn. @default true
+  as_button?: boolean
+  // Button variant when as_button is true. @default 'outline'
+  variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'link' | 'destructive'
+  // Additional HTML attributes forwarded to the trigger element.
   [attr: string]: unknown
 }
 }

@@ -2,18 +2,27 @@
 @name Progress
 @desc Progress bar indicator.
 @types {
-  // Current progress value on the progress element when defined.
+  // Current progress value used for aria-valuenow and the indicator width.
   value?: number
-  // Maximum value on the progress element when defined.
+  // Maximum value used for aria-valuemax and width calculation. @default 100
   max?: number
-  // Additional HTML attributes forwarded to the progress element.
+  // Accessible name via aria-label on the progressbar root.
+  label?: string
+  // Additional HTML attributes forwarded to the progressbar root div.
   [attr: string]: unknown
 }
 --}}
-<progress {{
+<div {{
   html.attrs({
     class: 'progress',
-    ...(value !== undefined ? { value } : {}),
-    ...(max !== undefined ? { max } : {}),
+    role: 'progressbar',
+    ...(label ? { 'aria-label': label } : {}),
+    ...(value !== undefined ? {
+      'aria-valuenow': value,
+      'aria-valuemin': 0,
+      'aria-valuemax': max ?? 100,
+    } : {}),
   })
-}}></progress>
+}}>
+  <span style="width: {{ value !== undefined ? (value / (max ?? 100) * 100) : 0 }}%"></span>
+</div>

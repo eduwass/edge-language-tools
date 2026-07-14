@@ -1,19 +1,20 @@
 ---
 title: Chart
-description: Chart container; requires basecoat chart JS (all.min.js).
+description: Chart canvas target; requires Chart.js and basecoat chart JS (chart.min.js).
 ---
 
 
 
 ## Preview
 
-<Playground component="chart" schema={{"controls":{"type":{"kind":"select","options":["bar","line","area","pie","donut"]}},"defaultProps":{"type":"bar"},"defaultSlot":"  <div style=\"display: flex; align-items: flex-end; gap: 0.5rem; height: 10rem; padding: 1rem;\">\n    <div style=\"flex: 1; height: 40%; background: var(--primary, #333); border-radius: 4px;\"></div>\n    <div style=\"flex: 1; height: 70%; background: var(--primary, #333); border-radius: 4px;\"></div>\n    <div style=\"flex: 1; height: 55%; background: var(--primary, #333); border-radius: 4px;\"></div>\n    <div style=\"flex: 1; height: 85%; background: var(--primary, #333); border-radius: 4px;\"></div>\n  </div>","previewSlug":"chart","minHeight":200}} minHeight={200} />
+<Playground component="chart" schema={{"controls":{"id":{"kind":"text"},"label":{"kind":"text"}},"defaultProps":{"id":"preview-chart","label":"Monthly visitors"},"defaultSlot":"","previewSlug":"chart","minHeight":200}} minHeight={200} />
 
 ## Props
 
 <TypeTable
   type={{
-    type: { type: "'bar' | 'line' | 'area' | 'pie' | 'donut'", description: "Chart kind consumed by basecoat chart JS via data-type on .chart." }
+    id: { type: "string", required: true, description: "Canvas element id passed to basecoat.chart()." },
+    label: { type: "string", description: "Accessible name via aria-label on the canvas." }
   }}
 />
 

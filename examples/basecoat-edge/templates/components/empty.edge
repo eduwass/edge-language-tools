@@ -2,29 +2,39 @@
 @name Empty
 @desc Empty state placeholder with icon, title, and description slots.
 @types {
-  // Empty-state heading rendered as h3 inside .empty-title when no title slot.
+  // Empty-state heading rendered as h3 inside header when no title slot.
   title?: string
-  // Supporting copy rendered as a paragraph inside .empty-description when no description slot.
+  // Supporting copy rendered as a paragraph inside header when no description slot.
   description?: string
-  // Additional HTML attributes forwarded to the root .empty div.
+  // Additional HTML attributes forwarded to the root .empty section.
   [attr: string]: unknown
 }
 --}}
-<div {{ html.attrs({ class: 'empty' }) }}>
-  @if($slots.icon)
-    <div class="empty-icon">{{{ await $slots.icon() }}}</div>
+<section {{ html.attrs({ class: 'empty' }) }}>
+  @if($slots.icon || $slots.title || title || $slots.description || description)
+    <header>
+      @if($slots.icon)
+        <figure>{{{ await $slots.icon() }}}</figure>
+      @end
+      @if($slots.title)
+        {{{ await $slots.title() }}}
+      @elseif(title)
+        <h3>{{ title }}</h3>
+      @end
+      @if($slots.description)
+        {{{ await $slots.description() }}}
+      @elseif(description)
+        <p>{{ description }}</p>
+      @end
+    </header>
   @end
-  @if($slots.title)
-    <div class="empty-title">{{{ await $slots.title() }}}</div>
-  @elseif(title)
-    <div class="empty-title"><h3>{{ title }}</h3></div>
+  @if($slots.footer)
+    <footer>
+      {{{ await $slots.footer() }}}
+    </footer>
+  @elseif($slots.main)
+    <footer>
+      {{{ await $slots.main() }}}
+    </footer>
   @end
-  @if($slots.description)
-    <div class="empty-description">{{{ await $slots.description() }}}</div>
-  @elseif(description)
-    <div class="empty-description"><p>{{ description }}</p></div>
-  @end
-  @if($slots.main)
-    <div class="empty-content">{{{ await $slots.main() }}}</div>
-  @end
-</div>
+</section>

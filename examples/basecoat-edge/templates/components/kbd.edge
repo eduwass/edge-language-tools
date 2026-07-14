@@ -6,6 +6,6 @@
   [attr: string]: unknown
 }
 --}}
-<kbd>
+<kbd {{ html.attrs({ class: 'kbd' }) }}>
   {{{ await $slots.main() }}}
 </kbd>

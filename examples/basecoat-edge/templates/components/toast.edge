@@ -48,6 +48,15 @@
       }}
     >
       <div class="toast-content">
+        @if(item.category === 'success')
+          @svg('lucide:circle-check', { 'aria-hidden': 'true' })
+        @elseif(item.category === 'error')
+          @svg('lucide:circle-x', { 'aria-hidden': 'true' })
+        @elseif(item.category === 'info')
+          @svg('lucide:info', { 'aria-hidden': 'true' })
+        @elseif(item.category === 'warning')
+          @svg('lucide:triangle-alert', { 'aria-hidden': 'true' })
+        @end
         <section>
           @if(item.title)
             <h2>{{ item.title }}</h2>

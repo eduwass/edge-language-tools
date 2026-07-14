@@ -28,6 +28,9 @@ export const previews: Record<string, PreviewExample[]> = {
   alert: [
     {
       source: `@alert({ variant: 'default', title: 'Heads up', description: 'You can add components to your app.' })
+  @slot('icon')
+    @svg('lucide:info')
+  @end
 @end`,
     },
   ],
@@ -53,8 +56,14 @@ export const previews: Record<string, PreviewExample[]> = {
     {
       source: `@breadcrumb()
   <li><a href="#">Home</a></li>
+  <li aria-hidden="true">
+    @svg('lucide:chevron-right')
+  </li>
   <li><a href="#">Components</a></li>
-  <li aria-current="page">Breadcrumb</li>
+  <li aria-hidden="true">
+    @svg('lucide:chevron-right')
+  </li>
+  <li><span aria-current="page">Breadcrumb</span></li>
 @end`,
     },
   ],
@@ -108,13 +117,7 @@ export const previews: Record<string, PreviewExample[]> = {
   ],
   chart: [
     {
-      source: `@chart({ type: 'bar' })
-  <div style="display: flex; align-items: flex-end; gap: 0.5rem; height: 10rem; padding: 1rem;">
-    <div style="flex: 1; height: 40%; background: var(--primary, #333); border-radius: 4px;"></div>
-    <div style="flex: 1; height: 70%; background: var(--primary, #333); border-radius: 4px;"></div>
-    <div style="flex: 1; height: 55%; background: var(--primary, #333); border-radius: 4px;"></div>
-    <div style="flex: 1; height: 85%; background: var(--primary, #333); border-radius: 4px;"></div>
-  </div>
+      source: `@chart({ id: 'preview-chart', label: 'Monthly visitors' })
 @end`,
       minHeight: 200,
     },
@@ -148,10 +151,10 @@ export const previews: Record<string, PreviewExample[]> = {
       source: `@command({
   id: 'preview-command',
   items: [
-    { label: 'Calendar', type: 'item' },
-    { label: 'Search', type: 'item' },
+    { label: 'Calendar', type: 'item', icon: 'lucide:calendar' },
+    { label: 'Search', type: 'item', icon: 'lucide:search' },
     { type: 'separator' },
-    { label: 'Settings', type: 'item' },
+    { label: 'Settings', type: 'item', icon: 'lucide:settings' },
   ],
 })
 @end`,
@@ -202,6 +205,9 @@ export const previews: Record<string, PreviewExample[]> = {
   empty: [
     {
       source: `@empty({ title: 'No results', description: 'Try adjusting your search or filters.' })
+  @slot('icon')
+    @svg('lucide:folder-open')
+  @end
 @end`,
       minHeight: 180,
     },
@@ -341,17 +347,25 @@ export const previews: Record<string, PreviewExample[]> = {
   ],
   sidebar: [
     {
-      source: `@sidebar({
-  id: 'preview-sidebar',
-  menu: [
-    { type: 'item', label: 'Dashboard', url: '#', current: true },
-    { type: 'item', label: 'Projects', url: '#' },
-    { type: 'separator' },
-    { type: 'item', label: 'Settings', url: '#' },
-    { type: 'item', label: 'Help', url: '#' },
-  ],
-})
-@end`,
+      source: `<div style="display: flex; min-height: 16rem; border: 1px solid var(--border, #e5e5e5); border-radius: 0.5rem; overflow: hidden;">
+  @sidebar({
+    id: 'preview-sidebar',
+    menu: [
+      { type: 'group', label: 'Navigation', items: [
+        { type: 'item', label: 'Dashboard', url: '#', current: true },
+        { type: 'item', label: 'Projects', url: '#' },
+      ]},
+      { type: 'separator' },
+      { type: 'item', label: 'Settings', url: '#' },
+      { type: 'item', label: 'Help', url: '#' },
+    ],
+  })
+  @end
+  <main style="flex: 1; padding: 1rem;">
+    <h1 style="margin: 0; font-size: 1.125rem;">Content</h1>
+    <p style="margin: 0.5rem 0 0; color: var(--muted-foreground, #666);">Page content beside the sidebar.</p>
+  </main>
+</div>`,
       minHeight: 320,
     },
   ],
@@ -416,11 +430,10 @@ export const previews: Record<string, PreviewExample[]> = {
   ],
   tooltip: [
     {
-      source: `@tooltip({ id: 'preview-tooltip' })
+      source: `@tooltip({ text: 'Helpful tooltip text' })
   @slot('trigger')
     Hover me
   @end
-  Helpful tooltip text
 @end`,
       minHeight: 180,
     },

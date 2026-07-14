@@ -7,7 +7,7 @@ description: Application sidebar navigation; requires basecoat sidebar JS (all.m
 
 ## Preview
 
-<Playground component="sidebar" schema={{"controls":{"id":{"kind":"text"},"label":{"kind":"text"},"open":{"kind":"toggle"},"side":{"kind":"select","options":["left","right"]}},"defaultProps":{"id":"preview-sidebar","menu":[{"type":"item","label":"Dashboard","url":"#","current":true},{"type":"item","label":"Projects","url":"#"},{"type":"separator"},{"type":"item","label":"Settings","url":"#"},{"type":"item","label":"Help","url":"#"}]},"defaultSlot":"","previewSlug":"sidebar","minHeight":320}} minHeight={320} />
+<Playground component="sidebar" schema={{"controls":{"id":{"kind":"text"},"label":{"kind":"text"},"open":{"kind":"toggle"},"side":{"kind":"select","options":["left","right"]}},"defaultProps":{"id":"preview-sidebar","menu":[{"type":"group","label":"Navigation","items":[{"type":"item","label":"Dashboard","url":"#","current":true},{"type":"item","label":"Projects","url":"#"}]},{"type":"separator"},{"type":"item","label":"Settings","url":"#"},{"type":"item","label":"Help","url":"#"}]},"defaultSlot":"","previewSlug":"sidebar","minHeight":320}} minHeight={320} />
 
 ## Props
 
@@ -17,8 +17,11 @@ description: Application sidebar navigation; requires basecoat sidebar JS (all.m
     label: { type: "string", description: "aria-label on the inner nav element.", default: "'Sidebar navigation'" },
     open: { type: "boolean", description: "When false, sets aria-hidden and inert on the aside.", default: "true" },
     side: { type: "'left' | 'right'", description: "Docking edge via data-side on the aside.", default: "'left'" },
-    menu: { type: "Array<{\n    type?: 'item' | 'group' | 'separator' | 'submenu'\n    label?: string\n    url?: string\n    icon?: string\n    current?: boolean\n    open?: boolean\n    items?: Array<{\n      type?: 'item' | 'group' | 'separator' | 'submenu'\n      label?: string\n      url?: string\n      icon?: string\n      current?: boolean\n      open?: boolean\n      items?: unknown[]\n    }>\n    attrs?: Record<string, string>\n    id?: string\n  }>", description: "Declarative nav tree with items, groups, separators, and submenus; falls back to main slot." },
-    main_attrs: { type: "Record<string, string>", description: "Extra class and attributes on the aside (class merged with sidebar)." }
+    menu: { type: "Array<{\n    type?: 'item' | 'group' | 'separator' | 'submenu'\n    label?: string\n    url?: string\n    icon?: string\n    current?: boolean\n    open?: boolean\n    items?: Array<{\n      type?: 'item' | 'group' | 'separator' | 'submenu'\n      label?: string\n      url?: string\n      icon?: string\n      current?: boolean\n      open?: boolean\n      items?: unknown[]\n      attrs?: Record<string, string>\n      id?: string\n    }>\n    attrs?: Record<string, string>\n    id?: string\n  }>", description: "Declarative nav tree with items, groups, separators, and submenus; falls back to main slot." },
+    main_attrs: { type: "Record<string, string>", description: "Extra class and attributes on the aside (class merged with sidebar)." },
+    header_attrs: { type: "Record<string, string>", description: "Extra class and attributes on the header element." },
+    content_attrs: { type: "Record<string, string>", description: "Extra class and attributes on the scrollable content section." },
+    footer_attrs: { type: "Record<string, string>", description: "Extra class and attributes on the footer element." }
   }}
 />
 

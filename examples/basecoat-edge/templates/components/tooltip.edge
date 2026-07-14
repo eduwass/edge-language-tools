@@ -1,18 +1,46 @@
 {{--
 @name Tooltip
-@desc Tooltip trigger with content; requires basecoat tooltip JS.
+@desc CSS-only tooltip via data-tooltip on the trigger element; no JS required.
 @types {
-  // Root id; ties trigger aria-describedby to the role=tooltip content panel.
-  id: string
-  // Additional HTML attributes forwarded to the root .tooltip div.
+  // Tooltip text set as data-tooltip on the trigger element.
+  text: string
+  // Tooltip position via data-side on the trigger. @default 'top'
+  side?: 'top' | 'bottom' | 'left' | 'right' | 'inline-start' | 'inline-end'
+  // Tooltip alignment via data-align on the trigger. @default 'center'
+  align?: 'start' | 'center' | 'end'
+  // When true, wraps slot content in button.btn. @default true
+  as_button?: boolean
+  // Button variant when as_button is true. @default 'outline'
+  variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'link' | 'destructive'
+  // Additional HTML attributes forwarded to the trigger element.
   [attr: string]: unknown
 }
 --}}
-<div id="{{ id }}" class="tooltip">
-  <button type="button" id="{{ id }}-trigger" aria-describedby="{{ id }}-content">
-    {{{ await $slots.trigger() }}}
-  </button>
-  <div id="{{ id }}-content" role="tooltip" data-tooltip aria-hidden="true">
-    {{{ await $slots.main() }}}
-  </div>
-</div>
+@if(as_button !== false)
+<button
+  type="button"
+  class="btn"
+  {{
+    html.attrs({
+      'data-variant': variant ?? 'outline',
+      'data-tooltip': text,
+      ...(side ? { 'data-side': side } : {}),
+      ...(align ? { 'data-align': align } : {}),
+    })
+  }}
+>
+  {{{ await $slots.trigger() }}}
+</button>
+@else
+<span
+  {{
+    html.attrs({
+      'data-tooltip': text,
+      ...(side ? { 'data-side': side } : {}),
+      ...(align ? { 'data-align': align } : {}),
+    })
+  }}
+>
+  {{{ await $slots.trigger() }}}
+</span>
+@end

@@ -2,31 +2,31 @@
 @name Item
 @desc List item row with media, title, and description slots.
 @types {
-  // Primary line in .item-title when no title slot is provided.
+  // Primary line as h3 inside section when no title slot is provided.
   title?: string
-  // Secondary line in .item-description when no description slot.
+  // Secondary line as p inside section when no description slot.
   description?: string
-  // Additional HTML attributes forwarded to the root .item row.
+  // Additional HTML attributes forwarded to the root .item article.
   [attr: string]: unknown
 }
 --}}
-<div {{ html.attrs({ class: 'item' }) }}>
+<article {{ html.attrs({ class: 'item' }) }}>
   @if($slots.media)
-    <div class="item-media">{{{ await $slots.media() }}}</div>
+    <figure>{{{ await $slots.media() }}}</figure>
   @end
-  <div class="item-content">
+  <section>
     @if($slots.title)
-      <div class="item-title">{{{ await $slots.title() }}}</div>
+      {{{ await $slots.title() }}}
     @elseif(title)
-      <div class="item-title">{{ title }}</div>
+      <h3>{{ title }}</h3>
     @end
     @if($slots.description)
-      <div class="item-description">{{{ await $slots.description() }}}</div>
+      {{{ await $slots.description() }}}
     @elseif(description)
-      <div class="item-description">{{ description }}</div>
+      <p>{{ description }}</p>
     @end
-  </div>
+  </section>
   @if($slots.actions)
-    <div class="item-actions">{{{ await $slots.actions() }}}</div>
+    <aside>{{{ await $slots.actions() }}}</aside>
   @end
-</div>
+</article>

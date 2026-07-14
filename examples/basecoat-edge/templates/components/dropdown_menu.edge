@@ -53,14 +53,14 @@
                     @if(sub.icon)
                       {{{ sub.icon }}}
                     @end
-                    {{ sub.label }}
+                    <span>{{ sub.label }}</span>
                   </a>
                 @else
                   <div id="{{ id }}-items-{{ itemIndex + 1 }}-{{ subIndex + 1 }}" role="menuitem">
                     @if(sub.icon)
                       {{{ sub.icon }}}
                     @end
-                    {{ sub.label }}
+                    <span>{{ sub.label }}</span>
                   </div>
                 @end
                 @end
@@ -73,14 +73,14 @@
               @if(item.icon)
                 {{{ item.icon }}}
               @end
-              {{ item.label }}
+              <span>{{ item.label }}</span>
             </a>
           @else
             <div id="{{ id }}-items-{{ itemIndex + 1 }}" role="menuitem">
               @if(item.icon)
                 {{{ item.icon }}}
               @end
-              {{ item.label }}
+              <span>{{ item.label }}</span>
             </div>
           @end
         @end

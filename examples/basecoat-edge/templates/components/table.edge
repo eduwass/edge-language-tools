@@ -2,12 +2,12 @@
 @name Table
 @desc Styled data table wrapper.
 @types {
-  // Additional HTML attributes forwarded to the outer .table wrapper div.
+  // Additional HTML attributes forwarded to the outer .table-container wrapper div.
   [attr: string]: unknown
 }
 --}}
-<div {{ html.attrs({ class: 'table' }) }}>
-  <table>
+<div {{ html.attrs({ class: 'table-container' }) }}>
+  <table {{ html.attrs({ class: 'table' }) }}>
     {{{ await $slots.main() }}}
   </table>
 </div>

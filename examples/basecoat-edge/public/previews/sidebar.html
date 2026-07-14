@@ -41,6 +41,7 @@
 </head>
 <body>
   <div class="preview-root">
+<div style="display: flex; min-height: 16rem; border: 1px solid var(--border, #e5e5e5); border-radius: 0.5rem; overflow: hidden;">
 <aside
   id="preview-sidebar"
   class="sidebar "
@@ -48,38 +49,60 @@
   aria-hidden="false"
 >
   <nav aria-label="Sidebar navigation">
-    <section>
-        <ul>
+    <section class="scrollbar-sm ">
 
-              <li>
-                <a href="#" @if(item.current) aria-current="page" @end>
-                  <span>Dashboard</span>
-                </a>
-              </li>
 
-              <li>
-                <a href="#" @if(item.current) aria-current="page" @end>
-                  <span>Projects</span>
-                </a>
-              </li>
+            <div
+              role="group"
+              aria-labelledby="group-label-preview-sidebar-1"
+            >
+                <h3 id="group-label-preview-sidebar-1">Navigation</h3>
+              <ul>
 
-              <li><hr role="separator" /></li>
+                    <li>
+                      <a
+                        href="#"
+                        aria-current="page"
+                      >
+                        <span>Dashboard</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href="#"
+                      >
+                        <span>Projects</span>
+                      </a>
+                    </li>
+              </ul>
+            </div>
 
-              <li>
-                <a href="#" @if(item.current) aria-current="page" @end>
-                  <span>Settings</span>
-                </a>
-              </li>
+            <hr role="separator" />
 
-              <li>
-                <a href="#" @if(item.current) aria-current="page" @end>
-                  <span>Help</span>
-                </a>
-              </li>
-        </ul>
+            <li>
+              <a
+                href="#"
+              >
+                <span>Settings</span>
+              </a>
+            </li>
+
+            <li>
+              <a
+                href="#"
+              >
+                <span>Help</span>
+              </a>
+            </li>
     </section>
   </nav>
 </aside>
+
+  <main style="flex: 1; padding: 1rem;">
+    <h1 style="margin: 0; font-size: 1.125rem;">Content</h1>
+    <p style="margin: 0.5rem 0 0; color: var(--muted-foreground, #666);">Page content beside the sidebar.</p>
+  </main>
+</div>
   </div>
 </body>
 </html>

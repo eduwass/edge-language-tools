@@ -26,12 +26,20 @@
       current?: boolean
       open?: boolean
       items?: unknown[]
+      attrs?: Record<string, string>
+      id?: string
     }>
     attrs?: Record<string, string>
     id?: string
   }>
   // Extra class and attributes on the aside (class merged with sidebar).
   main_attrs?: Record<string, string>
+  // Extra class and attributes on the header element.
+  header_attrs?: Record<string, string>
+  // Extra class and attributes on the scrollable content section.
+  content_attrs?: Record<string, string>
+  // Extra class and attributes on the footer element.
+  footer_attrs?: Record<string, string>
   // Additional HTML attributes forwarded to the sidebar aside.
   [attr: string]: unknown
 }
@@ -49,79 +57,99 @@
 >
   <nav aria-label="{{ label ?? 'Sidebar navigation' }}">
     @if($slots.header)
-      <header>{{{ await $slots.header() }}}</header>
+      <header {{ html.attrs(header_attrs ?? {}) }}>
+        {{{ await $slots.header() }}}
+      </header>
     @end
-    <section>
+    <section class="scrollbar-sm {{ content_attrs?.class ?? '' }}">
       @if(menu && menu.length)
-        <ul>
-          @each((item, itemIndex) in menu)
-            @if(item.type === 'group')
-              <li>
-                <div role="group" @if(item.label) aria-labelledby="group-label-{{ itemIndex + 1 }}" @end>
-                  @if(item.label)
-                    <h3 id="group-label-{{ itemIndex + 1 }}">{{ item.label }}</h3>
+        @each((item, itemIndex) in menu)
+          @if(item.type === 'group')
+            <div
+              role="group"
+              @if(item.label)
+              aria-labelledby="group-label-{{ id ?? 'content' }}-{{ itemIndex + 1 }}"
+              @end
+            >
+              @if(item.label)
+                <h3 id="group-label-{{ id ?? 'content' }}-{{ itemIndex + 1 }}">{{ item.label }}</h3>
+              @end
+              <ul>
+                @if(item.items)
+                  @each((sub, subIndex) in item.items)
+                    <li>
+                      <a
+                        href="{{ sub.url ?? '#' }}"
+                        @if(sub.current)
+                        aria-current="page"
+                        @end
+                      >
+                        @if(sub.icon)
+                          {{{ sub.icon }}}
+                        @end
+                        <span>{{ sub.label }}</span>
+                      </a>
+                    </li>
                   @end
-                  <ul>
-                    @if(item.items)
-                      @each((sub, subIndex) in item.items)
-                        <li>
-                          <a href="{{ sub.url }}" @if(sub.current) aria-current="page" @end>
-                            @if(sub.icon)
-                              {{{ sub.icon }}}
-                            @end
-                            <span>{{ sub.label }}</span>
-                          </a>
-                        </li>
-                      @end
-                    @end
-                  </ul>
-                </div>
-              </li>
-            @elseif(item.type === 'separator')
-              <li><hr role="separator" /></li>
-            @elseif(item.type === 'submenu')
-              <li>
-                <details id="submenu-{{ itemIndex + 1 }}" @if(item.open) open @end>
-                  <summary aria-controls="submenu-{{ itemIndex + 1 }}-content">
-                    @if(item.icon)
-                      {{{ item.icon }}}
-                    @end
-                    <span>{{ item.label }}</span>
-                  </summary>
-                  <ul id="submenu-{{ itemIndex + 1 }}-content">
-                    @if(item.items)
-                      @each((sub, subIndex) in item.items)
-                        <li>
-                          <a href="{{ sub.url }}" @if(sub.current) aria-current="page" @end>
-                            @if(sub.icon)
-                              {{{ sub.icon }}}
-                            @end
-                            <span>{{ sub.label }}</span>
-                          </a>
-                        </li>
-                      @end
-                    @end
-                  </ul>
-                </details>
-              </li>
-            @else
-              <li>
-                <a href="{{ item.url }}" @if(item.current) aria-current="page" @end>
+                @end
+              </ul>
+            </div>
+          @elseif(item.type === 'separator')
+            <hr role="separator" />
+          @elseif(item.type === 'submenu')
+            <li>
+              <details id="submenu-{{ id ?? 'content' }}-{{ itemIndex + 1 }}" @if(item.open) open @end>
+                <summary aria-controls="submenu-{{ id ?? 'content' }}-{{ itemIndex + 1 }}-content">
                   @if(item.icon)
                     {{{ item.icon }}}
                   @end
                   <span>{{ item.label }}</span>
-                </a>
-              </li>
-            @end
+                </summary>
+                <ul id="submenu-{{ id ?? 'content' }}-{{ itemIndex + 1 }}-content">
+                  @if(item.items)
+                    @each((sub, subIndex) in item.items)
+                      <li>
+                        <a
+                          href="{{ sub.url ?? '#' }}"
+                          @if(sub.current)
+                          aria-current="page"
+                          @end
+                        >
+                          @if(sub.icon)
+                            {{{ sub.icon }}}
+                          @end
+                          <span>{{ sub.label }}</span>
+                        </a>
+                      </li>
+                    @end
+                  @end
+                </ul>
+              </details>
+            </li>
+          @else
+            <li>
+              <a
+                href="{{ item.url ?? '#' }}"
+                @if(item.current)
+                aria-current="page"
+                @end
+              >
+                @if(item.icon)
+                  {{{ item.icon }}}
+                @end
+                <span>{{ item.label }}</span>
+              </a>
+            </li>
           @end
-        </ul>
+        @end
       @else
         {{{ await $slots.main() }}}
       @end
     </section>
     @if($slots.footer)
-      <footer>{{{ await $slots.footer() }}}</footer>
+      <footer {{ html.attrs(footer_attrs ?? {}) }}>
+        {{{ await $slots.footer() }}}
+      </footer>
     @end
   </nav>
 </aside>

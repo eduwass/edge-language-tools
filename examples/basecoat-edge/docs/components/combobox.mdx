@@ -7,7 +7,7 @@ description: Input-first combobox with listbox; requires basecoat combobox JS (a
 
 ## Preview
 
-<Playground component="combobox" schema={{"controls":{"id":{"kind":"text"},"name":{"kind":"text"},"multiple":{"kind":"toggle"},"placeholder":{"kind":"text"},"close_on_select":{"kind":"toggle"},"clear":{"kind":"toggle"},"auto_highlight":{"kind":"toggle"},"format":{"kind":"select","options":["value","object"]}},"defaultProps":{"id":"preview-combobox","placeholder":"Select framework..."},"defaultSlot":"  <div role=\"option\" data-value=\"react\">React</div>\n  <div role=\"option\" data-value=\"vue\">Vue</div>\n  <div role=\"option\" data-value=\"svelte\">Svelte</div>","previewSlug":"combobox","minHeight":180}} minHeight={180} />
+<Playground component="combobox" schema={{"controls":{"id":{"kind":"text"},"name":{"kind":"text"},"multiple":{"kind":"toggle"},"placeholder":{"kind":"text"},"close_on_select":{"kind":"toggle"},"clear":{"kind":"toggle"},"auto_highlight":{"kind":"toggle"},"format":{"kind":"select","options":["value","object"]},"empty_text":{"kind":"text"}},"defaultProps":{"id":"preview-combobox","placeholder":"Select framework..."},"defaultSlot":"  <div role=\"option\" data-value=\"react\">React</div>\n  <div role=\"option\" data-value=\"vue\">Vue</div>\n  <div role=\"option\" data-value=\"svelte\">Svelte</div>","previewSlug":"combobox","minHeight":180}} minHeight={180} />
 
 ## Props
 
@@ -23,7 +23,8 @@ description: Input-first combobox with listbox; requires basecoat combobox JS (a
     auto_highlight: { type: "boolean", description: "When true, sets data-auto-highlight for first-match keyboard highlight." },
     format: { type: "'value' | 'object'", description: "Selection serialization; object sets data-format on the root.", default: "'value'" },
     main_attrs: { type: "Record<string, string>", description: "Extra attributes and classes on root .combobox (class merged from main_attrs.class)." },
-    input_attrs: { type: "Record<string, string>", description: "Extra attributes and classes on the visible text input or input-group wrapper." }
+    input_attrs: { type: "Record<string, string>", description: "Extra attributes and classes on the visible text input or input-group wrapper." },
+    empty_text: { type: "string", description: "Empty-state message via data-empty on the listbox.", default: "'No items found.'" }
   }}
 />
 

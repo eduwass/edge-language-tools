@@ -1,18 +1,20 @@
 {{--
 @name Chart
-@desc Chart container; requires basecoat chart JS (all.min.js).
+@desc Chart canvas target; requires Chart.js and basecoat chart JS (chart.min.js).
 @types {
-  // Chart kind consumed by basecoat chart JS via data-type on .chart.
-  type?: 'bar' | 'line' | 'area' | 'pie' | 'donut'
-  // Additional HTML attributes forwarded to the root .chart div.
+  // Canvas element id passed to basecoat.chart().
+  id: string
+  // Accessible name via aria-label on the canvas.
+  label?: string
+  // Additional HTML attributes forwarded to the canvas element.
   [attr: string]: unknown
 }
 --}}
-<div {{
-  html.attrs({
-    class: 'chart',
-    ...(type ? { 'data-type': type } : {}),
-  })
-}}>
-  {{{ await $slots.main() }}}
-</div>
+<canvas
+  id="{{ id }}"
+  {{
+    html.attrs({
+      ...(label ? { 'aria-label': label } : {}),
+    })
+  }}
+></canvas>

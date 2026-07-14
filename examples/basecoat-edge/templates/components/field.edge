@@ -10,7 +10,7 @@
   [attr: string]: unknown
 }
 --}}
-<div {{ html.attrs({ class: 'field' }) }}>
+<div {{ html.attrs({ class: 'field', role: 'group' }) }}>
   @if($slots.label)
     {{{ await $slots.label() }}}
   @elseif(label)
