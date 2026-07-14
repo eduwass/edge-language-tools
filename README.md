@@ -1,7 +1,13 @@
 # edge-language-tools
 
-Type safety and editor tooling for [EdgeJS](https://edgejs.dev) templates.
-Works with bare `edge.js` — no AdonisJS required (an Adonis preset comes later).
+Full code intelligence for [EdgeJS](https://edgejs.dev) templates: a real
+language server (powered by TypeScript + Volar, the machinery behind Vue and
+Astro tooling) with type-aware diagnostics, autocomplete for props and
+expressions, hover types, and template-path completion for `@include` and
+`@component` — plus a CI type-checker and generated types that make
+`edge.render()` calls compile-time-checked. Works with bare `edge.js`;
+no AdonisJS required.
+
 Docs: https://eduwass.github.io/edge-language-tools/
 
 Declare a template's interface once, in a comment:
