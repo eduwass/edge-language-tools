@@ -1,5 +1,7 @@
 # edge-language-tools
 
+[![edge-language-tools teaser](public/teaser.gif)](https://eduwass.github.io/edge-language-tools/)
+
 Full code intelligence for [EdgeJS](https://edgejs.dev) templates: a real
 language server (powered by TypeScript + Volar, the machinery behind Vue and
 Astro tooling) with type-aware diagnostics, autocomplete for props and
