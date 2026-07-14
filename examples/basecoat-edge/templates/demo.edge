@@ -5,11 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>basecoat-edge demo</title>
   @!basecoatStyles()
+  <script src="https://cdn.jsdelivr.net/npm/idiomorph@0.7.3/dist/idiomorph.min.js"></script>
   <style>
     body { font-family: system-ui, sans-serif; margin: 0; padding: 2rem; background: var(--background, #fff); color: var(--foreground, #111); }
     .demo-grid { display: grid; gap: 2rem; max-width: 72rem; margin: 0 auto; }
     .demo-section h2 { margin: 0 0 1rem; font-size: 1.125rem; }
     .demo-row { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; }
+    .demo-muted { margin: 0.5rem 0 0; font-size: 0.875rem; color: var(--muted-foreground, #666); }
   </style>
 </head>
 <body>
@@ -162,6 +164,17 @@
       </div>
     </section>
 
+    <section class="demo-section" id="optimistic-update">
+      <h2>Optimistic update</h2>
+      <p>Click re-renders <code>button.edge</code> in the browser via <code>edge-client</code>, morphing the DOM with Idiomorph before a simulated server confirm.</p>
+      <div id="like-button-host">
+        @button({ variant: 'outline', type: 'button', id: 'like-button' })
+          Like (<span data-like-count>12</span>)
+        @end
+      </div>
+      <p id="like-status" class="demo-muted"></p>
+    </section>
+
     <section class="demo-section">
       <h2>Toast container</h2>
       @!toast({
@@ -171,6 +184,36 @@
       })
     </section>
   </div>
+  <script type="module">
+    import { renderButton } from '/client/templates.js'
+
+    const host = document.getElementById('like-button-host')
+    const status = document.getElementById('like-status')
+    if (host && status && globalThis.Idiomorph) {
+      let count = 12
+      let timer = null
+
+      async function paint() {
+        const html = await renderButton(
+          { variant: 'outline', type: 'button', id: 'like-button' },
+          { main: async () => `Like (<span data-like-count>${count}</span>)` },
+        )
+        globalThis.Idiomorph.morph(host, html)
+      }
+
+      host.addEventListener('click', async (event) => {
+        const button = event.target.closest('#like-button')
+        if (!button) return
+        count += 1
+        status.textContent = 'Saving…'
+        await paint()
+        if (timer) clearTimeout(timer)
+        timer = setTimeout(() => {
+          status.textContent = 'Saved (server confirmed)'
+        }, 700)
+      })
+    }
+  </script>
   @!basecoatScripts()
 </body>
 </html>

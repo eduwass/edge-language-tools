@@ -5,6 +5,7 @@
   "scripts": {
     "check": "edge-check templates",
     "codegen": "edge-codegen templates --out edge-templates.d.ts",
+    "gen-client": "edge-client build templates --out client --format js",
     "gen-docs": "bun run scripts/gen-docs.ts",
     "demo": "bun run src/server.ts",
     "docs:dev": "bun run gen-docs && blume dev --isolated",
@@ -26,6 +27,7 @@
   },
   "devDependencies": {
     "@edge-language-tools/check": "workspace:*",
+    "@edge-language-tools/client": "workspace:*",
     "@edge-language-tools/codegen": "workspace:*",
     "@edge-language-tools/core": "workspace:*",
     "@types/react": "^19.2.17",

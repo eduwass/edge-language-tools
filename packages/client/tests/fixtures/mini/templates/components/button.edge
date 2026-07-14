@@ -1,0 +1,19 @@
+{{--
+@client
+@types {
+  label: string
+  variant?: 'primary' | 'outline'
+  raw?: string
+}
+--}}
+<button {{
+  html.attrs({
+    class: 'btn',
+    ...(variant ? { 'data-variant': variant } : {}),
+  })
+}}>
+  @if(raw)
+    <span class="raw">{{ raw }}</span>
+  @end
+  {{{ await $slots.main() }}}
+</button>

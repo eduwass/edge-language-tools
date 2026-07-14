@@ -23,6 +23,7 @@
       },
       "devDependencies": {
         "@edge-language-tools/check": "workspace:*",
+        "@edge-language-tools/client": "workspace:*",
         "@edge-language-tools/codegen": "workspace:*",
         "@edge-language-tools/core": "workspace:*",
         "@types/react": "^19.2.17",
@@ -50,6 +51,18 @@
       },
       "dependencies": {
         "@edge-language-tools/core": "workspace:*",
+      },
+    },
+    "packages/client": {
+      "name": "@edge-language-tools/client",
+      "version": "0.0.0",
+      "bin": {
+        "edge-client": "./src/cli.ts",
+      },
+      "dependencies": {
+        "@edge-language-tools/core": "workspace:*",
+        "edge-lexer": "^6.0.5",
+        "edge.js": "^6.5.1",
       },
     },
     "packages/codegen": {
@@ -234,6 +247,8 @@
     "@edge-language-tools/basecoat-edge": ["@edge-language-tools/basecoat-edge@workspace:examples/basecoat-edge"],
 
     "@edge-language-tools/check": ["@edge-language-tools/check@workspace:packages/check"],
+
+    "@edge-language-tools/client": ["@edge-language-tools/client@workspace:packages/client"],
 
     "@edge-language-tools/codegen": ["@edge-language-tools/codegen@workspace:packages/codegen"],
 

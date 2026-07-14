@@ -1,0 +1,71 @@
+---
+title: Client-side rendering (experimental)
+description: Extract @client templates into typed browser render functions.
+---
+
+<Panel title="Experimental">
+  `@edge-language-tools/client` is experimental. APIs and emitted output may change. The workflow below is the current proof of concept.
+</Panel>
+
+An explicit build-time path from `@client`-marked templates to a tiny browser module — no Edge compiler in the bundle, no `eval`, CSP-clean.
+
+## Mark templates
+
+Add `@client` beside `@types` in the doc comment. Only templates you mark (and their `@client` dependency closure) are extracted.
+
+```edge
+{{--
+@client
+@types {
+  variant?: 'primary' | 'outline'
+}
+--}}
+<button {{ html.attrs({ class: 'btn', ...(variant ? { 'data-variant': variant } : {}) }) }}>
+  {{{ await $slots.main() }}}
+</button>
+```
+
+Every dependency must also be `@client`. A non-client component in the closure fails the build with the dependency chain.
+
+## Build
+
+<CodeGroup>
+```sh npm
+npx edge-client build templates --out client --format js
+```
+```sh pnpm
+pnpm exec edge-client build templates --out client --format js
+```
+```sh yarn
+yarn edge-client build templates --out client --format js
+```
+```sh bun
+bunx edge-client build templates --out client --format js
+```
+</CodeGroup>
+
+Emits:
+
+- `runtime.js` — micro-runtime (`escape`, `html.attrs`, `$props`, `$slots`, component glue)
+- `templates.js` — typed `render*` functions plus a `templates` map
+
+Use `--format ts` when consumers typecheck the output; use `js` for direct browser `<script type="module">` imports.
+
+## Render in the browser
+
+```js
+import { renderButton } from '/client/templates.js'
+
+const html = await renderButton(
+  { variant: 'outline' },
+  { main: async () => 'Save' },
+)
+```
+
+Pair with a DOM update strategy (e.g. [Idiomorph](https://github.com/bigskysoftware/idiomorph)) for optimistic UI: re-render from the same `.edge` source the server uses, morph the result in, then confirm with the server.
+
+<Panel title="CSP">
+  The browser bundle is compiled functions plus a small runtime. No `eval`, no dynamic `Function`, no edge.js dependency at runtime.
+</Panel>
+
+See `examples/basecoat-edge` for a demo: `bun run gen-client`, then `bun run demo` — the **Optimistic update** section imports `renderButton` from the generated module.

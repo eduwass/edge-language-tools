@@ -23,6 +23,7 @@ An honest inventory. Everything here is additive — none of it blocks using wha
 
 ## Planned
 
+- **Client-side render extraction (experimental)**: `@client` + `edge-client build` emits typed browser render functions from the same `.edge` sources — see [Client-side rendering](/guide/client-rendering). npm packaging and API stability are still open.
 - **Typed `$props`**: emit `$props` as a generic view over the template's `@types` so `get`/`only`/`except` narrow correctly and key names autocomplete. Glue-only change, no new syntax.
 - **npm publish**: the packages currently install from the repo (see [Getting started](/guide/getting-started)); a proper npm release with prebuilt `dist/` is the next infrastructure step.
 - **Per-block `@let` scoping**, fixing the shadowing limitation above.

@@ -288,7 +288,7 @@ function emitSuperchargedComponent(ctx: Ctx, token: TagToken): boolean {
 }
 
 /** `checkoutForm.input` -> `['components/checkout_form/input', 'components/checkout_form/input/index']`. */
-function superchargedCandidates(tagName: string): string[] {
+export function superchargedCandidates(tagName: string): string[] {
   const path = tagName
     .split('.')
     .map((segment) => segment.replace(/[A-Z]/g, (c) => `_${c.toLowerCase()}`))

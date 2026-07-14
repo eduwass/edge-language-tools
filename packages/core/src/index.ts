@@ -57,3 +57,9 @@ export type { CheckConfig } from './config.ts'
  * back through the segments. Templates with no @types block yield [].
  */
 export { checkTemplate } from './checker.ts'
+export { collectStateIdents } from './used-idents.ts'
+export { superchargedCandidates } from './generator.ts'
+export { tokenize } from './tokenize.ts'
+export { findTypesBlock, propertyNames } from './types-block.ts'
+export type { TypesBlock } from './types-block.ts'
+export { LineIndex } from './offsets.ts'

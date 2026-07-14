@@ -26,6 +26,8 @@ export interface TemplateDocs {
   url: string | null
   /** Usage examples from `@example` directives, in declaration order. */
   examples: TemplateExample[]
+  /** true when a doc comment contains a line-start `@client` directive. */
+  client: boolean
 }
 
 export interface TemplateExample {
@@ -41,14 +43,15 @@ const NAME_DIRECTIVE = /(^|\n)[ \t]*@name[ \t]+([^\n]+)/
 const DESC_DIRECTIVE = /(^|\n)[ \t]*@desc\b[ \t]*/
 const URL_DIRECTIVE = /(^|\n)[ \t]*@url[ \t]+([^\n]+)/
 const EXAMPLE_DIRECTIVE = /(^|\n)[ \t]*@example\b([^\n]*)/g
-const NEXT_DIRECTIVE = /\n[ \t]*@(?:name|desc|types|example|url)\b/
+const CLIENT_DIRECTIVE = /(^|\n)[ \t]*@client\b/
+const NEXT_DIRECTIVE = /\n[ \t]*@(?:name|desc|types|example|url|client)\b/
 
 export function templateDocs(source: string, filename: string): TemplateDocs {
   let tokens: ReturnType<typeof tokenize>
   try {
     tokens = tokenize(source, filename)
   } catch {
-    return { name: null, desc: null, types: null, url: null, examples: [] }
+    return { name: null, desc: null, types: null, url: null, examples: [], client: false }
   }
   const lines = new LineIndex(source)
   const comments = tokens.filter((t): t is CommentToken => t.type === 'comment')
@@ -57,8 +60,10 @@ export function templateDocs(source: string, filename: string): TemplateDocs {
   let name: string | null = null
   let desc: string | null = null
   let url: string | null = null
+  let client = false
   const examples: TemplateExample[] = []
   for (const token of comments) {
+    if (CLIENT_DIRECTIVE.test(token.value)) client = true
     url ??= URL_DIRECTIVE.exec(token.value)?.[2]?.trim() ?? null
     for (const match of token.value.matchAll(EXAMPLE_DIRECTIVE)) {
       const headerRest = match[2] ?? ''
@@ -92,7 +97,7 @@ export function templateDocs(source: string, filename: string): TemplateDocs {
     }
   }
 
-  return { name, desc, types: types?.raw ?? null, url, examples }
+  return { name, desc, types: types?.raw ?? null, url, examples, client }
 }
 
 /** Strips the common leading indentation from an example body. */

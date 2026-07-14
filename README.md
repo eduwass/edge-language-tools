@@ -94,6 +94,7 @@ or a call site breaks.
 - `@edge-language-tools/core` — Edge → virtual TS generation + checking
 - `@edge-language-tools/check` — `edge-check` CLI: recursively checks `.edge` files, human or `--format json` output
 - `@edge-language-tools/codegen` — `edge-codegen`: generated `templates.d.ts` + `TypedEdge` for checked `edge.render()` calls
+- `@edge-language-tools/client` (experimental) — `edge-client`: extract `@client` templates into typed browser render functions
 - `@edge-language-tools/language-server` — Volar-based LSP (diagnostics, completions, hover)
 - `packages/vscode` — VS Code / Cursor extension
 - `packages/zed` — Zed extension (works with SSH remote projects)

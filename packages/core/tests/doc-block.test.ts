@@ -40,7 +40,14 @@ test('expression-form @types stops at a following directive line', () => {
 })
 
 test('all fields null without a doc comment', () => {
-  expect(templateDocs('<p>plain</p>\n', 'plain.edge')).toEqual({ name: null, desc: null, types: null, url: null, examples: [] })
+  expect(templateDocs('<p>plain</p>\n', 'plain.edge')).toEqual({
+    name: null,
+    desc: null,
+    types: null,
+    url: null,
+    examples: [],
+    client: false,
+  })
 })
 
 test('parses @url and repeated @example directives', () => {
@@ -71,4 +78,23 @@ test('parses @url and repeated @example directives', () => {
   })
   expect(docs.examples[1]?.title).toBeNull()
   expect(docs.examples[1]?.raw).toContain('Default')
+})
+
+test('parses @client directive', () => {
+  const source = `{{--
+@client
+@types { label: string }
+--}}
+<button>{{ label }}</button>
+`
+  expect(templateDocs(source, 'button.edge').client).toBe(true)
+})
+
+test('@client is false without the directive', () => {
+  const source = `{{--
+@types { label: string }
+--}}
+<button>{{ label }}</button>
+`
+  expect(templateDocs(source, 'button.edge').client).toBe(false)
 })

@@ -1,5 +1,5 @@
 import { readdirSync } from 'node:fs'
-import { basename, join } from 'node:path'
+import { basename, join, extname } from 'node:path'
 import { Edge } from 'edge.js'
 import { edgeIconify, addCollection } from 'edge-iconify'
 import { icons as lucideIcons } from '@iconify-json/lucide'
@@ -119,6 +119,21 @@ Bun.serve({
       return new Response(await edge.render('demo', {}), {
         headers: { 'content-type': 'text/html; charset=utf-8' },
       })
+    }
+
+    if (url.pathname.startsWith('/client/')) {
+      const rel = url.pathname.slice(1)
+      const filePath = join(root, rel)
+      const file = Bun.file(filePath)
+      if (!(await file.exists())) {
+        return new Response('not found', { status: 404 })
+      }
+      const types: Record<string, string> = {
+        '.js': 'application/javascript; charset=utf-8',
+        '.ts': 'text/typescript; charset=utf-8',
+      }
+      const type = types[extname(filePath)] ?? 'application/octet-stream'
+      return new Response(file, { headers: { 'content-type': type } })
     }
 
     return new Response('not found', { status: 404 })
