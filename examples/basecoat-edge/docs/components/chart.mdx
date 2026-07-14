@@ -1,11 +1,11 @@
 ---
 title: Chart
-description: Chart canvas target; requires Chart.js and basecoat chart JS (chart.min.js).
+description: Themed Chart.js canvas; needs Chart.js, basecoat.min.js, and basecoat chart.min.js loaded.
 ---
 
 
 
 ## Preview
 
-<Playground component="chart" schema={{"props":{"id":{"type":"string","required":true,"description":"Canvas element id passed to basecoat.chart().","control":{"kind":"text"}},"label":{"type":"string","required":false,"description":"Accessible name via aria-label on the canvas.","control":{"kind":"text"}}},"defaultProps":{"id":"preview-chart","label":"Monthly visitors"},"defaultSlot":"","previewSlug":"chart","hasIndexSignature":true,"minHeight":320}} minHeight={320} />
+<Playground component="chart" schema={{"props":{"id":{"type":"string","required":true,"description":"Canvas element id passed to basecoat.chart().","control":{"kind":"text"}},"label":{"type":"string","required":false,"description":"Accessible name via aria-label on the canvas.","control":{"kind":"text"}},"type":{"type":"'bar' | 'line' | 'pie' | 'doughnut' | 'radar' | 'polarArea'","required":false,"description":"Chart.js chart type.","default":"'bar'","control":{"kind":"select","options":["bar","line","pie","doughnut","radar","polarArea"]}},"labelKey":{"type":"string","required":false,"description":"Row field used for the x-axis labels.","control":{"kind":"text"}},"data":{"type":"Array<Record<string, string | number>>","required":false,"description":"Data rows; each object holds the label field plus one number per series."},"series":{"type":"Record<string, { label?: string, color?: string }>","required":false,"description":"Per-series config keyed by row field: display label and CSS color."}},"defaultProps":{"id":"preview-chart","label":"Monthly visitors","type":"bar","labelKey":"month","data":[{"month":"Jan","desktop":186,"mobile":80},{"month":"Feb","desktop":305,"mobile":200},{"month":"Mar","desktop":237,"mobile":120},{"month":"Apr","desktop":173,"mobile":190}],"series":{"desktop":{"label":"Desktop","color":"var(--chart-1)"},"mobile":{"label":"Mobile","color":"var(--chart-2)"}}},"defaultSlot":"","previewSlug":"chart","hasIndexSignature":true,"minHeight":340}} minHeight={340} />
 

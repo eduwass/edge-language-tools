@@ -1,11 +1,19 @@
 {{--
 @name Chart
-@desc Chart canvas target; requires Chart.js and basecoat chart JS (chart.min.js).
+@desc Themed Chart.js canvas; needs Chart.js, basecoat.min.js, and basecoat chart.min.js loaded.
 @types {
   // Canvas element id passed to basecoat.chart().
   id: string
   // Accessible name via aria-label on the canvas.
   label?: string
+  // Chart.js chart type. @default 'bar'
+  type?: 'bar' | 'line' | 'pie' | 'doughnut' | 'radar' | 'polarArea'
+  // Row field used for the x-axis labels.
+  labelKey?: string
+  // Data rows; each object holds the label field plus one number per series.
+  data?: Array<Record<string, string | number>>
+  // Per-series config keyed by row field: display label and CSS color.
+  series?: Record<string, { label?: string, color?: string }>
   // Additional HTML attributes forwarded to the canvas element.
   [attr: string]: unknown
 }
@@ -18,3 +26,16 @@
     })
   }}
 ></canvas>
+@if(data)
+<script>
+  (function init() {
+    if (!window.basecoat || !window.basecoat.chart) return setTimeout(init, 50)
+    window.basecoat.chart('#{{ id }}', {
+      type: {{{ JSON.stringify(type ?? 'bar') }}},
+      labelKey: {{{ JSON.stringify(labelKey ?? 'label') }}},
+      data: {{{ JSON.stringify(data) }}},
+      series: {{{ JSON.stringify(series ?? {}) }}},
+    })
+  })()
+</script>
+@end
