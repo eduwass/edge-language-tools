@@ -12,7 +12,7 @@ const ROOT_MARKERS = ['package.json', '.git']
  * project boundary. Mirrors makeResolver's nearest-ancestor-first probing in
  * languagePlugin.ts, bounded so template discovery doesn't scan the whole disk.
  */
-function findAncestors(fromFile: string): string[] {
+export function findAncestors(fromFile: string): string[] {
   const ancestors: string[] = []
   let dir = dirname(fromFile)
   for (let depth = 0; depth < 20; depth++) {
@@ -49,7 +49,7 @@ function collectEdgeFiles(root: string, maxDepth = 12): string[] {
 }
 
 /** Name each template relative to the nearest ancestor (from `ancestors`) that contains it. */
-function nameTemplates(ancestors: string[]): Map<string, string> {
+export function nameTemplates(ancestors: string[]): Map<string, string> {
   const templates = new Map<string, string>()
   const root = ancestors[ancestors.length - 1]
   if (!root) return templates

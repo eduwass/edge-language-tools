@@ -2,6 +2,8 @@ import { createConnection, createServer, createTypeScriptProject, loadTsdkByPath
 import { create as createTypeScriptServices } from 'volar-service-typescript'
 import { edgeLanguagePlugin } from './languagePlugin.ts'
 import { createRequireTypesDiagnosticsPlugin } from './requireTypesDiagnostics.ts'
+import { createTagCompletionPlugin } from './tagCompletion.ts'
+import { createTagHoverPlugin } from './tagHover.ts'
 import { createTemplatePathCompletionPlugin } from './templatePathCompletion.ts'
 
 const connection = createConnection()
@@ -19,6 +21,8 @@ connection.onInitialize((params) => {
     [
       ...createTypeScriptServices(tsdk.typescript),
       createTemplatePathCompletionPlugin(),
+      createTagCompletionPlugin(),
+      createTagHoverPlugin(),
       createRequireTypesDiagnosticsPlugin(),
     ],
   )
