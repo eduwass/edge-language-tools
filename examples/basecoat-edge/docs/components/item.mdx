@@ -5,20 +5,28 @@ description: List item row with media, title, and description slots.
 
 List item row with media, title, and description slots.
 
-## Props
+## Preview
 
-```ts
-{
-  title?: string
-  description?: string
-  [attr: string]: unknown
-}
-```
+<iframe src="/previews/item.html" title="Item preview" loading="lazy" style={{ width: '100%', minHeight: '160px', border: '1px solid var(--color-border-tertiary)', borderRadius: '8px' }} />
 
-## Usage
+<Expandable title="Source">
 
 ```edge
-@@item({ /* see props */ })
-  Content
+@item({ title: 'Notifications', description: 'You have 3 unread messages.' })
 @end
 ```
+
+</Expandable>
+
+
+## Props
+
+<TypeTable
+  type={{
+    title: { type: "string" },
+    description: { type: "string" }
+  }}
+/>
+
+Plus any additional HTML attributes, forwarded to the root element.
+

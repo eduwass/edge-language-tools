@@ -1,20 +1,48 @@
 ---
-title: command
-description: command
+title: Command
+description: Command palette with search; requires basecoat command JS (all.min.js).
 ---
 
+Command palette with search; requires basecoat command JS (all.min.js).
+
+## Preview
+
+<iframe src="/previews/command.html" title="Command preview" loading="lazy" style={{ width: '100%', minHeight: '240px', border: '1px solid var(--color-border-tertiary)', borderRadius: '8px' }} />
+
+<Expandable title="Source">
+
+```edge
+@command({
+  id: 'preview-command',
+  items: [
+    { label: 'Calendar', type: 'item' },
+    { label: 'Search', type: 'item' },
+    { type: 'separator' },
+    { label: 'Settings', type: 'item' },
+  ],
+})
+@end
+```
+
+</Expandable>
 
 
 ## Props
 
-```ts
-{}
-```
+<TypeTable
+  type={{
+    id: { type: "string", required: true },
+    items: { type: "Array<{\n    type?: 'item' | 'group' | 'separator'\n    label?: string\n    url?: string\n    icon?: string\n    keywords?: string\n    disabled?: boolean\n    items?: Array<{\n      type?: 'item' | 'group' | 'separator'\n      label?: string\n      url?: string\n      icon?: string\n      keywords?: string\n      disabled?: boolean\n    }>\n    attrs?: Record<string, string>\n    id?: string\n  }>" },
+    placeholder: { type: "string" },
+    empty_text: { type: "string" },
+    dialog: { type: "boolean" },
+    open: { type: "boolean" },
+    main_attrs: { type: "Record<string, string>" },
+    input_attrs: { type: "Record<string, string>" },
+    menu_attrs: { type: "Record<string, string>" },
+    dialog_attrs: { type: "Record<string, string>" }
+  }}
+/>
 
-## Usage
+Plus any additional HTML attributes, forwarded to the root element.
 
-```edge
-@@command()
-  Content
-@end
-```

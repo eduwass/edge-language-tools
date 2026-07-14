@@ -1,20 +1,48 @@
 ---
-title: select
-description: select
+title: Select
+description: Custom select with listbox popover; requires basecoat select JS (all.min.js).
 ---
 
+Custom select with listbox popover; requires basecoat select JS (all.min.js).
+
+## Preview
+
+<iframe src="/previews/select.html" title="Select preview" loading="lazy" style={{ width: '100%', minHeight: '180px', border: '1px solid var(--color-border-tertiary)', borderRadius: '8px' }} />
+
+<Expandable title="Source">
+
+```edge
+@select({
+  id: 'preview-select',
+  placeholder: 'Select a fruit',
+  items: [
+    { label: 'Apple', value: 'apple', type: 'item' },
+    { label: 'Banana', value: 'banana', type: 'item' },
+    { label: 'Orange', value: 'orange', type: 'item' },
+  ],
+})
+@end
+```
+
+</Expandable>
 
 
 ## Props
 
-```ts
-{}
-```
+<TypeTable
+  type={{
+    id: { type: "string", required: true },
+    selected: { type: "string | string[]" },
+    name: { type: "string" },
+    items: { type: "Array<{\n    type?: 'item' | 'group' | 'separator'\n    label?: string\n    value?: string\n    items?: Array<{ label: string; value?: string; attrs?: Record<string, string> }>\n    attrs?: Record<string, string>\n    id?: string\n  }>" },
+    multiple: { type: "boolean" },
+    placeholder: { type: "string" },
+    close_on_select: { type: "boolean" },
+    format: { type: "'value' | 'object'" },
+    main_attrs: { type: "Record<string, string>" },
+    trigger_attrs: { type: "Record<string, string>" }
+  }}
+/>
 
-## Usage
+Plus any additional HTML attributes, forwarded to the root element.
 
-```edge
-@@select()
-  Content
-@end
-```

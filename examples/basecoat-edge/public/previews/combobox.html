@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Preview</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/basecoat-css@0.3.11/dist/basecoat.cdn.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/basecoat-css@0.3.11/dist/js/all.min.js" defer></script>
+  <style>
+    :root { color-scheme: light; }
+    body {
+      font-family: system-ui, sans-serif;
+      margin: 0;
+      padding: 24px;
+      background: var(--background, #fff);
+      color: var(--foreground, #111);
+      box-sizing: border-box;
+    }
+    .preview-root { width: 100%; max-width: 48rem; margin: 0 auto; }
+  </style>
+</head>
+<body>
+  <div class="preview-root">
+<div
+  id="preview-combobox"
+  class="combobox "
+  
+>
+    <input
+      type="text"
+      role="combobox"
+      placeholder="Select framework..."
+      autocomplete="off"
+      autocorrect="off"
+      spellcheck="false"
+      aria-autocomplete="list"
+      aria-expanded="false"
+      aria-controls="preview-combobox-listbox"
+      class=""
+    /><svg width="1em" height="1em" viewBox="0 0 24 24" class="combobox-trigger-icon" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m6 9l6 6l6-6"/></svg>
+  <div id="preview-combobox-popover" data-popover aria-hidden="true">
+    <div
+      role="listbox"
+      id="preview-combobox-listbox"
+      aria-orientation="vertical"
+    >
+        <div role="option" data-value="react">React</div>
+  <div role="option" data-value="vue">Vue</div>
+  <div role="option" data-value="svelte">Svelte</div>
+    </div>
+  </div>
+  <input
+    type="hidden"
+    value=""
+  />
+</div>
+  </div>
+</body>
+</html>

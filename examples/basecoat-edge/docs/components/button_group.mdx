@@ -5,19 +5,36 @@ description: Group related buttons with shared borders.
 
 Group related buttons with shared borders.
 
-## Props
+## Preview
 
-```ts
-{
-  orientation?: 'horizontal' | 'vertical'
-  [attr: string]: unknown
-}
-```
+<iframe src="/previews/button_group.html" title="Button Group preview" loading="lazy" style={{ width: '100%', minHeight: '160px', border: '1px solid var(--color-border-tertiary)', borderRadius: '8px' }} />
 
-## Usage
+<Expandable title="Source">
 
 ```edge
-@@buttonGroup({ /* see props */ })
-  Content
+@buttonGroup()
+  @button({ variant: 'outline' })
+    Left
+  @end
+  @button({ variant: 'outline' })
+    Center
+  @end
+  @button({ variant: 'outline' })
+    Right
+  @end
 @end
 ```
+
+</Expandable>
+
+
+## Props
+
+<TypeTable
+  type={{
+    orientation: { type: "'horizontal' | 'vertical'" }
+  }}
+/>
+
+Plus any additional HTML attributes, forwarded to the root element.
+

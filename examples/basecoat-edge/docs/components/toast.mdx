@@ -1,20 +1,43 @@
 ---
-title: toast
-description: toast
+title: Toast
+description: Toast notifications container and messages; requires basecoat toast JS (all.min.js).
 ---
 
+Toast notifications container and messages; requires basecoat toast JS (all.min.js).
+
+## Preview
+
+<iframe src="/previews/toast.html" title="Toast preview" loading="lazy" style={{ width: '100%', minHeight: '180px', border: '1px solid var(--color-border-tertiary)', borderRadius: '8px' }} />
+
+<Expandable title="Source">
+
+```edge
+@toast({
+  toasts: [
+    { category: 'success', title: 'Saved', description: 'Your changes have been saved.' },
+  ],
+})
+@end
+```
+
+</Expandable>
 
 
 ## Props
 
-```ts
-{}
-```
+<TypeTable
+  type={{
+    id: { type: "string" },
+    toasts: { type: "Array<{\n    category?: 'success' | 'error' | 'info' | 'warning'\n    title?: string\n    description?: string\n    duration?: number\n    action?: { label: string; onclick?: string; href?: string }\n    cancel?: { label: string; onclick?: string; href?: string }\n    attrs?: Record<string, string>\n  }>" },
+    category: { type: "'success' | 'error' | 'info' | 'warning'" },
+    title: { type: "string" },
+    description: { type: "string" },
+    duration: { type: "number" },
+    action: { type: "{ label: string; onclick?: string; href?: string }" },
+    cancel: { type: "{ label: string; onclick?: string; href?: string }" },
+    attrs: { type: "Record<string, string>" }
+  }}
+/>
 
-## Usage
+Plus any additional HTML attributes, forwarded to the root element.
 
-```edge
-@@toast()
-  Content
-@end
-```

@@ -5,20 +5,28 @@ description: Empty state placeholder with icon, title, and description slots.
 
 Empty state placeholder with icon, title, and description slots.
 
-## Props
+## Preview
 
-```ts
-{
-  title?: string
-  description?: string
-  [attr: string]: unknown
-}
-```
+<iframe src="/previews/empty.html" title="Empty preview" loading="lazy" style={{ width: '100%', minHeight: '180px', border: '1px solid var(--color-border-tertiary)', borderRadius: '8px' }} />
 
-## Usage
+<Expandable title="Source">
 
 ```edge
-@@empty({ /* see props */ })
-  Content
+@empty({ title: 'No results', description: 'Try adjusting your search or filters.' })
 @end
 ```
+
+</Expandable>
+
+
+## Props
+
+<TypeTable
+  type={{
+    title: { type: "string" },
+    description: { type: "string" }
+  }}
+/>
+
+Plus any additional HTML attributes, forwarded to the root element.
+

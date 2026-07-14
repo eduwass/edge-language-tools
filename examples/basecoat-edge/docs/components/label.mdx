@@ -5,19 +5,28 @@ description: Form label element.
 
 Form label element.
 
-## Props
+## Preview
 
-```ts
-{
-  htmlFor?: string
-  [attr: string]: unknown
-}
-```
+<iframe src="/previews/label.html" title="Label preview" loading="lazy" style={{ width: '100%', minHeight: '160px', border: '1px solid var(--color-border-tertiary)', borderRadius: '8px' }} />
 
-## Usage
+<Expandable title="Source">
 
 ```edge
-@@label({ /* see props */ })
-  Content
+@label({ htmlFor: 'preview-email' })
+  Email address
 @end
 ```
+
+</Expandable>
+
+
+## Props
+
+<TypeTable
+  type={{
+    htmlFor: { type: "string" }
+  }}
+/>
+
+Plus any additional HTML attributes, forwarded to the root element.
+

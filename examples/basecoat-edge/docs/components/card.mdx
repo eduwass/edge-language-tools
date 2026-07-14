@@ -5,19 +5,39 @@ description: Card container with header, section, and footer slots matching base
 
 Card container with header, section, and footer slots matching basecoat structure.
 
-## Props
+## Preview
 
-```ts
-{
-  size?: 'sm'
-  [attr: string]: unknown
-}
-```
+<iframe src="/previews/card.html" title="Card preview" loading="lazy" style={{ width: '100%', minHeight: '220px', border: '1px solid var(--color-border-tertiary)', borderRadius: '8px' }} />
 
-## Usage
+<Expandable title="Source">
 
 ```edge
-@@card({ /* see props */ })
-  Content
+@card()
+  @slot('header')
+    <h2>Card title</h2>
+    <p>Card description</p>
+  @end
+  @slot('section')
+    <p>Card content goes here.</p>
+  @end
+  @slot('footer')
+    @button({ variant: 'outline' })
+      Action
+    @end
+  @end
 @end
 ```
+
+</Expandable>
+
+
+## Props
+
+<TypeTable
+  type={{
+    size: { type: "'sm'" }
+  }}
+/>
+
+Plus any additional HTML attributes, forwarded to the root element.
+

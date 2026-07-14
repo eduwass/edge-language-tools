@@ -5,19 +5,41 @@ description: Vertically stacked disclosure items; requires basecoat accordion JS
 
 Vertically stacked disclosure items; requires basecoat accordion JS (all.min.js).
 
-## Props
+## Preview
 
-```ts
-{
-  multiple?: boolean
-  [attr: string]: unknown
-}
-```
+<iframe src="/previews/accordion.html" title="Accordion preview" loading="lazy" style={{ width: '100%', minHeight: '160px', border: '1px solid var(--color-border-tertiary)', borderRadius: '8px' }} />
 
-## Usage
+<Expandable title="Source">
 
 ```edge
-@@accordion({ /* see props */ })
-  Content
+@accordion()
+  <details open>
+    <summary>
+      Is it accessible?
+      @svg('lucide:chevron-down')
+    </summary>
+    <section>Yes. It uses native disclosure semantics.</section>
+  </details>
+  <details>
+    <summary>
+      Is it styled?
+      @svg('lucide:chevron-down')
+    </summary>
+    <section>Yes. It comes with basecoat styles.</section>
+  </details>
 @end
 ```
+
+</Expandable>
+
+
+## Props
+
+<TypeTable
+  type={{
+    multiple: { type: "boolean" }
+  }}
+/>
+
+Plus any additional HTML attributes, forwarded to the root element.
+

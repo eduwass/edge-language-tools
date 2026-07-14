@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Preview</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/basecoat-css@0.3.11/dist/basecoat.cdn.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/basecoat-css@0.3.11/dist/js/all.min.js" defer></script>
+  <style>
+    :root { color-scheme: light; }
+    body {
+      font-family: system-ui, sans-serif;
+      margin: 0;
+      padding: 24px;
+      background: var(--background, #fff);
+      color: var(--foreground, #111);
+      box-sizing: border-box;
+    }
+    .preview-root { width: 100%; max-width: 48rem; margin: 0 auto; }
+  </style>
+</head>
+<body>
+  <div class="preview-root">
+<div id="preview-command" class="command " aria-label="Command menu">
+  <header><svg width="1em" height="1em" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="m21 21l-4.34-4.34"/><circle cx="11" cy="11" r="8"/></g></svg>
+    <input type="text" id="preview-command-input" placeholder="Type a command or search..." autocomplete="off" autocorrect="off" spellcheck="false" aria-autocomplete="list" role="combobox" aria-expanded="true" aria-controls="preview-command-menu" class="" />
+  </header>
+  <div role="menu" id="preview-command-menu" aria-orientation="vertical" data-empty="No results found." class="">
+
+
+          <div id="preview-command-items-1" role="menuitem">Calendar</div>
+
+          <div id="preview-command-items-2" role="menuitem">Search</div>
+
+          <hr role="separator" />
+
+          <div id="preview-command-items-4" role="menuitem">Settings</div>
+  </div>
+</div>
+  </div>
+</body>
+</html>

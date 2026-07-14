@@ -1,20 +1,44 @@
 ---
-title: combobox
-description: combobox
+title: Combobox
+description: Input-first combobox with listbox; requires basecoat combobox JS (all.min.js).
 ---
 
+Input-first combobox with listbox; requires basecoat combobox JS (all.min.js).
+
+## Preview
+
+<iframe src="/previews/combobox.html" title="Combobox preview" loading="lazy" style={{ width: '100%', minHeight: '180px', border: '1px solid var(--color-border-tertiary)', borderRadius: '8px' }} />
+
+<Expandable title="Source">
+
+```edge
+@combobox({ id: 'preview-combobox', placeholder: 'Select framework...' })
+  <div role="option" data-value="react">React</div>
+  <div role="option" data-value="vue">Vue</div>
+  <div role="option" data-value="svelte">Svelte</div>
+@end
+```
+
+</Expandable>
 
 
 ## Props
 
-```ts
-{}
-```
+<TypeTable
+  type={{
+    id: { type: "string", required: true },
+    selected: { type: "string | string[] | { value: string; label?: string } | Array<{ value: string; label?: string }>" },
+    name: { type: "string" },
+    multiple: { type: "boolean" },
+    placeholder: { type: "string" },
+    close_on_select: { type: "boolean" },
+    clear: { type: "boolean" },
+    auto_highlight: { type: "boolean" },
+    format: { type: "'value' | 'object'" },
+    main_attrs: { type: "Record<string, string>" },
+    input_attrs: { type: "Record<string, string>" }
+  }}
+/>
 
-## Usage
+Plus any additional HTML attributes, forwarded to the root element.
 
-```edge
-@@combobox()
-  Content
-@end
-```

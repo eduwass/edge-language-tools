@@ -5,20 +5,30 @@ description: Accessible form field wrapper with label and description slots.
 
 Accessible form field wrapper with label and description slots.
 
-## Props
+## Preview
 
-```ts
-{
-  label?: string
-  description?: string
-  [attr: string]: unknown
-}
-```
+<iframe src="/previews/field.html" title="Field preview" loading="lazy" style={{ width: '100%', minHeight: '160px', border: '1px solid var(--color-border-tertiary)', borderRadius: '8px' }} />
 
-## Usage
+<Expandable title="Source">
 
 ```edge
-@@field({ /* see props */ })
-  Content
+@field({ label: 'Email', description: 'We will never share your email.' })
+  @input({ type: 'email', name: 'email', placeholder: 'you@example.com' })
+  @end
 @end
 ```
+
+</Expandable>
+
+
+## Props
+
+<TypeTable
+  type={{
+    label: { type: "string" },
+    description: { type: "string" }
+  }}
+/>
+
+Plus any additional HTML attributes, forwarded to the root element.
+

@@ -5,20 +5,28 @@ description: Progress bar indicator.
 
 Progress bar indicator.
 
-## Props
+## Preview
 
-```ts
-{
-  value?: number
-  max?: number
-  [attr: string]: unknown
-}
-```
+<iframe src="/previews/progress.html" title="Progress preview" loading="lazy" style={{ width: '100%', minHeight: '160px', border: '1px solid var(--color-border-tertiary)', borderRadius: '8px' }} />
 
-## Usage
+<Expandable title="Source">
 
 ```edge
-@@progress({ /* see props */ })
-  Content
+@progress({ value: 60, max: 100 })
 @end
 ```
+
+</Expandable>
+
+
+## Props
+
+<TypeTable
+  type={{
+    value: { type: "number" },
+    max: { type: "number" }
+  }}
+/>
+
+Plus any additional HTML attributes, forwarded to the root element.
+

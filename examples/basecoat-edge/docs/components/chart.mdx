@@ -5,19 +5,33 @@ description: Chart container; requires basecoat chart JS (all.min.js).
 
 Chart container; requires basecoat chart JS (all.min.js).
 
-## Props
+## Preview
 
-```ts
-{
-  type?: 'bar' | 'line' | 'area' | 'pie' | 'donut'
-  [attr: string]: unknown
-}
-```
+<iframe src="/previews/chart.html" title="Chart preview" loading="lazy" style={{ width: '100%', minHeight: '200px', border: '1px solid var(--color-border-tertiary)', borderRadius: '8px' }} />
 
-## Usage
+<Expandable title="Source">
 
 ```edge
-@@chart({ /* see props */ })
-  Content
+@chart({ type: 'bar' })
+  <div style="display: flex; align-items: flex-end; gap: 0.5rem; height: 10rem; padding: 1rem;">
+    <div style="flex: 1; height: 40%; background: var(--primary, #333); border-radius: 4px;"></div>
+    <div style="flex: 1; height: 70%; background: var(--primary, #333); border-radius: 4px;"></div>
+    <div style="flex: 1; height: 55%; background: var(--primary, #333); border-radius: 4px;"></div>
+    <div style="flex: 1; height: 85%; background: var(--primary, #333); border-radius: 4px;"></div>
+  </div>
 @end
 ```
+
+</Expandable>
+
+
+## Props
+
+<TypeTable
+  type={{
+    type: { type: "'bar' | 'line' | 'area' | 'pie' | 'donut'" }
+  }}
+/>
+
+Plus any additional HTML attributes, forwarded to the root element.
+

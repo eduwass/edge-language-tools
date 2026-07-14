@@ -5,19 +5,31 @@ description: Tooltip trigger with content; requires basecoat tooltip JS.
 
 Tooltip trigger with content; requires basecoat tooltip JS.
 
-## Props
+## Preview
 
-```ts
-{
-  id: string
-  [attr: string]: unknown
-}
-```
+<iframe src="/previews/tooltip.html" title="Tooltip preview" loading="lazy" style={{ width: '100%', minHeight: '180px', border: '1px solid var(--color-border-tertiary)', borderRadius: '8px' }} />
 
-## Usage
+<Expandable title="Source">
 
 ```edge
-@@tooltip({ /* required props */ })
-  Content
+@tooltip({ id: 'preview-tooltip' })
+  @slot('trigger')
+    Hover me
+  @end
+  Helpful tooltip text
 @end
 ```
+
+</Expandable>
+
+
+## Props
+
+<TypeTable
+  type={{
+    id: { type: "string", required: true }
+  }}
+/>
+
+Plus any additional HTML attributes, forwarded to the root element.
+

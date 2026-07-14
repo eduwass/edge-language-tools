@@ -5,18 +5,25 @@ description: Keyboard key indicator.
 
 Keyboard key indicator.
 
-## Props
+## Preview
 
-```ts
-{
-  [attr: string]: unknown
-}
-```
+<iframe src="/previews/kbd.html" title="Kbd preview" loading="lazy" style={{ width: '100%', minHeight: '160px', border: '1px solid var(--color-border-tertiary)', borderRadius: '8px' }} />
 
-## Usage
+<Expandable title="Source">
 
 ```edge
-@@kbd({ /* required props */ })
-  Content
+@kbd()
+  Ctrl
+@end
+@kbd()
+  K
 @end
 ```
+
+</Expandable>
+
+
+## Props
+
+Plus any additional HTML attributes, forwarded to the root element.
+

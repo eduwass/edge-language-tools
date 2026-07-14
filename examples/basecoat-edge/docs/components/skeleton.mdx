@@ -5,18 +5,22 @@ description: Loading placeholder skeleton.
 
 Loading placeholder skeleton.
 
-## Props
+## Preview
 
-```ts
-{
-  [attr: string]: unknown
-}
-```
+<iframe src="/previews/skeleton.html" title="Skeleton preview" loading="lazy" style={{ width: '100%', minHeight: '160px', border: '1px solid var(--color-border-tertiary)', borderRadius: '8px' }} />
 
-## Usage
+<Expandable title="Source">
 
 ```edge
-@@skeleton({ /* required props */ })
-  Content
+@skeleton()
+  <div style="height: 2rem; width: 12rem;"></div>
 @end
 ```
+
+</Expandable>
+
+
+## Props
+
+Plus any additional HTML attributes, forwarded to the root element.
+

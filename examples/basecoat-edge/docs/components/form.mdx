@@ -5,20 +5,35 @@ description: Form container with field spacing.
 
 Form container with field spacing.
 
-## Props
+## Preview
 
-```ts
-{
-  action?: string
-  method?: 'get' | 'post'
-  [attr: string]: unknown
-}
-```
+<iframe src="/previews/form.html" title="Form preview" loading="lazy" style={{ width: '100%', minHeight: '200px', border: '1px solid var(--color-border-tertiary)', borderRadius: '8px' }} />
 
-## Usage
+<Expandable title="Source">
 
 ```edge
-@@form({ /* see props */ })
-  Content
+@form({ action: '/submit', method: 'post' })
+  @field({ label: 'Name' })
+    @input({ name: 'name', placeholder: 'Your name' })
+    @end
+  @end
+  @button({ type: 'submit' })
+    Submit
+  @end
 @end
 ```
+
+</Expandable>
+
+
+## Props
+
+<TypeTable
+  type={{
+    action: { type: "string" },
+    method: { type: "'get' | 'post'" }
+  }}
+/>
+
+Plus any additional HTML attributes, forwarded to the root element.
+

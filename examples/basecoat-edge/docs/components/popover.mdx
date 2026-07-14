@@ -5,22 +5,36 @@ description: Generic popover with trigger button; requires basecoat popover JS (
 
 Generic popover with trigger button; requires basecoat popover JS (all.min.js).
 
-## Props
+## Preview
 
-```ts
-{
-  id: string
-  trigger_attrs?: Record<string, string>
-  popover_attrs?: Record<string, string>
-  main_attrs?: Record<string, string>
-  [attr: string]: unknown
-}
-```
+<iframe src="/previews/popover.html" title="Popover preview" loading="lazy" style={{ width: '100%', minHeight: '180px', border: '1px solid var(--color-border-tertiary)', borderRadius: '8px' }} />
 
-## Usage
+<Expandable title="Source">
 
 ```edge
-@@popover({ /* required props */ })
-  Content
+@popover({ id: 'preview-popover' })
+  @slot('trigger')
+    Open popover
+  @end
+  @slot('main')
+    <p style="padding: 0.5rem;">Popover content goes here.</p>
+  @end
 @end
 ```
+
+</Expandable>
+
+
+## Props
+
+<TypeTable
+  type={{
+    id: { type: "string", required: true },
+    trigger_attrs: { type: "Record<string, string>" },
+    popover_attrs: { type: "Record<string, string>" },
+    main_attrs: { type: "Record<string, string>" }
+  }}
+/>
+
+Plus any additional HTML attributes, forwarded to the root element.
+

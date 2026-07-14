@@ -5,22 +5,34 @@ description: Styled native select element.
 
 Styled native select element.
 
-## Props
+## Preview
 
-```ts
-{
-  name?: string
-  id?: string
-  disabled?: boolean
-  required?: boolean
-  [attr: string]: unknown
-}
-```
+<iframe src="/previews/native_select.html" title="Native Select preview" loading="lazy" style={{ width: '100%', minHeight: '160px', border: '1px solid var(--color-border-tertiary)', borderRadius: '8px' }} />
 
-## Usage
+<Expandable title="Source">
 
 ```edge
-@@nativeSelect({ /* see props */ })
-  Content
+@nativeSelect({ name: 'fruit' })
+  <option value="">Select a fruit</option>
+  <option value="apple">Apple</option>
+  <option value="banana">Banana</option>
+  <option value="orange">Orange</option>
 @end
 ```
+
+</Expandable>
+
+
+## Props
+
+<TypeTable
+  type={{
+    name: { type: "string" },
+    id: { type: "string" },
+    disabled: { type: "boolean" },
+    required: { type: "boolean" }
+  }}
+/>
+
+Plus any additional HTML attributes, forwarded to the root element.
+

@@ -5,21 +5,42 @@ description: User avatar image or fallback initials.
 
 User avatar image or fallback initials.
 
-## Props
+## Preview
 
-```ts
-{
-  src?: string
-  alt?: string
-  fallback?: string
-  [attr: string]: unknown
-}
-```
+<iframe src="/previews/avatar.html" title="Avatar preview" loading="lazy" style={{ width: '100%', minHeight: '160px', border: '1px solid var(--color-border-tertiary)', borderRadius: '8px' }} />
 
-## Usage
+<Expandable title="Source">
 
 ```edge
-@@avatar({ /* see props */ })
-  Content
+@avatar({ src: 'https://github.com/shadcn.png', alt: 'User' })
 @end
 ```
+
+</Expandable>
+
+### Fallback
+
+<iframe src="/previews/avatar-1.html" title="Avatar preview" loading="lazy" style={{ width: '100%', minHeight: '160px', border: '1px solid var(--color-border-tertiary)', borderRadius: '8px' }} />
+
+<Expandable title="Source">
+
+```edge
+@avatar({ fallback: 'CN' })
+@end
+```
+
+</Expandable>
+
+
+## Props
+
+<TypeTable
+  type={{
+    src: { type: "string" },
+    alt: { type: "string" },
+    fallback: { type: "string" }
+  }}
+/>
+
+Plus any additional HTML attributes, forwarded to the root element.
+

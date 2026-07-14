@@ -5,21 +5,29 @@ description: Alert banner with optional destructive variant; use icon, title, se
 
 Alert banner with optional destructive variant; use icon, title, section, and footer slots.
 
-## Props
+## Preview
 
-```ts
-{
-  variant?: 'default' | 'destructive'
-  title?: string
-  description?: string
-  [attr: string]: unknown
-}
-```
+<iframe src="/previews/alert.html" title="Alert preview" loading="lazy" style={{ width: '100%', minHeight: '160px', border: '1px solid var(--color-border-tertiary)', borderRadius: '8px' }} />
 
-## Usage
+<Expandable title="Source">
 
 ```edge
-@@alert({ /* see props */ })
-  Content
+@alert({ variant: 'default', title: 'Heads up', description: 'You can add components to your app.' })
 @end
 ```
+
+</Expandable>
+
+
+## Props
+
+<TypeTable
+  type={{
+    variant: { type: "'default' | 'destructive'" },
+    title: { type: "string" },
+    description: { type: "string" }
+  }}
+/>
+
+Plus any additional HTML attributes, forwarded to the root element.
+

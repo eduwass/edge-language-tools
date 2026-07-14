@@ -5,25 +5,33 @@ description: Multi-line text input.
 
 Multi-line text input.
 
-## Props
+## Preview
 
-```ts
-{
-  name?: string
-  value?: string
-  placeholder?: string
-  rows?: number
-  disabled?: boolean
-  required?: boolean
-  id?: string
-  [attr: string]: unknown
-}
-```
+<iframe src="/previews/textarea.html" title="Textarea preview" loading="lazy" style={{ width: '100%', minHeight: '180px', border: '1px solid var(--color-border-tertiary)', borderRadius: '8px' }} />
 
-## Usage
+<Expandable title="Source">
 
 ```edge
-@@textarea({ /* see props */ })
-  Content
+@textarea({ name: 'message', placeholder: 'Type your message here.', rows: 4 })
 @end
 ```
+
+</Expandable>
+
+
+## Props
+
+<TypeTable
+  type={{
+    name: { type: "string" },
+    value: { type: "string" },
+    placeholder: { type: "string" },
+    rows: { type: "number" },
+    disabled: { type: "boolean" },
+    required: { type: "boolean" },
+    id: { type: "string" }
+  }}
+/>
+
+Plus any additional HTML attributes, forwarded to the root element.
+

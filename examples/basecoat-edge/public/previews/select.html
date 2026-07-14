@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Preview</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/basecoat-css@0.3.11/dist/basecoat.cdn.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/basecoat-css@0.3.11/dist/js/all.min.js" defer></script>
+  <style>
+    :root { color-scheme: light; }
+    body {
+      font-family: system-ui, sans-serif;
+      margin: 0;
+      padding: 24px;
+      background: var(--background, #fff);
+      color: var(--foreground, #111);
+      box-sizing: border-box;
+    }
+    .preview-root { width: 100%; max-width: 48rem; margin: 0 auto; }
+  </style>
+</head>
+<body>
+  <div class="preview-root">
+<div
+  id="preview-select"
+  class="select "
+  data-placeholder="Select a fruit"
+>
+  <button
+    type="button"
+    class=""
+    id="preview-select-trigger"
+    aria-haspopup="listbox"
+    aria-expanded="false"
+    aria-controls="preview-select-listbox"
+  >
+    <span class="truncate">Select a fruit</span><svg width="1em" height="1em" viewBox="0 0 24 24" class="text-muted-foreground opacity-50 shrink-0"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m6 9l6 6l6-6"/></svg>
+  </button>
+  <div id="preview-select-popover" data-popover aria-hidden="true">
+    <div
+      role="listbox"
+      id="preview-select-listbox"
+      aria-orientation="vertical"
+      aria-labelledby="preview-select-trigger"
+    >
+
+
+            <div
+              id="preview-select-items-1"
+              role="option"
+              data-value="apple"
+            >Apple</div>
+
+            <div
+              id="preview-select-items-2"
+              role="option"
+              data-value="banana"
+            >Banana</div>
+
+            <div
+              id="preview-select-items-3"
+              role="option"
+              data-value="orange"
+            >Orange</div>
+    </div>
+  </div>
+  <input type="hidden" name="preview-select-value" value="" />
+</div>
+  </div>
+</body>
+</html>

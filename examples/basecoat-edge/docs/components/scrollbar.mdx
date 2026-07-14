@@ -5,18 +5,31 @@ description: Scrollable region with custom scrollbar styling.
 
 Scrollable region with custom scrollbar styling.
 
-## Props
+## Preview
 
-```ts
-{
-  [attr: string]: unknown
-}
-```
+<iframe src="/previews/scrollbar.html" title="Scrollbar preview" loading="lazy" style={{ width: '100%', minHeight: '180px', border: '1px solid var(--color-border-tertiary)', borderRadius: '8px' }} />
 
-## Usage
+<Expandable title="Source">
 
 ```edge
-@@scrollbar({ /* required props */ })
-  Content
+@scrollbar()
+  <div style="max-height: 8rem; overflow: auto;">
+    <p>Scrollable content line 1</p>
+    <p>Scrollable content line 2</p>
+    <p>Scrollable content line 3</p>
+    <p>Scrollable content line 4</p>
+    <p>Scrollable content line 5</p>
+    <p>Scrollable content line 6</p>
+    <p>Scrollable content line 7</p>
+    <p>Scrollable content line 8</p>
+  </div>
 @end
 ```
+
+</Expandable>
+
+
+## Props
+
+Plus any additional HTML attributes, forwarded to the root element.
+

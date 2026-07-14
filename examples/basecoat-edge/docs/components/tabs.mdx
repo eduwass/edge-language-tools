@@ -5,30 +5,40 @@ description: Tabbed interface; requires basecoat tabs JS (all.min.js).
 
 Tabbed interface; requires basecoat tabs JS (all.min.js).
 
-## Props
+## Preview
 
-```ts
-{
-  id: string
-  tabsets: Array<{
-    tab: string
-    panel?: string
-    tab_attrs?: Record<string, string>
-    panel_attrs?: Record<string, string>
-  }>
-  default_tab_index?: number
-  orientation?: 'horizontal' | 'vertical'
-  variant?: 'default' | 'line'
-  main_attrs?: Record<string, string>
-  tablist_attrs?: Record<string, string>
-  [attr: string]: unknown
-}
-```
+<iframe src="/previews/tabs.html" title="Tabs preview" loading="lazy" style={{ width: '100%', minHeight: '200px', border: '1px solid var(--color-border-tertiary)', borderRadius: '8px' }} />
 
-## Usage
+<Expandable title="Source">
 
 ```edge
-@@tabs({ /* required props */ })
-  Content
+@tabs({
+  id: 'preview-tabs',
+  tabsets: [
+    { tab: 'Account', panel: '<p>Account settings</p>' },
+    { tab: 'Password', panel: '<p>Change your password</p>' },
+    { tab: 'Team', panel: '<p>Manage your team</p>' },
+  ],
+})
 @end
 ```
+
+</Expandable>
+
+
+## Props
+
+<TypeTable
+  type={{
+    id: { type: "string", required: true },
+    tabsets: { type: "Array<{\n    tab: string\n    panel?: string\n    tab_attrs?: Record<string, string>\n    panel_attrs?: Record<string, string>\n  }>", required: true },
+    default_tab_index: { type: "number" },
+    orientation: { type: "'horizontal' | 'vertical'" },
+    variant: { type: "'default' | 'line'" },
+    main_attrs: { type: "Record<string, string>" },
+    tablist_attrs: { type: "Record<string, string>" }
+  }}
+/>
+
+Plus any additional HTML attributes, forwarded to the root element.
+

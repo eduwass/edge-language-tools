@@ -5,19 +5,29 @@ description: Native details/summary disclosure; content via main slot.
 
 Native details/summary disclosure; content via main slot.
 
-## Props
+## Preview
 
-```ts
-{
-  open?: boolean
-  [attr: string]: unknown
-}
-```
+<iframe src="/previews/collapsible.html" title="Collapsible preview" loading="lazy" style={{ width: '100%', minHeight: '160px', border: '1px solid var(--color-border-tertiary)', borderRadius: '8px' }} />
 
-## Usage
+<Expandable title="Source">
 
 ```edge
-@@collapsible({ /* see props */ })
-  Content
+@collapsible({ open: true })
+  <summary>Can I use this in my project?</summary>
+  <section>Yes. It uses native details and summary elements.</section>
 @end
 ```
+
+</Expandable>
+
+
+## Props
+
+<TypeTable
+  type={{
+    open: { type: "boolean" }
+  }}
+/>
+
+Plus any additional HTML attributes, forwarded to the root element.
+

@@ -5,18 +5,28 @@ description: Styled data table wrapper.
 
 Styled data table wrapper.
 
-## Props
+## Preview
 
-```ts
-{
-  [attr: string]: unknown
-}
-```
+<iframe src="/previews/table.html" title="Table preview" loading="lazy" style={{ width: '100%', minHeight: '200px', border: '1px solid var(--color-border-tertiary)', borderRadius: '8px' }} />
 
-## Usage
+<Expandable title="Source">
 
 ```edge
-@@table({ /* required props */ })
-  Content
+@table()
+  <thead>
+    <tr><th>Name</th><th>Status</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Ada Lovelace</td><td>Active</td></tr>
+    <tr><td>Alan Turing</td><td>Active</td></tr>
+  </tbody>
 @end
 ```
+
+</Expandable>
+
+
+## Props
+
+Plus any additional HTML attributes, forwarded to the root element.
+

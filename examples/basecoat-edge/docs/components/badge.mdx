@@ -5,19 +5,28 @@ description: Small status label; variants map to basecoat data attributes.
 
 Small status label; variants map to basecoat data attributes.
 
-## Props
+## Preview
 
-```ts
-{
-  variant?: 'default' | 'secondary' | 'outline' | 'destructive'
-  [attr: string]: unknown
-}
-```
+<iframe src="/previews/badge.html" title="Badge preview" loading="lazy" style={{ width: '100%', minHeight: '160px', border: '1px solid var(--color-border-tertiary)', borderRadius: '8px' }} />
 
-## Usage
+<Expandable title="Source">
 
 ```edge
-@@badge({ /* see props */ })
-  Content
+@badge({ variant: 'secondary' })
+  New
 @end
 ```
+
+</Expandable>
+
+
+## Props
+
+<TypeTable
+  type={{
+    variant: { type: "'default' | 'secondary' | 'outline' | 'destructive'" }
+  }}
+/>
+
+Plus any additional HTML attributes, forwarded to the root element.
+

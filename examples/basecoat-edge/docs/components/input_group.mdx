@@ -5,18 +5,28 @@ description: Input with inline addons (icons, text, buttons).
 
 Input with inline addons (icons, text, buttons).
 
-## Props
+## Preview
 
-```ts
-{
-  [attr: string]: unknown
-}
-```
+<iframe src="/previews/input_group.html" title="Input Group preview" loading="lazy" style={{ width: '100%', minHeight: '160px', border: '1px solid var(--color-border-tertiary)', borderRadius: '8px' }} />
 
-## Usage
+<Expandable title="Source">
 
 ```edge
-@@inputGroup({ /* required props */ })
-  Content
+@inputGroup()
+  @input({ placeholder: 'Search...' })
+  @end
+  <span role="group" data-align="inline-end">
+    @button({ variant: 'outline', size: 'sm' })
+      Search
+    @end
+  </span>
 @end
 ```
+
+</Expandable>
+
+
+## Props
+
+Plus any additional HTML attributes, forwarded to the root element.
+

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Preview</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/basecoat-css@0.3.11/dist/basecoat.cdn.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/basecoat-css@0.3.11/dist/js/all.min.js" defer></script>
+  <style>
+    :root { color-scheme: light; }
+    body {
+      font-family: system-ui, sans-serif;
+      margin: 0;
+      padding: 24px;
+      background: var(--background, #fff);
+      color: var(--foreground, #111);
+      box-sizing: border-box;
+    }
+    .preview-root { width: 100%; max-width: 48rem; margin: 0 auto; }
+  </style>
+</head>
+<body>
+  <div class="preview-root">
+<div class="scrollbar">
+    <div style="max-height: 8rem; overflow: auto;">
+    <p>Scrollable content line 1</p>
+    <p>Scrollable content line 2</p>
+    <p>Scrollable content line 3</p>
+    <p>Scrollable content line 4</p>
+    <p>Scrollable content line 5</p>
+    <p>Scrollable content line 6</p>
+    <p>Scrollable content line 7</p>
+    <p>Scrollable content line 8</p>
+  </div>
+</div>
+  </div>
+</body>
+</html>

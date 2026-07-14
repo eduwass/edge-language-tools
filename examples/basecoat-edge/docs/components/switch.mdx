@@ -5,24 +5,32 @@ description: Toggle switch input.
 
 Toggle switch input.
 
-## Props
+## Preview
 
-```ts
-{
-  name?: string
-  checked?: boolean
-  disabled?: boolean
-  required?: boolean
-  id?: string
-  label?: string
-  [attr: string]: unknown
-}
-```
+<iframe src="/previews/switch.html" title="Switch preview" loading="lazy" style={{ width: '100%', minHeight: '160px', border: '1px solid var(--color-border-tertiary)', borderRadius: '8px' }} />
 
-## Usage
+<Expandable title="Source">
 
 ```edge
-@@switch({ /* see props */ })
-  Content
+@switch({ name: 'notifications', label: 'Enable notifications' })
 @end
 ```
+
+</Expandable>
+
+
+## Props
+
+<TypeTable
+  type={{
+    name: { type: "string" },
+    checked: { type: "boolean" },
+    disabled: { type: "boolean" },
+    required: { type: "boolean" },
+    id: { type: "string" },
+    label: { type: "string" }
+  }}
+/>
+
+Plus any additional HTML attributes, forwarded to the root element.
+
