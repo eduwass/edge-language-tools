@@ -3,13 +3,13 @@ title: Form
 description: Form container with field spacing.
 ---
 
-Form container with field spacing.
+
 
 ## Preview
 
-<iframe src="/previews/form.html" title="Form preview" loading="lazy" style={{ width: '100%', minHeight: '200px', border: '1px solid var(--color-border-tertiary)', borderRadius: '8px' }} />
+<Playground component="form" schema={{"controls":{"action":{"kind":"text"},"method":{"kind":"select","options":["get","post"]}},"defaultProps":{"action":"/submit","method":"post"},"defaultSlot":"  @field({ label: 'Name' })\n    @input({ name: 'name', placeholder: 'Your name' })\n    @end\n  @end\n  @button({ type: 'submit' })\n    Submit\n  @end","previewSlug":"form","minHeight":200}} minHeight={200} />
 
-<Expandable title="Source">
+## Usage
 
 ```edge
 @form({ action: '/submit', method: 'post' })
@@ -22,9 +22,6 @@ Form container with field spacing.
   @end
 @end
 ```
-
-</Expandable>
-
 
 ## Props
 

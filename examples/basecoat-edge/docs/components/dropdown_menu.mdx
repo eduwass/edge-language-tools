@@ -3,13 +3,13 @@ title: Dropdown Menu
 description: Dropdown menu with trigger and items; requires basecoat dropdown-menu JS (all.min.js).
 ---
 
-Dropdown menu with trigger and items; requires basecoat dropdown-menu JS (all.min.js).
+
 
 ## Preview
 
-<iframe src="/previews/dropdown_menu.html" title="Dropdown Menu preview" loading="lazy" style={{ width: '100%', minHeight: '180px', border: '1px solid var(--color-border-tertiary)', borderRadius: '8px' }} />
+<Playground component="dropdown_menu" schema={{"controls":{"id":{"kind":"text"}},"defaultProps":{"id":"preview-dropdown","items":[{"label":"Profile","type":"item"},{"label":"Settings","type":"item"},{"type":"separator"},{"label":"Logout","type":"item"}]},"defaultSlot":"  @slot('trigger')\n    Open menu\n  @end","previewSlug":"dropdown_menu","minHeight":180}} minHeight={180} />
 
-<Expandable title="Source">
+## Usage
 
 ```edge
 @dropdownMenu({
@@ -26,9 +26,6 @@ Dropdown menu with trigger and items; requires basecoat dropdown-menu JS (all.mi
   @end
 @end
 ```
-
-</Expandable>
-
 
 ## Props
 

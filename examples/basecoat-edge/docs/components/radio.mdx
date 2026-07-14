@@ -3,13 +3,13 @@ title: Radio
 description: Styled radio input with optional label.
 ---
 
-Styled radio input with optional label.
+
 
 ## Preview
 
-<iframe src="/previews/radio.html" title="Radio preview" loading="lazy" style={{ width: '100%', minHeight: '160px', border: '1px solid var(--color-border-tertiary)', borderRadius: '8px' }} />
+<Playground component="radio" schema={{"controls":{"name":{"kind":"text"},"value":{"kind":"text"},"checked":{"kind":"toggle"},"disabled":{"kind":"toggle"},"required":{"kind":"toggle"},"id":{"kind":"text"},"label":{"kind":"text"}},"defaultProps":{"name":"plan","value":"free","label":"Free","checked":true},"defaultSlot":"","previewSlug":"radio"}} minHeight={160} />
 
-<Expandable title="Source">
+## Usage
 
 ```edge
 @radio({ name: 'plan', value: 'free', label: 'Free', checked: true })
@@ -17,9 +17,6 @@ Styled radio input with optional label.
 @radio({ name: 'plan', value: 'pro', label: 'Pro' })
 @end
 ```
-
-</Expandable>
-
 
 ## Props
 

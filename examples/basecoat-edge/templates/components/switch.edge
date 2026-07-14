@@ -11,9 +11,10 @@
   [attr: string]: unknown
 }
 --}}
-<label {{ html.attrs({ class: 'switch' }) }}>
+<label class="label">
   <input
     type="checkbox"
+    class="input"
     role="switch"
     @if(id)
     id="{{ id }}"

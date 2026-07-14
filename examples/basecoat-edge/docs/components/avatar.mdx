@@ -3,34 +3,18 @@ title: Avatar
 description: User avatar image or fallback initials.
 ---
 
-User avatar image or fallback initials.
+
 
 ## Preview
 
-<iframe src="/previews/avatar.html" title="Avatar preview" loading="lazy" style={{ width: '100%', minHeight: '160px', border: '1px solid var(--color-border-tertiary)', borderRadius: '8px' }} />
+<Playground component="avatar" schema={{"controls":{"src":{"kind":"text"},"alt":{"kind":"text"},"fallback":{"kind":"text"}},"defaultProps":{"src":"https://github.com/shadcn.png","alt":"User"},"defaultSlot":"","previewSlug":"avatar"}} minHeight={160} />
 
-<Expandable title="Source">
+## Usage
 
 ```edge
 @avatar({ src: 'https://github.com/shadcn.png', alt: 'User' })
 @end
 ```
-
-</Expandable>
-
-### Fallback
-
-<iframe src="/previews/avatar-1.html" title="Avatar preview" loading="lazy" style={{ width: '100%', minHeight: '160px', border: '1px solid var(--color-border-tertiary)', borderRadius: '8px' }} />
-
-<Expandable title="Source">
-
-```edge
-@avatar({ fallback: 'CN' })
-@end
-```
-
-</Expandable>
-
 
 ## Props
 

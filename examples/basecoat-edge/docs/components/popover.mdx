@@ -3,13 +3,13 @@ title: Popover
 description: Generic popover with trigger button; requires basecoat popover JS (all.min.js).
 ---
 
-Generic popover with trigger button; requires basecoat popover JS (all.min.js).
+
 
 ## Preview
 
-<iframe src="/previews/popover.html" title="Popover preview" loading="lazy" style={{ width: '100%', minHeight: '180px', border: '1px solid var(--color-border-tertiary)', borderRadius: '8px' }} />
+<Playground component="popover" schema={{"controls":{"id":{"kind":"text"}},"defaultProps":{"id":"preview-popover"},"defaultSlot":"  @slot('trigger')\n    Open popover\n  @end\n  @slot('main')\n    <p style=\"padding: 0.5rem;\">Popover content goes here.</p>\n  @end","previewSlug":"popover","minHeight":180}} minHeight={180} />
 
-<Expandable title="Source">
+## Usage
 
 ```edge
 @popover({ id: 'preview-popover' })
@@ -21,9 +21,6 @@ Generic popover with trigger button; requires basecoat popover JS (all.min.js).
   @end
 @end
 ```
-
-</Expandable>
-
 
 ## Props
 

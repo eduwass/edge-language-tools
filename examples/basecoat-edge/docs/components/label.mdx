@@ -3,22 +3,19 @@ title: Label
 description: Form label element.
 ---
 
-Form label element.
+
 
 ## Preview
 
-<iframe src="/previews/label.html" title="Label preview" loading="lazy" style={{ width: '100%', minHeight: '160px', border: '1px solid var(--color-border-tertiary)', borderRadius: '8px' }} />
+<Playground component="label" schema={{"controls":{"htmlFor":{"kind":"text"}},"defaultProps":{"htmlFor":"preview-email"},"defaultSlot":"  Email address","previewSlug":"label"}} minHeight={160} />
 
-<Expandable title="Source">
+## Usage
 
 ```edge
 @label({ htmlFor: 'preview-email' })
   Email address
 @end
 ```
-
-</Expandable>
-
 
 ## Props
 

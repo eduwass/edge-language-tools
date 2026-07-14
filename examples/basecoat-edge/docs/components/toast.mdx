@@ -3,13 +3,13 @@ title: Toast
 description: Toast notifications container and messages; requires basecoat toast JS (all.min.js).
 ---
 
-Toast notifications container and messages; requires basecoat toast JS (all.min.js).
+
 
 ## Preview
 
-<iframe src="/previews/toast.html" title="Toast preview" loading="lazy" style={{ width: '100%', minHeight: '180px', border: '1px solid var(--color-border-tertiary)', borderRadius: '8px' }} />
+<Playground component="toast" schema={{"controls":{"id":{"kind":"text"},"category":{"kind":"select","options":["success","error","info","warning"]},"title":{"kind":"text"},"description":{"kind":"text"}},"defaultProps":{"toasts":[{"category":"success","title":"Saved","description":"Your changes have been saved."}]},"defaultSlot":"","previewSlug":"toast","minHeight":180}} minHeight={180} />
 
-<Expandable title="Source">
+## Usage
 
 ```edge
 @toast({
@@ -19,9 +19,6 @@ Toast notifications container and messages; requires basecoat toast JS (all.min.
 })
 @end
 ```
-
-</Expandable>
-
 
 ## Props
 

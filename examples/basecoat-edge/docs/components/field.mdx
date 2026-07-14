@@ -3,13 +3,13 @@ title: Field
 description: Accessible form field wrapper with label and description slots.
 ---
 
-Accessible form field wrapper with label and description slots.
+
 
 ## Preview
 
-<iframe src="/previews/field.html" title="Field preview" loading="lazy" style={{ width: '100%', minHeight: '160px', border: '1px solid var(--color-border-tertiary)', borderRadius: '8px' }} />
+<Playground component="field" schema={{"controls":{"label":{"kind":"text"},"description":{"kind":"text"}},"defaultProps":{"label":"Email","description":"We will never share your email."},"defaultSlot":"  @input({ type: 'email', name: 'email', placeholder: 'you@example.com' })\n  @end","previewSlug":"field"}} minHeight={160} />
 
-<Expandable title="Source">
+## Usage
 
 ```edge
 @field({ label: 'Email', description: 'We will never share your email.' })
@@ -17,9 +17,6 @@ Accessible form field wrapper with label and description slots.
   @end
 @end
 ```
-
-</Expandable>
-
 
 ## Props
 

@@ -3,13 +3,13 @@ title: Chart
 description: Chart container; requires basecoat chart JS (all.min.js).
 ---
 
-Chart container; requires basecoat chart JS (all.min.js).
+
 
 ## Preview
 
-<iframe src="/previews/chart.html" title="Chart preview" loading="lazy" style={{ width: '100%', minHeight: '200px', border: '1px solid var(--color-border-tertiary)', borderRadius: '8px' }} />
+<Playground component="chart" schema={{"controls":{"type":{"kind":"select","options":["bar","line","area","pie","donut"]}},"defaultProps":{"type":"bar"},"defaultSlot":"  <div style=\"display: flex; align-items: flex-end; gap: 0.5rem; height: 10rem; padding: 1rem;\">\n    <div style=\"flex: 1; height: 40%; background: var(--primary, #333); border-radius: 4px;\"></div>\n    <div style=\"flex: 1; height: 70%; background: var(--primary, #333); border-radius: 4px;\"></div>\n    <div style=\"flex: 1; height: 55%; background: var(--primary, #333); border-radius: 4px;\"></div>\n    <div style=\"flex: 1; height: 85%; background: var(--primary, #333); border-radius: 4px;\"></div>\n  </div>","previewSlug":"chart","minHeight":200}} minHeight={200} />
 
-<Expandable title="Source">
+## Usage
 
 ```edge
 @chart({ type: 'bar' })
@@ -21,9 +21,6 @@ Chart container; requires basecoat chart JS (all.min.js).
   </div>
 @end
 ```
-
-</Expandable>
-
 
 ## Props
 

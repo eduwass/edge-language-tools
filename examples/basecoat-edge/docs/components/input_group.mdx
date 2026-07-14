@@ -3,13 +3,13 @@ title: Input Group
 description: Input with inline addons (icons, text, buttons).
 ---
 
-Input with inline addons (icons, text, buttons).
+
 
 ## Preview
 
-<iframe src="/previews/input_group.html" title="Input Group preview" loading="lazy" style={{ width: '100%', minHeight: '160px', border: '1px solid var(--color-border-tertiary)', borderRadius: '8px' }} />
+<Playground component="input_group" schema={{"controls":{},"defaultProps":{},"defaultSlot":"  @input({ placeholder: 'Search...' })\n  @end\n  <span role=\"group\" data-align=\"inline-end\">\n    @button({ variant: 'outline', size: 'sm' })\n      Search\n    @end\n  </span>","previewSlug":"input_group"}} minHeight={160} />
 
-<Expandable title="Source">
+## Usage
 
 ```edge
 @inputGroup()
@@ -22,9 +22,6 @@ Input with inline addons (icons, text, buttons).
   </span>
 @end
 ```
-
-</Expandable>
-
 
 ## Props
 

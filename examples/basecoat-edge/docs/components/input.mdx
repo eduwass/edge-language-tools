@@ -3,21 +3,18 @@ title: Input
 description: Text-like input with basecoat styling.
 ---
 
-Text-like input with basecoat styling.
+
 
 ## Preview
 
-<iframe src="/previews/input.html" title="Input preview" loading="lazy" style={{ width: '100%', minHeight: '160px', border: '1px solid var(--color-border-tertiary)', borderRadius: '8px' }} />
+<Playground component="input" schema={{"controls":{"type":{"kind":"text"},"name":{"kind":"text"},"value":{"kind":"text"},"placeholder":{"kind":"text"},"disabled":{"kind":"toggle"},"required":{"kind":"toggle"},"id":{"kind":"text"}},"defaultProps":{"type":"email","name":"email","placeholder":"you@example.com"},"defaultSlot":"","previewSlug":"input"}} minHeight={160} />
 
-<Expandable title="Source">
+## Usage
 
 ```edge
 @input({ type: 'email', name: 'email', placeholder: 'you@example.com' })
 @end
 ```
-
-</Expandable>
-
 
 ## Props
 

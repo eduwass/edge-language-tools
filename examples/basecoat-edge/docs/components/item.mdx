@@ -3,21 +3,18 @@ title: Item
 description: List item row with media, title, and description slots.
 ---
 
-List item row with media, title, and description slots.
+
 
 ## Preview
 
-<iframe src="/previews/item.html" title="Item preview" loading="lazy" style={{ width: '100%', minHeight: '160px', border: '1px solid var(--color-border-tertiary)', borderRadius: '8px' }} />
+<Playground component="item" schema={{"controls":{"title":{"kind":"text"},"description":{"kind":"text"}},"defaultProps":{"title":"Notifications","description":"You have 3 unread messages."},"defaultSlot":"","previewSlug":"item"}} minHeight={160} />
 
-<Expandable title="Source">
+## Usage
 
 ```edge
 @item({ title: 'Notifications', description: 'You have 3 unread messages.' })
 @end
 ```
-
-</Expandable>
-
 
 ## Props
 

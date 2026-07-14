@@ -3,13 +3,13 @@ title: Card
 description: Card container with header, section, and footer slots matching basecoat structure.
 ---
 
-Card container with header, section, and footer slots matching basecoat structure.
+
 
 ## Preview
 
-<iframe src="/previews/card.html" title="Card preview" loading="lazy" style={{ width: '100%', minHeight: '220px', border: '1px solid var(--color-border-tertiary)', borderRadius: '8px' }} />
+<Playground component="card" schema={{"controls":{},"defaultProps":{},"defaultSlot":"  @slot('header')\n    <h2>Card title</h2>\n    <p>Card description</p>\n  @end\n  @slot('section')\n    <p>Card content goes here.</p>\n  @end\n  @slot('footer')\n    @button({ variant: 'outline' })\n      Action\n    @end\n  @end","previewSlug":"card","minHeight":220}} minHeight={220} />
 
-<Expandable title="Source">
+## Usage
 
 ```edge
 @card()
@@ -27,9 +27,6 @@ Card container with header, section, and footer slots matching basecoat structur
   @end
 @end
 ```
-
-</Expandable>
-
 
 ## Props
 

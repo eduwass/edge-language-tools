@@ -3,21 +3,18 @@ title: Switch
 description: Toggle switch input.
 ---
 
-Toggle switch input.
+
 
 ## Preview
 
-<iframe src="/previews/switch.html" title="Switch preview" loading="lazy" style={{ width: '100%', minHeight: '160px', border: '1px solid var(--color-border-tertiary)', borderRadius: '8px' }} />
+<Playground component="switch" schema={{"controls":{"name":{"kind":"text"},"checked":{"kind":"toggle"},"disabled":{"kind":"toggle"},"required":{"kind":"toggle"},"id":{"kind":"text"},"label":{"kind":"text"}},"defaultProps":{"name":"notifications","label":"Enable notifications"},"defaultSlot":"","previewSlug":"switch"}} minHeight={160} />
 
-<Expandable title="Source">
+## Usage
 
 ```edge
 @switch({ name: 'notifications', label: 'Enable notifications' })
 @end
 ```
-
-</Expandable>
-
 
 ## Props
 

@@ -3,13 +3,13 @@ title: Scrollbar
 description: Scrollable region with custom scrollbar styling.
 ---
 
-Scrollable region with custom scrollbar styling.
+
 
 ## Preview
 
-<iframe src="/previews/scrollbar.html" title="Scrollbar preview" loading="lazy" style={{ width: '100%', minHeight: '180px', border: '1px solid var(--color-border-tertiary)', borderRadius: '8px' }} />
+<Playground component="scrollbar" schema={{"controls":{},"defaultProps":{},"defaultSlot":"  <div style=\"max-height: 8rem; overflow: auto;\">\n    <p>Scrollable content line 1</p>\n    <p>Scrollable content line 2</p>\n    <p>Scrollable content line 3</p>\n    <p>Scrollable content line 4</p>\n    <p>Scrollable content line 5</p>\n    <p>Scrollable content line 6</p>\n    <p>Scrollable content line 7</p>\n    <p>Scrollable content line 8</p>\n  </div>","previewSlug":"scrollbar","minHeight":180}} minHeight={180} />
 
-<Expandable title="Source">
+## Usage
 
 ```edge
 @scrollbar()
@@ -25,9 +25,6 @@ Scrollable region with custom scrollbar styling.
   </div>
 @end
 ```
-
-</Expandable>
-
 
 ## Props
 

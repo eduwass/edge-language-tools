@@ -3,13 +3,13 @@ title: Button Group
 description: Group related buttons with shared borders.
 ---
 
-Group related buttons with shared borders.
+
 
 ## Preview
 
-<iframe src="/previews/button_group.html" title="Button Group preview" loading="lazy" style={{ width: '100%', minHeight: '160px', border: '1px solid var(--color-border-tertiary)', borderRadius: '8px' }} />
+<Playground component="button_group" schema={{"controls":{"orientation":{"kind":"select","options":["horizontal","vertical"]}},"defaultProps":{},"defaultSlot":"  @button({ variant: 'outline' })\n    Left\n  @end\n  @button({ variant: 'outline' })\n    Center\n  @end\n  @button({ variant: 'outline' })\n    Right\n  @end","previewSlug":"button_group"}} minHeight={160} />
 
-<Expandable title="Source">
+## Usage
 
 ```edge
 @buttonGroup()
@@ -24,9 +24,6 @@ Group related buttons with shared borders.
   @end
 @end
 ```
-
-</Expandable>
-
 
 ## Props
 

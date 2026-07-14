@@ -6,6 +6,14 @@ import { icons as lucideIcons } from '@iconify-json/lucide'
 import ts from 'typescript'
 import { templateDocs } from '@edge-language-tools/core'
 import { previews } from './previews.ts'
+import {
+  buildPlaygroundControls,
+  parsePreviewExample,
+  parseTypeProperties,
+  previewHtml,
+  stemToTag,
+} from '../src/playground.ts'
+import type { PlaygroundSchema } from '../src/playground-types.ts'
 
 const root = join(import.meta.dir, '..')
 const componentsDir = join(root, 'templates/components')
@@ -20,9 +28,6 @@ addCollection(lucideIcons)
 const edge = Edge.create()
 edge.use(edgeIconify)
 edge.mount(new URL('../templates/', import.meta.url))
-
-const BASECOAT_CSS = 'https://cdn.jsdelivr.net/npm/basecoat-css@0.3.11/dist/basecoat.cdn.min.css'
-const BASECOAT_JS = 'https://cdn.jsdelivr.net/npm/basecoat-css@0.3.11/dist/js/all.min.js'
 
 interface ParsedProperty {
   name: string
@@ -173,54 +178,43 @@ function emitPropsSection(typesBlock: string): string {
   return section
 }
 
-function previewHtml(body: string): string {
-  return `<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Preview</title>
-  <link rel="stylesheet" href="${BASECOAT_CSS}" />
-  <script src="${BASECOAT_JS}" defer></script>
-  <style>
-    :root { color-scheme: light; }
-    body {
-      font-family: system-ui, sans-serif;
-      margin: 0;
-      padding: 24px;
-      background: var(--background, #fff);
-      color: var(--foreground, #111);
-      box-sizing: border-box;
-    }
-    .preview-root { width: 100%; max-width: 48rem; margin: 0 auto; }
-  </style>
-</head>
-<body>
-  <div class="preview-root">
-${body}
-  </div>
-</body>
-</html>
-`
-}
-
 async function renderPreview(source: string): Promise<string> {
   const body = await edge.renderRaw(source.trim(), {}, join(templatesDir, 'demo.edge'))
   return previewHtml(body)
 }
 
-function emitPreviewSection(name: string, stem: string, examples: { title?: string; source: string; minHeight?: number }[]): string {
-  let section = '## Preview\n\n'
-  for (let i = 0; i < examples.length; i++) {
-    const example = examples[i]
-    const slug = i === 0 ? stem : `${stem}-${i}`
-    if (examples.length > 1 && example.title) {
-      section += `### ${example.title}\n\n`
-    }
-    const minHeight = example.minHeight ?? 160
-    section += `<iframe src="/previews/${slug}.html" title="${name} preview" loading="lazy" style={{ width: '100%', minHeight: '${minHeight}px', border: '1px solid var(--color-border-tertiary)', borderRadius: '8px' }} />\n\n`
-    section += `<Expandable title="Source">\n\n\`\`\`edge\n${example.source.trim()}\n\`\`\`\n\n</Expandable>\n\n`
+function buildPlaygroundSchema(
+  stem: string,
+  typesBlock: string,
+  example: { source: string; minHeight?: number },
+): PlaygroundSchema {
+  const tag = stemToTag(stem)
+  const { props, slot } = parsePreviewExample(example.source, tag)
+  const controls = buildPlaygroundControls(parseTypeProperties(typesBlock))
+  return {
+    controls,
+    defaultProps: props,
+    defaultSlot: slot,
+    previewSlug: stem,
+    ...(example.minHeight !== undefined ? { minHeight: example.minHeight } : {}),
   }
+}
+
+function emitPlaygroundSection(stem: string, schema: PlaygroundSchema): string {
+  const schemaJson = JSON.stringify(schema)
+  const minHeight = schema.minHeight ?? 160
+  return `## Preview
+
+<Playground component="${stem}" schema={${schemaJson}} minHeight={${minHeight}} />
+`
+}
+
+function emitUsageSection(example: { title?: string; source: string }): string {
+  let section = '## Usage\n\n'
+  if (example.title) {
+    section += `### ${example.title}\n\n`
+  }
+  section += `\`\`\`edge\n${example.source.trim()}\n\`\`\`\n`
   return section
 }
 
@@ -232,7 +226,9 @@ for (const file of files) {
   const docs = getTemplateDocs(source, file)
   const name = docs.name ?? tagName(file)
   const descFirst = docs.desc?.split('\n')[0] ?? name
-  const descBody = docs.desc ?? ''
+  // The first @desc line is the frontmatter description (rendered under the
+  // title by blume) — only remaining lines belong in the body, else it doubles.
+  const descBody = docs.desc?.split('\n').slice(1).join('\n').trim() ?? ''
   const typesBlock = docs.types ?? '{}'
 
   const examples = previews[stem]
@@ -246,6 +242,9 @@ for (const file of files) {
     writeFileSync(join(previewsDir, `${slug}.html`), html)
   }
 
+  const primaryExample = examples[0]
+  const schema = buildPlaygroundSchema(stem, typesBlock, primaryExample)
+
   const mdx = `---
 title: ${name}
 description: ${descFirst.replace(/"/g, '\\"')}
@@ -253,7 +252,8 @@ description: ${descFirst.replace(/"/g, '\\"')}
 
 ${descBody}
 
-${emitPreviewSection(name, stem, examples)}
+${emitPlaygroundSection(stem, schema)}
+${emitUsageSection(primaryExample)}
 ${emitPropsSection(typesBlock)}
 `
 

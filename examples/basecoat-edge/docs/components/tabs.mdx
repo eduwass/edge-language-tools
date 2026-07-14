@@ -3,13 +3,13 @@ title: Tabs
 description: Tabbed interface; requires basecoat tabs JS (all.min.js).
 ---
 
-Tabbed interface; requires basecoat tabs JS (all.min.js).
+
 
 ## Preview
 
-<iframe src="/previews/tabs.html" title="Tabs preview" loading="lazy" style={{ width: '100%', minHeight: '200px', border: '1px solid var(--color-border-tertiary)', borderRadius: '8px' }} />
+<Playground component="tabs" schema={{"controls":{"id":{"kind":"text"},"orientation":{"kind":"select","options":["horizontal","vertical"]},"variant":{"kind":"select","options":["default","line"]}},"defaultProps":{"id":"preview-tabs","tabsets":[{"tab":"Account","panel":"<p>Account settings</p>"},{"tab":"Password","panel":"<p>Change your password</p>"},{"tab":"Team","panel":"<p>Manage your team</p>"}]},"defaultSlot":"","previewSlug":"tabs","minHeight":200}} minHeight={200} />
 
-<Expandable title="Source">
+## Usage
 
 ```edge
 @tabs({
@@ -22,9 +22,6 @@ Tabbed interface; requires basecoat tabs JS (all.min.js).
 })
 @end
 ```
-
-</Expandable>
-
 
 ## Props
 

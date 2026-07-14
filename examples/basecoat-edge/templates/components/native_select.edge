@@ -9,6 +9,6 @@
   [attr: string]: unknown
 }
 --}}
-<select {{ html.attrs({ class: 'native-select', name, id, disabled, required }) }}>
+<select {{ html.attrs({ class: 'select', name, id, disabled, required }) }}>
   {{{ await $slots.main() }}}
 </select>

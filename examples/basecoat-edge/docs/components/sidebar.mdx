@@ -3,13 +3,13 @@ title: Sidebar
 description: Application sidebar navigation; requires basecoat sidebar JS (all.min.js).
 ---
 
-Application sidebar navigation; requires basecoat sidebar JS (all.min.js).
+
 
 ## Preview
 
-<iframe src="/previews/sidebar.html" title="Sidebar preview" loading="lazy" style={{ width: '100%', minHeight: '320px', border: '1px solid var(--color-border-tertiary)', borderRadius: '8px' }} />
+<Playground component="sidebar" schema={{"controls":{"id":{"kind":"text"},"label":{"kind":"text"},"open":{"kind":"toggle"},"side":{"kind":"select","options":["left","right"]}},"defaultProps":{"id":"preview-sidebar","menu":[{"type":"item","label":"Dashboard","url":"#","current":true},{"type":"item","label":"Projects","url":"#"},{"type":"separator"},{"type":"item","label":"Settings","url":"#"},{"type":"item","label":"Help","url":"#"}]},"defaultSlot":"","previewSlug":"sidebar","minHeight":320}} minHeight={320} />
 
-<Expandable title="Source">
+## Usage
 
 ```edge
 @sidebar({
@@ -24,9 +24,6 @@ Application sidebar navigation; requires basecoat sidebar JS (all.min.js).
 })
 @end
 ```
-
-</Expandable>
-
 
 ## Props
 

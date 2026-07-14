@@ -3,13 +3,13 @@ title: Collapsible
 description: Native details/summary disclosure; content via main slot.
 ---
 
-Native details/summary disclosure; content via main slot.
+
 
 ## Preview
 
-<iframe src="/previews/collapsible.html" title="Collapsible preview" loading="lazy" style={{ width: '100%', minHeight: '160px', border: '1px solid var(--color-border-tertiary)', borderRadius: '8px' }} />
+<Playground component="collapsible" schema={{"controls":{"open":{"kind":"toggle"}},"defaultProps":{"open":true},"defaultSlot":"  <summary>Can I use this in my project?</summary>\n  <section>Yes. It uses native details and summary elements.</section>","previewSlug":"collapsible"}} minHeight={160} />
 
-<Expandable title="Source">
+## Usage
 
 ```edge
 @collapsible({ open: true })
@@ -17,9 +17,6 @@ Native details/summary disclosure; content via main slot.
   <section>Yes. It uses native details and summary elements.</section>
 @end
 ```
-
-</Expandable>
-
 
 ## Props
 

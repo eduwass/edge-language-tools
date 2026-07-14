@@ -18,12 +18,15 @@
   "dependencies": {
     "@iconify-json/lucide": "^1.2.0",
     "edge-iconify": "^2.0.0",
-    "edge.js": "^6.5.1"
+    "edge.js": "^6.5.1",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7"
   },
   "devDependencies": {
     "@edge-language-tools/check": "workspace:*",
     "@edge-language-tools/codegen": "workspace:*",
     "@edge-language-tools/core": "workspace:*",
+    "@types/react": "^19.2.17",
     "blume": "^0.7.0",
     "typescript": "^5.8.0"
   }

@@ -3,21 +3,18 @@ title: Progress
 description: Progress bar indicator.
 ---
 
-Progress bar indicator.
+
 
 ## Preview
 
-<iframe src="/previews/progress.html" title="Progress preview" loading="lazy" style={{ width: '100%', minHeight: '160px', border: '1px solid var(--color-border-tertiary)', borderRadius: '8px' }} />
+<Playground component="progress" schema={{"controls":{},"defaultProps":{"value":60,"max":100},"defaultSlot":"","previewSlug":"progress"}} minHeight={160} />
 
-<Expandable title="Source">
+## Usage
 
 ```edge
 @progress({ value: 60, max: 100 })
 @end
 ```
-
-</Expandable>
-
 
 ## Props
 

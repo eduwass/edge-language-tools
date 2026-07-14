@@ -3,13 +3,13 @@ title: Native Select
 description: Styled native select element.
 ---
 
-Styled native select element.
+
 
 ## Preview
 
-<iframe src="/previews/native_select.html" title="Native Select preview" loading="lazy" style={{ width: '100%', minHeight: '160px', border: '1px solid var(--color-border-tertiary)', borderRadius: '8px' }} />
+<Playground component="native_select" schema={{"controls":{"name":{"kind":"text"},"id":{"kind":"text"},"disabled":{"kind":"toggle"},"required":{"kind":"toggle"}},"defaultProps":{"name":"fruit"},"defaultSlot":"  <option value=\"\">Select a fruit</option>\n  <option value=\"apple\">Apple</option>\n  <option value=\"banana\">Banana</option>\n  <option value=\"orange\">Orange</option>","previewSlug":"native_select"}} minHeight={160} />
 
-<Expandable title="Source">
+## Usage
 
 ```edge
 @nativeSelect({ name: 'fruit' })
@@ -19,9 +19,6 @@ Styled native select element.
   <option value="orange">Orange</option>
 @end
 ```
-
-</Expandable>
-
 
 ## Props
 

@@ -3,13 +3,13 @@ title: Tooltip
 description: Tooltip trigger with content; requires basecoat tooltip JS.
 ---
 
-Tooltip trigger with content; requires basecoat tooltip JS.
+
 
 ## Preview
 
-<iframe src="/previews/tooltip.html" title="Tooltip preview" loading="lazy" style={{ width: '100%', minHeight: '180px', border: '1px solid var(--color-border-tertiary)', borderRadius: '8px' }} />
+<Playground component="tooltip" schema={{"controls":{"id":{"kind":"text"}},"defaultProps":{"id":"preview-tooltip"},"defaultSlot":"  @slot('trigger')\n    Hover me\n  @end\n  Helpful tooltip text","previewSlug":"tooltip","minHeight":180}} minHeight={180} />
 
-<Expandable title="Source">
+## Usage
 
 ```edge
 @tooltip({ id: 'preview-tooltip' })
@@ -19,9 +19,6 @@ Tooltip trigger with content; requires basecoat tooltip JS.
   Helpful tooltip text
 @end
 ```
-
-</Expandable>
-
 
 ## Props
 

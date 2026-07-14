@@ -3,22 +3,19 @@ title: Badge
 description: Small status label; variants map to basecoat data attributes.
 ---
 
-Small status label; variants map to basecoat data attributes.
+
 
 ## Preview
 
-<iframe src="/previews/badge.html" title="Badge preview" loading="lazy" style={{ width: '100%', minHeight: '160px', border: '1px solid var(--color-border-tertiary)', borderRadius: '8px' }} />
+<Playground component="badge" schema={{"controls":{"variant":{"kind":"select","options":["default","secondary","outline","destructive"]}},"defaultProps":{"variant":"secondary"},"defaultSlot":"  New","previewSlug":"badge"}} minHeight={160} />
 
-<Expandable title="Source">
+## Usage
 
 ```edge
 @badge({ variant: 'secondary' })
   New
 @end
 ```
-
-</Expandable>
-
 
 ## Props
 

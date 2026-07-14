@@ -3,13 +3,13 @@ title: Combobox
 description: Input-first combobox with listbox; requires basecoat combobox JS (all.min.js).
 ---
 
-Input-first combobox with listbox; requires basecoat combobox JS (all.min.js).
+
 
 ## Preview
 
-<iframe src="/previews/combobox.html" title="Combobox preview" loading="lazy" style={{ width: '100%', minHeight: '180px', border: '1px solid var(--color-border-tertiary)', borderRadius: '8px' }} />
+<Playground component="combobox" schema={{"controls":{"id":{"kind":"text"},"name":{"kind":"text"},"multiple":{"kind":"toggle"},"placeholder":{"kind":"text"},"close_on_select":{"kind":"toggle"},"clear":{"kind":"toggle"},"auto_highlight":{"kind":"toggle"},"format":{"kind":"select","options":["value","object"]}},"defaultProps":{"id":"preview-combobox","placeholder":"Select framework..."},"defaultSlot":"  <div role=\"option\" data-value=\"react\">React</div>\n  <div role=\"option\" data-value=\"vue\">Vue</div>\n  <div role=\"option\" data-value=\"svelte\">Svelte</div>","previewSlug":"combobox","minHeight":180}} minHeight={180} />
 
-<Expandable title="Source">
+## Usage
 
 ```edge
 @combobox({ id: 'preview-combobox', placeholder: 'Select framework...' })
@@ -18,9 +18,6 @@ Input-first combobox with listbox; requires basecoat combobox JS (all.min.js).
   <div role="option" data-value="svelte">Svelte</div>
 @end
 ```
-
-</Expandable>
-
 
 ## Props
 

@@ -3,13 +3,13 @@ title: Select
 description: Custom select with listbox popover; requires basecoat select JS (all.min.js).
 ---
 
-Custom select with listbox popover; requires basecoat select JS (all.min.js).
+
 
 ## Preview
 
-<iframe src="/previews/select.html" title="Select preview" loading="lazy" style={{ width: '100%', minHeight: '180px', border: '1px solid var(--color-border-tertiary)', borderRadius: '8px' }} />
+<Playground component="select" schema={{"controls":{"id":{"kind":"text"},"name":{"kind":"text"},"multiple":{"kind":"toggle"},"placeholder":{"kind":"text"},"close_on_select":{"kind":"toggle"},"format":{"kind":"select","options":["value","object"]}},"defaultProps":{"id":"preview-select","placeholder":"Select a fruit","items":[{"label":"Apple","value":"apple","type":"item"},{"label":"Banana","value":"banana","type":"item"},{"label":"Orange","value":"orange","type":"item"}]},"defaultSlot":"","previewSlug":"select","minHeight":180}} minHeight={180} />
 
-<Expandable title="Source">
+## Usage
 
 ```edge
 @select({
@@ -23,9 +23,6 @@ Custom select with listbox popover; requires basecoat select JS (all.min.js).
 })
 @end
 ```
-
-</Expandable>
-
 
 ## Props
 

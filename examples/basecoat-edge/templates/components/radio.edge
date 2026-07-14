@@ -12,9 +12,10 @@
   [attr: string]: unknown
 }
 --}}
-<label {{ html.attrs({ class: 'radio' }) }}>
+<label class="label">
   <input
     type="radio"
+    class="input"
     @if(id)
     id="{{ id }}"
     @end
